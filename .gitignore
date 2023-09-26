@@ -1,3 +1,6 @@
+.env.local
+.env
+
 ## Next.js
 # Logs
 logs

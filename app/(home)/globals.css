@@ -1,0 +1,22 @@
+:root {
+  --foreground: #272727;
+  --background: #ffffff;
+  --background2: #c5c5c5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground: #ffffff;
+    --background: #272727;
+    --background2: #474747;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background2);
+}
+
+a:visited {
+  color: var(--foreground);
+}
