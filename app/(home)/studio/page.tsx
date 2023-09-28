@@ -1,5 +1,6 @@
 import UserProfile from "@components/UserProfile";
-export default function EditPage() {
+
+export default function StudioPage() {
   return (
     <div>
       <header>
@@ -8,7 +9,7 @@ export default function EditPage() {
       </header>
     <br/>
     <br/>
-    <main> Bibata Studio</main>
+    <main>Bibata Studio</main>
     </div>
   );
 }
