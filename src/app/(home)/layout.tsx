@@ -1,10 +1,7 @@
-import './globals.css';
-
 import { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import { Providers } from './providers';
 
-const font = Inter({ weight: '400', subsets: ['latin'] });
+import './globals.css';
+import { Providers } from './providers';
 
 export const metadata: Metadata = {
   title: 'Bibata Live',
@@ -23,9 +20,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <Providers>
-        <body className={font.className}>{children}</body>
+        <body>{children}</body>
       </Providers>
     </html>
   );
