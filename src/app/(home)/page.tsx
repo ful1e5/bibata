@@ -7,8 +7,8 @@ import Link from 'next/link';
 
 import { authOptions } from '@api/auth/[...nextauth]/route';
 
-export default async function HomePage() {
-  const session = await getServerSession(authOptions);
+export default function HomePage() {
+  const session = getServerSession(authOptions);
 
   if (session !== null) {
     return redirect('/create');

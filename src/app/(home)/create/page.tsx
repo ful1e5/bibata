@@ -1,17 +1,14 @@
 'use client';
 
-import * as Figma from 'figma-api';
+import { useState } from 'react';
 
 import UserProfile from '@components/UserProfile';
+import SVGs from '@components/SVGs';
 
-export default function HomePage() {
-  const figmaApi = new Figma.Api({
-    personalAccessToken: process.env.FIGMA_TOKEN as string
-  });
+import { BIBATA_TYPES } from '@utils/constants';
 
-  figmaApi.getFile('Bibata.live').then((file) => {
-    console.log(file);
-  });
+export default function CreatePage() {
+  const [type, setType] = useState('Modern');
 
   return (
     <div>
@@ -19,7 +16,17 @@ export default function HomePage() {
         <h1>Bibata Live</h1>
         <UserProfile />
       </header>
-      <h3>Customize your Bibata cursors</h3>
+
+      <form>
+        <select value={type} onChange={(e) => setType(e.target.value)}>
+          {BIBATA_TYPES.map((value) => (
+            <option value={value} key={value}>
+              {value}
+            </option>
+          ))}
+        </select>
+      </form>
+      <SVGs type={type} />
     </div>
   );
 }
