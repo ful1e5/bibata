@@ -1,41 +1,30 @@
 'use client';
 
 import useSWR from 'swr';
-
-import { SVG } from '@utils/fetch-svgs';
 import { useEffect, useState } from 'react';
+import * as Figma from 'figma-api';
 
-function useSVG({ type }: { type: string }) {
-  interface Response {
-    data: SVG[];
-    error: string;
-    status: number;
-  }
+import { Color } from '@root/types';
 
-  const fetcher = (url: string) =>
-    fetch(url)
-      .then((res) => res.json())
-      .then((json) => json);
+type SVG = Figma.Node<keyof Figma.NodeTypes>;
 
-  return useSWR<Response>(`/api/svg?type=${type}`, fetcher);
+interface CursorImageProp {
+  svg: SVG;
+  color: Color;
 }
 
-function CursorImage({ svg }: { svg: SVG }) {
-  const [svgCode, setSvgCode] = useState<string>('');
+function CursorImage({ svg, color }: CursorImageProp) {
   const [loading, setLoading] = useState(true);
 
+  const c = JSON.stringify({
+    '00ff00': color.base,
+    '0000ff': color.outline,
+    ff0000: color.watch || color.base
+  });
+
   useEffect(() => {
-    fetch(svg.url || '')
-      .then((res) => res.text())
-      .then((t) => {
-        const node = t.replace(
-          'width="256" height="256"',
-          `preserveAspectRatio="xMaxYMid meet" width="100%" height="100%"`
-        );
-        setSvgCode(node);
-      })
-      .then(() => setLoading(false));
-  }, [svg.url]);
+    setLoading(true);
+  }, [svg.id, color]);
 
   return (
     <div
@@ -58,13 +47,14 @@ function CursorImage({ svg }: { svg: SVG }) {
           minHeight: '150px'
         }}>
         {loading && 'Loading...'}
-        <div
+        <img
+          alt={svg.name}
+          src={`/api/svg/${svg.id}?display&color=${c}`}
           style={{
-            animation: 'fadeIn 2s',
             overflow: 'hidden'
           }}
+          onLoad={() => setLoading(false)}
           hidden={loading}
-          dangerouslySetInnerHTML={{ __html: svgCode }}
         />
       </div>
       <div
@@ -72,14 +62,33 @@ function CursorImage({ svg }: { svg: SVG }) {
           margin: '10px 10px 0px 10px',
           border: '0.5px solid rgba(255, 0, 0, 0.8)'
         }}>
-        {svg.node.name}
+        {svg.name}
       </div>
     </div>
   );
 }
 
-export default function Cursors({ type }: { type: string }) {
-  const { data: res, isLoading } = useSVG({ type });
+interface CursorsProps {
+  type: string;
+  color: Color;
+}
+
+interface Response {
+  data: SVG[];
+  error: string;
+  status: number;
+}
+
+export default function Cursors({ type, color }: CursorsProps) {
+  const fetcher = (url: string) =>
+    fetch(url, { next: { revalidate: 60 } })
+      .then((res) => res.json())
+      .then((json) => json);
+
+  const { data: res, isLoading } = useSWR<Response>(
+    `/api/svg?type=${type}`,
+    fetcher
+  );
 
   if (isLoading) return <div>Loading SVG files...</div>;
   if (!res) return <p>Fetch Timeout</p>;
@@ -92,16 +101,12 @@ export default function Cursors({ type }: { type: string }) {
     );
   }
 
-  const data = res.data as SVG[];
-
-  const svgs = data.sort((a, b) =>
-    a.node.name.toLowerCase() < b.node.name.toLowerCase() ? -1 : 1
-  );
+  const svgs = res.data as SVG[];
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
       {svgs.map((e) => (
-        <CursorImage key={e.node.id} svg={e} />
+        <CursorImage key={e.id} svg={e} color={color} />
       ))}
     </div>
   );

@@ -46,7 +46,7 @@ export default function CreatePage() {
           </select>
         </form>
 
-        <Cursors type={type} />
+        <Cursors type={type} color={PREBUILT_COLORS[color]} />
       </div>
     </>
   );

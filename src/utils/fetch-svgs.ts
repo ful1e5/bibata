@@ -1,10 +1,5 @@
 import * as Figma from 'figma-api';
 
-export interface SVG {
-  node: Figma.Node<keyof Figma.NodeTypes>;
-  url: string | null;
-}
-
 export const fetchSVGs = async ({ type }: { type: string }) => {
   const token = process.env.FIGMA_TOKEN as string;
   const api = new Figma.Api({ personalAccessToken: token });
@@ -20,18 +15,10 @@ export const fetchSVGs = async ({ type }: { type: string }) => {
     (e) => e.name === type && e.type === 'GROUP'
   )[0] as Figma.Node<'DOCUMENT'>;
 
-  const svgs: SVG[] = [];
-  const ids = group.children.map((e) => e.id).join();
+  const svgs: Figma.Node<keyof Figma.NodeTypes>[] = [];
+  group.children.forEach((e) => svgs.push(e));
 
-  const imgRes = await api.getImage(key, {
-    ids: ids,
-    scale: 1,
-    format: 'svg'
-  });
-
-  group.children.forEach((e) =>
-    svgs.push({ url: imgRes.images[e.id], node: e })
+  return svgs.sort((a, b) =>
+    a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1
   );
-
-  return svgs;
 };

@@ -1,7 +1,7 @@
 export interface Color {
   base: string;
   outline: string;
-  watch: string;
+  watch?: string;
 }
 
 export interface Colors {
