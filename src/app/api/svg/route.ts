@@ -13,7 +13,15 @@ export async function GET(request: NextRequest) {
     if (BIBATA_TYPES.includes(type)) {
       try {
         const svgs = await fetchSVGs({ type });
-        return NextResponse.json({ error: null, data: svgs });
+        return NextResponse.json(
+          { error: null, data: svgs },
+          {
+            headers: {
+              'content-type': 'image/svg+xml',
+              'Cache-Control': `public, immutable, no-transform, s-maxage=1, stale-while-revalidate=360`
+            }
+          }
+        );
       } catch (_e) {
         // @ts-ignore
         let e: ApiError = _e;

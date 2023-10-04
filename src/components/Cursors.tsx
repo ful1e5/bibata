@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import * as Figma from 'figma-api';
 
 import { Color } from '@root/types';
+import Image from 'next/legacy/image';
 
 type SVG = Figma.Node<keyof Figma.NodeTypes>;
 
@@ -47,14 +48,15 @@ function CursorImage({ svg, color }: CursorImageProp) {
           minHeight: '150px'
         }}>
         {loading && 'Loading...'}
-        <img
+        <Image
           alt={svg.name}
           src={`/api/svg/${svg.id}?display&color=${c}`}
-          style={{
-            overflow: 'hidden'
-          }}
-          onLoad={() => setLoading(false)}
           hidden={loading}
+          width={120}
+          height={120}
+          loading='lazy'
+          loader={({ src }) => src}
+          onLoad={() => setLoading(false)}
         />
       </div>
       <div

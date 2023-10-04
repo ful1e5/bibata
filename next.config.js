@@ -11,6 +11,9 @@ const nextConfig = {
             : '/api/'
       }
     ];
+  },
+  images: {
+    minimumCacheTTL: 360
   }
 };
 

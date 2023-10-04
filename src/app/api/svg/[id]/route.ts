@@ -39,7 +39,7 @@ export async function GET(
 
       let img = '';
       if (typeof images === 'object' && images[id]) {
-        await fetch(images[id] || '', { next: { revalidate: 120 } })
+        await fetch(images[id] || '', { next: { revalidate: 360 } })
           .then((res) => res.text())
           .then((t) => (img = t));
 
@@ -59,7 +59,7 @@ export async function GET(
         return new Response(img, {
           headers: {
             'content-type': 'image/svg+xml',
-            'Cache-Control': `public, immutable, no-transform, s-maxage=31536000, max-age=31536000`
+            'Cache-Control': `public, immutable, no-transform, s-maxage=1, stale-while-revalidate=360`
           }
         });
       }
