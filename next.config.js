@@ -13,7 +13,8 @@ const nextConfig = {
     ];
   },
   images: {
-    minimumCacheTTL: 360
+    minimumCacheTTL: 360,
+    unoptimized: true
   }
 };
 

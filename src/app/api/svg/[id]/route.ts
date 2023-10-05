@@ -1,7 +1,7 @@
+import * as Figma from 'figma-api';
 import { NextRequest, NextResponse } from 'next/server';
 
-import * as Figma from 'figma-api';
-import { ApiError } from 'figma-api/lib/utils';
+import { handleErrorWithFigma } from '@utils/figma/handle-error';
 
 interface ParamColor {
   [key: string]: string;
@@ -43,6 +43,12 @@ export async function GET(
           .then((res) => res.text())
           .then((t) => (img = t));
 
+        if (color && typeof color === 'object') {
+          Object.entries(color).forEach(([match, replace]) => {
+            img = img.replace(new RegExp(`#${match}`, 'ig'), `#${replace}`);
+          });
+        }
+
         if (display) {
           img = img.replace(
             'width="256" height="256"',
@@ -50,27 +56,15 @@ export async function GET(
           );
         }
 
-        if (color) {
-          Object.entries(color).forEach(([match, replace]) => {
-            img = img.replace(new RegExp(`#${match}`, 'ig'), `#${replace}`);
-          });
-        }
-
         return new Response(img, {
           headers: {
             'content-type': 'image/svg+xml',
-            'Cache-Control': `public, immutable, no-transform, s-maxage=1, stale-while-revalidate=360`
+            'Cache-Control': `public, max-age=360, s-maxage=360, stale-while-revalidate=360`
           }
         });
       }
-    } catch (_e) {
-      // @ts-ignore
-      let e: ApiError = _e;
-      const res = e.response.data;
-      return NextResponse.json({
-        status: res.status,
-        error: `[Figma API] ${res.err}`
-      });
+    } catch (e) {
+      handleErrorWithFigma(e);
     }
   } else {
     return NextResponse.json({

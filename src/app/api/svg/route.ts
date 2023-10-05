@@ -1,35 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { ApiError } from 'figma-api/lib/utils';
-
-import { fetchSVGs } from '@utils/fetch-svgs';
-
+import { FetchSVG } from '@utils/figma/fetch-svgs';
+import { handleErrorWithFigma } from '@utils/figma/handle-error';
 import { BIBATA_TYPES } from '@root/configs';
 
 export async function GET(request: NextRequest) {
   const type = request.nextUrl.searchParams.get('type');
 
+  const api = new FetchSVG();
+
   if (type) {
     if (BIBATA_TYPES.includes(type)) {
       try {
-        const svgs = await fetchSVGs({ type });
-        return NextResponse.json(
-          { error: null, data: svgs },
-          {
-            headers: {
-              'content-type': 'image/svg+xml',
-              'Cache-Control': `public, immutable, no-transform, s-maxage=1, stale-while-revalidate=360`
-            }
-          }
-        );
-      } catch (_e) {
-        // @ts-ignore
-        let e: ApiError = _e;
-        const res = e.response.data;
-        return NextResponse.json({
-          status: res.status,
-          error: `[Figma API] ${res.err}`
-        });
+        const svgs = await api.fetchSVGs({ type });
+        return NextResponse.json({ error: null, data: svgs });
+      } catch (e) {
+        handleErrorWithFigma(e);
       }
     } else {
       return NextResponse.json({

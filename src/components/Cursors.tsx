@@ -1,11 +1,12 @@
 'use client';
 
 import useSWR from 'swr';
-import { useEffect, useState } from 'react';
 import * as Figma from 'figma-api';
 
-import { Color } from '@root/types';
+import { useEffect, useState } from 'react';
 import Image from 'next/legacy/image';
+
+import { Color } from 'bibata-live';
 
 type SVG = Figma.Node<keyof Figma.NodeTypes>;
 
@@ -17,11 +18,14 @@ interface CursorImageProp {
 function CursorImage({ svg, color }: CursorImageProp) {
   const [loading, setLoading] = useState(true);
 
+  const conSize = 150;
+  const imgSize = (150 / 90) * 100;
   const c = JSON.stringify({
     '00ff00': color.base,
     '0000ff': color.outline,
     ff0000: color.watch || color.base
   });
+  const url = `/api/svg/${svg.id}?color=${c}`;
 
   useEffect(() => {
     setLoading(true);
@@ -37,7 +41,7 @@ function CursorImage({ svg, color }: CursorImageProp) {
         padding: '10px',
         border: '1px solid rgba(255, 0, 0, 0.8)',
         width: '100%',
-        maxWidth: '150px'
+        maxWidth: `${conSize}px`
       }}>
       <div
         style={{
@@ -45,18 +49,18 @@ function CursorImage({ svg, color }: CursorImageProp) {
           justifyContent: 'center',
           alignItems: 'center',
           border: '0.5px solid rgba(255, 0, 0, 0.8)',
-          minHeight: '150px'
+          minHeight: `${conSize}px`
         }}>
         {loading && 'Loading...'}
         <Image
           alt={svg.name}
-          src={`/api/svg/${svg.id}?display&color=${c}`}
+          src={url}
           hidden={loading}
-          width={120}
-          height={120}
-          loading='lazy'
+          width={loading ? 0 : imgSize}
+          height={loading ? 0 : imgSize}
           loader={({ src }) => src}
-          onLoad={() => setLoading(false)}
+          loading='lazy'
+          onLoadingComplete={() => setLoading(false)}
         />
       </div>
       <div
