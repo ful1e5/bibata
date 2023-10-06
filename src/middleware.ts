@@ -8,7 +8,7 @@ export default async function middleware(req: NextRequest) {
 
   if (isAuth) {
     if (p.startsWith('/login') || p === '/') {
-      return NextResponse.redirect(new URL('/create', req.url));
+      return NextResponse.redirect(new URL('/customize', req.url));
     }
   }
 }

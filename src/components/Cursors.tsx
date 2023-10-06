@@ -60,7 +60,10 @@ function CursorImage({ svg, color }: CursorImageProp) {
           height={loading ? 0 : imgSize}
           loader={({ src }) => src}
           loading='lazy'
-          onLoadingComplete={() => setLoading(false)}
+          onLoadingComplete={() => {
+            setLoading(false);
+            console.log(`loading Complete ${svg.name}`);
+          }}
         />
       </div>
       <div

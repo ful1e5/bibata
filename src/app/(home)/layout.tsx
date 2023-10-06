@@ -1,8 +1,9 @@
-import './globals.css';
-
 import { Metadata } from 'next';
 
-import { Providers } from './providers';
+import '@app/(home)/globals.css';
+import { Providers } from '@app/(home)/providers';
+
+import Navbar from '@components/Navbar';
 
 export const metadata: Metadata = {
   title: 'Bibata Live',
@@ -15,15 +16,18 @@ export const metadata: Metadata = {
   manifest: '/favicon/site.webmanifest'
 };
 
-export default function RootLayout({
-  children
-}: {
+interface Props {
   children: React.ReactNode;
-}) {
+}
+
+export default function RootLayout({ children }: Props) {
   return (
     <html lang='en'>
       <Providers>
-        <body>{children}</body>
+        <body>
+          <Navbar />
+          {children}
+        </body>
       </Providers>
     </html>
   );

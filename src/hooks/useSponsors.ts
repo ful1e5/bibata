@@ -7,7 +7,7 @@ export interface Sponsor {
 
 export const useSponsors = (author: string) => {
   const fetcher = (url: string) =>
-    fetch(url)
+    fetch(url, { next: { revalidate: 360 } })
       .then((res) => res.json())
       .then((json) => json.data);
 
