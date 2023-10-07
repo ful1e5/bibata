@@ -6,6 +6,7 @@ import Cursors from '@components/Cursors';
 
 import { BIBATA_TYPES, PREBUILT_COLORS } from '@root/configs';
 import DropdownSelection from '@components/DropdownSelection';
+import GroupedButtons from '@components/GroupedButtons';
 
 export default function CustomizePage() {
   const colors = Object.keys(PREBUILT_COLORS);
@@ -21,21 +22,11 @@ export default function CustomizePage() {
         padding: '20px'
       }}>
       <div className='flex items-center justify-center'>
-        <div
-          className={`w-1/3 overflow-hidden rounded-xl border-white border grid grid-cols-2 gap-y-5 divide-x-2 divide-white divide-${BIBATA_TYPES.length}`}>
-          {BIBATA_TYPES.map((t) => (
-            <button
-              key={t}
-              onClick={() => setType(t)}
-              className={`${
-                t === type
-                  ? 'bg-green-600 text-black'
-                  : 'bg-transparent hover:bg-green-500/[.2] text-white'
-              } py-4 font-bold text-center`}>
-              {t}
-            </button>
-          ))}
-        </div>
+        <GroupedButtons
+          list={BIBATA_TYPES}
+          value={type}
+          onClick={(v) => setType(v)}
+        />
       </div>
 
       <div className='h-20 flex items-center justify-center'>
