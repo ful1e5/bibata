@@ -5,7 +5,7 @@ from typing import List
 from urllib.error import URLError
 from zipfile import ZipFile
 
-from flask import Flask, after_this_request, jsonify, request, send_file, session
+from flask import Flask, jsonify, request, send_file, session
 from utils.sessions import build_session_required, session_keys
 from utils.topng import to_png
 
@@ -52,7 +52,7 @@ def delete_build_session():
     return jsonify({"id": sid})
 
 
-@app.route("/api/set-cursor", methods=["POST"])
+@app.route("/api/upload", methods=["POST"])
 @build_session_required
 def set_cursor():
     s = session_keys["build"]
@@ -101,8 +101,6 @@ def download_svg_code():
 
     fname = f"images-{uuid.uuid4().hex[:8]}.zip"
 
-    app.logger.info(sid)
-
     p = Path("/tmp") / sid
     fp = p / fname
 
@@ -116,13 +114,4 @@ def download_svg_code():
     except FileNotFoundError:
         return jsonify({"id": sid, "errors": ["Unable to process build files"]})
 
-    @after_this_request
-    def remove_file(response):
-        try:
-            rmtree(fp)
-        except Exception as error:
-            app.logger.error("Error removing or closing downloaded file handle", error)
-        return response
-
-    session.pop(s)
     return send_file(fp)
