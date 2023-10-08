@@ -1,18 +1,22 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Cursors from '@components/Cursors';
 
-import { BIBATA_TYPES, PREBUILT_COLORS } from '@root/configs';
+import { TYPES, PREBUILT_COLORS, SIZES } from '@root/configs';
 import DropdownSelection from '@components/DropdownSelection';
-import GroupedButtons from '@components/GroupedButtons';
+import {
+  GroupedButtons,
+  SmallGroupedButtons
+} from '@components/GroupedButtons';
 
 export default function CustomizePage() {
   const colors = Object.keys(PREBUILT_COLORS);
 
-  const [type, setType] = useState<string>(BIBATA_TYPES[0]);
+  const [type, setType] = useState<string>(TYPES[0]);
   const [color, setColor] = useState<string>(colors[0]);
+  const [cursorSizes, setCursorSizes] = useState<number[]>([SIZES[0]]);
 
   return (
     <main
@@ -22,14 +26,18 @@ export default function CustomizePage() {
         padding: '20px'
       }}>
       <div className='flex items-center justify-center'>
-        <GroupedButtons
-          list={BIBATA_TYPES}
-          value={type}
-          onClick={(v) => setType(v)}
+        <GroupedButtons list={TYPES} value={type} onClick={(v) => setType(v)} />
+      </div>
+
+      <div className='h-40 flex items-center justify-center '>
+        <SmallGroupedButtons
+          list={SIZES}
+          values={cursorSizes}
+          onClick={(s) => setCursorSizes([...s])}
         />
       </div>
 
-      <div className='h-20 flex items-center justify-center'>
+      <div className='h-30 flex items-center justify-center'>
         <DropdownSelection
           value={color}
           list={colors}

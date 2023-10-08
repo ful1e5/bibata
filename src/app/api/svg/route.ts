@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { FetchSVG } from '@utils/figma/fetch-svgs';
 import { handleErrorWithFigma } from '@utils/figma/handle-error';
-import { BIBATA_TYPES } from '@root/configs';
+import { TYPES } from '@root/configs';
 
 export async function GET(request: NextRequest) {
   const type = request.nextUrl.searchParams.get('type');
@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
   const api = new FetchSVG();
 
   if (type) {
-    if (BIBATA_TYPES.includes(type)) {
+    if (TYPES.includes(type)) {
       try {
         const svgs = await api.fetchSVGs({ type });
         return NextResponse.json({ error: null, data: svgs });
