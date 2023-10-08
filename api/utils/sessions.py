@@ -1,6 +1,9 @@
 from functools import wraps
+from shutil import rmtree
 
 from flask import jsonify, session
+
+from api.build.config import gtmp
 
 session_keys = {"build": "cbuid"}
 
@@ -15,3 +18,12 @@ def build_session_required(f):
             return jsonify({"errors": ["Invalid build session"]})
 
     return wrapper
+
+
+def destroy_build_session(sid: str):
+    try:
+        rmtree(gtmp(sid))
+    except FileNotFoundError:
+        pass
+    finally:
+        session.pop(session_keys["build"])

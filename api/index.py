@@ -1,13 +1,12 @@
 import uuid
-from pathlib import Path
-from shutil import rmtree
 from typing import List
-from urllib.error import URLError
-from zipfile import ZipFile
 
 from flask import Flask, jsonify, request, send_file, session
-from utils.sessions import build_session_required, session_keys
-from utils.topng import to_png
+from utils.sessions import build_session_required, destroy_build_session, session_keys
+
+from api.build.cursor import store_cursors
+from api.build.zip import get_zip
+from api.utils.parser import parse_images_json
 
 app = Flask(__name__)
 app.secret_key = "super secret key"
@@ -40,14 +39,7 @@ def delete_build_session():
 
     if session.get(s, None) is not None:
         sid = str(session.get(s))
-
-        try:
-            tmp_dir = Path("/tmp") / sid
-            rmtree(tmp_dir)
-        except FileNotFoundError:
-            logger.info("Build Directory is empty")
-        finally:
-            session.pop(s)
+        destroy_build_session(sid)
 
     return jsonify({"id": sid})
 
@@ -59,38 +51,17 @@ def set_cursor():
     sid: str = str(session.get(s))
 
     errors: List[str] = []
-    svg_url: str = ""
-    fname: str = ""
+    fnames: List[str] = []
 
-    if request.values.get("svg_url", None) is None:
-        msg = "Parameter 'svg_url' required"
-        errors.append(msg)
-    else:
-        svg_url = request.values.get("svg_url")
+    if request.is_json:
+        nodes, errors = parse_images_json(request.data)
 
-    if request.values.get("fname", None) is None:
-        msg = "Parameter 'fname' required"
-        errors.append(msg)
-    else:
-        fname = request.values.get("fname")
+        if nodes:
+            names, errs = store_cursors(sid, nodes, logger)
+            errors.extend(errs)
+            fnames.extend(names)
 
-    tmp_dir = Path("/tmp") / sid
-    tmp_dir.mkdir(parents=True, exist_ok=True)
-    f = tmp_dir / f"{fname}.png"
-
-    if f.exists():
-        errors.append(f"Duplicate Request for '{fname}'")
-    else:
-        try:
-            png = to_png(svg_url)
-            if isinstance(png, bytes):
-                f.write_bytes(png)
-            else:
-                errors.append(f"Failed to proceed PNG bytes for {fname}")
-        except URLError:
-            errors.append(f"Unable to fetch svg code from '{svg_url}'")
-
-    return jsonify({"id": sid, "file": fname, "errors": errors})
+    return jsonify({"id": sid, "files": fnames, "errors": errors})
 
 
 @app.route("/api/download", methods=["GET"])
@@ -98,20 +69,9 @@ def set_cursor():
 def download_svg_code():
     s = session_keys["build"]
     sid: str = str(session.get(s))
+    zip, errors = get_zip(sid)
 
-    fname = f"images-{uuid.uuid4().hex[:8]}.zip"
-
-    p = Path("/tmp") / sid
-    fp = p / fname
-
-    if len(list(p.glob("*"))) <= 0:
-        return jsonify({"id": sid, "errors": ["Empty build directory"]})
-
-    try:
-        with ZipFile(fp, "w") as zip_file:
-            for f in p.glob("*"):
-                zip_file.write(f, f.name)
-    except FileNotFoundError:
-        return jsonify({"id": sid, "errors": ["Unable to process build files"]})
-
-    return send_file(fp)
+    if errors:
+        return jsonify({"id": sid, "errors": errors})
+    else:
+        return send_file(zip)
