@@ -32,7 +32,6 @@ interface SmallGroupedButtonsProps {
 }
 
 export function SmallGroupedButtons(props: SmallGroupedButtonsProps) {
-  const l = props.list.length;
   return (
     <div className={`w-1/3 overflow-hidden grid grid-cols-8 gap-2`}>
       {props.list.map((t) => (
@@ -55,7 +54,7 @@ export function SmallGroupedButtons(props: SmallGroupedButtonsProps) {
             props.values.includes(t)
               ? 'bg-sky-600 text-black'
               : 'bg-transparent hover:bg-sky-500/[.2] text-white/[.6]'
-          } text-center rounded-xl border-white/[.6] border p-2`}>
+          } rounded-xl border-white/[.6] border text-center `}>
           {t}
         </button>
       ))}

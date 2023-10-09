@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import Cursors from '@components/Cursors';
 
@@ -29,7 +29,7 @@ export default function CustomizePage() {
         <GroupedButtons list={TYPES} value={type} onClick={(v) => setType(v)} />
       </div>
 
-      <div className='h-40 flex items-center justify-center '>
+      <div className='h-32 flex items-center justify-center '>
         <SmallGroupedButtons
           list={SIZES}
           values={cursorSizes}
@@ -37,7 +37,7 @@ export default function CustomizePage() {
         />
       </div>
 
-      <div className='h-30 flex items-center justify-center'>
+      <div className='h-24 flex items-center justify-center'>
         <DropdownSelection
           value={color}
           list={colors}

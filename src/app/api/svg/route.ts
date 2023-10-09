@@ -20,13 +20,13 @@ export async function GET(request: NextRequest) {
     } else {
       return NextResponse.json({
         status: 404,
-        error: `The specified 'type=${type}' was not found`
+        error: `No images found for '${type}'`
       });
     }
   } else {
     return NextResponse.json({
       status: 400,
-      error: "Inavalid parameter, Unable to find parameter 'type'"
+      error: "Invalid Request. The 'type' parameter is missing"
     });
   }
 }

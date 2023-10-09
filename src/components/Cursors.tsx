@@ -15,63 +15,45 @@ interface CursorImageProp {
   color: Color;
 }
 
-function CursorImage({ svg, color }: CursorImageProp) {
+function CursorImage(props: CursorImageProp) {
   const [loading, setLoading] = useState(true);
 
-  const conSize = 150;
-  const imgSize = (150 / 90) * 100;
   const c = JSON.stringify({
-    '00ff00': color.base,
-    '0000ff': color.outline,
-    ff0000: color.watch || color.base
+    '00ff00': props.color.base,
+    '0000ff': props.color.outline,
+    ff0000: props.color.watch || props.color.base
   });
-  const url = `/api/svg/${svg.id}?color=${c}`;
-
+  const url = `/api/svg/${props.svg.id}?color=${c}&display`;
   useEffect(() => {
     setLoading(true);
-  }, [svg.id, color]);
+  }, [props.svg.id, props.color]);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        textAlign: 'center',
-        margin: '10px',
-        padding: '10px',
-        border: '1px solid rgba(255, 0, 0, 0.8)',
-        width: '100%',
-        maxWidth: `${conSize}px`
-      }}>
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          border: '0.5px solid rgba(255, 0, 0, 0.8)',
-          minHeight: `${conSize}px`
-        }}>
-        {loading && 'Loading...'}
-        <Image
-          alt={svg.name}
-          src={url}
-          hidden={loading}
-          width={loading ? 0 : imgSize}
-          height={loading ? 0 : imgSize}
-          loader={({ src }) => src}
-          loading='lazy'
-          onLoadingComplete={() => {
-            setLoading(false);
-            console.log(`loading Complete ${svg.name}`);
-          }}
-        />
+    <div className='mb-4 overflow-hidden rounded-xl bg-white/[0.05] border-white/[.1] border'>
+      <div className='w-full h-40 mb-4 relative'>
+        <div
+          className={`w-full h-full bg-gray-300/[.3] ${
+            loading ? 'animate-pulse bg-white/[.2]' : 'bg-white/[.05]'
+          }`}></div>
+        <div
+          className={`${
+            !loading ? 'opacity-100' : 'opacity-0'
+          } transition-opacity duration-500 z-2`}>
+          <img
+            className={'object-none w-full h-full top-0 absolute '}
+            alt={props.svg.name}
+            src={url}
+            hidden={loading}
+            loading='lazy'
+            onLoad={() => {
+              setLoading(false);
+              console.log(`loading Complete ${props.svg.name}`);
+            }}
+          />
+        </div>
       </div>
-      <div
-        style={{
-          margin: '10px 10px 0px 10px',
-          border: '0.5px solid rgba(255, 0, 0, 0.8)'
-        }}>
-        {svg.name}
+      <div className='text-center'>
+        <p className='mb-2'>{props.svg.name}</p>
       </div>
     </div>
   );
@@ -88,14 +70,14 @@ interface Response {
   status: number;
 }
 
-export default function Cursors({ type, color }: CursorsProps) {
+export default function Cursors(props: CursorsProps) {
   const fetcher = (url: string) =>
     fetch(url, { next: { revalidate: 60 } })
       .then((res) => res.json())
       .then((json) => json);
 
   const { data: res, isLoading } = useSWR<Response>(
-    `/api/svg?type=${type}`,
+    `/api/svg?type=${props.type}`,
     fetcher
   );
 
@@ -113,10 +95,12 @@ export default function Cursors({ type, color }: CursorsProps) {
   const svgs = res.data as SVG[];
 
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-      {svgs.map((e) => (
-        <CursorImage key={e.id} svg={e} color={color} />
-      ))}
+    <div className='container mx-auto px-4'>
+      <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6'>
+        {svgs.map((e) => (
+          <CursorImage key={e.id} svg={e} color={props.color} />
+        ))}
+      </div>
     </div>
   );
 }

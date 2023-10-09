@@ -15,9 +15,16 @@ export async function GET(
   const p = request.nextUrl.searchParams;
   let display = false;
   let color: ParamColor = {};
+  let size: number = 0;
 
   if (p.has('display')) {
     display = true;
+  }
+
+  if (!display) {
+    if (p.has('size')) {
+      size = Number(p.get('size')) || 0;
+    }
   }
 
   if (p.has('color')) {
@@ -53,6 +60,11 @@ export async function GET(
           img = img.replace(
             'width="256" height="256"',
             `preserveAspectRatio="xMaxYMid meet" width="100%" height="100%"`
+          );
+        } else if (size !== 0) {
+          img = img.replace(
+            'width="256" height="256"',
+            `preserveAspectRatio="xMaxYMid meet" width="${size}" height="${size}"`
           );
         }
 

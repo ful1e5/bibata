@@ -10,7 +10,7 @@ export default function DropdownSelection(props: NavbarProps) {
   return (
     <div className='inline-block relative w-40 m-2'>
       <select
-        className='block appearance-none w-full bg-black border-2 border-gray-400 hover:border-blue-500 px-4 py-2 pr-8 rounded-xl focus:outline-none focus:shadow-outline'
+        className='block appearance-none w-full bg-black border border-white/[0.4] hover:border-blue-500 px-4 py-2 pr-8 rounded-xl focus:outline-none focus:shadow-outline'
         value={props.value}
         onChange={(e) => props.onChange(e)}>
         {props.list.map((t) => (
