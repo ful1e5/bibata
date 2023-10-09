@@ -6,7 +6,7 @@ from utils.sessions import build_session_required, destroy_build_session, sessio
 
 from api.build.cursor import store_cursors
 from api.build.zip import get_zip
-from api.utils.parser import parse_images_json
+from api.utils.parser import parse_download_json, parse_images_json
 
 app = Flask(__name__)
 app.secret_key = "super secret key"
@@ -61,17 +61,39 @@ def set_cursor():
             errors.extend(errs)
             fnames.extend(names)
 
-    return jsonify({"id": sid, "files": fnames, "errors": errors})
+    return jsonify(
+        {
+            "status": errors and 400 or 200,
+            "id": sid,
+            "files": fnames,
+            "error": errors or None,
+        }
+    )
 
 
-@app.route("/api/download", methods=["GET"])
+@app.route("/api/download", methods=["POST"])
 @build_session_required
 def download_svg_code():
     s = session_keys["build"]
     sid: str = str(session.get(s))
-    zip, errors = get_zip(sid)
+
+    errors: List[str] = []
+
+    sizes, parse_errs = parse_download_json(request.data)
+    if parse_errs:
+        errors.extend(parse_errs)
+
+    zip, build_errs = get_zip(sid)
+    if build_errs:
+        errors.extend(build_errs)
 
     if errors:
-        return jsonify({"id": sid, "errors": errors})
+        return jsonify(
+            {
+                "status": errors and 400 or 200,
+                "id": sid,
+                "error": errors or None,
+            }
+        )
     else:
         return send_file(zip)
