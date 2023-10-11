@@ -1,3 +1,5 @@
+'use client';
+
 interface GroupedButtonsProps {
   list: string[];
   value: string;
@@ -8,16 +10,16 @@ export function GroupedButtons(props: GroupedButtonsProps) {
   const l = props.list.length;
   return (
     <div
-      className={`w-1/5 overflow-hidden rounded-xl border-white border grid grid-cols-2 gap-y-3 divide-x-2 divide-white divide-${l}`}>
+      className={`w-1/2 overflow-hidden rounded-xl border-white/[.08] border grid grid-cols-2 gap-y-4 divide-x-2 divide-white/[.08] divide-${l}`}>
       {props.list.map((t) => (
         <button
           key={t}
           onClick={() => props.onClick(t)}
           className={`${
             t === props.value
-              ? 'bg-green-600 text-black'
-              : 'bg-transparent hover:bg-green-500/[.2] text-white'
-          } py-4 font-bold text-center`}>
+              ? 'bg-white/[.1] text-white/[0.9] font-bold'
+              : 'bg-transparent text-white/[0.75] hover:bg-white/[.05] hover:text-white/[.8] font-normal'
+          } py-4 font-bold  text-center`}>
           {t}
         </button>
       ))}
@@ -33,7 +35,8 @@ interface SmallGroupedButtonsProps {
 
 export function SmallGroupedButtons(props: SmallGroupedButtonsProps) {
   return (
-    <div className={`w-1/3 overflow-hidden grid grid-cols-8 gap-2`}>
+    <div
+      className={`w-1/2 overflow-hidden grid grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-2`}>
       {props.list.map((t) => (
         <button
           key={t}
@@ -52,9 +55,9 @@ export function SmallGroupedButtons(props: SmallGroupedButtonsProps) {
           }}
           className={`${
             props.values.includes(t)
-              ? 'bg-sky-600 text-black'
-              : 'bg-transparent hover:bg-sky-500/[.2] text-white/[.6]'
-          } rounded-xl border-white/[.6] border text-center `}>
+              ? 'bg-white/[.08] font-bold text-white/[.8]'
+              : 'bg-transparent hover:bg-sky-500/[.2] text-white/[.7] font-normal'
+          } rounded-xl border-white/[.08] border  text-center`}>
           {t}
         </button>
       ))}

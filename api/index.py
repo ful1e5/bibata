@@ -2,14 +2,17 @@ import uuid
 from typing import List
 
 from flask import Flask, jsonify, request, send_file, session
+from flask_cors import CORS, cross_origin
 from utils.sessions import build_session_required, destroy_build_session, session_keys
 
-from api.build.cursor import store_cursors
-from api.build.zip import get_zip
+from api.builder.cursor import store_cursors
+from api.builder.zip import get_zip
 from api.utils.parser import parse_download_json, parse_images_json
 
 app = Flask(__name__)
 app.secret_key = "super secret key"
+CORS(app, supports_credentials=True)
+
 logger = app.logger
 
 
@@ -19,21 +22,20 @@ def index():
 
 
 @app.route("/api/session", methods=["GET"])
-def get_build_session():
+@cross_origin(origins="*")
+def get_session():
     s = session_keys["build"]
-    sid: str
+    sid: str = session.get(s, None)
 
-    if session.get(s, None) is None:
+    if not sid:
         sid = str(uuid.uuid4())
         session.setdefault(s, sid)
-    else:
-        sid = str(session.get(s))
 
     return jsonify({"id": sid})
 
 
 @app.route("/api/session", methods=["DELETE"])
-def delete_build_session():
+def destroy_session():
     s = session_keys["build"]
     sid: str | None = None
 
@@ -46,7 +48,7 @@ def delete_build_session():
 
 @app.route("/api/upload", methods=["POST"])
 @build_session_required
-def set_cursor():
+def upload_images():
     s = session_keys["build"]
     sid: str = str(session.get(s))
 
@@ -54,12 +56,13 @@ def set_cursor():
     fnames: List[str] = []
 
     if request.is_json:
-        nodes, errors = parse_images_json(request.data)
+        json = parse_images_json(request.data, logger)
 
-        if nodes:
-            names, errs = store_cursors(sid, nodes, logger)
+        if json.images:
+            names, errs = store_cursors(sid, json, logger)
             errors.extend(errs)
-            fnames.extend(names)
+            if len(errs) == 0:
+                fnames.extend(names)
 
     return jsonify(
         {
@@ -73,7 +76,7 @@ def set_cursor():
 
 @app.route("/api/download", methods=["POST"])
 @build_session_required
-def download_svg_code():
+def download():
     s = session_keys["build"]
     sid: str = str(session.get(s))
 

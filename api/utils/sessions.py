@@ -3,7 +3,7 @@ from shutil import rmtree
 
 from flask import jsonify, session
 
-from api.build.config import gtmp
+from api.builder.config import gtmp
 
 session_keys = {"build": "cbuid"}
 

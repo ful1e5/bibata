@@ -8,4 +8,18 @@ declare module 'bibata-live' {
   interface Colors {
     [name: string]: Color;
   }
+
+  interface CoreApiUploadResponse {
+    status: number;
+    id: string;
+    files: string[];
+    error: string[];
+  }
+
+  interface CoreImage {
+    name: string;
+    url: string;
+  }
+
+  type CorePlatform = 'x11' | 'win';
 }

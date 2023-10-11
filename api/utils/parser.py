@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from typing import Any, List, Tuple
+from logging import Logger
+from typing import Any, List, Tuple, Union
 
 from flask import json
 
@@ -8,6 +9,13 @@ from flask import json
 class ImageNode:
     name: str
     url: str
+
+
+@dataclass
+class ImagesJson:
+    images: List[ImageNode]
+    platform: Union[str, None]
+    error: List[str]
 
 
 def ptype(a: Any) -> str:
@@ -22,9 +30,10 @@ def ptype(a: Any) -> str:
     return t
 
 
-def parse_images_json(data: bytes) -> Tuple[List[ImageNode], List[str]]:
+def parse_images_json(data: bytes, logger: Logger) -> ImagesJson:
     nodes: List[ImageNode] = []
     errors: List[str] = []
+    platform: Union[str, None] = None
 
     json_data = json.loads(data)
 
@@ -55,13 +64,19 @@ def parse_images_json(data: bytes) -> Tuple[List[ImageNode], List[str]]:
                         else:
                             nodes.append(ImageNode(name=name, url=url))
 
+        p = json_data.get("platform", None)
+        if p == "x11" or p == "win":
+            platform = p
+        else:
+            raise AttributeError("Invalid type. platform should be a 'x11' or 'win'")
+
     except ValueError as e:
         errors.append(str(e))
     except AttributeError as e:
         errors.append(str(e))
-        return nodes, errors
+        return ImagesJson(images=nodes, platform=platform, error=errors)
 
-    return nodes, errors
+    return ImagesJson(images=nodes, platform=platform, error=errors)
 
 
 def parse_download_json(data: bytes) -> Tuple[List[int], List[str]]:

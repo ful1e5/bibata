@@ -1,22 +1,42 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Cursors from '@components/Cursors';
 
 import { TYPES, PREBUILT_COLORS, SIZES } from '@root/configs';
 import DropdownSelection from '@components/DropdownSelection';
+import { DownloadButton } from '@components/DownloadButton';
 import {
   GroupedButtons,
   SmallGroupedButtons
 } from '@components/GroupedButtons';
+import { CoreApi } from '@utils/core';
+import { CoreImage } from 'bibata-live';
 
 export default function CustomizePage() {
+  const core = new CoreApi();
   const colors = Object.keys(PREBUILT_COLORS);
 
   const [type, setType] = useState<string>(TYPES[0]);
   const [color, setColor] = useState<string>(colors[0]);
   const [cursorSizes, setCursorSizes] = useState<number[]>([SIZES[0]]);
+
+  const [images, setImages] = useState<Set<CoreImage>>(new Set());
+  const [imagesCount, setImagesCount] = useState<number>(0);
+
+  useEffect(() => {
+    const destroyBuildSession = async () => {
+      await core.destroySession();
+    };
+
+    destroyBuildSession();
+  }, []);
+
+  useEffect(() => {
+    setImages(new Set());
+    setImagesCount(0);
+  }, [type, color]);
 
   return (
     <main
@@ -29,7 +49,7 @@ export default function CustomizePage() {
         <GroupedButtons list={TYPES} value={type} onClick={(v) => setType(v)} />
       </div>
 
-      <div className='h-32 flex items-center justify-center '>
+      <div className='h-44 sm:h-52 flex items-center justify-center '>
         <SmallGroupedButtons
           list={SIZES}
           values={cursorSizes}
@@ -44,20 +64,20 @@ export default function CustomizePage() {
           onChange={(e) => setColor(e.target.value)}
         />
 
-        <button
-          onClick={() => console.log('Downloading')}
-          className='bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-xl inline-flex items-center'>
-          <svg
-            className='fill-current w-4 h-4 mr-2'
-            xmlns='http://www.w3.org/2000/svg'
-            viewBox='0 0 20 20'>
-            <path d='M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z' />
-          </svg>
-          <span>Download</span>
-        </button>
+        <DownloadButton
+          images={images}
+          sizes={cursorSizes}
+          disabled={imagesCount === 0 || imagesCount !== images.size}
+        />
       </div>
 
-      <Cursors type={type} color={PREBUILT_COLORS[color]} />
+      <Cursors
+        type={type}
+        sizes={cursorSizes}
+        color={PREBUILT_COLORS[color]}
+        onLoad={(i) => setImages(new Set(images.add(i)))}
+        onData={(svgs) => setImagesCount(svgs.length)}
+      />
     </main>
   );
 }

@@ -5,16 +5,24 @@ import * as Figma from 'figma-api';
 
 import { useEffect, useState } from 'react';
 
-import { Color } from 'bibata-live';
+import { Color, CoreImage } from 'bibata-live';
 
+type CursorOnLoad = (images: CoreImage) => void;
 type SVG = Figma.Node<keyof Figma.NodeTypes>;
-
-interface CursorImageProp {
-  svg: SVG;
-  color: Color;
+interface Response {
+  data: SVG[];
+  error: string;
+  status: number;
 }
 
-function CursorCard(props: CursorImageProp) {
+interface CursorCardProps {
+  svg: SVG;
+  color: Color;
+  sizes: number[];
+  onLoad?: CursorOnLoad;
+}
+
+function CursorCard(props: CursorCardProps) {
   const [loading, setLoading] = useState(true);
 
   const c = JSON.stringify({
@@ -25,7 +33,9 @@ function CursorCard(props: CursorImageProp) {
 
   useEffect(() => {
     setLoading(true);
-  }, [props.svg.id, props.color]);
+  }, []);
+
+  const url = `/api/svg/${props.svg.id}?color=${c}`;
 
   return (
     <div className='mb-4 overflow-hidden rounded-xl bg-white/[0.05] border-white/[.1] border'>
@@ -37,17 +47,18 @@ function CursorCard(props: CursorImageProp) {
         <div
           className={`${
             !loading ? 'opacity-100' : 'opacity-0'
-          } transition-opacity duration-500 z-2`}>
+          } transition-opacity duration-500`}>
           <img
-            id={props.svg.id}
             className={'object-none w-full h-full top-0 p-4 absolute '}
             alt={props.svg.name}
-            src={`/api/svg/${props.svg.id}?color=${c}&display`}
+            src={`${url}&display`}
             hidden={loading}
             loading='lazy'
             onLoad={() => {
               setLoading(false);
-              console.log(`loading Complete ${props.svg.name}`);
+              if (props.onLoad) {
+                props.onLoad({ name: props.svg.name, url });
+              }
             }}
           />
         </div>
@@ -62,12 +73,9 @@ function CursorCard(props: CursorImageProp) {
 interface CursorsProps {
   type: string;
   color: Color;
-}
-
-interface Response {
-  data: SVG[];
-  error: string;
-  status: number;
+  sizes: number[];
+  onLoad?: CursorOnLoad;
+  onData?: (svgs: SVG[]) => void;
 }
 
 export default function Cursors(props: CursorsProps) {
@@ -76,12 +84,12 @@ export default function Cursors(props: CursorsProps) {
       .then((res) => res.json())
       .then((json) => json);
 
-  const { data: res, isLoading } = useSWR<Response>(
+  const { data: res, isLoading: isRequesting } = useSWR<Response>(
     `/api/svg?type=${props.type}`,
     fetcher
   );
 
-  if (isLoading) {
+  if (isRequesting) {
     const cards = Array.from(new Array(12), (_, i) => i + 1);
     return (
       <div className='container mx-auto px-4'>
@@ -89,9 +97,7 @@ export default function Cursors(props: CursorsProps) {
           {cards.map(() => (
             <div className='overflow-hidden rounded-xl bg-white/[0.05] border-white/[.1] border'>
               <div className={'w-full h-40 animate-pulse bg-white/[.2]'}></div>
-              <div className='flex items-center justify-center h-12'>
-                <div className='w-1/2 h-1/6 animate-pulse bg-white/[.3] rounded-xl'></div>
-              </div>
+              <div className='flex animate-pulse bg-white/[.1] h-12'></div>
             </div>
           ))}
         </div>
@@ -111,11 +117,20 @@ export default function Cursors(props: CursorsProps) {
 
   const svgs = res.data as SVG[];
 
+  if (props.onData) {
+    props.onData(svgs);
+  }
+
   return (
     <div className='container mx-auto px-4'>
       <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6'>
         {svgs.map((e) => (
-          <CursorCard key={e.id} svg={e} color={props.color} />
+          <CursorCard
+            color={props.color}
+            svg={e}
+            sizes={props.sizes}
+            onLoad={props.onLoad}
+          />
         ))}
       </div>
     </div>
