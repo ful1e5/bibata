@@ -7,7 +7,7 @@ from utils.sessions import build_session_required, destroy_build_session, sessio
 
 from api.builder.cursor import store_cursors
 from api.builder.zip import get_zip
-from api.utils.parser import parse_download_json, parse_images_json
+from api.utils.parser import parse_images_json
 
 app = Flask(__name__)
 app.secret_key = "super secret key"
@@ -74,21 +74,17 @@ def upload_images():
     )
 
 
-@app.route("/api/download", methods=["POST"])
+@app.route("/api/download", methods=["GET"])
 @build_session_required
 def download():
+    errors: List[str] = []
+
     s = session_keys["build"]
     sid: str = str(session.get(s))
 
-    errors: List[str] = []
-
-    sizes, parse_errs = parse_download_json(request.data)
-    if parse_errs:
-        errors.extend(parse_errs)
-
-    zip, build_errs = get_zip(sid)
-    if build_errs:
-        errors.extend(build_errs)
+    zip = get_zip(sid, logger)
+    if zip.errors:
+        errors.extend(zip.errors)
 
     if errors:
         return jsonify(
@@ -99,4 +95,4 @@ def download():
             }
         )
     else:
-        return send_file(zip)
+        return send_file(zip.file, as_attachment=True)

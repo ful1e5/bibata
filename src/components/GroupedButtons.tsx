@@ -29,8 +29,8 @@ export function GroupedButtons(props: GroupedButtonsProps) {
 
 interface SmallGroupedButtonsProps {
   list: number[];
-  values: number[];
-  onClick: (v: number[]) => void;
+  values: number;
+  onClick: (v: number) => void;
 }
 
 export function SmallGroupedButtons(props: SmallGroupedButtonsProps) {
@@ -41,20 +41,10 @@ export function SmallGroupedButtons(props: SmallGroupedButtonsProps) {
         <button
           key={t}
           onClick={() => {
-            const l = props.values;
-            if (l.includes(t)) {
-              const index = l.indexOf(t, 0);
-              if (index > -1) {
-                l.splice(index, 1);
-              }
-            } else {
-              l.push(t);
-            }
-
-            props.onClick(l);
+            props.onClick(t);
           }}
           className={`${
-            props.values.includes(t)
+            props.values == t
               ? 'bg-white/[.08] font-bold text-white/[.8]'
               : 'bg-transparent hover:bg-sky-500/[.2] text-white/[.7] font-normal'
           } rounded-xl border-white/[.08] border  text-center`}>

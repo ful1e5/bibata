@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from logging import Logger
-from typing import Any, List, Tuple, Union
+from typing import Any, List, Union
 
 from flask import json
 
@@ -8,7 +8,7 @@ from flask import json
 @dataclass
 class ImageNode:
     name: str
-    url: str
+    data: str
 
 
 @dataclass
@@ -51,18 +51,18 @@ def parse_images_json(data: bytes, logger: Logger) -> ImagesJson:
                     img = imgs[i]
                     if type(img) is dict:
                         name = img.get("name", None)
-                        url = img.get("url", None)
+                        data = img.get("data", None)
 
                         if type(name) is not str:
                             raise ValueError(
                                 f"Invalid type. images[{i}]['name'] should be a 'string', but it is '{ptype(name)}'"
                             )
-                        elif type(url) is not str:
+                        elif type(data) is not str:
                             raise ValueError(
-                                f"Invalid type. images[{i}]['url'] should be a 'string', but it is '{ptype(url)}'"
+                                f"Invalid type. images[{i}]['data'] should be a 'string', but it is '{ptype(data)}'"
                             )
                         else:
-                            nodes.append(ImageNode(name=name, url=url))
+                            nodes.append(ImageNode(name=name, data=data))
 
         p = json_data.get("platform", None)
         if p == "x11" or p == "win":
@@ -77,37 +77,3 @@ def parse_images_json(data: bytes, logger: Logger) -> ImagesJson:
         return ImagesJson(images=nodes, platform=platform, error=errors)
 
     return ImagesJson(images=nodes, platform=platform, error=errors)
-
-
-def parse_download_json(data: bytes) -> Tuple[List[int], List[str]]:
-    sizes: List[int] = []
-    errors: List[str] = []
-
-    json_data = json.loads(data)
-
-    try:
-        sizes = json_data.get("sizes", None)
-        if sizes is None:
-            raise ValueError("JSON data has no root key 'sizes'")
-        else:
-            if type(sizes) is not list:
-                raise ValueError(
-                    f"Invalid type. 'sizes' should be a 'list', but it is '{ptype(sizes)}'"
-                )
-            else:
-                for i in range(len(sizes)):
-                    size = sizes[i]
-                    if type(size) is not int:
-                        raise ValueError(
-                            f"Invalid type. sizes[{i}] should be a 'int', but it is '{ptype(size)}'"
-                        )
-                    else:
-                        sizes.append(size)
-
-    except ValueError as e:
-        errors.append(str(e))
-    except AttributeError as e:
-        errors.append(str(e))
-        return sizes, errors
-
-    return sizes, errors

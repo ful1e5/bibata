@@ -1,7 +1,6 @@
 import os
 from logging import Logger
 from typing import List
-from urllib.error import URLError
 
 from clickgen.parser import open_blob
 from clickgen.writer import to_win, to_x11
@@ -19,11 +18,11 @@ def store_cursors(sid: str, json: ImagesJson, logger: Logger):
     tmp_dir.mkdir(parents=True, exist_ok=True)
 
     for node in json.images:
-        url = node.url
+        data = node.data
         name = node.name
 
         try:
-            png = to_png(url)
+            png = to_png(data)
 
             if not isinstance(png, bytes):
                 errors.append(f"Failed to proceed PNG bytes for {name}")
@@ -42,8 +41,6 @@ def store_cursors(sid: str, json: ImagesJson, logger: Logger):
                     os.remove(f)
                 f.write_bytes(cur)
 
-        except URLError:
-            errors.append(f"Unable to fetch svg code from '{url}'")
         except Exception:
             errors.append(f"Unable to build cursor '{name}'")
         names.append(name)

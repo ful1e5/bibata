@@ -2,17 +2,18 @@
 
 import { useEffect, useState } from 'react';
 
-import Cursors from '@components/Cursors';
+import { CoreImage } from 'bibata-live';
 
-import { TYPES, PREBUILT_COLORS, SIZES } from '@root/configs';
+import Cursors from '@components/Cursors';
 import DropdownSelection from '@components/DropdownSelection';
 import { DownloadButton } from '@components/DownloadButton';
 import {
   GroupedButtons,
   SmallGroupedButtons
 } from '@components/GroupedButtons';
+
 import { CoreApi } from '@utils/core';
-import { CoreImage } from 'bibata-live';
+import { TYPES, PREBUILT_COLORS, SIZES } from '@root/configs';
 
 export default function CustomizePage() {
   const core = new CoreApi();
@@ -20,7 +21,7 @@ export default function CustomizePage() {
 
   const [type, setType] = useState<string>(TYPES[0]);
   const [color, setColor] = useState<string>(colors[0]);
-  const [cursorSizes, setCursorSizes] = useState<number[]>([SIZES[0]]);
+  const [cursorSize, setCursorSize] = useState<number>(SIZES[1]);
 
   const [images, setImages] = useState<Set<CoreImage>>(new Set());
   const [imagesCount, setImagesCount] = useState<number>(0);
@@ -29,7 +30,6 @@ export default function CustomizePage() {
     const destroyBuildSession = async () => {
       await core.destroySession();
     };
-
     destroyBuildSession();
   }, []);
 
@@ -52,8 +52,8 @@ export default function CustomizePage() {
       <div className='h-44 sm:h-52 flex items-center justify-center '>
         <SmallGroupedButtons
           list={SIZES}
-          values={cursorSizes}
-          onClick={(s) => setCursorSizes([...s])}
+          values={cursorSize}
+          onClick={(s) => setCursorSize(s)}
         />
       </div>
 
@@ -66,14 +66,13 @@ export default function CustomizePage() {
 
         <DownloadButton
           images={images}
-          sizes={cursorSizes}
+          size={cursorSize}
           disabled={imagesCount === 0 || imagesCount !== images.size}
         />
       </div>
 
       <Cursors
         type={type}
-        sizes={cursorSizes}
         color={PREBUILT_COLORS[color]}
         onLoad={(i) => setImages(new Set(images.add(i)))}
         onData={(svgs) => setImagesCount(svgs.length)}

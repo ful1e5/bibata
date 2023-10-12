@@ -18,7 +18,7 @@ declare module 'bibata-live' {
 
   interface CoreImage {
     name: string;
-    url: string;
+    data: string;
   }
 
   type CorePlatform = 'x11' | 'win';

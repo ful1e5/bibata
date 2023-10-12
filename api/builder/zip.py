@@ -1,11 +1,20 @@
+import os
+from dataclasses import dataclass
+from logging import Logger
 from pathlib import Path
-from typing import List, Tuple
+from typing import List
 from zipfile import ZipFile
 
 from api.builder.config import gsubtmp, gtmp
 
 
-def get_zip(sid: str) -> Tuple[Path, List[str]]:
+@dataclass
+class FileResponse:
+    file: Path
+    errors: List[str]
+
+
+def get_zip(sid: str, logger: Logger) -> FileResponse:
     errors: List[str] = []
 
     dir = gsubtmp(sid)
@@ -15,10 +24,13 @@ def get_zip(sid: str) -> Tuple[Path, List[str]]:
         errors.append("Empty build directory")
 
     try:
+        if fp.exists():
+            os.remove(fp)
+
         with ZipFile(fp, "w") as zip_file:
             for f in dir.glob("*"):
                 zip_file.write(f, f.name)
-    except FileNotFoundError:
-        errors.append("Unable to compress cursors")
+    except Exception as e:
+        errors.append(str(e))
 
-    return fp, errors
+    return FileResponse(file=fp, errors=errors)

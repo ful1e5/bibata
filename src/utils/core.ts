@@ -21,21 +21,21 @@ export class CoreApi {
     }
   }
 
-  public async uploadImages(images: Set<CoreImage>, platform: CorePlatform) {
+  public async uploadImages(images: CoreImage[], platform: CorePlatform) {
     const res = await fetch(`${this.url}/upload`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ images: Array.from(images), platform })
+      body: JSON.stringify({ images, platform })
     });
 
     return (await res.json()) as CoreApiUploadResponse;
   }
 
-  public async download() {
-    await fetch(`${this.url}/download`);
+  public downloadLink(platform: CorePlatform) {
+    return `${this.url}/download`;
   }
 
   public async destroySession() {

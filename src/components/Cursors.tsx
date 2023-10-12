@@ -18,7 +18,6 @@ interface Response {
 interface CursorCardProps {
   svg: SVG;
   color: Color;
-  sizes: number[];
   onLoad?: CursorOnLoad;
 }
 
@@ -30,12 +29,11 @@ function CursorCard(props: CursorCardProps) {
     '0000ff': props.color.outline,
     ff0000: props.color.watch || props.color.base
   });
+  const url = `/api/svg/${props.svg.id}?color=${c}`;
 
   useEffect(() => {
     setLoading(true);
-  }, []);
-
-  const url = `/api/svg/${props.svg.id}?color=${c}`;
+  }, [props.color, props.svg]);
 
   return (
     <div className='mb-4 overflow-hidden rounded-xl bg-white/[0.05] border-white/[.1] border'>
@@ -49,15 +47,16 @@ function CursorCard(props: CursorCardProps) {
             !loading ? 'opacity-100' : 'opacity-0'
           } transition-opacity duration-500`}>
           <img
+            key={props.svg.id}
             className={'object-none w-full h-full top-0 p-4 absolute '}
             alt={props.svg.name}
-            src={`${url}&display`}
+            src={`${url}&display=true`}
             hidden={loading}
             loading='lazy'
             onLoad={() => {
               setLoading(false);
               if (props.onLoad) {
-                props.onLoad({ name: props.svg.name, url });
+                props.onLoad({ name: props.svg.name, data: url });
               }
             }}
           />
@@ -73,7 +72,6 @@ function CursorCard(props: CursorCardProps) {
 interface CursorsProps {
   type: string;
   color: Color;
-  sizes: number[];
   onLoad?: CursorOnLoad;
   onData?: (svgs: SVG[]) => void;
 }
@@ -94,8 +92,10 @@ export default function Cursors(props: CursorsProps) {
     return (
       <div className='container mx-auto px-4'>
         <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6'>
-          {cards.map(() => (
-            <div className='overflow-hidden rounded-xl bg-white/[0.05] border-white/[.1] border'>
+          {cards.map((key) => (
+            <div
+              key={key}
+              className='overflow-hidden rounded-xl bg-white/[0.05] border-white/[.1] border'>
               <div className={'w-full h-40 animate-pulse bg-white/[.2]'}></div>
               <div className='flex animate-pulse bg-white/[.1] h-12'></div>
             </div>
@@ -117,18 +117,20 @@ export default function Cursors(props: CursorsProps) {
 
   const svgs = res.data as SVG[];
 
-  if (props.onData) {
-    props.onData(svgs);
-  }
-
   return (
     <div className='container mx-auto px-4'>
-      <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6'>
+      <div
+        className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6'
+        onLoad={() => {
+          if (props.onData) {
+            props.onData(svgs);
+          }
+        }}>
         {svgs.map((e) => (
           <CursorCard
+            key={e.id}
             color={props.color}
             svg={e}
-            sizes={props.sizes}
             onLoad={props.onLoad}
           />
         ))}

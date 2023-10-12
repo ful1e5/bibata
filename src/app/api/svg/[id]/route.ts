@@ -68,16 +68,14 @@ export async function GET(
           );
         }
 
-        return new Response(img, {
+        return new NextResponse(img, {
           headers: {
-            'content-type': 'image/svg+xml',
-            'Cache-Control':
-              'public, max-age=360, s-maxage=360, stale-while-revalidate=360'
+            'content-type': 'image/svg+xml'
           }
         });
       }
     } catch (e) {
-      handleErrorWithFigma(e);
+      return handleErrorWithFigma(e);
     }
   } else {
     return NextResponse.json({
