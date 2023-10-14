@@ -16,9 +16,15 @@ declare module 'bibata-live' {
     error: string[];
   }
 
+  interface CoreApiDownloadError {
+    status: number;
+    id: string;
+    error: string[];
+  }
+
   interface CoreImage {
     name: string;
-    data: string;
+    url: string;
   }
 
   type CorePlatform = 'x11' | 'win';

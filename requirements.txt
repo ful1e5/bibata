@@ -1,4 +1,4 @@
 Flask==2.2.2
-cairosvg===2.7.1
-clickgen==2.1.9
 flask-cors===4.0.0
+wand===0.6.11
+clickgen==2.1.9

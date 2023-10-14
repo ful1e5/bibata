@@ -13,6 +13,7 @@ interface DownaloadButtonProps {
 
 export function DownloadButton(props: DownaloadButtonProps) {
   const [loading, setLoading] = useState<boolean>(false);
+  const [errorText, setErrorText] = useState<string>('');
 
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -21,10 +22,23 @@ export function DownloadButton(props: DownaloadButtonProps) {
 
   const processImages = async (api: CoreApi, p: CorePlatform) => {
     for (const i of Array.from(props.images)) {
-      const res = await fetch(i.data, { next: { revalidate: 360 } });
-      const code = await res.text();
       setSubLoadingText(`Processing '${i.name}' ...`);
-      await api.uploadImages([{ name: i.name, data: code }], p);
+
+      try {
+        const res = await fetch(i.url);
+        const svg = await res.text();
+        const svgBuffer = Buffer.from(svg, 'utf8');
+        const blob = new Blob([svgBuffer], { type: 'image/svg+xml' });
+
+        const file = new FormData();
+        file.append('svg', blob, `${i.name}.${p}`);
+        const data = await api.uploadImages(file);
+        if (data.error) {
+          return data;
+        }
+      } catch (e) {
+        console.error('Error converting SVG to PNG:', e);
+      }
     }
   };
 
@@ -34,17 +48,29 @@ export function DownloadButton(props: DownaloadButtonProps) {
 
     setSubLoadingText(`Preparing Requests ...`);
     await api.getSession();
-    await processImages(api, p);
+    const uploadError = await processImages(api, p);
 
-    setSubLoadingText(
-      `Packaging ${p == 'win' ? 'Win Cursors' : 'XCursors'} ...`
-    );
+    if (uploadError) {
+      console.error(uploadError.error);
+      setErrorText('Oops.. Processing Falied!');
+    } else {
+      setSubLoadingText(
+        `Packaging ${p == 'win' ? 'Win Cursors' : 'XCursors'} ...`
+      );
 
-    const link = document.createElement('a');
-    link.href = api.downloadLink(p);
-    document.body.appendChild(link);
-    link.click();
-    link.parentNode?.removeChild(link);
+      const downloadError = await api.downloadable(p);
+
+      if (downloadError) {
+        console.error(downloadError.error);
+        setErrorText('Oops.. Packaging Failed!');
+      } else {
+        const link = document.createElement('a');
+        link.href = api.downloadUrl;
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode?.removeChild(link);
+      }
+    }
 
     setLoading(false);
   };
@@ -137,20 +163,41 @@ export function DownloadButton(props: DownaloadButtonProps) {
                 <p>{subLoadingText}</p>
               </div>
             ) : (
-              <div className='p-4 grid grid-flow-row gap-4 diviide-y-2 divide-white/[.1] text-left'>
-                <button
-                  disabled={loading}
-                  className='bg-white/[.1] rounded-xl p-4 text-left font-bold'
-                  onClick={() => handleDownload('x11')}>
-                  XCursors (.tar.gz)
-                </button>
-                <button
-                  disabled={loading}
-                  className='bg-white/[.1] rounded-xl p-4 text-left font-bold'
-                  onClick={() => handleDownload('win')}>
-                  Windows (.zip)
-                </button>
-              </div>
+              <>
+                {errorText && (
+                  <div className='flex p-6 justify-center items-center'>
+                    <svg
+                      className='-ml-1 mr-3 h-7 w-7'
+                      xmlns='http://www.w3.org/2000/svg'
+                      viewBox='0 0 16 16'
+                      fill='none'
+                      stroke='currentColor'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth='1.5'>
+                      <path
+                        d='m10.25 5.75-4.5 4.5m0-4.5 4.5 4.5'
+                        fill='red'></path>
+                      <circle cx='8' cy='8' r='6.25'></circle>
+                    </svg>
+                    <p>{errorText}</p>
+                  </div>
+                )}
+                <div className='p-4 grid grid-flow-row gap-4 diviide-y-2 divide-white/[.1] text-left'>
+                  <button
+                    disabled={loading}
+                    className='bg-white/[.1] rounded-xl p-4 text-left font-bold'
+                    onClick={() => handleDownload('x11')}>
+                    XCursors (.tar.gz)
+                  </button>
+                  <button
+                    disabled={loading}
+                    className='bg-white/[.1] rounded-xl p-4 text-left font-bold'
+                    onClick={() => handleDownload('win')}>
+                    Windows (.zip)
+                  </button>
+                </div>
+              </>
             )}
           </div>
         </div>

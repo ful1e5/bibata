@@ -22,7 +22,7 @@ interface CursorCardProps {
 }
 
 function CursorCard(props: CursorCardProps) {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const c = JSON.stringify({
     '00ff00': props.color.base,
@@ -56,7 +56,7 @@ function CursorCard(props: CursorCardProps) {
             onLoad={() => {
               setLoading(false);
               if (props.onLoad) {
-                props.onLoad({ name: props.svg.name, data: url });
+                props.onLoad({ name: props.svg.name, url });
               }
             }}
           />

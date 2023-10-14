@@ -1,13 +1,13 @@
 import uuid
-from typing import List
+from typing import List, Union
 
 from flask import Flask, jsonify, request, send_file, session
 from flask_cors import CORS, cross_origin
 from utils.sessions import build_session_required, destroy_build_session, session_keys
+from werkzeug.datastructures import FileStorage
 
 from api.builder.cursor import store_cursors
 from api.builder.zip import get_zip
-from api.utils.parser import parse_images_json
 
 app = Flask(__name__)
 app.secret_key = "super secret key"
@@ -49,29 +49,33 @@ def destroy_session():
 @app.route("/api/upload", methods=["POST"])
 @build_session_required
 def upload_images():
+    errors: List[str] = []
+
     s = session_keys["build"]
     sid: str = str(session.get(s))
 
-    errors: List[str] = []
-    fnames: List[str] = []
-
-    if request.is_json:
-        json = parse_images_json(request.data, logger)
-
-        if json.images:
-            names, errs = store_cursors(sid, json, logger)
-            errors.extend(errs)
-            if len(errs) == 0:
-                fnames.extend(names)
-
-    return jsonify(
-        {
-            "status": errors and 400 or 200,
-            "id": sid,
-            "files": fnames,
-            "error": errors or None,
-        }
-    )
+    file: Union[None, FileStorage] = request.files.get("svg", None)
+    if file:
+        name, errs = store_cursors(sid, file, logger)
+        errors.extend(errs)
+        return jsonify(
+            {
+                "status": errors and 400 or 200,
+                "id": sid,
+                "file": name,
+                "error": errors or None,
+            }
+        )
+    else:
+        errors.append("Upload File not found in key 'svg'")
+        return jsonify(
+            {
+                "status": 400,
+                "id": sid,
+                "file": None,
+                "error": errors,
+            }
+        )
 
 
 @app.route("/api/download", methods=["GET"])

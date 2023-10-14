@@ -2,8 +2,9 @@ from pathlib import Path
 
 
 def gtmp(sub_dir: str) -> Path:
-    return Path("/tmp") / sub_dir
+    return Path("/tmp") / "bibata-live-builds" / sub_dir
 
 
 def gsubtmp(sid: str) -> Path:
-    return Path("/tmp") / sid / f"Bibata-{sid[:5]}"
+    parent_dir = gtmp(sid)
+    return parent_dir / f"Bibata-{sid[:5]}"

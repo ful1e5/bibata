@@ -1,10 +1,17 @@
-import { CoreImage, CoreApiUploadResponse, CorePlatform } from 'bibata-live';
+import {
+  CoreImage,
+  CoreApiUploadResponse,
+  CorePlatform,
+  CoreApiDownloadError
+} from 'bibata-live';
 
 export class CoreApi {
   url: string;
+  downloadUrl: string;
 
   constructor() {
     this.url = '/api/core';
+    this.downloadUrl = `${this.url}/download`;
   }
 
   public async getSession() {
@@ -21,21 +28,24 @@ export class CoreApi {
     }
   }
 
-  public async uploadImages(images: CoreImage[], platform: CorePlatform) {
+  public async uploadImages(data: FormData) {
     const res = await fetch(`${this.url}/upload`, {
       method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ images, platform })
+      body: data
     });
 
     return (await res.json()) as CoreApiUploadResponse;
   }
 
-  public downloadLink(platform: CorePlatform) {
-    return `${this.url}/download`;
+  public async downloadable(platform: CorePlatform) {
+    const res = await fetch(this.downloadUrl);
+    let data: CoreApiDownloadError | null = null;
+    try {
+      data = await res.json();
+    } catch (e) {
+      data = null;
+    }
+    return data;
   }
 
   public async destroySession() {

@@ -15,7 +15,7 @@ def build_session_required(f):
         if session.get(s):
             return f(*args, **kwargs)
         else:
-            return jsonify({"errors": ["Invalid build session"]})
+            return jsonify({"errors": ["Invalid request. Unable to find build token."]})
 
     return wrapper
 
