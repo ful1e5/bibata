@@ -1,24 +1,19 @@
 import uuid
-from typing import List, Union
+from typing import List
 
 from flask import Flask, jsonify, request, send_file, session
 from flask_cors import CORS, cross_origin
 from utils.sessions import build_session_required, destroy_build_session, session_keys
-from werkzeug.datastructures import FileStorage
 
+from api.builder.compress import FileResponse, pack_win, pack_x11
 from api.builder.cursor import store_cursors
-from api.builder.zip import get_zip
+from api.utils.parser import parse_download_params, parse_upload_formdata
 
 app = Flask(__name__)
 app.secret_key = "super secret key"
 CORS(app, supports_credentials=True)
 
 logger = app.logger
-
-
-@app.route("/api/")
-def index():
-    return jsonify({"name": "bibata.live/api", "status": "live"})
 
 
 @app.route("/api/session", methods=["GET"])
@@ -54,28 +49,22 @@ def upload_images():
     s = session_keys["build"]
     sid: str = str(session.get(s))
 
-    file: Union[None, FileStorage] = request.files.get("svg", None)
-    if file:
-        name, errs = store_cursors(sid, file, logger)
-        errors.extend(errs)
-        return jsonify(
-            {
-                "status": errors and 400 or 200,
-                "id": sid,
-                "file": name,
-                "error": errors or None,
-            }
-        )
-    else:
-        errors.append("Upload File not found in key 'svg'")
-        return jsonify(
-            {
-                "status": 400,
-                "id": sid,
-                "file": None,
-                "error": errors,
-            }
-        )
+    data = parse_upload_formdata(request, logger)
+    if data.errors:
+        errors.extend(data.errors)
+        return jsonify({"status": 400, "id": sid, "file": None, "error": errors})
+
+    name, errs = store_cursors(sid, data, logger)
+    errors.extend(errs)
+
+    return jsonify(
+        {
+            "status": errors and 400 or 200,
+            "id": sid,
+            "file": errors and name or None,
+            "error": errors or None,
+        }
+    )
 
 
 @app.route("/api/download", methods=["GET"])
@@ -86,17 +75,26 @@ def download():
     s = session_keys["build"]
     sid: str = str(session.get(s))
 
-    zip = get_zip(sid, logger)
-    if zip.errors:
-        errors.extend(zip.errors)
+    param = parse_download_params(request, logger)
 
-    if errors:
+    if param.errors:
+        errors.extend(param.errors)
+        return jsonify({"status": 400, "id": sid, "error": errors})
+
+    res: FileResponse
+    if param.platform == "win":
+        res = pack_win(sid, logger)
+    else:
+        res = pack_x11(sid, logger)
+
+    if res.errors:
+        errors.extend(res.errors)
         return jsonify(
             {
-                "status": errors and 400 or 200,
+                "status": 400,
                 "id": sid,
-                "error": errors or None,
+                "error": errors,
             }
         )
     else:
-        return send_file(zip.file, as_attachment=True)
+        return send_file(res.file, as_attachment=True)

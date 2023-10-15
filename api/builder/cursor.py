@@ -1,42 +1,44 @@
-import os
 from logging import Logger
 from typing import List
 
-import wand.color
-import wand.image
 from clickgen.parser import open_blob
 from clickgen.writer import to_win, to_x11
 from wand.api import library
-from werkzeug.datastructures import FileStorage
+from wand.color import Color
+from wand.image import Image
 
-from api.builder.config import gsubtmp
+from api.builder.config import configs, gsubtmp
+from api.utils.parser import UploadFormData
 
 
-def store_cursors(sid: str, svg_file: FileStorage, logger: Logger):
+def store_cursors(sid: str, data: UploadFormData, logger: Logger):
     errors: List[str] = []
 
-    tmp_dir = gsubtmp(sid)
-    tmp_dir.mkdir(parents=True, exist_ok=True)
+    svg_file = data.file
+    size = data.size
 
     if not svg_file.filename:
         errors.append(
-            "Reupload file with platform as extension, Example 'left_ptr.win' or 'left_ptr.x11'"
+            "Reupload file with platform as extension. Example: 'left_ptr.win' or 'left_ptr.x11'"
         )
-
         return None, errors
 
     if svg_file.mimetype != "image/svg+xml":
         errors.append(
-            f"Inavlid file type. Only SVG file allowed got `{svg_file.mimetype}`"
+            f"Invalid file type. Only SVG files are allowed. Got: `{svg_file.mimetype}`"
         )
         return None, errors
 
     fnames = svg_file.filename.split(".")
     name, platform = fnames[0], fnames[1]
 
+    if platform != "x11" and platform != "win":
+        errors.append(f"Unsupported platform: {platform}")
+        return None, errors
+
     try:
-        with wand.image.Image() as image:
-            with wand.color.Color("transparent") as background_color:
+        with Image() as image:
+            with Color("transparent") as background_color:
                 library.MagickSetBackgroundColor(image.wand, background_color.resource)
             image.read(blob=svg_file.read(), format="svg")
             png = image.make_blob("png32")
@@ -45,30 +47,37 @@ def store_cursors(sid: str, svg_file: FileStorage, logger: Logger):
             errors.append("Unable to convert SVG to PNG")
             return None, errors
 
-        ext = ""
-        cur = b""
+        config = configs.get(name, None)
+        if not config:
+            raise ValueError(f"Unable to find Configuration for '{name}'")
+        else:
+            ext = ""
+            cur = b""
+            cursor_name = ""
 
-        # TODO: Remove this code
-        # <----
-        f1 = tmp_dir / f"{name}.png"
-        if f1.exists():
-            os.remove(f1)
-        f1.write_bytes(png)
-        # ---->
+            config.calc(size)
+            blob = open_blob(png, (config.x, config.y), [size])
 
-        blob = open_blob(png, (100, 100))
-        if platform == "win":
-            ext, cur = to_win(blob.frames)
-        if platform == "x11":
-            cur = to_x11(blob.frames)
+            if platform == "win" and config.winname:
+                ext, cur = to_win(blob.frames)
+                cursor_name = config.winname
 
-        f = tmp_dir / f"{name}{ext}"
-        if f.exists():
-            os.remove(f)
-        f.write_bytes(cur)
+                tmp_dir = gsubtmp(sid)
+                tmp_dir.mkdir(parents=True, exist_ok=True)
+                f = tmp_dir / f"{cursor_name}{ext}"
+                f.write_bytes(cur)
+
+            if platform == "x11" and config.xname:
+                cur = to_x11(blob.frames)
+                cursor_name = config.xname
+
+                tmp_dir = gsubtmp(sid) / "cursors"
+                tmp_dir.mkdir(parents=True, exist_ok=True)
+                f = tmp_dir / f"{cursor_name}{ext}"
+                f.write_bytes(cur)
 
     except Exception as e:
-        errors.append(f"Fail to build '{name}' cursor")
         errors.append(str(e))
+        errors.append(f"Failed to build '{name}' cursor")
 
     return name, errors

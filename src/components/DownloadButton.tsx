@@ -24,51 +24,63 @@ export function DownloadButton(props: DownaloadButtonProps) {
     for (const i of Array.from(props.images)) {
       setSubLoadingText(`Processing '${i.name}' ...`);
 
-      try {
-        const res = await fetch(i.url);
-        const svg = await res.text();
-        const svgBuffer = Buffer.from(svg, 'utf8');
-        const blob = new Blob([svgBuffer], { type: 'image/svg+xml' });
+      const res = await fetch(i.url);
+      const svg = await res.text();
+      const svgBuffer = Buffer.from(svg, 'utf8');
+      const blob = new Blob([svgBuffer], { type: 'image/svg+xml' });
 
-        const file = new FormData();
-        file.append('svg', blob, `${i.name}.${p}`);
-        const data = await api.uploadImages(file);
-        if (data.error) {
-          return data;
-        }
-      } catch (e) {
-        console.error('Error converting SVG to PNG:', e);
+      const formData = new FormData();
+      formData.append('file', blob, `${i.name}.${p}`);
+      formData.append('data', JSON.stringify({ size: props.size }));
+
+      const upload = await api.uploadImages(formData);
+      if (upload.error) {
+        return upload;
       }
     }
+  };
+
+  const downloadFile = (url: string) => {
+    const link = document.createElement('a');
+    link.href = url;
+    document.body.appendChild(link);
+    link.click();
+    link.parentNode?.removeChild(link);
+
+    setErrorText('');
   };
 
   const handleDownload = async (p: CorePlatform) => {
     setLoading(true);
     const api = new CoreApi();
+    const downloadUrl = `${api.downloadUrl}?type=${p}`;
 
     setSubLoadingText(`Preparing Requests ...`);
     await api.getSession();
-    const uploadError = await processImages(api, p);
 
-    if (uploadError) {
-      console.error(uploadError.error);
-      setErrorText('Oops.. Processing Falied!');
+    const download = await api.downloadable(p);
+
+    if (!download?.error) {
+      downloadFile(downloadUrl);
     } else {
-      setSubLoadingText(
-        `Packaging ${p == 'win' ? 'Win Cursors' : 'XCursors'} ...`
-      );
+      const upload = await processImages(api, p);
 
-      const downloadError = await api.downloadable(p);
-
-      if (downloadError) {
-        console.error(downloadError.error);
-        setErrorText('Oops.. Packaging Failed!');
+      if (upload?.error) {
+        console.error(upload.error);
+        setErrorText('Oops.. Processing Falied!');
       } else {
-        const link = document.createElement('a');
-        link.href = api.downloadUrl;
-        document.body.appendChild(link);
-        link.click();
-        link.parentNode?.removeChild(link);
+        setSubLoadingText(
+          `Packaging ${p == 'win' ? 'Win Cursors' : 'XCursors'} ...`
+        );
+
+        const download = await api.downloadable(p);
+
+        if (download?.error) {
+          console.error(download.error);
+          setErrorText('Oops.. Packaging Failed!');
+        } else {
+          downloadFile(downloadUrl);
+        }
       }
     }
 
@@ -97,7 +109,7 @@ export function DownloadButton(props: DownaloadButtonProps) {
   return (
     <div className='relative inline-block' ref={dropdownRef}>
       <button
-        className={`disabled:opacity-40 bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded-xl inline-flex items-center`}
+        className={`disabled:opacity-40 bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-7 rounded-xl inline-flex items-center`}
         disabled={props.disabled}
         onClick={() => {
           setShowDropdown(!showDropdown);
@@ -122,15 +134,17 @@ export function DownloadButton(props: DownaloadButtonProps) {
           </svg>
         ) : (
           <svg
-            className='fill-current w-4 h-4 mr-2'
+            className='fill-current w-4 h-4 mr-4'
             xmlns='http://www.w3.org/2000/svg'
             viewBox='0 0 20 20'>
             <path d='M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z' />
           </svg>
         )}
-        <span>{loading || props.disabled ? 'Processing...' : 'Download'}</span>
+        <span className='text-lg'>
+          {loading || props.disabled ? 'Processing...' : 'Download'}
+        </span>
         <svg
-          className='fill-current h-6 w-6'
+          className='fill-current h-6 w-6 ml-2'
           xmlns='http://www.w3.org/2000/svg'
           viewBox='0 0 20 20'>
           <path d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z' />

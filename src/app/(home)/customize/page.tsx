@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from 'react';
 
-import { CoreImage } from 'bibata-live';
+import { Color, CoreImage } from 'bibata-live';
 
-import Cursors from '@components/Cursors';
-import DropdownSelection from '@components/DropdownSelection';
+import { Cursors } from '@components/Cursors';
+import { ColorPicker } from '@components/ColorPicker';
 import { DownloadButton } from '@components/DownloadButton';
 import {
   GroupedButtons,
@@ -17,10 +17,9 @@ import { TYPES, PREBUILT_COLORS, SIZES } from '@root/configs';
 
 export default function CustomizePage() {
   const core = new CoreApi();
-  const colors = Object.keys(PREBUILT_COLORS);
 
   const [type, setType] = useState<string>(TYPES[0]);
-  const [color, setColor] = useState<string>(colors[0]);
+  const [color, setColor] = useState<Color>(PREBUILT_COLORS['Amber']);
   const [cursorSize, setCursorSize] = useState<number>(SIZES[1]);
 
   const [images, setImages] = useState<Set<CoreImage>>(new Set());
@@ -49,7 +48,7 @@ export default function CustomizePage() {
         <GroupedButtons list={TYPES} value={type} onClick={(v) => setType(v)} />
       </div>
 
-      <div className='h-44 sm:h-52 flex items-center justify-center '>
+      <div className='mt-10 flex items-center justify-center '>
         <SmallGroupedButtons
           list={SIZES}
           values={cursorSize}
@@ -57,13 +56,11 @@ export default function CustomizePage() {
         />
       </div>
 
-      <div className='h-24 flex items-center justify-center'>
-        <DropdownSelection
-          value={color}
-          list={colors}
-          onChange={(e) => setColor(e.target.value)}
-        />
+      <div className='mt-10 flex items-center justify-center '>
+        <ColorPicker colors={PREBUILT_COLORS} onClick={(c) => setColor(c)} />
+      </div>
 
+      <div className='h-24 flex items-center justify-center'>
         <DownloadButton
           images={images}
           size={cursorSize}
@@ -73,7 +70,7 @@ export default function CustomizePage() {
 
       <Cursors
         type={type}
-        color={PREBUILT_COLORS[color]}
+        color={color}
         onLoad={(i) => setImages(new Set(images.add(i)))}
         onData={(svgs) => setImagesCount(svgs.length)}
       />

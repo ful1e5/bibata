@@ -1,27 +1,24 @@
 'use client';
 
 import useSWR from 'swr';
-import * as Figma from 'figma-api';
 
 import { useEffect, useState } from 'react';
 
-import { Color, CoreImage } from 'bibata-live';
+import { Color, CoreImage, SVG } from 'bibata-live';
 
 type CursorOnLoad = (images: CoreImage) => void;
-type SVG = Figma.Node<keyof Figma.NodeTypes>;
-interface Response {
+type Response = {
   data: SVG[];
   error: string;
   status: number;
-}
-
-interface CursorCardProps {
+};
+type CursorCardProps = {
   svg: SVG;
   color: Color;
   onLoad?: CursorOnLoad;
-}
+};
 
-function CursorCard(props: CursorCardProps) {
+export const CursorCard: React.FC<CursorCardProps> = (props) => {
   const [loading, setLoading] = useState<boolean>(true);
 
   const c = JSON.stringify({
@@ -67,16 +64,16 @@ function CursorCard(props: CursorCardProps) {
       </div>
     </div>
   );
-}
+};
 
-interface CursorsProps {
+type CursorsProps = {
   type: string;
   color: Color;
   onLoad?: CursorOnLoad;
   onData?: (svgs: SVG[]) => void;
-}
+};
 
-export default function Cursors(props: CursorsProps) {
+export const Cursors: React.FC<CursorsProps> = (props) => {
   const fetcher = (url: string) =>
     fetch(url, { next: { revalidate: 60 } })
       .then((res) => res.json())
@@ -137,4 +134,4 @@ export default function Cursors(props: CursorsProps) {
       </div>
     </div>
   );
-}
+};

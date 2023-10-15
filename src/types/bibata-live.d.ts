@@ -1,31 +1,33 @@
 declare module 'bibata-live' {
-  interface Color {
+  type SVG = Figma.Node<keyof Figma.NodeTypes>;
+
+  type Color = {
     base: string;
     outline: string;
     watch?: string;
-  }
+  };
 
-  interface Colors {
+  type Colors = {
     [name: string]: Color;
-  }
+  };
 
-  interface CoreApiUploadResponse {
+  type CoreApiUploadResponse = {
     status: number;
     id: string;
     files: string[];
     error: string[];
-  }
+  };
 
-  interface CoreApiDownloadError {
+  type CoreApiDownloadResonse = {
     status: number;
     id: string;
     error: string[];
-  }
+  };
 
-  interface CoreImage {
+  type CoreImage = {
     name: string;
     url: string;
-  }
+  };
 
   type CorePlatform = 'x11' | 'win';
 }

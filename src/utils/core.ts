@@ -2,7 +2,7 @@ import {
   CoreImage,
   CoreApiUploadResponse,
   CorePlatform,
-  CoreApiDownloadError
+  CoreApiDownloadResonse
 } from 'bibata-live';
 
 export class CoreApi {
@@ -38,8 +38,8 @@ export class CoreApi {
   }
 
   public async downloadable(platform: CorePlatform) {
-    const res = await fetch(this.downloadUrl);
-    let data: CoreApiDownloadError | null = null;
+    const res = await fetch(`${this.downloadUrl}?type=${platform}`);
+    let data: CoreApiDownloadResonse | null = null;
     try {
       data = await res.json();
     } catch (e) {
