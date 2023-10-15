@@ -20,21 +20,23 @@ export default function CustomizePage() {
 
   const [type, setType] = useState<string>(TYPES[0]);
   const [color, setColor] = useState<Color>(PREBUILT_COLORS['Amber']);
-  const [cursorSize, setCursorSize] = useState<number>(SIZES[1]);
+  const [cursorSize, setCursorSize] = useState<number>(SIZES[0]);
 
   const [images, setImages] = useState<Set<CoreImage>>(new Set());
   const [imagesCount, setImagesCount] = useState<number>(0);
 
+  const destroyBuildSession = async () => {
+    await core.destroySession();
+  };
+
   useEffect(() => {
-    const destroyBuildSession = async () => {
-      await core.destroySession();
-    };
     destroyBuildSession();
-  }, []);
+  }, [cursorSize]);
 
   useEffect(() => {
     setImages(new Set());
     setImagesCount(0);
+    destroyBuildSession();
   }, [type, color]);
 
   return (

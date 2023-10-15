@@ -32,14 +32,6 @@ class Config:
         self.xname = xname
         self.links = links
 
-    def calc(self, size: int = 256):
-        if size >= 256:
-            raise ValueError("Cursor size is too large, Maximum size is 256")
-        else:
-            dim = int((self.x * (size / 256)))
-            self.x = dim
-            self.y = dim
-
 
 configs: Dict[str, Config] = {
     "bd_double_arrow": Config(

@@ -5,7 +5,7 @@ from flask import Flask, jsonify, request, send_file, session
 from flask_cors import CORS, cross_origin
 from utils.sessions import build_session_required, destroy_build_session, session_keys
 
-from api.builder.compress import FileResponse, pack_win, pack_x11
+from api.builder.compress import FileResponse, win_compress, x11_compress
 from api.builder.cursor import store_cursors
 from api.utils.parser import parse_download_params, parse_upload_formdata
 
@@ -83,9 +83,9 @@ def download():
 
     res: FileResponse
     if param.platform == "win":
-        res = pack_win(sid, logger)
+        res = win_compress(sid, logger)
     else:
-        res = pack_x11(sid, logger)
+        res = x11_compress(sid, logger)
 
     if res.errors:
         errors.extend(res.errors)

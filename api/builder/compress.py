@@ -6,6 +6,9 @@ from shutil import rmtree
 from typing import List
 from zipfile import ZipFile
 
+from clickgen.packer.windows import pack_win
+from clickgen.packer.x11 import pack_x11
+
 from api.builder.config import gsubtmp, gtmp
 
 
@@ -15,19 +18,26 @@ class FileResponse:
     errors: List[str]
 
 
-def pack_win(sid: str, logger: Logger) -> FileResponse:
+def win_compress(sid: str, logger: Logger) -> FileResponse:
     errors: List[str] = []
 
     dir = gsubtmp(sid)
     fp = gtmp(sid) / f"{dir.stem}.zip"
 
     if not fp.exists():
-        if len(list(dir.rglob("*"))) <= 0:
+        if len(list(dir.glob("*"))) <= 0:
             errors.append("Empty build directory")
 
         try:
+            pack_win(
+                dir,
+                theme_name=dir.name,
+                comment="Bibata Live",
+                website="https://github.com/ful1e5/bibata.live",
+            )
+
             with ZipFile(fp, "w") as zip_file:
-                for f in dir.rglob("*"):
+                for f in dir.glob("*"):
                     zip_file.write(f, f.name)
 
             rmtree(dir)
@@ -37,7 +47,7 @@ def pack_win(sid: str, logger: Logger) -> FileResponse:
     return FileResponse(file=fp, errors=errors)
 
 
-def pack_x11(sid: str, logger: Logger) -> FileResponse:
+def x11_compress(sid: str, logger: Logger) -> FileResponse:
     errors: List[str] = []
 
     dir = gsubtmp(sid)
@@ -48,6 +58,8 @@ def pack_x11(sid: str, logger: Logger) -> FileResponse:
             errors.append("Empty build directory")
 
         try:
+            pack_x11(dir, theme_name=dir.stem, comment="Bibata Live XCursors")
+
             with tarfile.open(fp, "w:gz") as tar:
                 for f in dir.rglob("*"):
                     tar.add(f, str(f.relative_to(dir)))

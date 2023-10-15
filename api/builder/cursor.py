@@ -1,3 +1,4 @@
+import os
 from logging import Logger
 from typing import List
 
@@ -55,7 +56,6 @@ def store_cursors(sid: str, data: UploadFormData, logger: Logger):
             cur = b""
             cursor_name = ""
 
-            config.calc(size)
             blob = open_blob(png, (config.x, config.y), [size])
 
             if platform == "win" and config.winname:
@@ -73,8 +73,17 @@ def store_cursors(sid: str, data: UploadFormData, logger: Logger):
 
                 tmp_dir = gsubtmp(sid) / "cursors"
                 tmp_dir.mkdir(parents=True, exist_ok=True)
-                f = tmp_dir / f"{cursor_name}{ext}"
+
+                xname = f"{cursor_name}{ext}"
+                f = tmp_dir / xname
                 f.write_bytes(cur)
+
+                if config.links:
+                    oldpwd = os.getcwd()
+                    os.chdir(tmp_dir)
+                    for link in config.links:
+                        os.symlink(xname, link)
+                    os.chdir(oldpwd)
 
     except Exception as e:
         errors.append(str(e))
