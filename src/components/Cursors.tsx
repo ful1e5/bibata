@@ -20,17 +20,42 @@ type CursorCardProps = {
 
 export const CursorCard: React.FC<CursorCardProps> = (props) => {
   const [loading, setLoading] = useState<boolean>(true);
+  const [svgContent, setSvgContent] = useState<string>('');
 
   const c = JSON.stringify({
     '00ff00': props.color.base,
     '0000ff': props.color.outline,
     ff0000: props.color.watch || props.color.base
   });
-  const url = `/api/svg/${props.svg.id}?color=${c}`;
+  const url = `/api/svg/${props.svg.ids[0]}?color=${c}`;
 
   useEffect(() => {
     setLoading(true);
+    const fetchSvg = async () => {
+      try {
+        const response = await fetch(`${url}&display`, {
+          next: { revalidate: 360 }
+        });
+        const svgText = await response.text();
+        setSvgContent(svgText);
+      } catch (error) {
+        console.error('Error fetching SVG:', error);
+      }
+      setLoading(false);
+    };
+
+    fetchSvg();
   }, [props.color, props.svg]);
+
+  useEffect(() => {
+    if (props.onLoad && !loading) {
+      const code = svgContent.replace(
+        'width="100%" height="100%"',
+        'width="256" height="256"'
+      );
+      props.onLoad({ name: props.svg.name, code });
+    }
+  }, [loading]);
 
   return (
     <div className='mb-4 overflow-hidden rounded-xl bg-white/[0.05] border-white/[.1] border'>
@@ -42,20 +67,11 @@ export const CursorCard: React.FC<CursorCardProps> = (props) => {
         <div
           className={`${
             !loading ? 'opacity-100' : 'opacity-0'
-          } transition-opacity duration-500`}>
-          <img
-            key={props.svg.id}
-            className={'object-none w-full h-full top-0 p-4 absolute '}
-            alt={props.svg.name}
-            src={`${url}&display=true`}
+          } transition-opacity duration-500 flex justify-center`}>
+          <div
+            className='object-none h-full p-4 top-0 absolute'
             hidden={loading}
-            loading='lazy'
-            onLoad={() => {
-              setLoading(false);
-              if (props.onLoad) {
-                props.onLoad({ name: props.svg.name, url });
-              }
-            }}
+            dangerouslySetInnerHTML={{ __html: svgContent }}
           />
         </div>
       </div>
@@ -114,18 +130,16 @@ export const Cursors: React.FC<CursorsProps> = (props) => {
 
   const svgs = res.data as SVG[];
 
+  if (props.onData && svgs) {
+    props.onData(svgs);
+  }
+
   return (
     <div className='container mx-auto px-4'>
-      <div
-        className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6'
-        onLoad={() => {
-          if (props.onData) {
-            props.onData(svgs);
-          }
-        }}>
+      <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6'>
         {svgs.map((e) => (
           <CursorCard
-            key={e.id}
+            key={e.name}
             color={props.color}
             svg={e}
             onLoad={props.onLoad}

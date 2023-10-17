@@ -1,5 +1,7 @@
 import * as Figma from 'figma-api';
 
+import { SVG } from 'bibata-live';
+
 export class FetchSVG {
   api: Figma.Api;
   key: string;
@@ -20,8 +22,20 @@ export class FetchSVG {
       (e) => e.name === type && e.type === 'GROUP'
     )[0] as Figma.Node<'DOCUMENT'>;
 
-    const svgs: Figma.Node<keyof Figma.NodeTypes>[] = [];
-    group.children.forEach((e) => svgs.push(e));
+    const svgs: SVG[] = [];
+
+    for (const entry of group.children) {
+      const name = entry.name.split('::')[0];
+      let node = svgs.find((svg) => svg.name === name);
+
+      if (!node) {
+        node = { name, ids: [], isAnimated: false };
+        svgs.push(node);
+      }
+
+      node.ids.push(entry.id);
+      node.isAnimated = node.ids.length > 1;
+    }
 
     return svgs.sort((a, b) =>
       a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1

@@ -1,5 +1,9 @@
 declare module 'bibata-live' {
-  type SVG = Figma.Node<keyof Figma.NodeTypes>;
+  type SVG = {
+    name: string;
+    ids: string[];
+    isAnimated: boolean;
+  };
 
   type Color = {
     base: string;
@@ -26,7 +30,7 @@ declare module 'bibata-live' {
 
   type CoreImage = {
     name: string;
-    url: string;
+    code: string;
   };
 
   type CorePlatform = 'x11' | 'win';

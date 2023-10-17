@@ -59,7 +59,8 @@ export async function GET(
         if (display) {
           img = img.replace(
             'width="256" height="256"',
-            `preserveAspectRatio="xMaxYMid meet" width="100%" height="100%"`
+            'width="100%" height="100%"'
+            // `preserveAspectRatio="xMaxYMid meet" width="100%" height="100%"`
           );
         } else if (size !== 0) {
           img = img.replace(
@@ -70,7 +71,8 @@ export async function GET(
 
         return new NextResponse(img, {
           headers: {
-            'content-type': 'image/svg+xml'
+            'content-type': 'image/svg+xml',
+            'Cache-Control': 'public, max-age=3600'
           }
         });
       }

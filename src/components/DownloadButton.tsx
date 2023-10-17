@@ -24,9 +24,7 @@ export function DownloadButton(props: DownaloadButtonProps) {
     for (const i of Array.from(props.images)) {
       setSubLoadingText(`Processing '${i.name}' ...`);
 
-      const res = await fetch(i.url);
-      const svg = await res.text();
-      const svgBuffer = Buffer.from(svg, 'utf8');
+      const svgBuffer = Buffer.from(i.code, 'utf8');
       const blob = new Blob([svgBuffer], { type: 'image/svg+xml' });
 
       const formData = new FormData();
