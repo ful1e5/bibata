@@ -30,7 +30,7 @@ declare module 'bibata-live' {
 
   type CoreImage = {
     name: string;
-    code: string;
+    frames: string[];
   };
 
   type CorePlatform = 'x11' | 'win';

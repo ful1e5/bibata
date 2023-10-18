@@ -50,6 +50,7 @@ def upload_images():
     sid: str = str(session.get(s))
 
     data = parse_upload_formdata(request, logger)
+
     if data.errors:
         errors.extend(data.errors)
         return jsonify({"status": 400, "id": sid, "file": None, "error": errors})

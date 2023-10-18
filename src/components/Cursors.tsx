@@ -82,7 +82,7 @@ export const CursorCard: React.FC<CursorCardProps> = (props) => {
         )
       );
 
-      props.onLoad({ name: props.svg.name, code: codes.join(':::') });
+      props.onLoad({ name: props.svg.name, frames: codes });
     }
   }, [loading, frames]);
 

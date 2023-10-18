@@ -24,12 +24,16 @@ export function DownloadButton(props: DownaloadButtonProps) {
     for (const i of props.images) {
       setSubLoadingText(`Processing '${i.name}' ...`);
 
-      const svgBuffer = Buffer.from(i.code, 'utf8');
-      const blob = new Blob([svgBuffer], { type: 'image/svg+xml' });
-
       const formData = new FormData();
-      formData.append('file', blob, `${i.name}.${p}`);
-      formData.append('data', JSON.stringify({ size: props.size }));
+      formData.append(
+        'data',
+        JSON.stringify({
+          name: i.name,
+          platform: p,
+          size: props.size,
+          frames: i.frames
+        })
+      );
 
       const upload = await api.uploadImages(formData);
       if (upload.error) {
