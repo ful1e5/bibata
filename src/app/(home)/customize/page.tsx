@@ -22,7 +22,7 @@ export default function CustomizePage() {
   const [color, setColor] = useState<Color>(PREBUILT_COLORS['Amber']);
   const [cursorSize, setCursorSize] = useState<number>(SIZES[0]);
 
-  const [images, setImages] = useState<Set<CoreImage>>(new Set());
+  const [images, setImages] = useState<CoreImage[]>([]);
   const [imagesCount, setImagesCount] = useState<number>(0);
 
   const destroyBuildSession = async () => {
@@ -34,7 +34,7 @@ export default function CustomizePage() {
   }, [cursorSize]);
 
   useEffect(() => {
-    setImages(new Set());
+    setImages([]);
     setImagesCount(0);
     destroyBuildSession();
   }, [type, color]);
@@ -66,14 +66,21 @@ export default function CustomizePage() {
         <DownloadButton
           images={images}
           size={cursorSize}
-          disabled={imagesCount === 0 || imagesCount !== images.size}
+          disabled={imagesCount === 0 || imagesCount !== images.length}
         />
       </div>
 
       <Cursors
         type={type}
         color={color}
-        onLoad={(i) => setImages(new Set(images.add(i)))}
+        onLoad={(i) => {
+          const l = images;
+          const isAvailable = l.some((e) => e.name === i.name);
+          if (!isAvailable) {
+            l.push(i);
+            setImages([...l]);
+          }
+        }}
         onData={(svgs) => setImagesCount(svgs.length)}
       />
     </main>

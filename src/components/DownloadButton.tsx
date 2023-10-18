@@ -8,7 +8,7 @@ import { CoreApi } from '@utils/core';
 interface DownaloadButtonProps {
   size: number;
   disabled?: boolean;
-  images: Set<CoreImage>;
+  images: CoreImage[];
 }
 
 export function DownloadButton(props: DownaloadButtonProps) {
@@ -21,7 +21,7 @@ export function DownloadButton(props: DownaloadButtonProps) {
   const [subLoadingText, setSubLoadingText] = useState<string>('Preparing...');
 
   const processImages = async (api: CoreApi, p: CorePlatform) => {
-    for (const i of Array.from(props.images)) {
+    for (const i of props.images) {
       setSubLoadingText(`Processing '${i.name}' ...`);
 
       const svgBuffer = Buffer.from(i.code, 'utf8');

@@ -16,24 +16,38 @@ type CursorCardProps = {
 
 export const CursorCard: React.FC<CursorCardProps> = (props) => {
   const [loading, setLoading] = useState<boolean>(true);
-  const [svgContent, setSvgContent] = useState<string>('');
+
+  const [svg, setSvg] = useState<string>('');
+  const [frames, setFrames] = useState<string[]>([]);
+  const [frameIndex, setFrameIndex] = useState<number>(0);
 
   const c = JSON.stringify({
     '00ff00': props.color.base,
     '0000ff': props.color.outline,
     ff0000: props.color.watch || props.color.base
   });
-  const url = `/api/svg/${props.svg.ids[0]}?color=${c}`;
+
+  const fetchSvgs = async () => {
+    const l: string[] = [];
+    for (const id of props.svg.ids) {
+      const url = `/api/svg/${id}?color=${c}`;
+      const response = await fetch(`${url}&display`, {
+        next: { revalidate: 360 }
+      });
+
+      const frame = await response.text();
+      l.push(frame);
+    }
+    return l;
+  };
 
   useEffect(() => {
     setLoading(true);
     const fetchSvg = async () => {
       try {
-        const response = await fetch(`${url}&display`, {
-          next: { revalidate: 360 }
-        });
-        const svgText = await response.text();
-        setSvgContent(svgText);
+        const list = await fetchSvgs();
+        setFrames([...list]);
+        setSvg(list[0]);
       } catch (error) {
         console.error('Error fetching SVG:', error);
       }
@@ -44,14 +58,33 @@ export const CursorCard: React.FC<CursorCardProps> = (props) => {
   }, [props.color, props.svg]);
 
   useEffect(() => {
-    if (props.onLoad && !loading) {
-      const code = svgContent.replace(
-        'width="100%" height="100%"',
-        'width="256" height="256"'
+    const intervalId = setInterval(() => {
+      if (props.svg.isAnimated && loading === false) {
+        if (frameIndex < frames.length - 1) {
+          setFrameIndex(frameIndex + 1);
+        } else {
+          setFrameIndex(0);
+        }
+        setSvg(frames[frameIndex]);
+      }
+    }, 200);
+
+    return () => clearInterval(intervalId);
+  }, [loading, frameIndex]);
+
+  useEffect(() => {
+    if (props.onLoad && !loading && frames) {
+      const codes: string[] = [];
+
+      frames.forEach((f) =>
+        codes.push(
+          f.replace('width="100%" height="100%"', 'width="256" height="256"')
+        )
       );
-      props.onLoad({ name: props.svg.name, code });
+
+      props.onLoad({ name: props.svg.name, code: codes.join(':::') });
     }
-  }, [loading]);
+  }, [loading, frames]);
 
   return (
     <div className='mb-4 overflow-hidden rounded-xl bg-white/[0.05] border-white/[.1] border'>
@@ -67,7 +100,7 @@ export const CursorCard: React.FC<CursorCardProps> = (props) => {
           <div
             className='object-none h-full p-4 top-0 absolute'
             hidden={loading}
-            dangerouslySetInnerHTML={{ __html: svgContent }}
+            dangerouslySetInnerHTML={{ __html: svg }}
           />
         </div>
       </div>

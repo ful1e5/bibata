@@ -1,6 +1,15 @@
 import * as Figma from 'figma-api';
 
 import { SVG } from 'bibata-live';
+import { NextResponse } from 'next/server';
+
+export type FetchImageOptions = {
+  color: {
+    [key: string]: string;
+  };
+  size: number;
+  display: boolean;
+};
 
 export class FetchSVG {
   api: Figma.Api;
@@ -40,5 +49,49 @@ export class FetchSVG {
     return svgs.sort((a, b) =>
       a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1
     );
+  }
+
+  public async fetchImage(id: string, options: FetchImageOptions) {
+    const { color, size, display } = options;
+
+    const { images } = await this.api.getImage(this.key, {
+      ids: id,
+      scale: 1,
+      format: 'svg'
+    });
+
+    let img = '';
+
+    if (typeof images === 'object' && images[id]) {
+      await fetch(images[id] || '', { next: { revalidate: 360 } })
+        .then((res) => res.text())
+        .then((t) => (img = t));
+
+      if (color && typeof color === 'object') {
+        Object.entries(color).forEach(([match, replace]) => {
+          img = img.replace(new RegExp(`#${match}`, 'ig'), `#${replace}`);
+        });
+      }
+
+      if (display) {
+        img = img.replace(
+          'width="256" height="256"',
+          'width="100%" height="100%"'
+          // `preserveAspectRatio="xMaxYMid meet" width="100%" height="100%"`
+        );
+      } else if (size !== 0) {
+        img = img.replace(
+          'width="256" height="256"',
+          `preserveAspectRatio="xMaxYMid meet" width="${size}" height="${size}"`
+        );
+      }
+    }
+
+    return new NextResponse(img, {
+      headers: {
+        'content-type': 'image/svg+xml',
+        'Cache-Control': 'public, max-age=3600'
+      }
+    });
   }
 }
