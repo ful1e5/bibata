@@ -6,12 +6,8 @@ import { useEffect, useState } from 'react';
 
 import { Color, CoreImage, SVG } from 'bibata-live';
 
-type CursorOnLoad = (images: CoreImage) => void;
-type Response = {
-  data: SVG[];
-  error: string;
-  status: number;
-};
+type CursorOnLoad = (image: CoreImage) => void;
+
 type CursorCardProps = {
   svg: SVG;
   color: Color;
@@ -95,10 +91,17 @@ export const Cursors: React.FC<CursorsProps> = (props) => {
       .then((res) => res.json())
       .then((json) => json);
 
-  const { data: res, isLoading: isRequesting } = useSWR<Response>(
-    `/api/svg?type=${props.type}`,
-    fetcher
-  );
+  const { data: res, isLoading: isRequesting } = useSWR<{
+    data: SVG[];
+    error: string;
+    status: number;
+  }>(`/api/svg?type=${props.type}`, fetcher);
+
+  // useEffect(() => {
+  //   if (props.onData && res?.data) {
+  //     props.onData(res?.data);
+  //   }
+  // }, [res]);
 
   if (isRequesting) {
     const cards = Array.from(new Array(12), (_, i) => i + 1);
@@ -130,10 +133,9 @@ export const Cursors: React.FC<CursorsProps> = (props) => {
 
   const svgs = res.data as SVG[];
 
-  if (props.onData && svgs) {
+  if (props.onData && res?.data) {
     props.onData(svgs);
   }
-
   return (
     <div className='container mx-auto px-4'>
       <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6'>
