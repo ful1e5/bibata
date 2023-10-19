@@ -11,6 +11,7 @@ type CursorOnLoad = (image: CoreImage) => void;
 type CursorCardProps = {
   svg: SVG;
   color: Color;
+  delay: number;
   onLoad?: CursorOnLoad;
 };
 
@@ -67,7 +68,7 @@ export const CursorCard: React.FC<CursorCardProps> = (props) => {
         }
         setSvg(frames[frameIndex]);
       }
-    }, 200);
+    }, props.delay);
 
     return () => clearInterval(intervalId);
   }, [loading, frameIndex]);
@@ -114,13 +115,14 @@ export const CursorCard: React.FC<CursorCardProps> = (props) => {
 type CursorsProps = {
   type: string;
   color: Color;
+  delay: number;
   onLoad?: CursorOnLoad;
   onData?: (svgs: SVG[]) => void;
 };
 
 export const Cursors: React.FC<CursorsProps> = (props) => {
   const fetcher = (url: string) =>
-    fetch(url, { next: { revalidate: 60 } })
+    fetch(url, { next: { revalidate: 360 } })
       .then((res) => res.json())
       .then((json) => json);
 
@@ -130,11 +132,11 @@ export const Cursors: React.FC<CursorsProps> = (props) => {
     status: number;
   }>(`/api/svg?type=${props.type}`, fetcher);
 
-  // useEffect(() => {
-  //   if (props.onData && res?.data) {
-  //     props.onData(res?.data);
-  //   }
-  // }, [res]);
+  useEffect(() => {
+    if (props.onData && res?.data) {
+      props.onData(res.data);
+    }
+  }, [props.onData]);
 
   if (isRequesting) {
     const cards = Array.from(new Array(12), (_, i) => i + 1);
@@ -166,15 +168,13 @@ export const Cursors: React.FC<CursorsProps> = (props) => {
 
   const svgs = res.data as SVG[];
 
-  if (props.onData && res?.data) {
-    props.onData(svgs);
-  }
   return (
     <div className='container mx-auto px-4'>
       <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6'>
         {svgs.map((e) => (
           <CursorCard
             key={e.name}
+            delay={props.delay}
             color={props.color}
             svg={e}
             onLoad={props.onLoad}

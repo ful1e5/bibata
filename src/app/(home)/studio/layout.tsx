@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Customize Bibata'
+  title: 'Bibata Studio'
 };
 
 interface Props {

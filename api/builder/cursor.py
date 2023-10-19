@@ -19,6 +19,7 @@ def store_cursors(sid: str, data: UploadFormData, logger: Logger):
     platform = data.platform
     frames = data.frames
     size = data.size
+    delay = data.delay
 
     pngs: List[bytes] = []
 
@@ -46,7 +47,7 @@ def store_cursors(sid: str, data: UploadFormData, logger: Logger):
             cur = b""
             cursor_name = ""
 
-            blob = open_blob(pngs, (config.x, config.y), [size])
+            blob = open_blob(pngs, (config.x, config.y), [size], delay)
 
             if platform == "win" and config.winname:
                 ext, cur = to_win(blob.frames)

@@ -15,12 +15,13 @@ import {
 import { CoreApi } from '@utils/core';
 import { TYPES, PREBUILT_COLORS, SIZES } from '@root/configs';
 
-export default function CustomizePage() {
+export default function StudioPage() {
   const core = new CoreApi();
 
   const [type, setType] = useState<string>(TYPES[0]);
   const [color, setColor] = useState<Color>(PREBUILT_COLORS['Amber']);
   const [cursorSize, setCursorSize] = useState<number>(SIZES[0]);
+  const [animationDelay, setAnimationDelay] = useState<number>(100);
 
   const [images, setImages] = useState<CoreImage[]>([]);
   const [imagesCount, setImagesCount] = useState<number>(0);
@@ -64,6 +65,7 @@ export default function CustomizePage() {
 
       <div className='h-24 flex items-center justify-center'>
         <DownloadButton
+          delay={animationDelay}
           images={images}
           size={cursorSize}
           disabled={imagesCount === 0 || imagesCount !== images.length}
@@ -73,6 +75,7 @@ export default function CustomizePage() {
       <Cursors
         type={type}
         color={color}
+        delay={animationDelay}
         onLoad={(i) => {
           const l = images;
           const isAvailable = l.some((e) => e.name === i.name);

@@ -44,7 +44,7 @@ export async function GET(
         const res = e.response.data;
 
         if (res.status == 429 && retryCount < MAX_RETRIES) {
-          const waitTime = Math.pow(2, retryCount) * 1000;
+          const waitTime = Math.pow(2, retryCount) * 5000;
           await new Promise((resolve) => setTimeout(resolve, waitTime));
           retryCount++;
           return await api.fetchImage(id, options);

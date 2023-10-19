@@ -11,6 +11,7 @@ class UploadFormData:
     frames: List[str]
     platform: str
     size: int
+    delay: int
     errors: List[str]
 
 
@@ -19,6 +20,7 @@ def parse_upload_formdata(request: Request, logger: Logger):
 
     name: str = ""
     size: int = 0
+    delay: int = 0
     platform: str = ""
     frames: List[str] = []
 
@@ -36,6 +38,14 @@ def parse_upload_formdata(request: Request, logger: Logger):
                 raise ValueError("Invalid 'size' type. It must be type 'number'")
             else:
                 size = s
+
+            d = data.get("delay", None)
+            if not d:
+                raise ValueError("'delay' Not Found in JSON 'data' ")
+            if type(d) is not int:
+                raise ValueError("Invalid 'delay' type. It must be type 'number'")
+            else:
+                delay = d
 
             p = data.get("platform", None)
             if not p:
@@ -76,6 +86,7 @@ def parse_upload_formdata(request: Request, logger: Logger):
         name=name,
         frames=frames,
         size=size,
+        delay=delay,
         platform=platform,
         errors=errors,
     )

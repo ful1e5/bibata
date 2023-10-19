@@ -7,9 +7,13 @@ export default async function middleware(req: NextRequest) {
   const isAuth = !!token;
 
   if (isAuth) {
-    if (p.startsWith('/login') || p === '/') {
-      return NextResponse.redirect(new URL('/customize', req.url));
+    if (p.startsWith('/login')) {
+      return NextResponse.redirect(new URL('/studio', req.url));
     }
+  }
+
+  if (p === '/') {
+    return NextResponse.redirect(new URL('/studio', req.url));
   }
 }
 

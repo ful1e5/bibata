@@ -7,6 +7,7 @@ import { CoreApi } from '@utils/core';
 
 interface DownaloadButtonProps {
   size: number;
+  delay: number;
   disabled?: boolean;
   images: CoreImage[];
 }
@@ -31,6 +32,7 @@ export function DownloadButton(props: DownaloadButtonProps) {
           name: i.name,
           platform: p,
           size: props.size,
+          delay: props.delay,
           frames: i.frames
         })
       );

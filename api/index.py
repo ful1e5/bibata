@@ -11,6 +11,7 @@ from api.utils.parser import parse_download_params, parse_upload_formdata
 
 app = Flask(__name__)
 app.secret_key = "super secret key"
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 CORS(app, supports_credentials=True)
 
 logger = app.logger
