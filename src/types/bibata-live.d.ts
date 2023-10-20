@@ -14,24 +14,40 @@ declare module 'bibata-live' {
   type Colors = {
     [name: string]: Color;
   };
+}
 
-  type CoreApiUploadResponse = {
+declare module 'bibata-live/core' {
+  type Image = {
+    name: string;
+    frames: string[];
+  };
+
+  type Platform = 'x11' | 'win';
+
+  type AuthError = {
+    status: number;
+    error: string[];
+  };
+
+  type UploadResponse = {
     status: number;
     id: string;
     files: string[];
     error: string[];
   };
 
-  type CoreApiDownloadResonse = {
+  type GetSessionResponse = {
+    id: string;
+    token: string;
+  };
+
+  type DeleteSessionResponse = {
+    id: string | null;
+  };
+
+  type DownloadResponse = {
     status: number;
     id: string;
     error: string[];
   };
-
-  type CoreImage = {
-    name: string;
-    frames: string[];
-  };
-
-  type CorePlatform = 'x11' | 'win';
 }

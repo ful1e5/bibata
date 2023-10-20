@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
-import { Color, CoreImage } from 'bibata-live';
+import { Color } from 'bibata-live';
+import { Image } from 'bibata-live/core';
 
 import { Cursors } from '@components/Cursors';
 import { ColorPicker } from '@components/ColorPicker';
@@ -14,53 +15,70 @@ import {
 
 import { CoreApi } from '@utils/core';
 import { TYPES, PREBUILT_COLORS, SIZES } from '@root/configs';
+import { useSession } from 'next-auth/react';
 
 export default function StudioPage() {
+  const { data: session, status, update } = useSession();
   const core = new CoreApi();
+
+  const [token, setToken] = useState<string>();
 
   const [type, setType] = useState<string>(TYPES[0]);
   const [color, setColor] = useState<Color>(PREBUILT_COLORS['Amber']);
   const [cursorSize, setCursorSize] = useState<number>(SIZES[0]);
   const [animationDelay, setAnimationDelay] = useState<number>(100);
 
-  const [images, setImages] = useState<CoreImage[]>([]);
+  const [images, setImages] = useState<Image[]>([]);
   const [imagesCount, setImagesCount] = useState<number>(0);
 
-  const destroyBuildSession = async () => {
-    await core.destroySession();
+  const refreshToken = async () => {
+    const data = await core.getSession(session?.accessToken);
+    setToken(data.token);
   };
 
   useEffect(() => {
-    destroyBuildSession();
-  }, [cursorSize]);
+    refreshToken();
+  }, [status, update]);
 
-  useEffect(() => {
+  const resetImages = () => {
     setImages([]);
     setImagesCount(0);
-    destroyBuildSession();
-  }, [type, color]);
+  };
 
   return (
-    <main
-      style={{
-        maxWidth: '1000px',
-        margin: '0 auto',
-        padding: '20px'
-      }}>
+    <main className='container m-auto p-7'>
       <div className='flex items-center justify-center'>
-        <GroupedButtons list={TYPES} value={type} onClick={(v) => setType(v)} />
+        <GroupedButtons
+          list={TYPES}
+          value={type}
+          onClick={async (v) => {
+            setType(v);
+            resetImages();
+            await refreshToken();
+          }}
+        />
       </div>
 
       <div className='mt-10 flex items-center justify-center '>
         <SmallGroupedButtons
           list={SIZES}
           values={cursorSize}
-          onClick={(s) => setCursorSize(s)}
+          onClick={async (s) => {
+            setCursorSize(s);
+            await refreshToken();
+          }}
         />
       </div>
 
       <div className='mt-10 flex items-center justify-center '>
-        <ColorPicker colors={PREBUILT_COLORS} onClick={(c) => setColor(c)} />
+        <ColorPicker
+          colors={PREBUILT_COLORS}
+          onClick={async (c) => {
+            setColor(c);
+            resetImages();
+            await refreshToken();
+          }}
+        />
       </div>
 
       <div className='h-24 flex items-center justify-center'>
@@ -68,7 +86,9 @@ export default function StudioPage() {
           delay={animationDelay}
           images={images}
           size={cursorSize}
-          disabled={imagesCount === 0 || imagesCount !== images.length}
+          disabled={
+            !token || imagesCount === 0 || imagesCount !== images.length
+          }
         />
       </div>
 
@@ -76,6 +96,7 @@ export default function StudioPage() {
         type={type}
         color={color}
         delay={animationDelay}
+        onData={(svgs) => setImagesCount(svgs.length)}
         onLoad={(i) => {
           const l = images;
           const isAvailable = l.some((e) => e.name === i.name);
@@ -84,7 +105,6 @@ export default function StudioPage() {
             setImages([...l]);
           }
         }}
-        onData={(svgs) => setImagesCount(svgs.length)}
       />
     </main>
   );

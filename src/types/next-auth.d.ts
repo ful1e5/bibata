@@ -6,6 +6,7 @@ declare module 'next-auth' {
    */
   interface Session {
     expires: string;
+    accessToken: string;
     user?: {
       name?: string;
       email?: string | null;
@@ -43,5 +44,20 @@ declare module 'next-auth' {
       created_at?: string;
       updated_at?: string;
     };
+  }
+}
+
+declare module 'next-auth/jwt' {
+  /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
+  interface JWT {
+    iat: number;
+    exp: number;
+    jti: string;
+    accessToken?: string;
+    type: string;
+    name: string;
+    email: string;
+    picture: string;
+    sub: string;
   }
 }

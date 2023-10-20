@@ -1,16 +1,12 @@
 import NextAuth, { AuthOptions } from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 
-function getIdFromUrl(url: string): string | null {
-  const match = url.match(/\/u\/(\d+)\?v=/);
+import jwt from 'jsonwebtoken';
 
-  if (match && match[1]) {
-    return match[1];
-  } else {
-    return null;
-  }
-}
+const JWT_SECRET = process.env.JWT_SECRET as string;
+
 export const authOptions: AuthOptions = {
+  debug: process.env.NODE_ENV === 'development',
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID as string,
@@ -22,15 +18,37 @@ export const authOptions: AuthOptions = {
     signIn: '/login'
   },
   callbacks: {
-    async session({ session }) {
-      let data = {};
-      const image = session.user?.image;
+    async jwt({ token, account }) {
+      if (account && account.provider === 'github') {
+        token.accessToken = account.access_token;
+      }
+      return token;
+    },
 
-      if (image) {
-        const id = getIdFromUrl(image);
-        data = await fetch(`https://api.github.com/user/${id}`, {
+    async session({ session, token }) {
+      let data = {};
+
+      if (token && token.accessToken) {
+        data = await fetch('https://api.github.com/user', {
+          headers: {
+            Accept: 'application/vnd.github+json',
+            Authorization: `Bearer ${token.accessToken}`,
+            'X-GitHub-Api-Version': '2022-11-28'
+          },
           next: { revalidate: 360 }
         }).then((res) => res.json());
+
+        const payload = { gh_access_token: token.accessToken };
+        const ghToken = jwt.sign(payload, JWT_SECRET, {
+          algorithm: 'HS256'
+        });
+        session.accessToken = ghToken;
+        // const core = new CoreApi();
+        // const { token: coreJwt } = await core.getSession(ghToken);
+        // console.log(coreJwt);
+        // const userType = jwt.verify(coreJwt, JWT_SECRET, {
+        //   algorithms: ['HS256']
+        // });
       }
 
       return Promise.resolve({

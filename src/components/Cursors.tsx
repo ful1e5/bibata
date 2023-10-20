@@ -4,9 +4,10 @@ import useSWR from 'swr';
 
 import { useEffect, useState } from 'react';
 
-import { Color, CoreImage, SVG } from 'bibata-live';
+import { Color, SVG } from 'bibata-live';
+import { Image } from 'bibata-live/core';
 
-type CursorOnLoad = (image: CoreImage) => void;
+type CursorOnLoad = (image: Image) => void;
 
 type CursorCardProps = {
   svg: SVG;
@@ -58,20 +59,21 @@ export const CursorCard: React.FC<CursorCardProps> = (props) => {
     fetchSvg();
   }, [props.color, props.svg]);
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (props.svg.isAnimated && loading === false) {
-        if (frameIndex < frames.length - 1) {
-          setFrameIndex(frameIndex + 1);
-        } else {
-          setFrameIndex(0);
-        }
-        setSvg(frames[frameIndex]);
-      }
-    }, props.delay);
-
-    return () => clearInterval(intervalId);
-  }, [loading, frameIndex]);
+  // TODO: Fix Buggy Animation, Browser keep reloading when Any link is clicked
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     if (props.svg.isAnimated && loading === false) {
+  //       if (frameIndex < frames.length - 1) {
+  //         setFrameIndex(frameIndex + 1);
+  //       } else {
+  //         setFrameIndex(0);
+  //       }
+  //       setSvg(frames[frameIndex]);
+  //     }
+  //   }, props.delay);
+  //
+  //   return () => clearInterval(intervalId);
+  // }, [loading, frameIndex]);
 
   useEffect(() => {
     if (props.onLoad && !loading && frames) {

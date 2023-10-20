@@ -2,14 +2,14 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { CoreImage, CorePlatform } from 'bibata-live';
+import { Image, Platform } from 'bibata-live/core';
 import { CoreApi } from '@utils/core';
 
 interface DownaloadButtonProps {
   size: number;
   delay: number;
   disabled?: boolean;
-  images: CoreImage[];
+  images: Image[];
 }
 
 export function DownloadButton(props: DownaloadButtonProps) {
@@ -21,7 +21,7 @@ export function DownloadButton(props: DownaloadButtonProps) {
 
   const [subLoadingText, setSubLoadingText] = useState<string>('Preparing...');
 
-  const processImages = async (api: CoreApi, p: CorePlatform) => {
+  const processImages = async (api: CoreApi, p: Platform) => {
     for (const i of props.images) {
       setSubLoadingText(`Processing '${i.name}' ...`);
 
@@ -38,7 +38,7 @@ export function DownloadButton(props: DownaloadButtonProps) {
       );
 
       const upload = await api.uploadImages(formData);
-      if (upload.error) {
+      if (upload?.error) {
         return upload;
       }
     }
@@ -54,7 +54,7 @@ export function DownloadButton(props: DownaloadButtonProps) {
     setErrorText('');
   };
 
-  const handleDownload = async (p: CorePlatform) => {
+  const handleDownload = async (p: Platform) => {
     setLoading(true);
     const api = new CoreApi();
     const downloadUrl = `${api.downloadUrl}?type=${p}`;

@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 
 import { useSponsors } from '@hooks/useSponsors';
+import { usePathname } from 'next/navigation';
 
 interface UserProfileProps {}
 
@@ -49,7 +50,8 @@ function UserProfile(props: UserProfileProps) {
 interface NavbarProps {}
 
 export default function Navbar(props: NavbarProps) {
-  const author = 'ful1e5';
+  const author = process.env.AUTHOR as string;
+  const pathname = usePathname();
   const { data: session, status } = useSession();
   const [isSponsor, setIsSponsor] = useState(false);
 
@@ -65,9 +67,7 @@ export default function Navbar(props: NavbarProps) {
         setIsSponsor(true);
       } else if (!loadingSponsors && sponsors && session.user?.login) {
         const unames = sponsors.map((s) => s.login);
-        setIsSponsor(
-          unames.includes(session.user?.login) || unames.includes(author)
-        );
+        setIsSponsor(unames.includes(session.user?.login));
       }
     }
   }, [session, loadingSponsors]);
@@ -76,7 +76,7 @@ export default function Navbar(props: NavbarProps) {
     <header className='bg-black p-6 top-0 w-full'>
       <div className='flex items-center justify-between flex-wrap '>
         <Link className='text-3xl font-bold' href='/' title='Goto Homepage'>
-          Bibata Live
+          {pathname === '/studio' ? 'Bibata Studio' : 'Bibata'}
           {isSponsor && ' (Pro)'}
         </Link>
         <UserProfile />
