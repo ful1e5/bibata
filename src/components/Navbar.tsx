@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 
-import { useSponsors } from '@hooks/useSponsors';
 import { usePathname } from 'next/navigation';
+import { isSponsor as fetchIsSponsor } from '@utils/sponsor/isSponsor';
 
 interface UserProfileProps {}
 
@@ -50,27 +50,20 @@ function UserProfile(props: UserProfileProps) {
 interface NavbarProps {}
 
 export default function Navbar(props: NavbarProps) {
-  const author = process.env.AUTHOR as string;
   const pathname = usePathname();
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
   const [isSponsor, setIsSponsor] = useState(false);
-
-  const {
-    data: sponsors,
-    error: _e,
-    isLoading: loadingSponsors
-  } = useSponsors(author);
 
   useEffect(() => {
     if (status === 'authenticated') {
-      if (session.user?.login === author) {
-        setIsSponsor(true);
-      } else if (!loadingSponsors && sponsors && session.user?.login) {
-        const unames = sponsors.map((s) => s.login);
-        setIsSponsor(unames.includes(session.user?.login));
-      }
+      const func = async () => {
+        const s = await fetchIsSponsor(session?.user?.login!);
+        setIsSponsor(s);
+      };
+
+      func();
     }
-  }, [session, loadingSponsors]);
+  }, [session, update]);
 
   return (
     <header className='bg-black p-6 top-0 w-full'>

@@ -73,18 +73,11 @@ def fetch_github_user(token: str, logger: Logger):
 def is_sponsor(token: str, logger: Logger):
     user = fetch_github_user(token, logger)
     if user:
-        author = ["ful1e5"]
         login = user.get("login")
-
-        if login in author:
-            return True
-
-        url = f"https://sponsor-spotlight.vercel.app/api/fetch?login={author[0]}"
+        url = f"https://sponsor-spotlight.vercel.app/api/fetch?login={login}"
         res = fetch(url)
         if res.status_code == 200:
-            data = res.json().get("data")
-            sponsor = any(e["login"] == login for e in data)
-            return sponsor
+            return res.json().get("is_sponsor", False)
         elif res.status_code == 404:
             return False
     else:
