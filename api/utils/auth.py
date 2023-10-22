@@ -19,7 +19,7 @@ class AuthToken:
 
 def as_auth_token(data) -> Union[None, AuthToken]:
     if type(data) is dict:
-        ac = data.get("acccount")
+        ac = data.get("account")
         id = data.get("id")
         if not ac or not id:
             return None

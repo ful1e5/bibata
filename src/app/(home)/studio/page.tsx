@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import { Color } from 'bibata-live';
-import { Image } from 'bibata-live/core';
+import { AuthToken, Image } from 'bibata-live/core';
 
 import { Cursors } from '@components/Cursors';
 import { ColorPicker } from '@components/ColorPicker';
@@ -21,7 +21,11 @@ export default function StudioPage() {
   const { data: session, status, update } = useSession();
   const core = new CoreApi();
 
-  const [token, setToken] = useState<string>();
+  const [token, setToken] = useState<AuthToken>({
+    id: '',
+    token: '',
+    account: 'User'
+  });
 
   const [type, setType] = useState<string>(TYPES[0]);
   const [color, setColor] = useState<Color>(PREBUILT_COLORS['Amber']);
@@ -32,8 +36,8 @@ export default function StudioPage() {
   const [imagesCount, setImagesCount] = useState<number>(0);
 
   const refreshToken = async () => {
-    const data = await core.getSession(session?.accessToken);
-    setToken(data.token);
+    const auth = await core.getSession(session?.accessToken);
+    setToken(auth);
   };
 
   useEffect(() => {
@@ -83,12 +87,11 @@ export default function StudioPage() {
 
       <div className='h-24 flex items-center justify-center'>
         <DownloadButton
+          auth={token}
           delay={animationDelay}
           images={images}
           size={cursorSize}
-          disabled={
-            !token || imagesCount === 0 || imagesCount !== images.length
-          }
+          disabled={imagesCount === 0 || imagesCount !== images.length}
         />
       </div>
 

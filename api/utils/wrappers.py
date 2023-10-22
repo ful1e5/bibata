@@ -13,8 +13,9 @@ def auth_required(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
         unauth = jsonify({"status": 401, "error": ["Unauthorized."]})
-        invalid = jsonify({"status": 401, "error": ["Unauthorized. Invalid Token"]})
-        expired = jsonify({"status": 401, "error": ["Unauthorized. Token Expired"]})
+        invalid = jsonify({"status": 401, "error": ["Invalid Access Token"]})
+        invalid_session = jsonify({"status": 401, "error": ["Invalid Session"]})
+        expired = jsonify({"status": 401, "error": ["Expired Access Token"]})
 
         k = session_keys["build"]
         id: str = session.get(k, None)
@@ -30,7 +31,7 @@ def auth_required(f):
                     return invalid, 401
                 else:
                     if auth.id != id:
-                        return invalid, 401
+                        return invalid_session, 401
                     else:
                         return f(*args, **kwargs)
             else:

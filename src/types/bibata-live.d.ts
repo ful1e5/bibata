@@ -29,6 +29,12 @@ declare module 'bibata-live/core' {
     error: string[];
   };
 
+  type AuthToken = {
+    id: string;
+    account: 'User' | 'Pro';
+    token: string;
+  };
+
   type UploadResponse = {
     status: number;
     id: string;
@@ -45,7 +51,7 @@ declare module 'bibata-live/core' {
     id: string | null;
   };
 
-  type DownloadResponse = {
+  type DownloadError = {
     status: number;
     id: string;
     error: string[];

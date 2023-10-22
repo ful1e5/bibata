@@ -2,13 +2,14 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { Image, Platform } from 'bibata-live/core';
+import { AuthToken, Image, Platform } from 'bibata-live/core';
 import { CoreApi } from '@utils/core';
 
 interface DownaloadButtonProps {
   size: number;
   delay: number;
   disabled?: boolean;
+  auth: AuthToken;
   images: Image[];
 }
 
@@ -37,7 +38,9 @@ export function DownloadButton(props: DownaloadButtonProps) {
         })
       );
 
-      const upload = await api.uploadImages(formData);
+      const upload = await api.uploadImages(formData, {
+        token: props.auth.token
+      });
       if (upload?.error) {
         return upload;
       }
@@ -60,9 +63,9 @@ export function DownloadButton(props: DownaloadButtonProps) {
     const downloadUrl = `${api.downloadUrl}?type=${p}`;
 
     setSubLoadingText(`Preparing Requests ...`);
-    await api.getSession();
-
-    const download = await api.downloadable(p);
+    const download = await api.downloadable(p, {
+      token: props.auth.token
+    });
 
     if (!download?.error) {
       downloadFile(downloadUrl);
@@ -77,7 +80,9 @@ export function DownloadButton(props: DownaloadButtonProps) {
           `Packaging ${p == 'win' ? 'Win Cursors' : 'XCursors'} ...`
         );
 
-        const download = await api.downloadable(p);
+        const download = await api.downloadable(p, {
+          token: props.auth.token
+        });
 
         if (download?.error) {
           console.error(download.error);

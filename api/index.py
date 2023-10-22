@@ -61,13 +61,13 @@ def destroy_session():
     return jsonify({"id": id})
 
 
-@auth_required
 @app.route("/api/upload", methods=["POST"])
-def upload_images(*args, **kwargs):
+@auth_required
+def upload_images():
     errors: List[str] = []
 
     k = session_keys["build"]
-    id: str = str(session.get(k))
+    id = str(session.get(k))
 
     data = parse_upload_formdata(request, logger)
 
@@ -84,28 +84,27 @@ def upload_images(*args, **kwargs):
         return jsonify({"status": 200, "id": id, "file": name, "error": None})
 
 
-@auth_required
 @app.route("/api/download", methods=["GET"])
-def download(*args, **kwargs):
+def download():
     errors: List[str] = []
 
     s = session_keys["build"]
-    sid: str = str(session.get(s))
+    id = str(session.get(s))
 
     param = parse_download_params(request, logger)
 
     if param.errors:
         errors.extend(param.errors)
-        return jsonify({"status": 400, "id": sid, "error": errors}), 400
+        return jsonify({"status": 400, "id": id, "error": errors}), 400
 
     res: FileResponse
     if param.platform == "win":
-        res = win_compress(sid, logger)
+        res = win_compress(id, logger)
     else:
-        res = x11_compress(sid, logger)
+        res = x11_compress(id, logger)
 
     if res.errors:
         errors.extend(res.errors)
-        return jsonify({"status": 400, "id": sid, "error": errors}), 400
+        return jsonify({"status": 400, "id": id, "error": errors}), 400
     else:
         return send_file(res.file, as_attachment=True)

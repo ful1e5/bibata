@@ -18,11 +18,11 @@ class FileResponse:
     errors: List[str]
 
 
-def win_compress(sid: str, logger: Logger) -> FileResponse:
+def win_compress(id: str, logger: Logger) -> FileResponse:
     errors: List[str] = []
 
-    dir = gsubtmp(sid)
-    fp = gtmp(sid) / f"{dir.stem}.zip"
+    dir = gsubtmp(id)
+    fp = gtmp(id) / f"{dir.stem}.zip"
 
     if not fp.exists():
         if len(list(dir.glob("*"))) <= 0:
@@ -47,11 +47,11 @@ def win_compress(sid: str, logger: Logger) -> FileResponse:
     return FileResponse(file=fp, errors=errors)
 
 
-def x11_compress(sid: str, logger: Logger) -> FileResponse:
+def x11_compress(id: str, logger: Logger) -> FileResponse:
     errors: List[str] = []
 
-    dir = gsubtmp(sid)
-    fp = gtmp(sid) / f"{dir.stem}.tar.gz"
+    dir = gsubtmp(id)
+    fp = gtmp(id) / f"{dir.stem}.tar.gz"
 
     if not fp.exists():
         if len(list(dir.rglob("*"))) <= 0:

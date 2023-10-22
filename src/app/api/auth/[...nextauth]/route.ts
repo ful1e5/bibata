@@ -43,12 +43,6 @@ export const authOptions: AuthOptions = {
           algorithm: 'HS256'
         });
         session.accessToken = ghToken;
-        // const core = new CoreApi();
-        // const { token: coreJwt } = await core.getSession(ghToken);
-        // console.log(coreJwt);
-        // const userType = jwt.verify(coreJwt, JWT_SECRET, {
-        //   algorithms: ['HS256']
-        // });
       }
 
       return Promise.resolve({

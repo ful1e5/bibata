@@ -1,10 +1,13 @@
+import jwt from 'jsonwebtoken';
+
 import {
   UploadResponse,
   Platform,
-  DownloadResponse,
   GetSessionResponse,
   DeleteSessionResponse,
-  AuthError
+  AuthError,
+  AuthToken,
+  DownloadError
 } from 'bibata-live/core';
 
 export class CoreApi {
@@ -16,19 +19,25 @@ export class CoreApi {
     this.downloadUrl = `${this.url}/download`;
   }
 
-  public async getSession(token?: string) {
-    const headers = token
+  private __headers(token?: string) {
+    return token
       ? {
           Authorization: `Bearer ${token}`
         }
       : undefined;
+  }
+
+  public async getSession(token?: string) {
     const res = await fetch(`${this.url}/session`, {
-      headers: headers,
+      headers: this.__headers(token),
       credentials: 'include'
     });
 
     const data: GetSessionResponse = await res.json();
-    return data;
+
+    const payload = jwt.decode(data.token) as AuthToken;
+    const auth = { ...payload, token: data.token };
+    return auth;
   }
 
   public async deleteSession() {
@@ -41,8 +50,9 @@ export class CoreApi {
     return data as DeleteSessionResponse;
   }
 
-  public async uploadImages(body: FormData) {
+  public async uploadImages(body: FormData, headers?: { token?: string }) {
     const res = await fetch(`${this.url}/upload`, {
+      headers: this.__headers(headers?.token),
       method: 'POST',
       body
     });
@@ -55,18 +65,16 @@ export class CoreApi {
     }
   }
 
-  public async downloadable(platform: Platform) {
-    const res = await fetch(`${this.downloadUrl}?type=${platform}`);
+  public async downloadable(platform: Platform, headers?: { token?: string }) {
+    const res = await fetch(`${this.downloadUrl}?type=${platform}`, {
+      headers: this.__headers(headers?.token)
+    });
 
-    if (res.status === 301) {
+    if (res.status === 200) {
       return null;
     } else {
       const data = await res.json();
-      if (res.status === 401) {
-        return data as AuthError;
-      } else if (res.status === 400) {
-        return data as DownloadResponse;
-      }
+      return data as DownloadError;
     }
   }
 }
