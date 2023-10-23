@@ -58,38 +58,40 @@ export const ColorPicker: React.FC<ColorPickerProps> = (props) => {
   const [colorName, setColorName] = useState<string>('Amber');
 
   return (
-    <div className='w-full md:w-1/2 mx-3 sm:mx-32 grid grid-cols-4 gap-7'>
-      {Object.entries(props.colors).map(([name, color], i) => (
+    <div className='flex items-center justify-center'>
+      <div className='w-full md:w-1/2 mx-3 sm:mx-32 grid grid-cols-4 gap-7'>
+        {Object.entries(props.colors).map(([name, color], i) => (
+          <ColorPickerButton
+            key={i}
+            name={name}
+            selected={name === colorName}
+            color={color}
+            onClick={() => {
+              if (props.onClick) {
+                props.onClick(color);
+                setColorName(name);
+              }
+            }}
+          />
+        ))}
+
         <ColorPickerButton
-          key={i}
-          name={name}
-          selected={name === colorName}
-          color={color}
-          onClick={() => {
+          key='colorPicker'
+          name={'Custom'}
+          selected={colorName === 'Custom'}
+          onClick={() => setIsModalOpen(true)}
+        />
+        <ColorPickerModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onColorPick={(c) => {
             if (props.onClick) {
-              props.onClick(color);
-              setColorName(name);
+              props.onClick(c);
+              setColorName('Custom');
             }
           }}
         />
-      ))}
-
-      <ColorPickerButton
-        key='colorPicker'
-        name={'Custom'}
-        selected={colorName === 'Custom'}
-        onClick={() => setIsModalOpen(true)}
-      />
-      <ColorPickerModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onColorPick={(c) => {
-          if (props.onClick) {
-            props.onClick(c);
-            setColorName('Custom');
-          }
-        }}
-      />
+      </div>
     </div>
   );
 };

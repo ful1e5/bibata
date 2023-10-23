@@ -9,20 +9,22 @@ interface GroupedButtonsProps {
 export function GroupedButtons(props: GroupedButtonsProps) {
   const l = props.list.length;
   return (
-    <div
-      className={`w-full sm:w-1/2 overflow-hidden rounded-xl border-white/[.08] border grid grid-cols-2 gap-y-4 divide-x-2 divide-white/[.08] divide-${l}`}>
-      {props.list.map((t) => (
-        <button
-          key={t}
-          onClick={() => props.onClick(t)}
-          className={`${
-            t === props.value
-              ? 'bg-white/[.1] text-white/[0.9] font-bold'
-              : 'bg-transparent text-white/[0.75] hover:bg-white/[.05] hover:text-white/[.8] font-normal'
-          } py-4 font-bold  text-center`}>
-          {t}
-        </button>
-      ))}
+    <div className='flex items-center justify-center'>
+      <div
+        className={`w-full sm:w-1/2 overflow-hidden rounded-xl border-white/[.08] border grid grid-cols-2 gap-y-4 divide-x-2 divide-white/[.08] divide-${l}`}>
+        {props.list.map((t) => (
+          <button
+            key={t}
+            onClick={() => props.onClick(t)}
+            className={`${
+              t === props.value
+                ? 'bg-white/[.1] text-white/[0.9] font-bold'
+                : 'bg-transparent text-white/[0.75] hover:bg-white/[.05] hover:text-white/[.8] font-normal'
+            } py-4 font-bold  text-center`}>
+            {t}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
@@ -35,21 +37,23 @@ interface SmallGroupedButtonsProps {
 
 export function SmallGroupedButtons(props: SmallGroupedButtonsProps) {
   return (
-    <div className={`w-full sm:w-1/2 grid grid-cols-7 sm:grid-cols-8 gap-2`}>
-      {props.list.map((t) => (
-        <button
-          key={t}
-          onClick={() => {
-            props.onClick(t);
-          }}
-          className={`${
-            props.values == t
-              ? 'bg-white/[.08] font-bold text-white/[.8]'
-              : 'bg-transparent hover:bg-sky-500/[.2] text-white/[.7] font-normal'
-          } rounded-xl border-white/[.08] border text-center`}>
-          {t}
-        </button>
-      ))}
+    <div className='flex items-center justify-center'>
+      <div className='w-full sm:w-1/2 grid grid-cols-7 sm:grid-cols-8 gap-2 '>
+        {props.list.map((t) => (
+          <button
+            key={t}
+            onClick={() => {
+              props.onClick(t);
+            }}
+            className={`${
+              props.values == t
+                ? 'bg-white/[.08] font-bold text-white/[.8]'
+                : 'bg-transparent hover:bg-sky-500/[.2] text-white/[.7] font-normal'
+            } rounded-xl border-white/[.08] border text-center`}>
+            {t}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

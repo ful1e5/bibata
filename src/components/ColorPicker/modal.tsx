@@ -79,7 +79,7 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
     <>
       {props.isOpen && (
         <div className='z-20 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-80'>
-          <div className='bg-[#333333] p-4 w-full md:w-1/2 h-full md:h-auto md:rounded-3xl shadow-md'>
+          <div className='bg-[#333333] p-4 w-full md:w-1/2 xl:w-1/3 h-full md:h-auto md:rounded-3xl shadow-md'>
             <div className='flex justify-between'>
               <div>
                 <button
@@ -144,7 +144,7 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
                 />
               </ColorWheelCard>
             </div>
-            <div className='mt-16 flex justify-center'>
+            <div className='mt-11 flex justify-center'>
               <button
                 className='w-1/2 py-4 bg-green-600 text-white font-bold rounded-xl text-xl hover:bg-green-500'
                 onClick={handleColorPick}>

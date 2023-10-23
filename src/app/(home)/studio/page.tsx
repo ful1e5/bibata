@@ -1,9 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
-import { Color } from 'bibata-live';
-import { AuthToken, Image } from 'bibata-live/core';
+import { getSession } from 'next-auth/react';
 
 import { Cursors } from '@components/Cursors';
 import { ColorPicker } from '@components/ColorPicker';
@@ -13,20 +11,15 @@ import {
   SmallGroupedButtons
 } from '@components/GroupedButtons';
 
-import { CoreApi } from '@utils/core';
 import { TYPES, PREBUILT_COLORS, SIZES } from '@root/configs';
-import { useSession } from 'next-auth/react';
+import { getSponsorshipGoals } from '@utils/sponsor/get-count';
+
+import { Color } from 'bibata-live';
+import { Goals } from 'bibata-live/misc';
+import { Image } from 'bibata-live/core';
+import { Session } from 'next-auth';
 
 export default function StudioPage() {
-  const { data: session, status, update } = useSession();
-  const core = new CoreApi();
-
-  const [token, setToken] = useState<AuthToken>({
-    id: '',
-    token: '',
-    account: 'User'
-  });
-
   const [type, setType] = useState<string>(TYPES[0]);
   const [color, setColor] = useState<Color>(PREBUILT_COLORS['Amber']);
   const [cursorSize, setCursorSize] = useState<number>(SIZES[0]);
@@ -35,63 +28,58 @@ export default function StudioPage() {
   const [images, setImages] = useState<Image[]>([]);
   const [imagesCount, setImagesCount] = useState<number>(0);
 
-  const refreshToken = async () => {
-    const auth = await core.getSession(session?.accessToken);
-    setToken(auth);
-  };
-
-  useEffect(() => {
-    refreshToken();
-  }, [status, update]);
+  const [session, setSession] = useState<Session | null>(null);
+  const [goals, setGoals] = useState<Goals | null>(null);
 
   const resetImages = () => {
     setImages([]);
     setImagesCount(0);
   };
 
+  useEffect(() => {
+    getSession().then((auth) => setSession(auth));
+    getSponsorshipGoals().then((goals) => setGoals(goals));
+  }, []);
+
   return (
     <main className='container m-auto p-7'>
-      <div className='flex items-center justify-center'>
-        <GroupedButtons
-          list={TYPES}
-          value={type}
-          onClick={async (v) => {
-            setType(v);
-            resetImages();
-            await refreshToken();
-          }}
-        />
-      </div>
+      <GroupedButtons
+        list={TYPES}
+        value={type}
+        onClick={(v) => {
+          setType(v);
+          resetImages();
+        }}
+      />
 
-      <div className='mt-10 flex items-center justify-center '>
+      <div className='mt-10'>
         <SmallGroupedButtons
           list={SIZES}
           values={cursorSize}
-          onClick={async (s) => {
-            setCursorSize(s);
-            await refreshToken();
-          }}
+          onClick={(s) => setCursorSize(s)}
         />
       </div>
 
-      <div className='mt-10 flex items-center justify-center '>
+      <div className='mt-10'>
         <ColorPicker
           colors={PREBUILT_COLORS}
-          onClick={async (c) => {
+          onClick={(c) => {
             setColor(c);
             resetImages();
-            await refreshToken();
           }}
         />
       </div>
 
-      <div className='h-24 flex items-center justify-center'>
+      <div className='my-10'>
         <DownloadButton
-          auth={token}
+          token={session?.accessToken}
+          totalCount={goals?.monthlySponsorshipInCents! * 10}
           delay={animationDelay}
           images={images}
           size={cursorSize}
-          disabled={imagesCount === 0 || imagesCount !== images.length}
+          disabled={
+            !goals || imagesCount === 0 || imagesCount !== images.length
+          }
         />
       </div>
 

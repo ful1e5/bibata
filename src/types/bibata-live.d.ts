@@ -16,6 +16,15 @@ declare module 'bibata-live' {
   };
 }
 
+declare module 'bibata-live/misc' {
+  type Goals = {
+    monthlySponsorshipInCents: number;
+    percentComplete: number;
+    title: string;
+    targetValueInDollar: number;
+  };
+}
+
 declare module 'bibata-live/core' {
   type Image = {
     name: string;

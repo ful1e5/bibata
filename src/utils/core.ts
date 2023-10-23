@@ -13,9 +13,10 @@ import {
 export class CoreApi {
   url: string;
   downloadUrl: string;
+  auth: AuthToken | undefined;
 
   constructor() {
-    this.url = '/api/core';
+    this.url = 'http://localhost:3000/api/core';
     this.downloadUrl = `${this.url}/download`;
   }
 
@@ -37,6 +38,7 @@ export class CoreApi {
 
     const payload = jwt.decode(data.token) as AuthToken;
     const auth = { ...payload, token: data.token };
+    this.auth = auth;
     return auth;
   }
 
@@ -50,9 +52,9 @@ export class CoreApi {
     return data as DeleteSessionResponse;
   }
 
-  public async uploadImages(body: FormData, headers?: { token?: string }) {
+  public async uploadImages(body: FormData) {
     const res = await fetch(`${this.url}/upload`, {
-      headers: this.__headers(headers?.token),
+      headers: this.__headers(this.auth?.token),
       method: 'POST',
       body
     });
@@ -65,9 +67,9 @@ export class CoreApi {
     }
   }
 
-  public async downloadable(platform: Platform, headers?: { token?: string }) {
+  public async downloadable(platform: Platform) {
     const res = await fetch(`${this.downloadUrl}?type=${platform}`, {
-      headers: this.__headers(headers?.token)
+      headers: this.__headers(this.auth?.token)
     });
 
     if (res.status === 200) {
