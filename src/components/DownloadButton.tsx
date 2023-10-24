@@ -11,7 +11,7 @@ interface DownaloadButtonProps {
   disabled?: boolean;
   token?: string;
   images: Image[];
-  totalCount: number;
+  totalCount?: number;
 }
 
 export function DownloadButton(props: DownaloadButtonProps) {
@@ -115,16 +115,16 @@ export function DownloadButton(props: DownaloadButtonProps) {
 
   return (
     <div className='flex items-center justify-center'>
-      <div className='relative inline-block' ref={dropdownRef}>
+      <div className='relative' ref={dropdownRef}>
         <button
-          className={`disabled:opacity-40 w-full bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-7 rounded-xl inline-flex items-center`}
+          className='disabled:opacity-40 bg-green-600 hover:bg-green-500 text-white font-bold py-1 px-8 sm:px-12 rounded-xl flex justify-between items-center'
           disabled={props.disabled}
           onClick={() => {
             setShowDropdown(!showDropdown);
           }}>
           {loading || props.disabled ? (
             <svg
-              className='animate-spin -ml-1 mr-3 h-5 w-5'
+              className='animate-spin h-7 w-7'
               xmlns='http://www.w3.org/2000/svg'
               fill='none'
               viewBox='0 0 24 24'>
@@ -142,19 +142,22 @@ export function DownloadButton(props: DownaloadButtonProps) {
             </svg>
           ) : (
             <svg
-              className='fill-current w-4 h-4 mr-4'
+              className='fill-current w-5 h-5'
               xmlns='http://www.w3.org/2000/svg'
               viewBox='0 0 20 20'>
               <path d='M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z' />
             </svg>
           )}
-          <span className='text-lg'>
-            {loading || props.disabled
-              ? 'Processing...'
-              : `Download (${downloadCount}/${props.totalCount})`}
+          <span className='w-52 sm:w-60'>
+            <p className='text-2xl'>
+              {loading || props.disabled ? 'Processing...' : 'Download'}
+            </p>
+            {!props.disabled && props?.totalCount !== 0 && (
+              <p className='-mt-1 text-sm font-medium'>{`(${downloadCount}/${props.totalCount})`}</p>
+            )}
           </span>
           <svg
-            className='fill-current h-6 w-6 ml-2'
+            className='fill-current h-6 w-6 '
             xmlns='http://www.w3.org/2000/svg'
             viewBox='0 0 20 20'>
             <path d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z' />
@@ -163,7 +166,7 @@ export function DownloadButton(props: DownaloadButtonProps) {
 
         {/* dropdown content goes here */}
         {showDropdown && (
-          <div className='absolute w-64 h-auto md:w-72 lg:w-96 mt-2 z-10'>
+          <div className='absolute w-64 h-auto md:w-72 lg:w-96 mt-2 z-10 right-0'>
             <div className='bg-[#2e2e2e] text-white border border-white/[.2] rounded-xl shadow-xl relative'>
               {loading ? (
                 <div className='flex p-6 justify-center items-center'>

@@ -66,9 +66,12 @@ export default function Navbar(props: NavbarProps) {
   }, [session, update]);
 
   return (
-    <header className='bg-black p-6 top-0 w-full'>
+    <header className='bg-transparent p-6 top-0 w-full'>
       <div className='flex items-center justify-between flex-wrap '>
-        <Link className='text-3xl font-bold' href='/' title='Goto Homepage'>
+        <Link
+          className='text-sm sm:text-3xl font-bold'
+          href='/'
+          title='Goto Homepage'>
           {pathname === '/studio' ? 'Bibata Studio' : 'Bibata'}
           {isSponsor && ' (Pro)'}
         </Link>

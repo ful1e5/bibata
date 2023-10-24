@@ -38,7 +38,7 @@ export const Cursors: React.FC<CursorsProps> = (props) => {
     }
   }, [props.onData]);
 
-  if (isRequesting) <Loading />;
+  if (isRequesting) return <Loading />;
 
   if (!res) return <Timeout />;
 

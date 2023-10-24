@@ -86,7 +86,7 @@ export const CursorCard: React.FC<CursorCardProps> = (props) => {
   }, [loading, frames]);
 
   return (
-    <div className='mb-4 overflow-hidden rounded-xl bg-white/[0.05] border-white/[.1] border'>
+    <div className='mb-4 overflow-hidden rounded-3xl bg-white/[0.05] border-white/[.1] border'>
       <div className='w-full h-40 mb-4 relative'>
         <div
           className={`w-full h-full bg-gray-300/[.3] ${

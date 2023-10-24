@@ -18,11 +18,24 @@ import { Color } from 'bibata-live';
 import { Goals } from 'bibata-live/misc';
 import { Image } from 'bibata-live/core';
 import { Session } from 'next-auth';
+import { useLocalStorage } from '@hooks/useLocalStorage';
 
 export default function StudioPage() {
-  const [type, setType] = useState<string>(TYPES[0]);
-  const [color, setColor] = useState<Color>(PREBUILT_COLORS['Amber']);
-  const [cursorSize, setCursorSize] = useState<number>(SIZES[0]);
+  const [type, setType] = useLocalStorage<string>('type', TYPES[0]);
+  const [cursorSize, setCursorSize] = useLocalStorage<number>(
+    'cursorSize',
+    SIZES[0]
+  );
+
+  const [colorName, setColorName] = useLocalStorage<string>(
+    'colorName',
+    'Amber'
+  );
+  const [color, setColor] = useLocalStorage<Color>(
+    'color',
+    PREBUILT_COLORS[colorName]
+  );
+
   const [animationDelay, setAnimationDelay] = useState<number>(100);
 
   const [images, setImages] = useState<Image[]>([]);
@@ -31,15 +44,15 @@ export default function StudioPage() {
   const [session, setSession] = useState<Session | null>(null);
   const [goals, setGoals] = useState<Goals | null>(null);
 
-  const resetImages = () => {
-    setImages([]);
-    setImagesCount(0);
-  };
-
   useEffect(() => {
     getSession().then((auth) => setSession(auth));
     getSponsorshipGoals().then((goals) => setGoals(goals));
   }, []);
+
+  const resetImages = () => {
+    setImages([]);
+    setImagesCount(0);
+  };
 
   return (
     <main className='container m-auto p-7'>
@@ -62,8 +75,10 @@ export default function StudioPage() {
 
       <div className='mt-10'>
         <ColorPicker
+          colorName={colorName}
           colors={PREBUILT_COLORS}
-          onClick={(c) => {
+          onClick={(n, c) => {
+            setColorName(n);
             setColor(c);
             resetImages();
           }}

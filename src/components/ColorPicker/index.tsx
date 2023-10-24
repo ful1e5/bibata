@@ -24,6 +24,7 @@ export const ColorPickerButton: React.FC<ColorPickerButtonProps> = (props) => {
       className={`container py-3 flex flex-col justify-center items-center rounded-3xl ring-1 ${
         props.selected ? 'ring-white/[.3] bg-white/[.1]' : 'ring-white/[.2]'
       }`}
+      disabled={props.selected}
       onClick={props.onClick}
       style={{
         maxWidth: '100%',
@@ -50,26 +51,25 @@ export const ColorPickerButton: React.FC<ColorPickerButtonProps> = (props) => {
 
 type ColorPickerProps = {
   colors: Colors;
-  onClick?: (c: Color) => void;
+  colorName: string;
+  onClick?: (name: string, c: Color) => void;
 };
 
 export const ColorPicker: React.FC<ColorPickerProps> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [colorName, setColorName] = useState<string>('Amber');
 
   return (
     <div className='flex items-center justify-center'>
-      <div className='w-full md:w-1/2 mx-3 sm:mx-32 grid grid-cols-4 gap-7'>
+      <div className='w-full md:w-1/2 mx-3 sm:mx-32 grid grid-cols-4 gap-2 sm:gap-7'>
         {Object.entries(props.colors).map(([name, color], i) => (
           <ColorPickerButton
             key={i}
             name={name}
-            selected={name === colorName}
+            selected={props.colorName === name}
             color={color}
             onClick={() => {
               if (props.onClick) {
-                props.onClick(color);
-                setColorName(name);
+                props.onClick(name, color);
               }
             }}
           />
@@ -78,7 +78,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = (props) => {
         <ColorPickerButton
           key='colorPicker'
           name={'Custom'}
-          selected={colorName === 'Custom'}
+          selected={props.colorName === 'Custom'}
           onClick={() => setIsModalOpen(true)}
         />
         <ColorPickerModal
@@ -86,8 +86,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = (props) => {
           onClose={() => setIsModalOpen(false)}
           onColorPick={(c) => {
             if (props.onClick) {
-              props.onClick(c);
-              setColorName('Custom');
+              props.onClick('Custom', c);
             }
           }}
         />
