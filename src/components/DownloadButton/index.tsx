@@ -55,7 +55,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
     <div className='flex items-center justify-center'>
       <div className='relative' ref={dropdownRef}>
         <button
-          className='disabled:opacity-40 bg-green-600 hover:bg-green-500 rounded-full px-3 py-3'
+          className='disabled:opacity-40 bg-green-600 hover:bg-green-500 rounded-2xl p-3'
           disabled={props.disabled}
           onClick={() => setShowDropdown(!showDropdown)}>
           <div className='flex justify-between items-center'>

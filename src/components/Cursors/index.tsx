@@ -51,7 +51,7 @@ export const Cursors: React.FC<Props> = (props) => {
       <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6'>
         {svgs.map((e) => (
           <Card
-            key={e.name}
+            key={`${e.ids}-${e.name}-${props.type}`}
             delay={props.delay}
             color={props.color}
             svg={e}

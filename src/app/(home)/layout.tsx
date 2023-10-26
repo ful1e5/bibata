@@ -1,16 +1,9 @@
 import '@app/(home)/globals.css';
 
 import { Metadata } from 'next';
-import { Barlow } from 'next/font/google';
 
 import { Providers } from '@app/(home)/providers';
-import Navbar from '@components/Navbar';
-
-const barlow = Barlow({
-  subsets: ['latin'],
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-  variable: '--font-barlow'
-});
+import { NavBar } from '@components/NavBar';
 
 export const metadata: Metadata = {
   title: 'Bibata Live',
@@ -31,8 +24,8 @@ export default function RootLayout({ children }: Props) {
   return (
     <html lang='en'>
       <Providers>
-        <body className={`${barlow.variable} font-barlow`}>
-          <Navbar />
+        <body>
+          <NavBar />
           {children}
         </body>
       </Providers>

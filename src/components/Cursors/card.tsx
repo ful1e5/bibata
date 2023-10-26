@@ -33,14 +33,21 @@ export const CursorCard: React.FC<Props> = (props) => {
         next: { revalidate: 360 }
       });
 
-      const frame = await response.text();
-      l.push(frame);
+      if (response.status === 429) {
+        l.push('Unable to fetch');
+      } else {
+        const frame = await response.text();
+
+        l.push(frame);
+      }
     }
     return l;
   };
 
   useEffect(() => {
     setLoading(true);
+    setFrames([]);
+    setSvg('');
     const fetchSvg = async () => {
       try {
         const list = await fetchSvgs();
