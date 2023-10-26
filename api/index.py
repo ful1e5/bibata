@@ -26,14 +26,11 @@ def get_session():
     id: str = session.get(k, None)
     token: str
 
-    if id:
-        destroy_build_session(str(id))
-
     auth_header = request.headers.get("Authorization")
     if auth_header and auth_header.startswith("Bearer "):
         gh_jwt_token = auth_header[len("Bearer ") :]  # noqa: E203
         try:
-            id, token = gen_sponsor_token(gh_jwt_token, logger)
+            id, token = gen_sponsor_token(id, gh_jwt_token, logger)
         except ConnectionError:
             return (
                 jsonify({"status": 500, "error": ["Unable to connect Github API"]}),
@@ -44,7 +41,7 @@ def get_session():
             return jsonify({"status": 500, "error": ["Internal Error."]}), 500
 
     else:
-        id, token = gen_user_token()
+        id, token = gen_user_token(id)
     session.setdefault(k, id)
 
     return jsonify({"id": id, "token": token})

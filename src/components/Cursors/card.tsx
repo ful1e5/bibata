@@ -5,14 +5,14 @@ import { useEffect, useState } from 'react';
 import { Color, SVG } from 'bibata-live';
 import { Image } from 'bibata-live/core';
 
-type CursorCardProps = {
+type Props = {
   svg: SVG;
   color: Color;
   delay: number;
   onLoad?: (image: Image) => void;
 };
 
-export const CursorCard: React.FC<CursorCardProps> = (props) => {
+export const CursorCard: React.FC<Props> = (props) => {
   const [loading, setLoading] = useState<boolean>(true);
 
   const [svg, setSvg] = useState<string>('');

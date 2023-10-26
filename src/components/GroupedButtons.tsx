@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+
 interface GroupedButtonsProps {
   list: string[];
   value: string;
@@ -7,6 +9,7 @@ interface GroupedButtonsProps {
 }
 
 export function GroupedButtons(props: GroupedButtonsProps) {
+  const [disable, setDisable] = useState<boolean>(false);
   return (
     <div className='flex items-center justify-center'>
       <div className='w-full sm:w-1/2 bg-black/[0.2] overflow-hidden rounded-3xl border-white/[.08] border'>
@@ -14,13 +17,15 @@ export function GroupedButtons(props: GroupedButtonsProps) {
           {props.list.map((t) => (
             <button
               key={t}
-              disabled={t === props.value}
+              disabled={t === props.value && disable}
               onClick={() => props.onClick(t)}
+              onMouseOver={() => setDisable(true)}
+              onMouseOut={() => setDisable(false)}
               className={`${
                 t === props.value
                   ? 'bg-white/[.1] text-white/[0.9] font-bold'
-                  : 'bg-transparent text-white/[0.65] hover:text-white font-normal'
-              } py-4 font-bold text-center rounded-2xl`}>
+                  : 'bg-transparent text-white/[0.65] hover:text-white font-normal hover:font-bold'
+              } py-4 font-bold text-center rounded-2xl disabled:opacity-30`}>
               {t}
             </button>
           ))}

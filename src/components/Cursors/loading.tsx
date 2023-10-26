@@ -1,6 +1,6 @@
-type CursorsLoadingProps = {};
+type Props = {};
 
-export const CursorsLoading: React.FC<CursorsLoadingProps> = (props) => {
+export const CursorsLoading: React.FC<Props> = (props) => {
   const cards = Array.from(new Array(12), (_, i) => i + 1);
   return (
     <div className='container mx-auto px-4'>

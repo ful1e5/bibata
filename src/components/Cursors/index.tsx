@@ -12,7 +12,7 @@ import { CursorsError as Error } from './error';
 import { CursorsLoading as Loading } from './loading';
 import { CursorsTimeOut as Timeout } from './timeout';
 
-type CursorsProps = {
+type Props = {
   type: string;
   color: Color;
   delay: number;
@@ -20,7 +20,7 @@ type CursorsProps = {
   onData?: (svgs: SVG[]) => void;
 };
 
-export const Cursors: React.FC<CursorsProps> = (props) => {
+export const Cursors: React.FC<Props> = (props) => {
   const fetcher = (url: string) =>
     fetch(url, { next: { revalidate: 360 } })
       .then((res) => res.json())

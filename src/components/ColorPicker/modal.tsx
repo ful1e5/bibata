@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Wheel from '@uiw/react-color-wheel';
 
-import { SVGCursorDemo } from './svg';
+import { CursorPreview } from './preview';
 
 import { Color } from 'bibata-live';
 import { generateRandomColors } from '@utils/randomColors';
@@ -95,7 +95,7 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
               </button>
             </div>
             <div className='h-96 md:h-72 mt-2'>
-              <SVGCursorDemo
+              <CursorPreview
                 base={baseColor}
                 outline={outlineColor}
                 watch={watchColor}

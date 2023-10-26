@@ -84,21 +84,21 @@ def is_sponsor(token: str, logger: Logger):
         return False
 
 
-def gen_user_token():
-    id = str(uuid.uuid4())
+def gen_user_token(id: Union[str, None]):
+    id = id or str(uuid.uuid4())
     payload = {"id": id, "account": "User"}
     return id, jwt.encode(payload, SECRET, algorithm="HS256")
 
 
-def gen_sponsor_token(jwt_token: str, logger: Logger):
-    user_payload = gen_user_token()
+def gen_sponsor_token(id: Union[str, None], jwt_token: str, logger: Logger):
+    user_payload = gen_user_token(id)
 
     try:
         payload = jwt.decode(jwt_token, SECRET, algorithms=["HS256"])
         token = payload.get("gh_access_token")
 
         if is_sponsor(token, logger):
-            id = str(uuid.uuid4())
+            id = id or str(uuid.uuid4())
             payload = {"id": id, "account": "Pro"}
             return id, jwt.encode(payload, SECRET, algorithm="HS256")
         else:

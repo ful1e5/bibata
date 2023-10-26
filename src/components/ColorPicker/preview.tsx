@@ -1,10 +1,10 @@
-type SVGCursorDemoProps = {
+type Props = {
   base: string;
   outline: string;
   watch?: string;
 };
 
-export const SVGCursorDemo: React.FC<SVGCursorDemoProps> = (props) => {
+export const CursorPreview: React.FC<Props> = (props) => {
   return (
     <svg
       width='100%'

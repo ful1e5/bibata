@@ -5,15 +5,16 @@ import React, { useState } from 'react';
 import { Color, Colors } from 'bibata-live';
 import { ColorPickerModal } from './modal';
 
-type ColorPickerButtonProps = {
+type Props = {
   name: string;
   color?: Color;
   selected?: boolean;
+  disabled?: boolean;
   onClick?: () => void;
   children?: React.ReactNode;
 };
 
-export const ColorPickerButton: React.FC<ColorPickerButtonProps> = (props) => {
+export const ColorPickerButton: React.FC<Props> = (props) => {
   const stops = Array.from(
     { length: 12 },
     (_, i) => `hsl(${i * (360 / 12)}, 100%, 50%)`
@@ -24,7 +25,7 @@ export const ColorPickerButton: React.FC<ColorPickerButtonProps> = (props) => {
       className={`container py-3 flex flex-col justify-center items-center rounded-3xl ring-1 ${
         props.selected ? 'ring-white/[.3] bg-white/[.1]' : 'ring-white/[.2]'
       }`}
-      disabled={props.selected}
+      disabled={props.selected && props.disabled}
       onClick={props.onClick}
       style={{
         maxWidth: '100%',
@@ -59,38 +60,42 @@ export const ColorPicker: React.FC<ColorPickerProps> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <div className='flex items-center justify-center'>
-      <div className='w-full md:w-1/2 mx-3 sm:mx-32 grid grid-cols-4 gap-2 sm:gap-7'>
-        {Object.entries(props.colors).map(([name, color], i) => (
-          <ColorPickerButton
-            key={i}
-            name={name}
-            selected={props.colorName === name}
-            color={color}
-            onClick={() => {
-              if (props.onClick) {
-                props.onClick(name, color);
-              }
-            }}
-          />
-        ))}
+    <>
+      <div className='flex items-center justify-center'>
+        <div className='w-full md:w-1/2 mx-3 sm:mx-32 grid grid-cols-4 gap-2 sm:gap-7'>
+          {Object.entries(props.colors).map(([name, color], i) => (
+            <ColorPickerButton
+              key={i}
+              name={name}
+              selected={props.colorName === name}
+              disabled={true}
+              color={color}
+              onClick={() => {
+                if (props.onClick) {
+                  props.onClick(name, color);
+                }
+              }}
+            />
+          ))}
 
-        <ColorPickerButton
-          key='colorPicker'
-          name={'Custom'}
-          selected={props.colorName === 'Custom'}
-          onClick={() => setIsModalOpen(true)}
-        />
-        <ColorPickerModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          onColorPick={(c) => {
-            if (props.onClick) {
-              props.onClick('Custom', c);
-            }
-          }}
-        />
+          <ColorPickerButton
+            key='colorPicker'
+            name={'Custom'}
+            selected={props.colorName === 'Custom'}
+            onClick={() => setIsModalOpen(true)}
+          />
+        </div>
       </div>
-    </div>
+
+      <ColorPickerModal
+        onClose={() => setIsModalOpen(false)}
+        isOpen={isModalOpen}
+        onColorPick={(c) => {
+          if (props.onClick) {
+            props.onClick('Custom', c);
+          }
+        }}
+      />
+    </>
   );
 };

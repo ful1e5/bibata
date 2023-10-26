@@ -19,8 +19,10 @@ import { Goals } from 'bibata-live/misc';
 import { Image } from 'bibata-live/core';
 import { Session } from 'next-auth';
 import { useLocalStorage } from '@hooks/useLocalStorage';
+import { CoreApi } from '@utils/core';
 
 export default function StudioPage() {
+  const core = new CoreApi();
   const [type, setType] = useLocalStorage<string>('type', TYPES[0]);
   const [cursorSize, setCursorSize] = useLocalStorage<number>(
     'cursorSize',
@@ -47,6 +49,7 @@ export default function StudioPage() {
   useEffect(() => {
     getSession().then((auth) => setSession(auth));
     getSponsorshipGoals().then((goals) => setGoals(goals));
+    core.deleteSession().then((res) => res.id);
   }, []);
 
   const resetImages = () => {
