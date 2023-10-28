@@ -6,14 +6,18 @@ import { CoreApi } from '@utils/core';
 import { ErrorSVG, DownloadSVG, ProcessingSVG } from './svgs';
 
 import { Image, Platform } from 'bibata-live/core';
+import { Color } from 'bibata-live';
 
 type Props = {
   disabled?: boolean;
-
-  size: number;
-  delay: number;
   token?: string;
-  images: Image[];
+
+  config: {
+    color: Color;
+    size: number;
+    delay: number;
+    images: Image[];
+  };
 
   totalCount?: number;
 };
@@ -29,7 +33,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const processImages = async (api: CoreApi, p: Platform) => {
-    for (const i of props.images) {
+    for (const i of props.config.images) {
       setLoadingText(`Processing '${i.name}' ...`);
 
       const formData = new FormData();
@@ -38,8 +42,8 @@ export const DownloadButton: React.FC<Props> = (props) => {
         JSON.stringify({
           name: i.name,
           platform: p,
-          size: props.size,
-          delay: props.delay,
+          size: props.config.size,
+          delay: props.config.delay,
           frames: i.frames
         })
       );
@@ -57,7 +61,6 @@ export const DownloadButton: React.FC<Props> = (props) => {
     document.body.appendChild(link);
     link.click();
     link.parentNode?.removeChild(link);
-
     setErrorText('');
   };
 
@@ -91,6 +94,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
           setErrorText('Oops.. Packaging Failed!');
         } else {
           downloadFile(downloadUrl);
+          const { base, outline, watch } = props.config.color;
           setDownloadCount((i) => i++);
         }
       }
@@ -126,11 +130,11 @@ export const DownloadButton: React.FC<Props> = (props) => {
           disabled={props.disabled}
           onClick={() => setShowDropdown(!showDropdown)}>
           <span className='text-lg font-semibold'>
-            {loading || props.disabled ? 'Processing' : 'Download'}
+            {loading ? 'Processing' : 'Download'}
           </span>
 
           <span className='w-5 ml-2'>
-            {loading || props.disabled ? <ProcessingSVG /> : <DownloadSVG />}
+            {loading ? <ProcessingSVG /> : <DownloadSVG />}
           </span>
         </button>
 

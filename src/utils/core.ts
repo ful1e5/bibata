@@ -9,6 +9,7 @@ import {
   AuthToken,
   DownloadError
 } from 'bibata-live/core';
+import { genAccessToken } from './auth/token';
 
 export class CoreApi {
   url: string;
@@ -29,8 +30,9 @@ export class CoreApi {
   }
 
   public async getSession(token?: string) {
+    const accessToken = token || genAccessToken();
     const res = await fetch(`${this.url}/session`, {
-      headers: this.__headers(token),
+      headers: this.__headers(accessToken),
       credentials: 'include'
     });
 

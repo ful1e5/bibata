@@ -10,72 +10,40 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        String  @id @default(cuid())
-  userId    String  @unique
-  login     String
-  name      String
-  email     String? @unique
-  url       String
-  avatarUrl String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  role      Role     @default(USER)
-}
-
 enum Role {
   USER
   PRO
   ADMIN
 }
 
-// model Account {
-//   id                 String    @id @default(cuid())
-//   userId             String
-//   providerType       String
-//   providerId         String
-//   providerAccountId  String
-//   refreshToken       String?
-//   accessToken        String?
-//   accessTokenExpires DateTime?
-//   createdAt          DateTime  @default(now())
-//   updatedAt          DateTime  @updatedAt
-//   user               User      @relation(fields: [userId], references: [id])
-//
-//   @@unique([providerId, providerAccountId])
-// }
-//
-// model Session {
-//   id           String   @id @default(cuid())
-//   userId       String
-//   expires      DateTime
-//   sessionToken String   @unique
-//   accessToken  String   @unique
-//   createdAt    DateTime @default(now())
-//   updatedAt    DateTime @updatedAt
-//   user         User     @relation(fields: [userId], references: [id])
-// }
-//
-// model User {
-//   id            String    @id @default(cuid())
-//   name          String?
-//   email         String?   @unique
-//   emailVerified DateTime?
-//   image         String?
-//   createdAt     DateTime  @default(now())
-//   updatedAt     DateTime  @updatedAt
-//   accounts      Account[]
-//   sessions      Session[]
-// }
-//
-// model VerificationRequest {
-//   id         String   @id @default(cuid())
-//   identifier String
-//   token      String   @unique
-//   expires    DateTime
-//   createdAt  DateTime @default(now())
-//   updatedAt  DateTime @updatedAt
-//
-//   @@unique([identifier, token])
-// }
+model User {
+  id                 String  @id @default(cuid())
+  userId             String  @unique
+  login              String
+  name               String?
+  email              String? @unique
+  url                String
+  avatarUrl          String
+  totalDownloadCount Int?
+
+  index     Int      @unique @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  role      Role     @default(USER)
+
+  downloads Download[]
+}
+
+model Download {
+  id           String @id @default(cuid())
+  baseColor    String
+  outlineColor String
+  watchBGColor String
+
+  index     Int      @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String?
+}

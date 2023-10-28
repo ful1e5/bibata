@@ -1,6 +1,6 @@
-Flask==2.2.2
+clickgen===2.1.9
 flask-cors===4.0.0
+flask==2.2.2
+pyjwt===2.8.0
+uuid===1.30
 wand===0.6.11
-clickgen==2.1.9
-pyjwt==2.8.0
-requests==2.31.0

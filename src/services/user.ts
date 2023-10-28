@@ -1,11 +1,9 @@
-import { PrismaClient } from '@prisma/client';
+import prisma from './prisma';
 
 import { DBUser } from 'bibata-live/misc';
 
-const prisma = new PrismaClient();
-
-export const addUser = async (user: DBUser) => {
-  await prisma.user.upsert({
+export const upsertUser = async (user: DBUser) => {
+  return await prisma.user.upsert({
     where: { userId: user.userId },
     update: { role: user.role },
     create: { ...user }

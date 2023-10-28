@@ -4,7 +4,7 @@ from shutil import rmtree
 from flask import jsonify, request, session
 
 from api.builder.config import gtmp
-from api.utils.auth import decode_auth_token
+from api.utils.token import decode_token
 
 session_keys = {"build": "cbuid"}
 
@@ -24,7 +24,7 @@ def auth_required(f):
             auth_header = request.headers.get("Authorization")
             if auth_header and auth_header.startswith("Bearer "):
                 token = auth_header[len("Bearer ") :]  # noqa: E203
-                auth = decode_auth_token(token)
+                auth = decode_token(token)
                 if auth == "expired":
                     return expired, 401
                 elif auth == "invalid":

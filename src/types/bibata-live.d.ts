@@ -27,13 +27,31 @@ declare module 'bibata-live/misc' {
   type UserRole = 'USER' | 'PRO' | 'ADMIN';
 
   type DBUser = {
+    id?: string;
     userId: string;
     login: string;
-    name: string;
+    name: string | null;
+    email: string | null;
     url: string;
-    email?: string;
     avatarUrl: string;
+
     role: UserRole;
+    index?: number;
+    totalDownloadCount: number | null;
+  };
+
+  type DBDownload = {
+    id?: string;
+    baseColor: string;
+    outlineColor: string;
+    watchBGColor: string;
+
+    index?: number;
+    createdAt?: string;
+    updatedAt?: string;
+
+    user?: DBUser;
+    userId?: string;
   };
 }
 

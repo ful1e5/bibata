@@ -16,15 +16,15 @@ export class FetchSVG {
   key: string;
 
   constructor() {
-    const token = process.env.FIGMA_TOKEN as string;
+    const token = process.env.FIGMA_TOKEN;
     this.api = new Figma.Api({ personalAccessToken: token });
-    this.key = process.env.FIGMA_FILE as string;
+    this.key = process.env.FIGMA_FILE;
   }
 
   public async fetchSVGs({ type }: { type: string }) {
     const file = await this.api.getFile(this.key);
     const page = file.document.children.filter(
-      (e) => e.name === (process.env.NODE_ENV as string)
+      (e) => e.name === process.env.NODE_ENV
     )[0] as Figma.Node<'DOCUMENT'>;
 
     const group = page.children.filter(

@@ -1,7 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-
 interface GroupedButtonsProps {
   list: string[];
   value: string;
@@ -17,12 +15,11 @@ export function GroupedButtons(props: GroupedButtonsProps) {
             <button
               key={t}
               title={`Bibata ${t}`}
-              disabled={t === props.value}
               onClick={() => props.onClick(t)}
               className={`${
                 t === props.value
-                  ? 'bg-white/[.1] text-white/[0.9] font-bold'
-                  : 'bg-transparent text-white/[0.65] hover:text-white font-normal hover:font-bold'
+                  ? 'bg-white/[.1] text-white/[.9] font-bold'
+                  : 'bg-transparent text-white/[.65] hover:text-white font-normal hover:font-bold'
               } py-4 font-bold text-center rounded-2xl`}>
               {t}
             </button>

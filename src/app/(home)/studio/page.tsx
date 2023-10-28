@@ -17,7 +17,6 @@ import { getSponsorshipGoals } from '@utils/sponsor/get-count';
 import { Color } from 'bibata-live';
 import { Goals } from 'bibata-live/misc';
 import { Image } from 'bibata-live/core';
-import { Session } from 'next-auth';
 import { useLocalStorage } from '@hooks/useLocalStorage';
 import { CoreApi } from '@utils/core';
 
@@ -43,11 +42,13 @@ export default function StudioPage() {
   const [images, setImages] = useState<Image[]>([]);
   const [imagesCount, setImagesCount] = useState<number>(0);
 
-  const [session, setSession] = useState<Session | null>(null);
+  const [token, setToken] = useState<string>();
   const [goals, setGoals] = useState<Goals | null>(null);
 
   useEffect(() => {
-    getSession().then((auth) => setSession(auth));
+    getSession().then(
+      (auth) => auth?.accessToken && setToken(auth.accessToken)
+    );
     getSponsorshipGoals().then((goals) => setGoals(goals));
     core.deleteSession().then((res) => res.id);
   }, []);
@@ -90,14 +91,12 @@ export default function StudioPage() {
 
       <div className='my-10'>
         <DownloadButton
-          token={session?.accessToken}
-          totalCount={goals?.monthlySponsorshipInCents! * 10}
-          delay={animationDelay}
-          images={images}
-          size={cursorSize}
           disabled={
             !goals || imagesCount === 0 || imagesCount !== images.length
           }
+          token={token}
+          totalCount={goals?.monthlySponsorshipInCents! * 10}
+          config={{ size: cursorSize, delay: animationDelay, color, images }}
         />
       </div>
 

@@ -26,7 +26,7 @@ declare module 'next-auth' {
     company: string;
     blog: string;
     location: string;
-    email: string;
+    email: string | null;
     hireable: string | null;
     bio: string;
     twitter_username: string;
@@ -53,15 +53,13 @@ declare module 'next-auth' {
   interface User extends DBUser {}
 
   interface Session extends Session {
-    accessToken?: string;
-    user?: User;
+    accessToken: string;
+    user?: DBUser;
   }
 }
 
 declare module 'next-auth/jwt' {
   interface JWT extends JWT {
-    login: string;
-    url: string;
-    role: UserRole;
+    user?: DBUser;
   }
 }

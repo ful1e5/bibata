@@ -11,3 +11,5 @@ export const PREBUILT_COLORS: Colors = {
   Classic: { base: '000000', outline: 'ffffff' },
   Ice: { base: 'ffffff', outline: '000000' }
 };
+
+export const DB_SEEDS = { SIGNUP_DOWNLOAD: 20 };
