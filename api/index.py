@@ -8,11 +8,11 @@ from utils.wrappers import auth_required, destroy_build_session, session_keys
 
 from api.builder.compress import FileResponse, win_compress, x11_compress
 from api.builder.cursor import store_cursors
-from api.utils.auth import gen_sponsor_token, gen_user_token
+from api.utils.auth import gen_token, gen_user_token
 from api.utils.parser import parse_download_params, parse_upload_formdata
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("FLASK_SECRET", "super secret key")
+app.secret_key = os.environ.get("FLASK_SECRET")
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 # CORS(app, supports_credentials=True)
 
@@ -28,14 +28,9 @@ def get_session():
 
     auth_header = request.headers.get("Authorization")
     if auth_header and auth_header.startswith("Bearer "):
-        gh_jwt_token = auth_header[len("Bearer ") :]  # noqa: E203
+        access_token = auth_header[len("Bearer ") :]  # noqa: E203
         try:
-            id, token = gen_sponsor_token(id, gh_jwt_token, logger)
-        except ConnectionError:
-            return (
-                jsonify({"status": 500, "error": ["Unable to connect Github API"]}),
-                500,
-            )
+            id, token = gen_token(id, access_token, logger)
         except Exception as e:
             logger.error(e)
             return jsonify({"status": 500, "error": ["Internal Error."]}), 500

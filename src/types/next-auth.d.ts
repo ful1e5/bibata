@@ -1,63 +1,67 @@
+import { UserRole, DBUser } from 'bibata-live/misc';
+
 import NextAuth from 'next-auth';
 
 declare module 'next-auth' {
-  /**
-   * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
-   */
-  interface Session {
-    expires: string;
-    accessToken: string;
-    user?: {
-      name?: string;
-      email?: string | null;
-      image?: string;
-      login?: string;
-      id?: number;
-      node_id?: string | null;
-      avatar_url?: string;
-      gravatar_id?: string | null;
-      url?: string;
-      html_url?: string;
-      followers_url?: string | null;
-      following_url?: string | null;
-      gists_url?: string | null;
-      starred_url?: string | null;
-      subscriptions_url?: string | null;
-      organizations_url?: string | null;
-      repos_url?: string | null;
-      events_url?: string | null;
-      received_events_url?: string | null;
-      type?: string;
-      site_admin?: false;
-      name?: string | null;
-      company?: string | null;
-      blog?: string;
-      location?: string | null;
-      email?: string | null;
-      hireable: string | null;
-      bio?: string | null;
-      twitter_username?: string | null;
-      public_repos?: number;
-      public_gists?: number;
-      followers?: number;
-      following?: number;
-      created_at?: string;
-      updated_at?: string;
+  interface Profile extends Profile {
+    id: number;
+    login: string;
+    node_id: string;
+    avatar_url: string;
+    gravatar_id?: string;
+    url: string;
+    html_url: string;
+    followers_url: string;
+    following_url: string;
+    gists_url: string;
+    starred_url: string;
+    subscriptions_url: string;
+    organizations_url: string;
+    repos_url: string;
+    events_url: string;
+    received_events_url: string;
+    type: string;
+    site_admin: boolean;
+    name: string;
+    company: string;
+    blog: string;
+    location: string;
+    email: string;
+    hireable: string | null;
+    bio: string;
+    twitter_username: string;
+    public_repos: number;
+    public_gists: number;
+    followers: number;
+    following: number;
+    created_at: '2016-12-01T04:53:49Z';
+    updated_at: '2023-09-25T04:05:41Z';
+    private_gists: number;
+    total_private_repos: number;
+    owned_private_repos: number;
+    disk_usage: number;
+    collaborators: number;
+    two_factor_authentication: boolean;
+    plan: {
+      name: string;
+      space: number;
+      collaborators: number;
+      private_repos: number;
     };
+  }
+
+  interface User extends DBUser {}
+
+  interface Session extends Session {
+    accessToken?: string;
+    user?: User;
   }
 }
 
 declare module 'next-auth/jwt' {
-  /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
-  interface JWT {
-    iat: number;
-    exp: number;
-    jti: string;
-    accessToken?: string;
-    type: string;
-    name: string;
-    email: string;
-    picture: string;
-    sub: string;
+  interface JWT extends JWT {
+    login: string;
+    url: string;
+    role: UserRole;
   }
 }

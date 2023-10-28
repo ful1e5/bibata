@@ -25,6 +25,11 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
       className={`container py-3 flex flex-col justify-center items-center rounded-3xl ring-1 ${
         props.selected ? 'ring-white/[.3] bg-white/[.1]' : 'ring-white/[.2]'
       }`}
+      title={
+        props.name !== 'Custom'
+          ? `Bibata ${props.name}`
+          : 'Customize Bibata Colors'
+      }
       disabled={props.selected && props.disabled}
       onClick={props.onClick}
       style={{

@@ -14,23 +14,23 @@ SECRET = os.environ.get("JWT_SECRET", "jwtsecret")
 @dataclass
 class AuthToken:
     id: str
-    account: Literal["User", "Pro"]
+    role: Literal["USER", "PRO", "ADMIN"]
 
 
 def as_auth_token(data) -> Union[None, AuthToken]:
     if type(data) is dict:
-        ac = data.get("account")
         id = data.get("id")
-        if not ac or not id:
+        role = data.get("role")
+        if not role or not id:
             return None
-        return AuthToken(id=id, account=ac)
+        return AuthToken(id=id, role=role)
     else:
         return None
 
 
-def decode_auth_token(account: str):
+def decode_auth_token(token: str):
     try:
-        payload = jwt.decode(account, SECRET, algorithms=["HS256"])
+        payload = jwt.decode(token, SECRET, algorithms=["HS256"])
         auth = as_auth_token(payload)
         if auth:
             return auth
@@ -46,7 +46,7 @@ def decode_auth_token(account: str):
 
 def fetch(url: str, headers=None):
     session = requests.Session()
-    retry = Retry(connect=5, backoff_factor=0.5)
+    retry = Retry(connect=5, backoff_factor=5)
     adapter = HTTPAdapter(max_retries=retry)
     session.mount("http://", adapter)
     session.mount("https://", adapter)
@@ -54,55 +54,22 @@ def fetch(url: str, headers=None):
     return session.get(url, headers=headers)
 
 
-def fetch_github_user(token: str, logger: Logger):
-    res = fetch(
-        url="https://api.github.com/user",
-        headers={
-            "Accept": "application/vnd.github+json",
-            "Authorization": f"Bearer {token}",
-            "X-GitHub-Api-Version": "2022-11-28",
-        },
-    )
-    if res.status_code == 200:
-        user_data = res.json()
-        return user_data
-    elif res.status_code == 404:
-        return None
-
-
-def is_sponsor(token: str, logger: Logger):
-    user = fetch_github_user(token, logger)
-    if user:
-        login = user.get("login")
-        url = f"https://sponsor-spotlight.vercel.app/api/fetch?login={login}"
-        res = fetch(url)
-        if res.status_code == 200:
-            return res.json().get("is_sponsor", False)
-        elif res.status_code == 404:
-            return False
-    else:
-        return False
-
-
 def gen_user_token(id: Union[str, None]):
     id = id or str(uuid.uuid4())
-    payload = {"id": id, "account": "User"}
+    payload = {"id": id, "role": "USER"}
     return id, jwt.encode(payload, SECRET, algorithm="HS256")
 
 
-def gen_sponsor_token(id: Union[str, None], jwt_token: str, logger: Logger):
+def gen_token(id: Union[str, None], jwt_token: str, logger: Logger):
     user_payload = gen_user_token(id)
 
     try:
         payload = jwt.decode(jwt_token, SECRET, algorithms=["HS256"])
-        token = payload.get("gh_access_token")
+        role = payload.get("role")
 
-        if is_sponsor(token, logger):
-            id = id or str(uuid.uuid4())
-            payload = {"id": id, "account": "Pro"}
-            return id, jwt.encode(payload, SECRET, algorithm="HS256")
-        else:
-            return user_payload
+        id = id or str(uuid.uuid4())
+        payload = {"id": id, "role": role}
+        return id, jwt.encode(payload, SECRET, algorithm="HS256")
 
     except jwt.ExpiredSignatureError:
         return user_payload

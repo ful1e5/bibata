@@ -23,6 +23,18 @@ declare module 'bibata-live/misc' {
     title: string;
     targetValueInDollar: number;
   };
+
+  type UserRole = 'USER' | 'PRO' | 'ADMIN';
+
+  type DBUser = {
+    userId: string;
+    login: string;
+    name: string;
+    url: string;
+    email?: string;
+    avatarUrl: string;
+    role: UserRole;
+  };
 }
 
 declare module 'bibata-live/core' {
@@ -40,7 +52,7 @@ declare module 'bibata-live/core' {
 
   type AuthToken = {
     id: string;
-    account: 'User' | 'Pro';
+    role: 'USER' | 'PRO' | 'ADMIN';
     token: string;
   };
 

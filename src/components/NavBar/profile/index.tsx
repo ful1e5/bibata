@@ -1,8 +1,6 @@
 'use client';
 
-import Link from 'next/link';
-
-import { signOut } from 'next-auth/react';
+import { signIn, signOut } from 'next-auth/react';
 
 import { Session } from 'next-auth';
 import { LogoutSVG } from './svgs';
@@ -16,16 +14,17 @@ export const Profile: React.FC<Props> = (props) => {
   return (
     <div className='inline-flex items-center gap-2'>
       {!props.session ? (
-        <Link
+        <button
           className='py-2 px-6 bg-white text-center text-black rounded-2xl font-bold'
-          title='Click to SignIn'
-          href='/login'>
-          Sign In
-        </Link>
+          title='Click to Connect your GitHub Account'
+          onClick={() => signIn('github', { callbackUrl: '/' })}>
+          Connect
+        </button>
       ) : (
         <>
           <button
             className='w-10 p-2 rounded-full hover:bg-white/[.3]'
+            title='Logout'
             onClick={(e) => {
               e.preventDefault();
               signOut({ callbackUrl: '/' });
@@ -33,12 +32,9 @@ export const Profile: React.FC<Props> = (props) => {
             <LogoutSVG />
           </button>
 
-          <div className='w-14'>
-            <img
-              className='rounded-3xl ring-white/[.2] ring-1 p-1'
-              src={user?.avatar_url}
-              alt={user?.name}
-            />
+          <div className='w-14 h-14 overflow-hidden rounded-3xl ring-white/[.2] ring-1 '>
+            <img title={user?.name!} src={user?.avatarUrl} alt={user?.login!} />
+            <div className='w-full h-full animate-pulse bg-white/[.4]'></div>
           </div>
         </>
       )}

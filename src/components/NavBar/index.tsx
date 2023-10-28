@@ -2,11 +2,9 @@
 
 import Link from 'next/link';
 
-import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 
 import { usePathname } from 'next/navigation';
-import { isSponsor as fetchIsSponsor } from '@utils/sponsor/isSponsor';
 import { Profile } from './profile';
 import { ProBadge } from './svgs';
 
@@ -14,19 +12,7 @@ type Props = {};
 
 export const NavBar: React.FC<Props> = (props) => {
   const pathname = usePathname();
-  const { data: session, status, update } = useSession();
-  const [isSponsor, setIsSponsor] = useState(false);
-
-  useEffect(() => {
-    if (status === 'authenticated') {
-      const func = async () => {
-        const s = await fetchIsSponsor(session?.user?.login!);
-        setIsSponsor(s);
-      };
-
-      func();
-    }
-  }, [session, update]);
+  const { data: session, status } = useSession();
 
   return (
     <header className='bg-transparent p-5 top-0 w-full h-15'>
@@ -36,7 +22,7 @@ export const NavBar: React.FC<Props> = (props) => {
           href='/'
           title='Goto Homepage'>
           {pathname === '/studio' ? 'Bibata Studio' : 'Bibata'}
-          {isSponsor && <ProBadge />}
+          {session?.user?.role === 'PRO' && <ProBadge />}
         </Link>
         {status === 'loading' ? (
           <div className='m-2 w-24 mr-4'>
