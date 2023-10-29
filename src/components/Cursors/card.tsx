@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
-import { Color, SVG } from 'bibata-live';
-import { Image } from 'bibata-live/core';
+import { Color, SVG } from 'bibata-live/app';
+import { Image } from 'bibata-live/core-api/types';
 
 type Props = {
   svg: SVG;

@@ -1,4 +1,4 @@
-declare module 'bibata-live' {
+declare module 'bibata-live/app' {
   type SVG = {
     name: string;
     ids: string[];
@@ -23,7 +23,9 @@ declare module 'bibata-live/misc' {
     title: string;
     targetValueInDollar: number;
   };
+}
 
+declare module 'bibata-live/db' {
   type UserRole = 'USER' | 'PRO' | 'ADMIN';
 
   type DBUser = {
@@ -55,7 +57,7 @@ declare module 'bibata-live/misc' {
   };
 }
 
-declare module 'bibata-live/core' {
+declare module 'bibata-live/core-api/types' {
   type Image = {
     name: string;
     frames: string[];
@@ -63,15 +65,17 @@ declare module 'bibata-live/core' {
 
   type Platform = 'x11' | 'win';
 
+  type AuthToken = {
+    id: string;
+    role: UserRole;
+    token: string;
+  };
+}
+
+declare module 'bibata-live/core-api/responses' {
   type AuthError = {
     status: number;
     error: string[];
-  };
-
-  type AuthToken = {
-    id: string;
-    role: 'USER' | 'PRO' | 'ADMIN';
-    token: string;
   };
 
   type UploadResponse = {
@@ -83,7 +87,7 @@ declare module 'bibata-live/core' {
 
   type GetSessionResponse = {
     id: string;
-    token: string;
+    role: UserRole;
   };
 
   type DeleteSessionResponse = {

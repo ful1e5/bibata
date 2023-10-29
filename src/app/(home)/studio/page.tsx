@@ -14,11 +14,11 @@ import {
 import { TYPES, PREBUILT_COLORS, SIZES } from '@root/configs';
 import { getSponsorshipGoals } from '@utils/sponsor/get-count';
 
-import { Color } from 'bibata-live';
-import { Goals } from 'bibata-live/misc';
-import { Image } from 'bibata-live/core';
 import { useLocalStorage } from '@hooks/useLocalStorage';
 import { CoreApi } from '@utils/core';
+import { Image } from 'bibata-live/core-api/types';
+import { Color } from 'bibata-live/app';
+import { Goals } from 'bibata-live/misc';
 
 export default function StudioPage() {
   const core = new CoreApi();
@@ -45,18 +45,19 @@ export default function StudioPage() {
   const [token, setToken] = useState<string>();
   const [goals, setGoals] = useState<Goals | null>(null);
 
-  useEffect(() => {
-    getSession().then(
-      (auth) => auth?.accessToken && setToken(auth.accessToken)
+  const resetBuildSession = () => {
+    setImages([]);
+    setImagesCount(0);
+    getSession().then((session) =>
+      core.getSession(session?.accessToken).then((auth) => setToken(auth.token))
     );
     getSponsorshipGoals().then((goals) => setGoals(goals));
     core.deleteSession().then((res) => res.id);
-  }, []);
-
-  const resetImages = () => {
-    setImages([]);
-    setImagesCount(0);
   };
+
+  useEffect(() => {
+    resetBuildSession();
+  }, []);
 
   return (
     <main className='container m-auto p-7'>
@@ -65,7 +66,7 @@ export default function StudioPage() {
         value={type}
         onClick={(v) => {
           setType(v);
-          resetImages();
+          resetBuildSession();
         }}
       />
 
@@ -84,17 +85,17 @@ export default function StudioPage() {
           onClick={(n, c) => {
             setColorName(n);
             setColor(c);
-            resetImages();
+            resetBuildSession();
           }}
         />
       </div>
 
       <div className='my-10'>
         <DownloadButton
+          token={token}
           disabled={
             !goals || imagesCount === 0 || imagesCount !== images.length
           }
-          token={token}
           totalCount={goals?.monthlySponsorshipInCents! * 10}
           config={{ size: cursorSize, delay: animationDelay, color, images }}
         />

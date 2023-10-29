@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 
-import { Color, Colors } from 'bibata-live';
 import { ColorPickerModal } from './modal';
+import { Color, Colors } from 'bibata-live/app';
 
 type Props = {
   name: string;

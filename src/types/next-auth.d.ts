@@ -53,7 +53,7 @@ declare module 'next-auth' {
   interface User extends DBUser {}
 
   interface Session extends Session {
-    accessToken: string;
+    accessToken?: string;
     user?: DBUser;
   }
 }

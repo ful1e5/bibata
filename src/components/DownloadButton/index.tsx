@@ -5,20 +5,18 @@ import { useEffect, useRef, useState } from 'react';
 import { CoreApi } from '@utils/core';
 import { ErrorSVG, DownloadSVG, ProcessingSVG } from './svgs';
 
-import { Image, Platform } from 'bibata-live/core';
-import { Color } from 'bibata-live';
+import { Image, Platform } from 'bibata-live/core-api/types';
+import { Color } from 'bibata-live/app';
 
 type Props = {
   disabled?: boolean;
   token?: string;
-
   config: {
     color: Color;
     size: number;
     delay: number;
     images: Image[];
   };
-
   totalCount?: number;
 };
 

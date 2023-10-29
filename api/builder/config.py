@@ -396,13 +396,13 @@ configs: Dict[str, Config] = {
         xname="xterm",
         links=["ibeam", "text"],
     ),
-    "zoom_in": Config(
+    "zoom-in": Config(
         x=91,
         y=90,
         winname="Zoom-in",
         xname="zoom-in",
     ),
-    "zoom_out": Config(
+    "zoom-out": Config(
         x=89,
         y=90,
         winname="Zoom-out",

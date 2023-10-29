@@ -1,4 +1,4 @@
-import { Colors } from 'bibata-live';
+import { Colors } from 'bibata-live/app';
 
 export const TYPES = ['Modern', 'Original'];
 

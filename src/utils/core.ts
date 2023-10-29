@@ -1,15 +1,13 @@
-import jwt from 'jsonwebtoken';
+import { genAccessToken } from '@utils/auth/token';
 
+import { AuthToken, Platform } from 'bibata-live/core-api/types';
 import {
-  UploadResponse,
-  Platform,
-  GetSessionResponse,
-  DeleteSessionResponse,
   AuthError,
-  AuthToken,
-  DownloadError
-} from 'bibata-live/core';
-import { genAccessToken } from './auth/token';
+  DeleteSessionResponse,
+  DownloadError,
+  GetSessionResponse,
+  UploadResponse
+} from 'bibata-live/core-api/responses';
 
 export class CoreApi {
   url: string;
@@ -37,11 +35,8 @@ export class CoreApi {
     });
 
     const data: GetSessionResponse = await res.json();
-
-    const payload = jwt.decode(data.token) as AuthToken;
-    const auth = { ...payload, token: data.token };
-    this.auth = auth;
-    return auth;
+    this.auth = { ...data, token: accessToken! };
+    return this.auth;
   }
 
   public async deleteSession() {
