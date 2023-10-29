@@ -15,13 +15,11 @@ import { TYPES, PREBUILT_COLORS, SIZES } from '@root/configs';
 import { getSponsorshipGoals } from '@utils/sponsor/get-count';
 
 import { useLocalStorage } from '@hooks/useLocalStorage';
-import { CoreApi } from '@utils/core';
 import { Image } from 'bibata-live/core-api/types';
 import { Color } from 'bibata-live/app';
 import { Goals } from 'bibata-live/misc';
 
 export default function StudioPage() {
-  const core = new CoreApi();
   const [type, setType] = useLocalStorage<string>('type', TYPES[0]);
   const [cursorSize, setCursorSize] = useLocalStorage<number>(
     'cursorSize',
@@ -48,11 +46,8 @@ export default function StudioPage() {
   const resetBuildSession = () => {
     setImages([]);
     setImagesCount(0);
-    getSession().then((session) =>
-      core.getSession(session?.accessToken).then((auth) => setToken(auth.token))
-    );
+    getSession().then((session) => setToken(session?.accessToken));
     getSponsorshipGoals().then((goals) => setGoals(goals));
-    core.deleteSession().then((res) => res.id);
   };
 
   useEffect(() => {

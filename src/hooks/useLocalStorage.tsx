@@ -1,25 +1,26 @@
 import { useState, useEffect } from 'react';
 
+import ls from 'localstorage-slim';
+
+ls.config.encrypt = true;
+
 export function useLocalStorage<T>(
   key: string,
   initialValue: T
 ): [T, React.Dispatch<T>] {
-  const [value, setValue] = useState<T>(() => {
-    // Check if localStorage is available (only in the browser)
-    if (typeof window !== 'undefined') {
-      const storedValue = localStorage.getItem(key);
-      return storedValue ? JSON.parse(storedValue) : initialValue;
-    } else {
-      // If localStorage is not available (e.g., during server-side rendering), return the initial value
-      return initialValue;
-    }
-  });
+  const get = () => {
+    const d: T = ls.get(key) || initialValue;
+    return d;
+  };
+
+  const [value, setValue] = useState<T>(() => get());
 
   useEffect(() => {
-    // Check if localStorage is available (only in the browser)
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(key, JSON.stringify(value));
-    }
+    setValue(get());
+  }, [localStorage]);
+
+  useEffect(() => {
+    ls.set(key, value);
   }, [key, value]);
 
   return [value, setValue];

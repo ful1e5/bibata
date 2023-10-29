@@ -20,7 +20,15 @@ type Props = {
   totalCount?: number;
 };
 
+type ProcessOptions = {
+  platform: Platform;
+  size: number;
+  delay: number;
+};
+
 export const DownloadButton: React.FC<Props> = (props) => {
+  const api = new CoreApi();
+
   const [loading, setLoading] = useState<boolean>(false);
   const [downloadCount, setDownloadCount] = useState<number>(0);
 
@@ -30,8 +38,14 @@ export const DownloadButton: React.FC<Props> = (props) => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const processImages = async (api: CoreApi, p: Platform) => {
-    for (const i of props.config.images) {
+  const configRef = useRef(props.config);
+
+  const processImages = async (
+    api: CoreApi,
+    images: Image[],
+    options: ProcessOptions
+  ) => {
+    for (const i of images) {
       setLoadingText(`Processing '${i.name}' ...`);
 
       const formData = new FormData();
@@ -39,10 +53,8 @@ export const DownloadButton: React.FC<Props> = (props) => {
         'data',
         JSON.stringify({
           name: i.name,
-          platform: p,
-          size: props.config.size,
-          delay: props.config.delay,
-          frames: i.frames
+          frames: i.frames,
+          ...options
         })
       );
 
@@ -62,37 +74,43 @@ export const DownloadButton: React.FC<Props> = (props) => {
     setErrorText('');
   };
 
-  const handleDownload = async (p: Platform) => {
+  const handleDownload = async (platform: Platform) => {
     setLoading(true);
 
-    const api = new CoreApi();
+    const { images, size, color, delay } = props.config;
+
     await api.getSession(props.token);
-    const downloadUrl = `${api.downloadUrl}?type=${p}`;
+    const downloadUrl = `${api.downloadUrl}?type=${platform}`;
 
     setLoadingText(`Preparing Requests ...`);
-    const download = await api.downloadable(p);
+    const download = await api.downloadable(platform);
 
     if (!download?.error) {
       downloadFile(downloadUrl);
     } else {
-      const upload = await processImages(api, p);
+      const upload = await processImages(api, images, {
+        platform,
+        size,
+        delay
+      });
 
       if (upload?.error) {
         console.error(upload.error);
         setErrorText('Oops.. Processing Falied!');
       } else {
         setLoadingText(
-          `Packaging ${p == 'win' ? 'Win Cursors' : 'XCursors'} ...`
+          `Packaging ${platform == 'win' ? 'Win Cursors' : 'XCursors'} ...`
         );
 
-        const download = await api.downloadable(p);
+        const download = await api.downloadable(platform);
 
         if (download?.error) {
           console.error(download.error);
           setErrorText('Oops.. Packaging Failed!');
         } else {
           downloadFile(downloadUrl);
-          const { base, outline, watch } = props.config.color;
+
+          const { base, outline, watch } = color;
           setDownloadCount((i) => i++);
         }
       }
@@ -119,6 +137,12 @@ export const DownloadButton: React.FC<Props> = (props) => {
       document.removeEventListener('click', handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    if (!loading && !props.disabled && props.config !== configRef.current) {
+      api.deleteSession();
+    }
+  }, [props.config]);
 
   return (
     <div className='flex items-center justify-center'>
