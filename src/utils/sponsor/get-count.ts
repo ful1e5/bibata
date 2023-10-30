@@ -1,10 +1,14 @@
-import { Goals } from 'bibata-live/misc';
+import { DownloadCounts } from 'bibata-live/misc';
 
-export const getSponsorshipGoals = async () => {
-  const res = await fetch(
-    'https://sponsor-spotlight.vercel.app/api/fetch?goals=true'
-  );
+export const getDownloadCounts = async (token?: string) => {
+  let headers = undefined;
+  if (token) {
+    headers = {
+      Authorization: `Bearer ${token}`
+    };
+  }
+  const res = await fetch('/api/db/download/count', { headers });
 
   const data = await res.json();
-  return data.goals as Goals;
+  return data as DownloadCounts;
 };

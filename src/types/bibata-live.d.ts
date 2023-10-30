@@ -23,9 +23,18 @@ declare module 'bibata-live/misc' {
     title: string;
     targetValueInDollar: number;
   };
+
+  type DownloadCounts = {
+    total: number | null;
+    count: number;
+  };
 }
 
 declare module 'bibata-live/db' {
+  type BibataType = 'Modern' | 'Original';
+
+  type Platform = 'x11' | 'win';
+
   type UserRole = 'USER' | 'PRO' | 'ADMIN';
 
   type DBUser = {
@@ -63,12 +72,23 @@ declare module 'bibata-live/core-api/types' {
     frames: string[];
   };
 
-  type Platform = 'x11' | 'win';
-
   type AuthToken = {
     id: string;
     role: UserRole;
     token: string;
+  };
+
+  type JWTToken = {
+    token_id: string;
+    id: string | null;
+    userId: string | null;
+    login: string | null;
+    name: string | null;
+    url: string | null;
+    email: string | null;
+    avatarUrl: string | null;
+    role: UserRole;
+    totalDownloadCount: number | null;
   };
 }
 

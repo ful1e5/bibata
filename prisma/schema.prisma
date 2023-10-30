@@ -16,34 +16,48 @@ enum Role {
   ADMIN
 }
 
+enum Platform {
+  win
+  x11
+}
+
+enum Type {
+  Modern
+  Original
+}
+
 model User {
-  id                 String  @id @default(cuid())
-  userId             String  @unique
+  id                 String     @id @default(cuid())
+  userId             String     @unique
   login              String
   name               String?
-  email              String? @unique
+  email              String?    @unique
   url                String
   avatarUrl          String
   totalDownloadCount Int?
 
-  index     Int      @unique @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  role      Role     @default(USER)
+  index              Int        @unique @default(autoincrement())
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
 
-  downloads Download[]
+  role               Role       @default(USER)
+  downloads          Download[]
 }
 
 model Download {
-  id           String @id @default(cuid())
+  id           String   @id @default(cuid())
+
   baseColor    String
   outlineColor String
   watchBGColor String
 
-  index     Int      @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  platform     Platform
+  type         Type
 
-  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String?
+  index        Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user         User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String?
 }

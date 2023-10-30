@@ -1,14 +1,35 @@
 import prisma from './prisma';
 
-import { DBDownload } from 'bibata-live/misc';
+import { BibataType, Platform } from 'bibata-live/db';
 
-export const addDownload = async (data: DBDownload) => {
-  return await prisma.download.create({
-    data: {
-      baseColor: data.baseColor,
-      outlineColor: data.outlineColor,
-      watchBGColor: data.watchBGColor,
-      user: { connect: { userId: data.userId } }
-    }
+export type AddDownloadData = {
+  id: string | null;
+  data: {
+    platform: Platform;
+    type: BibataType;
+    baseColor: string;
+    outlineColor: string;
+    watchBGColor: string;
+  };
+};
+
+export const getIndex = async (id?: AddDownloadData['id']) => {
+  const maxIndex = await prisma.download.findFirst({
+    where: { userId: id },
+    select: { index: true },
+    orderBy: { index: 'desc' }
   });
+
+  return maxIndex?.index || 0;
+};
+
+export const addDownload = async ({ id, data }: AddDownloadData) => {
+  const index = (await getIndex(id)) + 1;
+  if (id) {
+    return await prisma.download.create({
+      data: { index, ...data, user: { connect: { id } } }
+    });
+  } else {
+    return await prisma.download.create({ data: { index, ...data } });
+  }
 };

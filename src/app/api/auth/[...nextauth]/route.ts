@@ -5,7 +5,7 @@ import { upsertUser } from '@services/user';
 import { isSponsor } from '@utils/sponsor/is-sponsor';
 import { genAccessToken } from '@utils/auth/token';
 
-import { UserRole } from 'bibata-live/misc';
+import { UserRole } from 'bibata-live/db';
 import { DB_SEEDS } from '@root/configs';
 
 export const authOptions: AuthOptions = {

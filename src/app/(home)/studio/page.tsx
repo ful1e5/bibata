@@ -12,12 +12,12 @@ import {
 } from '@components/GroupedButtons';
 
 import { TYPES, PREBUILT_COLORS, SIZES } from '@root/configs';
-import { getSponsorshipGoals } from '@utils/sponsor/get-count';
+import { getDownloadCounts } from '@utils/sponsor/get-count';
 
 import { useLocalStorage } from '@hooks/useLocalStorage';
 import { Image } from 'bibata-live/core-api/types';
 import { Color } from 'bibata-live/app';
-import { Goals } from 'bibata-live/misc';
+import { DownloadCounts } from 'bibata-live/misc';
 
 export default function StudioPage() {
   const [type, setType] = useLocalStorage<string>('type', TYPES[0]);
@@ -41,13 +41,13 @@ export default function StudioPage() {
   const [imagesCount, setImagesCount] = useState<number>(0);
 
   const [token, setToken] = useState<string>();
-  const [goals, setGoals] = useState<Goals | null>(null);
+  const [counts, setCounts] = useState<DownloadCounts | null>(null);
 
   const resetBuildSession = () => {
     setImages([]);
     setImagesCount(0);
     getSession().then((session) => setToken(session?.accessToken));
-    getSponsorshipGoals().then((goals) => setGoals(goals));
+    getDownloadCounts(token).then((c) => setCounts(c));
   };
 
   useEffect(() => {
@@ -89,10 +89,16 @@ export default function StudioPage() {
         <DownloadButton
           token={token}
           disabled={
-            !goals || imagesCount === 0 || imagesCount !== images.length
+            !counts || imagesCount === 0 || imagesCount !== images.length
           }
-          totalCount={goals?.monthlySponsorshipInCents! * 10}
-          config={{ size: cursorSize, delay: animationDelay, color, images }}
+          counts={counts}
+          config={{
+            size: cursorSize,
+            delay: animationDelay,
+            color,
+            images,
+            type
+          }}
         />
       </div>
 

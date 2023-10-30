@@ -1,6 +1,7 @@
 import { genAccessToken } from '@utils/auth/token';
 
-import { AuthToken, Platform } from 'bibata-live/core-api/types';
+import { Platform } from 'bibata-live/db';
+import { AuthToken } from 'bibata-live/core-api/types';
 import {
   AuthError,
   DeleteSessionResponse,
@@ -15,7 +16,7 @@ export class CoreApi {
   auth: AuthToken | undefined;
 
   constructor() {
-    this.url = 'http://localhost:3000/api/core';
+    this.url = '/api/core';
     this.downloadUrl = `${this.url}/download`;
   }
 

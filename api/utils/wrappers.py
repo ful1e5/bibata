@@ -1,7 +1,7 @@
 from functools import wraps
 from shutil import rmtree
 
-from flask import jsonify, session
+from flask import g, jsonify, session
 
 from api.builder.config import gtmp
 from api.utils.token import decode_auth_header
@@ -26,6 +26,7 @@ def auth_required(f):
                 if auth.id != id:
                     return invalid_session, 401
                 else:
+                    g.auth = auth
                     return f(*args, **kwargs)
         else:
             return unauth, 401
