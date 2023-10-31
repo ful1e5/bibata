@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 
 import { TYPES, PREBUILT_COLORS, SIZES } from '@root/configs';
 import { useLocalStorage as useStorage } from '@hooks/useLocalStorage';
@@ -19,9 +19,9 @@ import { getDownloadCounts } from '@utils/sponsor/get-count';
 import { Image } from 'bibata-live/core-api/types';
 import { DownloadCounts } from 'bibata-live/misc';
 
-export default function StudioPage() {
-  const api = new CoreApi();
+const api = new CoreApi();
 
+export default function StudioPage() {
   const [type, setType] = useStorage<string>('type', TYPES[0]);
   const [cursorSize, setCursorSize] = useStorage('cursorSize', SIZES[0]);
 
@@ -33,28 +33,28 @@ export default function StudioPage() {
   const [images, setImages] = useState<Image[]>([]);
   const [imagesCount, setImagesCount] = useState(0);
 
-  const [token, setToken] = useState<string>(genAccessToken());
+  const { data: session, status, update } = useSession();
+  const [token, setToken] = useState(genAccessToken());
   const [counts, setCounts] = useState<DownloadCounts | null>(null);
 
   const resetBuildSession = () => {
     setImages([]);
     setImagesCount(0);
-    getSession().then((session) =>
-      session?.accessToken
-        ? setToken(session.accessToken)
-        : setToken(genAccessToken())
-    );
+    if (session?.accessToken) {
+      setToken(session.accessToken);
+    } else {
+      setToken(genAccessToken());
+    }
+    api.refreshSession(token);
   };
 
   useEffect(() => {
     resetBuildSession();
     getDownloadCounts(token).then((c) => setCounts(c));
-  }, []);
-
-  useEffect(() => {
-    getDownloadCounts(token).then((c) => setCounts(c));
-    api.refreshSession(token);
-  }, [token]);
+    if (status !== 'loading') {
+      api.refreshSession(token);
+    }
+  }, [status, update]);
 
   return (
     <main className='container m-auto p-7'>

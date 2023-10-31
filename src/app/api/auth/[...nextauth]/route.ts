@@ -17,7 +17,8 @@ export const authOptions: AuthOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: '/login'
+    // TODO: Handle Custom Login Page queries
+    // signIn: '/login'
   },
   callbacks: {
     async jwt({ token, profile, trigger }) {
@@ -45,8 +46,6 @@ export const authOptions: AuthOptions = {
     async session({ session, token }) {
       if (token.user) {
         session.accessToken = genAccessToken(token.user);
-      } else {
-        session.accessToken = genAccessToken();
       }
       return Promise.resolve({ ...session, user: { ...token.user } });
     }

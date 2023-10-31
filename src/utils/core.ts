@@ -1,6 +1,5 @@
+import { Platform } from '@prisma/client';
 import { AuthToken } from 'bibata-live/core-api/types';
-
-import { Platform } from 'bibata-live/db';
 
 import {
   AuthError,
@@ -36,7 +35,7 @@ export class CoreApi {
 
     const data: GetSessionResponse = await res.json();
     this.jwt = { ...data, token: token };
-    return data;
+    return this.jwt;
   }
 
   public async deleteSession() {

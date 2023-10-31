@@ -37,13 +37,11 @@ export async function GET(request: NextRequest) {
       const roles = ['USER', 'PRO', 'ADMIN'];
 
       if (roles.includes(auth.role)) {
-        const total = await getUserTotalDownloads(auth.id);
-        if (typeof total === undefined) return sponsorCount;
+        let total = await getUserTotalDownloads(auth.id);
 
-        return NextResponse.json({
-          total,
-          count: await getIndex(auth.id)
-        });
+        if (total === undefined) return sponsorCount;
+
+        return NextResponse.json({ total, count: await getIndex(auth.id) });
       } else {
         return sponsorCount;
       }
