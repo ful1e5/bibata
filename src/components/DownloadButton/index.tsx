@@ -2,22 +2,25 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { CoreApi } from '@utils/core';
 import { ErrorSVG, DownloadSVG, ProcessingSVG } from './svgs';
 
-import { Image, Platform } from 'bibata-live/core-api/types';
+import { Image } from 'bibata-live/core-api/types';
+import { DownloadCounts } from 'bibata-live/misc';
 import { Color } from 'bibata-live/app';
+import { CoreApi } from '@utils/core';
+import { Platform, Type } from '@prisma/client';
 
 type Props = {
   disabled?: boolean;
-  token?: string;
+  api: CoreApi;
+  counts: DownloadCounts | null;
   config: {
+    type: string;
     color: Color;
     size: number;
     delay: number;
     images: Image[];
   };
-  totalCount?: number;
 };
 
 type ProcessOptions = {
@@ -27,10 +30,13 @@ type ProcessOptions = {
 };
 
 export const DownloadButton: React.FC<Props> = (props) => {
-  const api = new CoreApi();
+  const api = props.api;
+
+  const total = props.counts?.total;
+  const count = props.counts?.count;
+  const zeroCount = total === count;
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [downloadCount, setDownloadCount] = useState<number>(0);
 
   const [loadingText, setLoadingText] = useState<string>('Preparing...');
   const [errorText, setErrorText] = useState<string>('');
@@ -38,13 +44,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const configRef = useRef(props.config);
-
-  const processImages = async (
-    api: CoreApi,
-    images: Image[],
-    options: ProcessOptions
-  ) => {
+  const processImages = async (images: Image[], options: ProcessOptions) => {
     for (const i of images) {
       setLoadingText(`Processing '${i.name}' ...`);
 
@@ -74,12 +74,36 @@ export const DownloadButton: React.FC<Props> = (props) => {
     setErrorText('');
   };
 
+  const storeToDB = async (platform: string) => {
+    const { type, color } = props.config;
+    const toHex = (s: string) => `#${s}`;
+
+    try {
+      await fetch('/api/db/download/store', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${api.jwt!.token}`
+        },
+        body: JSON.stringify({
+          platform,
+          type: type as Type,
+          baseColor: toHex(color.base),
+          outlineColor: toHex(color.outline),
+          watchBGColor: toHex(color.watch || color.base)
+        })
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const handleDownload = async (platform: Platform) => {
     setLoading(true);
 
-    const { images, size, color, delay } = props.config;
+    const { images, size, delay } = props.config;
 
-    await api.getSession(props.token);
     const downloadUrl = `${api.downloadUrl}?type=${platform}`;
 
     setLoadingText(`Preparing Requests ...`);
@@ -88,7 +112,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
     if (!download?.error) {
       downloadFile(downloadUrl);
     } else {
-      const upload = await processImages(api, images, {
+      const upload = await processImages(images, {
         platform,
         size,
         delay
@@ -108,10 +132,8 @@ export const DownloadButton: React.FC<Props> = (props) => {
           console.error(download.error);
           setErrorText('Oops.. Packaging Failed!');
         } else {
+          await storeToDB(platform);
           downloadFile(downloadUrl);
-
-          const { base, outline, watch } = color;
-          setDownloadCount((i) => i++);
         }
       }
     }
@@ -138,33 +160,27 @@ export const DownloadButton: React.FC<Props> = (props) => {
     };
   }, []);
 
-  useEffect(() => {
-    if (!loading && !props.disabled && props.config !== configRef.current) {
-      api.deleteSession();
-    }
-  }, [props.config]);
-
   return (
     <div className='flex items-center justify-center'>
       <div className='relative' ref={dropdownRef}>
         <button
-          className='disabled:opacity-40 bg-green-600 hover:bg-green-500 rounded-2xl py-3 px-4 inline-flex items-center'
+          className='bg-green-600 hover:bg-green-500 rounded-2xl py-3 px-4 inline-flex items-center'
           disabled={props.disabled}
           onClick={() => setShowDropdown(!showDropdown)}>
           <span className='text-lg font-semibold'>
-            {loading ? 'Processing' : 'Download'}
+            {loading || props.disabled ? 'Processing' : 'Download'}
           </span>
 
           <span className='w-5 ml-2'>
-            {loading ? <ProcessingSVG /> : <DownloadSVG />}
+            {loading || props.disabled ? <ProcessingSVG /> : <DownloadSVG />}
           </span>
         </button>
 
         {showDropdown && (
           <div className='absolute w-64 h-auto md:w-72 lg:w-96 mt-2 z-10 right-0'>
             <div className='bg-[#2e2e2e] text-white border border-white/[.2] rounded-xl shadow-xl relative'>
-              {!props.disabled && props?.totalCount !== 0 && (
-                <p className='font-bold text-white/[.2] text-xl text-center p-1 mt-2'>{`${downloadCount}/${props.totalCount}`}</p>
+              {!props.disabled && total && (
+                <p className='font-bold text-white/[.2] text-xl text-center p-1 mt-2'>{`${count}/${total}`}</p>
               )}
               {loading ? (
                 <div className='flex p-6 justify-center items-center'>
@@ -185,13 +201,13 @@ export const DownloadButton: React.FC<Props> = (props) => {
                   )}
                   <div className='p-4 grid grid-flow-row gap-4 diviide-y-2 divide-white/[.1] text-left'>
                     <button
-                      disabled={props.disabled || loading}
+                      disabled={props.disabled || loading || zeroCount}
                       className='bg-white/[.1] rounded-xl p-4 text-left font-bold'
                       onClick={() => handleDownload('x11')}>
                       XCursors (.tar.gz)
                     </button>
                     <button
-                      disabled={props.disabled || loading}
+                      disabled={props.disabled || loading || zeroCount}
                       className='bg-white/[.1] rounded-xl p-4 text-left font-bold'
                       onClick={() => handleDownload('win')}>
                       Windows (.zip)

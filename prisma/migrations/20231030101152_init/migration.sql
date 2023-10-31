@@ -1,6 +1,12 @@
 -- CreateEnum
 CREATE TYPE "Role" AS ENUM ('USER', 'PRO', 'ADMIN');
 
+-- CreateEnum
+CREATE TYPE "Platform" AS ENUM ('win', 'x11');
+
+-- CreateEnum
+CREATE TYPE "Type" AS ENUM ('Modern', 'Original');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
@@ -25,7 +31,9 @@ CREATE TABLE "Download" (
     "baseColor" TEXT NOT NULL,
     "outlineColor" TEXT NOT NULL,
     "watchBGColor" TEXT NOT NULL,
-    "index" SERIAL NOT NULL,
+    "platform" "Platform" NOT NULL,
+    "type" "Type" NOT NULL,
+    "index" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "userId" TEXT,

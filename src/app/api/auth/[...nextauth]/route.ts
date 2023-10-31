@@ -5,8 +5,8 @@ import { upsertUser } from '@services/user';
 import { isSponsor } from '@utils/sponsor/is-sponsor';
 import { genAccessToken } from '@utils/auth/token';
 
-import { UserRole } from 'bibata-live/misc';
 import { DB_SEEDS } from '@root/configs';
+import { Role } from '@prisma/client';
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -24,7 +24,7 @@ export const authOptions: AuthOptions = {
       if (trigger === 'signIn' && profile) {
         const userId = profile.id.toString();
         const login = profile.login;
-        const role: UserRole = (await isSponsor(login)) ? 'PRO' : 'USER';
+        const role: Role = (await isSponsor(login)) ? 'PRO' : 'USER';
         const user = {
           userId: userId,
           login: login,
@@ -33,7 +33,8 @@ export const authOptions: AuthOptions = {
           email: profile.email || null,
           avatarUrl: profile.avatar_url,
           role: role,
-          totalDownloadCount: role === 'USER' ? DB_SEEDS.SIGNUP_DOWNLOAD : null
+          totalDownloadCount:
+            role === 'USER' ? DB_SEEDS.FRESH_SIGNUP_DOWNLOADS : null
         };
         token.user = await upsertUser(user);
       }
@@ -44,6 +45,8 @@ export const authOptions: AuthOptions = {
     async session({ session, token }) {
       if (token.user) {
         session.accessToken = genAccessToken(token.user);
+      } else {
+        session.accessToken = genAccessToken();
       }
       return Promise.resolve({ ...session, user: { ...token.user } });
     }

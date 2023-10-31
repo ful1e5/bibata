@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { FetchSVG } from '@utils/figma/fetch-svgs';
-import { handleErrorWithFigma } from '@utils/figma/handle-error';
+import { figmaAPIError } from '@utils/figma/handle-error';
+
+import { RESPONSES as res } from '@api/config';
 import { TYPES } from '@root/configs';
 
 export async function GET(request: NextRequest) {
@@ -16,21 +18,21 @@ export async function GET(request: NextRequest) {
           const svgs = await api.fetchSVGs({ type });
           return NextResponse.json({ error: null, data: svgs });
         } catch (e) {
-          handleErrorWithFigma(e);
+          return figmaAPIError(e);
         }
       } else {
-        return NextResponse.json({
-          status: 404,
-          error: `No images found for '${type}'`
-        });
+        return NextResponse.json(
+          { error: `No images found for '${type}'` },
+          { status: 404 }
+        );
       }
     } else {
-      return NextResponse.json({
-        status: 400,
-        error: "Invalid Request. The 'type' parameter is missing"
-      });
+      return NextResponse.json(
+        { error: "Invalid Request. The 'type' parameter is missing" },
+        { status: 400 }
+      );
     }
   } else {
-    return NextResponse.json({ status: 405, error: 'Method not allowed' });
+    return res.invalid_method;
   }
 }

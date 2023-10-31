@@ -3,60 +3,62 @@
 import { useEffect, useState } from 'react';
 import { getSession } from 'next-auth/react';
 
-import { Cursors } from '@components/Cursors';
+import { TYPES, PREBUILT_COLORS, SIZES } from '@root/configs';
+import { useLocalStorage as useStorage } from '@hooks/useLocalStorage';
+
+import { TypePicker } from '@components/TypePicker';
+import { SizePicker } from '@components/SizePicker';
 import { ColorPicker } from '@components/ColorPicker';
 import { DownloadButton } from '@components/DownloadButton';
-import {
-  GroupedButtons,
-  SmallGroupedButtons
-} from '@components/GroupedButtons';
+import { Cursors } from '@components/Cursors';
 
-import { TYPES, PREBUILT_COLORS, SIZES } from '@root/configs';
-import { getSponsorshipGoals } from '@utils/sponsor/get-count';
+import { CoreApi } from '@utils/core';
+import { genAccessToken } from '@utils/auth/token';
+import { getDownloadCounts } from '@utils/sponsor/get-count';
 
-import { useLocalStorage } from '@hooks/useLocalStorage';
 import { Image } from 'bibata-live/core-api/types';
-import { Color } from 'bibata-live/app';
-import { Goals } from 'bibata-live/misc';
+import { DownloadCounts } from 'bibata-live/misc';
 
 export default function StudioPage() {
-  const [type, setType] = useLocalStorage<string>('type', TYPES[0]);
-  const [cursorSize, setCursorSize] = useLocalStorage<number>(
-    'cursorSize',
-    SIZES[0]
-  );
+  const api = new CoreApi();
 
-  const [colorName, setColorName] = useLocalStorage<string>(
-    'colorName',
-    'Amber'
-  );
-  const [color, setColor] = useLocalStorage<Color>(
-    'color',
-    PREBUILT_COLORS[colorName]
-  );
+  const [type, setType] = useStorage<string>('type', TYPES[0]);
+  const [cursorSize, setCursorSize] = useStorage('cursorSize', SIZES[0]);
+
+  const [colorName, setColorName] = useStorage('colorName', 'Amber');
+  const [color, setColor] = useStorage('color', PREBUILT_COLORS[colorName]);
 
   const [animationDelay, setAnimationDelay] = useState<number>(100);
 
   const [images, setImages] = useState<Image[]>([]);
-  const [imagesCount, setImagesCount] = useState<number>(0);
+  const [imagesCount, setImagesCount] = useState(0);
 
-  const [token, setToken] = useState<string>();
-  const [goals, setGoals] = useState<Goals | null>(null);
+  const [token, setToken] = useState<string>(genAccessToken());
+  const [counts, setCounts] = useState<DownloadCounts | null>(null);
 
   const resetBuildSession = () => {
     setImages([]);
     setImagesCount(0);
-    getSession().then((session) => setToken(session?.accessToken));
-    getSponsorshipGoals().then((goals) => setGoals(goals));
+    getSession().then((session) =>
+      session?.accessToken
+        ? setToken(session.accessToken)
+        : setToken(genAccessToken())
+    );
   };
 
   useEffect(() => {
     resetBuildSession();
+    getDownloadCounts(token).then((c) => setCounts(c));
   }, []);
+
+  useEffect(() => {
+    getDownloadCounts(token).then((c) => setCounts(c));
+    api.refreshSession(token);
+  }, [token]);
 
   return (
     <main className='container m-auto p-7'>
-      <GroupedButtons
+      <TypePicker
         list={TYPES}
         value={type}
         onClick={(v) => {
@@ -66,10 +68,13 @@ export default function StudioPage() {
       />
 
       <div className='mt-10'>
-        <SmallGroupedButtons
+        <SizePicker
           list={SIZES}
           values={cursorSize}
-          onClick={(s) => setCursorSize(s)}
+          onClick={(s) => {
+            setCursorSize(s);
+            api.refreshSession(token);
+          }}
         />
       </div>
 
@@ -87,12 +92,18 @@ export default function StudioPage() {
 
       <div className='my-10'>
         <DownloadButton
-          token={token}
+          api={api}
           disabled={
-            !goals || imagesCount === 0 || imagesCount !== images.length
+            !counts || imagesCount === 0 || imagesCount !== images.length
           }
-          totalCount={goals?.monthlySponsorshipInCents! * 10}
-          config={{ size: cursorSize, delay: animationDelay, color, images }}
+          counts={counts}
+          config={{
+            size: cursorSize,
+            delay: animationDelay,
+            color,
+            images,
+            type
+          }}
         />
       </div>
 
