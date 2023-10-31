@@ -5,9 +5,9 @@ import { decodeAuthToken } from '@utils/auth/token';
 
 import { RESPONSES as res } from '@api/config';
 
-import { JWTToken } from 'bibata-live/core-api/types';
-import { Goals } from 'bibata-live/misc';
+import { Goals, JWTToken } from 'bibata-live/misc';
 import { getUserTotalDownloads } from '@services/user';
+import { DB_SEEDS } from '@root/configs';
 
 export async function GET(request: NextRequest) {
   if (request.method === 'GET') {
@@ -22,7 +22,9 @@ export async function GET(request: NextRequest) {
       .then((json) => json.goals)) as Goals;
 
     const sponsorCount = NextResponse.json({
-      total: sponsor_data.monthlySponsorshipInCents * 10,
+      total: DB_SEEDS.DOWNLOADS_PER_CENTS(
+        sponsor_data.monthlySponsorshipInCents
+      ),
       count: await getIndex(null)
     });
 

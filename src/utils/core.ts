@@ -1,7 +1,7 @@
-import { genAccessToken } from '@utils/auth/token';
+import { AuthToken } from 'bibata-live/core-api/types';
 
 import { Platform } from 'bibata-live/db';
-import { AuthToken } from 'bibata-live/core-api/types';
+
 import {
   AuthError,
   DeleteSessionResponse,
@@ -13,7 +13,7 @@ import {
 export class CoreApi {
   url: string;
   downloadUrl: string;
-  auth: AuthToken | undefined;
+  jwt: AuthToken | undefined;
 
   constructor() {
     this.url = '/api/core';
@@ -28,16 +28,15 @@ export class CoreApi {
       : undefined;
   }
 
-  public async getSession(token?: string) {
-    const accessToken = token || genAccessToken();
+  public async getSession(token: string) {
     const res = await fetch(`${this.url}/session`, {
-      headers: this.__headers(accessToken),
+      headers: this.__headers(token),
       credentials: 'include'
     });
 
     const data: GetSessionResponse = await res.json();
-    this.auth = { ...data, token: accessToken! };
-    return this.auth;
+    this.jwt = { ...data, token: token };
+    return data;
   }
 
   public async deleteSession() {
@@ -50,9 +49,14 @@ export class CoreApi {
     return data as DeleteSessionResponse;
   }
 
+  public async refreshSession(token: string) {
+    await this.deleteSession();
+    return await this.getSession(token);
+  }
+
   public async uploadImages(body: FormData) {
     const res = await fetch(`${this.url}/upload`, {
-      headers: this.__headers(this.auth?.token),
+      headers: this.__headers(this.jwt?.token),
       method: 'POST',
       body
     });
@@ -67,7 +71,7 @@ export class CoreApi {
 
   public async downloadable(platform: Platform) {
     const res = await fetch(`${this.downloadUrl}?type=${platform}`, {
-      headers: this.__headers(this.auth?.token)
+      headers: this.__headers(this.jwt?.token)
     });
 
     if (res.status === 200) {

@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { AddDownloadData, addDownload } from '@services/download';
 import { decodeAuthToken } from '@utils/auth/token';
 
-import { JWTToken } from 'bibata-live/core-api/types';
+import { JWTToken } from 'bibata-live/misc';
 
 import { RESPONSES as res } from '@api/config';
 
@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
       await addDownload({ id: auth.id, data });
       return NextResponse.json({ success: true });
     } catch (error) {
-      console.log(error);
+      console.error(error);
       return res.invalid_request;
     }
   } else {

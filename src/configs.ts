@@ -10,4 +10,7 @@ export const PREBUILT_COLORS: Colors = {
   Ice: { base: 'ffffff', outline: '000000' }
 };
 
-export const DB_SEEDS = { SIGNUP_DOWNLOAD: 20 };
+export const DB_SEEDS = {
+  FRESH_SIGNUP_DOWNLOADS: 20,
+  DOWNLOADS_PER_CENTS: (cents: number) => cents * 10 // 1000 public Downloads per dollar
+};

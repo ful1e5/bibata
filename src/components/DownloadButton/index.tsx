@@ -2,17 +2,17 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { CoreApi } from '@utils/core';
 import { ErrorSVG, DownloadSVG, ProcessingSVG } from './svgs';
 
-import { BibataType, Platform } from 'bibata-live/db';
 import { Image } from 'bibata-live/core-api/types';
 import { DownloadCounts } from 'bibata-live/misc';
 import { Color } from 'bibata-live/app';
+import { CoreApi } from '@utils/core';
+import { Platform, Type } from '@prisma/client';
 
 type Props = {
   disabled?: boolean;
-  token?: string;
+  api: CoreApi;
   counts: DownloadCounts | null;
   config: {
     type: string;
@@ -30,7 +30,8 @@ type ProcessOptions = {
 };
 
 export const DownloadButton: React.FC<Props> = (props) => {
-  const api = new CoreApi();
+  const api = props.api;
+
   const total = props.counts?.total;
   const count = props.counts?.count;
   const zeroCount = total === count;
@@ -43,13 +44,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const configRef = useRef(props.config);
-
-  const processImages = async (
-    api: CoreApi,
-    images: Image[],
-    options: ProcessOptions
-  ) => {
+  const processImages = async (images: Image[], options: ProcessOptions) => {
     for (const i of images) {
       setLoadingText(`Processing '${i.name}' ...`);
 
@@ -79,7 +74,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
     setErrorText('');
   };
 
-  const storeToDB = async (token: string, platform: string) => {
+  const storeToDB = async (platform: string) => {
     const { type, color } = props.config;
     const toHex = (s: string) => `#${s}`;
 
@@ -89,11 +84,11 @@ export const DownloadButton: React.FC<Props> = (props) => {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${api.jwt!.token}`
         },
         body: JSON.stringify({
           platform,
-          type: type as BibataType,
+          type: type as Type,
           baseColor: toHex(color.base),
           outlineColor: toHex(color.outline),
           watchBGColor: toHex(color.watch || color.base)
@@ -109,8 +104,6 @@ export const DownloadButton: React.FC<Props> = (props) => {
 
     const { images, size, delay } = props.config;
 
-    const refreshToken = await api.getSession(props.token);
-    console.log(refreshToken.token);
     const downloadUrl = `${api.downloadUrl}?type=${platform}`;
 
     setLoadingText(`Preparing Requests ...`);
@@ -119,7 +112,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
     if (!download?.error) {
       downloadFile(downloadUrl);
     } else {
-      const upload = await processImages(api, images, {
+      const upload = await processImages(images, {
         platform,
         size,
         delay
@@ -139,7 +132,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
           console.error(download.error);
           setErrorText('Oops.. Packaging Failed!');
         } else {
-          await storeToDB(refreshToken.token, platform);
+          await storeToDB(platform);
           downloadFile(downloadUrl);
         }
       }
@@ -167,25 +160,19 @@ export const DownloadButton: React.FC<Props> = (props) => {
     };
   }, []);
 
-  useEffect(() => {
-    if (!loading && !props.disabled && props.config !== configRef.current) {
-      api.deleteSession();
-    }
-  }, [props.config]);
-
   return (
     <div className='flex items-center justify-center'>
       <div className='relative' ref={dropdownRef}>
         <button
-          className='disabled:opacity-40 bg-green-600 hover:bg-green-500 rounded-2xl py-3 px-4 inline-flex items-center'
+          className='bg-green-600 hover:bg-green-500 rounded-2xl py-3 px-4 inline-flex items-center'
           disabled={props.disabled}
           onClick={() => setShowDropdown(!showDropdown)}>
           <span className='text-lg font-semibold'>
-            {loading ? 'Processing' : 'Download'}
+            {loading || props.disabled ? 'Processing' : 'Download'}
           </span>
 
           <span className='w-5 ml-2'>
-            {loading ? <ProcessingSVG /> : <DownloadSVG />}
+            {loading || props.disabled ? <ProcessingSVG /> : <DownloadSVG />}
           </span>
         </button>
 

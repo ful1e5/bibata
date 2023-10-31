@@ -1,8 +1,22 @@
+import { Role } from '@prisma/client';
+
 import prisma from './prisma';
 
-import { DBUser } from 'bibata-live/db';
+export type AddUserData = {
+  id?: string;
+  userId: string;
+  login: string;
+  name: string | null;
+  email: string | null;
+  url: string;
+  avatarUrl: string;
 
-export const upsertUser = async (user: DBUser) => {
+  role: Role;
+  index?: number;
+  totalDownloadCount: number | null;
+};
+
+export const upsertUser = async (user: AddUserData) => {
   return await prisma.user.upsert({
     where: { userId: user.userId },
     update: { role: user.role },

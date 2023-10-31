@@ -1,12 +1,12 @@
-import prisma from './prisma';
+import { Platform, Type } from '@prisma/client';
 
-import { BibataType, Platform } from 'bibata-live/db';
+import prisma from './prisma';
 
 export type AddDownloadData = {
   id: string | null;
   data: {
     platform: Platform;
-    type: BibataType;
+    type: Type;
     baseColor: string;
     outlineColor: string;
     watchBGColor: string;

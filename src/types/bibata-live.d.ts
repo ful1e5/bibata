@@ -28,41 +28,18 @@ declare module 'bibata-live/misc' {
     total: number | null;
     count: number;
   };
-}
 
-declare module 'bibata-live/db' {
-  type BibataType = 'Modern' | 'Original';
-
-  type Platform = 'x11' | 'win';
-
-  type UserRole = 'USER' | 'PRO' | 'ADMIN';
-
-  type DBUser = {
-    id?: string;
-    userId: string;
-    login: string;
+  type JWTToken = {
+    token_id: string;
+    id: string | null;
+    userId: string | null;
+    login: string | null;
     name: string | null;
+    url: string | null;
     email: string | null;
-    url: string;
-    avatarUrl: string;
-
+    avatarUrl: string | null;
     role: UserRole;
-    index?: number;
     totalDownloadCount: number | null;
-  };
-
-  type DBDownload = {
-    id?: string;
-    baseColor: string;
-    outlineColor: string;
-    watchBGColor: string;
-
-    index?: number;
-    createdAt?: string;
-    updatedAt?: string;
-
-    user?: DBUser;
-    userId?: string;
   };
 }
 
