@@ -12,19 +12,11 @@ import { ColorPicker } from '@components/ColorPicker';
 import { DownloadButton } from '@components/DownloadButton';
 import { Cursors } from '@components/Cursors';
 
-<<<<<<< HEAD
-import { TYPES, PREBUILT_COLORS, SIZES } from '@root/configs';
-=======
 import { CoreApi } from '@utils/core';
 import { genAccessToken } from '@utils/auth/token';
->>>>>>> dev-1
 import { getDownloadCounts } from '@utils/sponsor/get-count';
 
 import { Image } from 'bibata-live/core-api/types';
-<<<<<<< HEAD
-import { Color } from 'bibata-live/app';
-=======
->>>>>>> dev-1
 import { DownloadCounts } from 'bibata-live/misc';
 
 export default function StudioPage() {
@@ -41,26 +33,17 @@ export default function StudioPage() {
   const [images, setImages] = useState<Image[]>([]);
   const [imagesCount, setImagesCount] = useState(0);
 
-<<<<<<< HEAD
-  const [token, setToken] = useState<string>();
-=======
   const [token, setToken] = useState<string>(genAccessToken());
->>>>>>> dev-1
   const [counts, setCounts] = useState<DownloadCounts | null>(null);
 
   const resetBuildSession = () => {
     setImages([]);
     setImagesCount(0);
-<<<<<<< HEAD
-    getSession().then((session) => setToken(session?.accessToken));
-    getDownloadCounts(token).then((c) => setCounts(c));
-=======
     getSession().then((session) =>
       session?.accessToken
         ? setToken(session.accessToken)
         : setToken(genAccessToken())
     );
->>>>>>> dev-1
   };
 
   useEffect(() => {
