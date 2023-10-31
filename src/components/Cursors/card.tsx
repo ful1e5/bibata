@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { Color, SVG } from 'bibata-live/app';
 import { Image } from 'bibata-live/core-api/types';
+import { useLocalStorage } from '@hooks/useLocalStorage';
 
 type Props = {
   svg: SVG;
@@ -16,7 +17,7 @@ export const CursorCard: React.FC<Props> = (props) => {
   const [loading, setLoading] = useState<boolean>(true);
 
   const [svg, setSvg] = useState<string>('');
-  const [frames, setFrames] = useState<string[]>([]);
+  const [frames, setFrames] = useLocalStorage<string[]>(props.svg.ids[0], []);
   const [frameIndex, setFrameIndex] = useState<number>(0);
 
   const c = JSON.stringify({

@@ -162,9 +162,11 @@ export const DownloadButton: React.FC<Props> = (props) => {
 
   return (
     <div className='flex items-center justify-center'>
-      <div className='relative' ref={dropdownRef}>
+      <div
+        className='relative w-full sm:w-1/2 md:w-1/3 xl:w-1/4 px-20 sm:px-8 h-16'
+        ref={dropdownRef}>
         <button
-          className='bg-green-600 hover:bg-green-500 rounded-2xl py-3 px-4 inline-flex items-center'
+          className='w-full h-full bg-green-600 hover:bg-green-500 rounded-2xl py-3 inline-flex items-center justify-center'
           disabled={props.disabled}
           onClick={() => setShowDropdown(!showDropdown)}>
           <span className='text-lg font-semibold'>

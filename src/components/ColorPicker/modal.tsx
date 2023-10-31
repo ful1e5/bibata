@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Wheel from '@uiw/react-color-wheel';
 
 import { CursorPreview } from './preview';
@@ -78,8 +78,10 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
   return (
     <>
       {props.isOpen && (
-        <div className='z-20 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-80'>
-          <div className='bg-[#333333] p-4 w-full md:w-1/2 xl:w-1/3 h-full md:h-auto md:rounded-3xl shadow-md'>
+        <div
+          onClick={(e) => e.target === e.currentTarget && props.onClose()}
+          className='z-20 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-80'>
+          <div className='bg-[#333333] w-full md:w-1/2 xl:w-1/3 max-h-full overflow-y-auto p-4 m-4 rounded-3xl shadow-lg'>
             <div className='flex justify-between'>
               <div>
                 <button
