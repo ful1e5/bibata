@@ -15,38 +15,43 @@ export async function GET(request: NextRequest) {
 
     const token = request.headers.get('Authorization')?.replace('Bearer ', '');
 
-    const sponsor_data = (await fetch(
-      'https://sponsor-spotlight.vercel.app/api/fetch?goals=true'
-    )
-      .then((r) => r.json())
-      .then((json) => json.goals)) as Goals;
-
-    const sponsorCount = NextResponse.json({
-      total: DB_SEEDS.DOWNLOADS_PER_CENTS(
-        sponsor_data.monthlySponsorshipInCents
-      ),
-      count: await getIndex(null)
-    });
-
-    if (!token) return sponsorCount;
-
     try {
-      auth = decodeAuthToken(token);
-      if (!auth?.id) return sponsorCount;
+      const sponsor_data = (await fetch(
+        'https://sponsor-spotlight.vercel.app/api/fetch?goals=true'
+      )
+        .then((r) => r.json())
+        .then((json) => json.goals)) as Goals;
 
-      const roles = ['USER', 'PRO', 'ADMIN'];
+      const sponsorCount = NextResponse.json({
+        total: DB_SEEDS.DOWNLOADS_PER_CENTS(
+          sponsor_data.monthlySponsorshipInCents
+        ),
+        count: await getIndex(null)
+      });
 
-      if (roles.includes(auth.role)) {
-        let total = await getUserTotalDownloads(auth.id);
+      if (!token) return sponsorCount;
 
-        if (total === undefined) return sponsorCount;
+      try {
+        auth = decodeAuthToken(token);
+        if (!auth?.id) return sponsorCount;
 
-        return NextResponse.json({ total, count: await getIndex(auth.id) });
-      } else {
+        const roles = ['USER', 'PRO', 'ADMIN'];
+
+        if (roles.includes(auth.role)) {
+          let total = await getUserTotalDownloads(auth.id);
+
+          if (total === undefined) return sponsorCount;
+
+          return NextResponse.json({ total, count: await getIndex(auth.id) });
+        } else {
+          return sponsorCount;
+        }
+      } catch {
         return sponsorCount;
       }
-    } catch {
-      return sponsorCount;
+    } catch (e) {
+      console.error(e);
+      return NextResponse.json({ total: 0, count: 0 });
     }
   } else {
     return res.invalid_method;

@@ -21,10 +21,19 @@ type Props = {
 };
 
 export const Cursors: React.FC<Props> = (props) => {
-  const fetcher = (url: string) =>
-    fetch(url, { next: { revalidate: 360 } })
-      .then((res) => res.json())
-      .then((json) => json);
+  const fetcher = async (url: string) => {
+    const cache = await caches.open('images-info');
+    let res = await cache.match(url);
+
+    if (!res) {
+      res = await fetch(url, { next: { revalidate: 360 } });
+      if (res.status === 200) {
+        await cache.put(url, res.clone());
+      }
+    }
+
+    return await res.json();
+  };
 
   const { data: res, isLoading: isRequesting } = useSWR<{
     data: SVG[];
@@ -42,7 +51,7 @@ export const Cursors: React.FC<Props> = (props) => {
 
   if (!res) return <Timeout />;
 
-  if (res.error) return <Error status={res.status} error={res.error} />;
+  if (res.error) return <Error message={res.error} />;
 
   const svgs = res.data as SVG[];
 

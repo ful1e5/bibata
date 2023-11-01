@@ -45,21 +45,19 @@ export const CursorCard: React.FC<Props> = (props) => {
     const l: string[] = [];
     for (const id of props.svg.ids) {
       const url = `/api/svg/${id}?color=${c}&display`;
-      const cache = await caches.open(id);
+      const cache = await caches.open('images');
       let res = await cache.match(url);
 
       if (!res) {
         res = await fetch(url, {
           next: { revalidate: 360 }
-        }).catch(() => {
-          throw new Error('Unable to fetch Image');
         });
-        await cache.put(url, res.clone());
-      }
-
-      if (res.status !== 200) {
-        const r = await res.json();
-        throw new Error(r['error']);
+        if (res.status !== 200) {
+          const r = await res.json();
+          throw new Error(r['error']);
+        } else {
+          await cache.put(url, res.clone());
+        }
       }
 
       const frame = await res.text();

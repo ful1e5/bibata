@@ -37,9 +37,12 @@ export default function StudioPage() {
   const [token, setToken] = useState(genAccessToken());
   const [counts, setCounts] = useState<DownloadCounts | null>(null);
 
-  const resetBuildSession = () => {
+  const resetImages = () => {
     setImages([]);
     setImagesCount(0);
+  };
+
+  const refreshToken = () => {
     if (session?.accessToken) {
       setToken(session.accessToken);
     } else {
@@ -50,7 +53,7 @@ export default function StudioPage() {
 
   useEffect(() => {
     getDownloadCounts(token).then((c) => setCounts(c));
-    resetBuildSession();
+    refreshToken();
     if (status !== 'loading') {
       api.refreshSession(token);
     }
@@ -62,8 +65,9 @@ export default function StudioPage() {
         list={TYPES}
         value={type}
         onClick={(v) => {
+          resetImages();
           setType(v);
-          resetBuildSession();
+          refreshToken();
         }}
       />
 
@@ -83,9 +87,10 @@ export default function StudioPage() {
           colorName={colorName}
           colors={PREBUILT_COLORS}
           onClick={(n, c) => {
+            resetImages();
             setColorName(n);
             setColor(c);
-            resetBuildSession();
+            refreshToken();
           }}
         />
       </div>
