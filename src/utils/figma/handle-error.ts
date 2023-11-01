@@ -10,12 +10,12 @@ export const figmaAPIError = (_e: any) => {
     const res = e.response.data;
     return NextResponse.json(
       { error: `[Figma API] ${res.err}` },
-      { status: res.status }
+      { status: res.status || 400 }
     );
   } else {
     return NextResponse.json(
-      { error: `[Figma API] Connect Timeout Error` },
-      { status: 500 }
+      { error: '[Figma API] Connection Timeout' },
+      { status: 504 }
     );
   }
 };

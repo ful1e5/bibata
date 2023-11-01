@@ -49,8 +49,8 @@ export default function StudioPage() {
   };
 
   useEffect(() => {
-    resetBuildSession();
     getDownloadCounts(token).then((c) => setCounts(c));
+    resetBuildSession();
     if (status !== 'loading') {
       api.refreshSession(token);
     }
@@ -94,7 +94,10 @@ export default function StudioPage() {
         <DownloadButton
           api={api}
           disabled={
-            !counts || imagesCount === 0 || imagesCount !== images.length
+            !counts ||
+            imagesCount === 0 ||
+            images.length === 0 ||
+            imagesCount !== images.length
           }
           counts={counts}
           config={{

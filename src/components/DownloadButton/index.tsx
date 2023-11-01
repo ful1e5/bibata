@@ -163,15 +163,15 @@ export const DownloadButton: React.FC<Props> = (props) => {
   return (
     <div className='flex items-center justify-center'>
       <div
-        className='relative w-full sm:w-1/2 md:w-1/3 xl:w-1/4 px-20 sm:px-8 h-16'
+        className='relative w-full sm:w-1/2 lg:w-1/4 px-20 sm:px-10 md:px-12 h-16'
         ref={dropdownRef}>
         <button
-          className='w-full h-full bg-green-600 hover:bg-green-500 rounded-2xl py-3 inline-flex items-center justify-center'
+          className='w-full h-full bg-green-600 hover:bg-green-500 rounded-3xl py-3 inline-flex items-center justify-center'
           disabled={props.disabled}
           onClick={() => setShowDropdown(!showDropdown)}>
-          <span className='text-lg font-semibold'>
+          <p className='overflow-auto text-lg font-semibold'>
             {loading || props.disabled ? 'Processing' : 'Download'}
-          </span>
+          </p>
 
           <span className='w-5 ml-2'>
             {loading || props.disabled ? <ProcessingSVG /> : <DownloadSVG />}
@@ -179,7 +179,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
         </button>
 
         {showDropdown && (
-          <div className='absolute w-64 h-auto md:w-72 lg:w-96 mt-2 z-10 right-0'>
+          <div className='absolute w-full h-auto mt-2 z-10 right-0'>
             <div className='bg-[#2e2e2e] text-white border border-white/[.2] rounded-xl shadow-xl relative'>
               {!props.disabled && total && (
                 <p className='font-bold text-white/[.2] text-xl text-center p-1 mt-2'>{`${count}/${total}`}</p>

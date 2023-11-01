@@ -16,9 +16,9 @@ export const NavBar: React.FC<Props> = (props) => {
 
   return (
     <header className='bg-transparent p-5 top-0 w-full h-15'>
-      <div className='flex items-center justify-between flex-wrap '>
+      <div className='flex items-center justify-between'>
         <Link
-          className='text-3xl font-bold inline-flex gap-1'
+          className='overflow-hidden text-3xl font-bold inline-flex gap-1'
           href='/'
           title='Goto Homepage'>
           {pathname === '/studio' ? 'Bibata Studio' : 'Bibata'}

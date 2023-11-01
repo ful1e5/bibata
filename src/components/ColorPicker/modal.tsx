@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import Wheel from '@uiw/react-color-wheel';
 
 import { CursorPreview } from './preview';
