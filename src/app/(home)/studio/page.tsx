@@ -49,9 +49,8 @@ export default function StudioPage() {
   };
 
   useEffect(() => {
-    refreshToken();
     if (status !== 'loading') {
-      api.refreshSession(token);
+      refreshToken();
     }
   }, [status, update]);
 

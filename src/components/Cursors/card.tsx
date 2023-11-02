@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
+import { fetchX } from '@utils/fetchX';
+
 import { Color, SVG } from 'bibata-live/app';
 import { Image } from 'bibata-live/core-api/types';
 
@@ -45,31 +47,15 @@ export const CursorCard: React.FC<Props> = (props) => {
     const l: string[] = [];
     for (const id of props.svg.ids) {
       const url = `/api/svg/${id}?color=${c}&display`;
-      const cache = await caches.open('images');
-      let res = await cache.match(url);
+      let res = await fetchX(url, { group: 'images' });
 
-      if (!res) {
-        res = await fetch(url, {
-          next: { revalidate: 360 }
-        });
-        if (res.status !== 200) {
-          const r = await res.json();
-          throw new Error(r['error']);
-        } else {
-          await cache.put(url, res.clone());
-        }
+      if (res.status !== 200) {
+        const r = await res.json();
+        throw new Error(r['error']);
       } else {
-        const delay = 300;
-        await new Promise((resolve) =>
-          setTimeout(
-            resolve,
-            props.svg.isAnimated ? delay / props.svg.ids.length : delay
-          )
-        );
+        const frame = await res.text();
+        l.push(frame);
       }
-
-      const frame = await res.text();
-      l.push(frame);
     }
     return l;
   };

@@ -4,13 +4,21 @@ import useSWR from 'swr';
 
 import { useEffect } from 'react';
 
-import { Color, SVG } from 'bibata-live/app';
-import { Image } from 'bibata-live/core-api/types';
+import { fetchX } from '@utils/fetchX';
 
 import { CursorCard as Card } from './card';
 import { CursorsError as Error } from './error';
 import { CursorsLoading as Loading } from './loading';
 import { CursorsTimeOut as Timeout } from './timeout';
+
+import { Color, SVG } from 'bibata-live/app';
+import { Image } from 'bibata-live/core-api/types';
+
+type Response = {
+  data: SVG[];
+  error: string;
+  status: number;
+};
 
 type Props = {
   type: string;
@@ -22,24 +30,14 @@ type Props = {
 
 export const Cursors: React.FC<Props> = (props) => {
   const fetcher = async (url: string) => {
-    const cache = await caches.open('images-info');
-    let res = await cache.match(url);
-
-    if (!res) {
-      res = await fetch(url, { next: { revalidate: 360 } });
-      if (res.status === 200) {
-        await cache.put(url, res.clone());
-      }
-    }
-
-    return await res.json();
+    const res = await fetchX(url, { group: 'images-info' });
+    return (await res.json()) as Response;
   };
 
-  const { data: res, isLoading } = useSWR<{
-    data: SVG[];
-    error: string;
-    status: number;
-  }>(`/api/svg?type=${props.type}`, fetcher);
+  const { data: res, isLoading } = useSWR(
+    `/api/svg?type=${props.type}`,
+    fetcher
+  );
 
   useEffect(() => {
     if (props.onData && res?.data) {

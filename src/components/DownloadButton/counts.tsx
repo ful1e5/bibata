@@ -14,14 +14,20 @@ export const DownloadCount: React.FC<Props> = (props) => {
     return getDownloadCounts(props.token);
   };
 
-  const { data } = useSWR<DownloadCounts>('/api/db/download/count', fetcher);
+  const { data, isLoading } = useSWR<DownloadCounts>(
+    '/api/db/download/count',
+    fetcher
+  );
+
+  if (isLoading)
+    return <div className='h-2 w-full bg-yellow-400/[.5] animate-pulse' />;
 
   if (!data) return <></>;
 
   return (
     <>
       {props.show && data!.total && (
-        <p className='font-bold text-center text-white/[.2] text-xl p-1 mb-2'>{`${data.count}/${data.total}`}</p>
+        <p className='font-bold text-center text-green-100/[.2] text-xl p-1 mb-2'>{`${data.count}/${data.total}`}</p>
       )}
     </>
   );
