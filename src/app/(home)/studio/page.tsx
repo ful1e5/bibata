@@ -14,10 +14,8 @@ import { Cursors } from '@components/Cursors';
 
 import { CoreApi } from '@utils/core';
 import { genAccessToken } from '@utils/auth/token';
-import { getDownloadCounts } from '@utils/sponsor/get-count';
 
 import { Image } from 'bibata-live/core-api/types';
-import { DownloadCounts } from 'bibata-live/misc';
 
 const api = new CoreApi();
 
@@ -35,7 +33,6 @@ export default function StudioPage() {
 
   const { data: session, status, update } = useSession();
   const [token, setToken] = useState(genAccessToken());
-  const [counts, setCounts] = useState<DownloadCounts | null>(null);
 
   const resetImages = () => {
     setImages([]);
@@ -52,7 +49,6 @@ export default function StudioPage() {
   };
 
   useEffect(() => {
-    getDownloadCounts(token).then((c) => setCounts(c));
     refreshToken();
     if (status !== 'loading') {
       api.refreshSession(token);
@@ -99,12 +95,10 @@ export default function StudioPage() {
         <DownloadButton
           api={api}
           disabled={
-            !counts ||
             imagesCount === 0 ||
             images.length === 0 ||
             imagesCount !== images.length
           }
-          counts={counts}
           config={{
             size: cursorSize,
             delay: animationDelay,

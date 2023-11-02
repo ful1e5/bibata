@@ -35,7 +35,7 @@ export const Cursors: React.FC<Props> = (props) => {
     return await res.json();
   };
 
-  const { data: res, isLoading: isRequesting } = useSWR<{
+  const { data: res, isLoading } = useSWR<{
     data: SVG[];
     error: string;
     status: number;
@@ -47,7 +47,7 @@ export const Cursors: React.FC<Props> = (props) => {
     }
   }, [props.onData]);
 
-  if (isRequesting) return <Loading />;
+  if (isLoading) return <Loading />;
 
   if (!res) return <Timeout />;
 

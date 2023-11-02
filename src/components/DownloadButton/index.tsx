@@ -2,18 +2,20 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+import { CoreApi } from '@utils/core';
+import { Platform, Type } from '@prisma/client';
+import { getDownloadCounts } from '@utils/sponsor/get-count';
+
+import { DownloadCount } from './counts';
+import { DownloadSubButtons } from './sub-buttons';
 import { ErrorSVG, DownloadSVG, ProcessingSVG } from './svgs';
 
 import { Image } from 'bibata-live/core-api/types';
-import { DownloadCounts } from 'bibata-live/misc';
 import { Color } from 'bibata-live/app';
-import { CoreApi } from '@utils/core';
-import { Platform, Type } from '@prisma/client';
 
 type Props = {
   disabled?: boolean;
   api: CoreApi;
-  counts: DownloadCounts | null;
   config: {
     type: string;
     color: Color;
@@ -31,10 +33,6 @@ type ProcessOptions = {
 
 export const DownloadButton: React.FC<Props> = (props) => {
   const api = props.api;
-
-  const total = props.counts?.total;
-  const count = props.counts?.count;
-  const zeroCount = total === count;
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -84,7 +82,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${api.jwt!.token}`
+          Authorization: `Bearer ${api.jwt?.token}`
         },
         body: JSON.stringify({
           platform,
@@ -102,42 +100,45 @@ export const DownloadButton: React.FC<Props> = (props) => {
   const handleDownload = async (platform: Platform) => {
     setLoading(true);
 
-    const { images, size, delay } = props.config;
-
-    const downloadUrl = `${api.downloadUrl}?type=${platform}`;
-
-    setLoadingText(`Preparing Requests ...`);
-    const download = await api.downloadable(platform);
-
-    if (!download?.error) {
-      downloadFile(downloadUrl);
+    const { count, total } = await getDownloadCounts(api.jwt?.token);
+    if (count >= total! || (count === 0 && total === 0)) {
+      setErrorText('Download Limit Exceeded.');
     } else {
-      const upload = await processImages(images, {
-        platform,
-        size,
-        delay
-      });
+      const { images, size, delay } = props.config;
+      const downloadUrl = `${api.downloadUrl}?type=${platform}`;
 
-      if (upload?.error) {
-        console.error(upload.error);
-        setErrorText('Oops.. Processing Falied!');
+      setLoadingText(`Preparing Requests ...`);
+      const download = await api.downloadable(platform);
+
+      if (!download?.error) {
+        downloadFile(downloadUrl);
       } else {
-        setLoadingText(
-          `Packaging ${platform == 'win' ? 'Win Cursors' : 'XCursors'} ...`
-        );
+        const upload = await processImages(images, {
+          platform,
+          size,
+          delay
+        });
 
-        const download = await api.downloadable(platform);
-
-        if (download?.error) {
-          console.error(download.error);
-          setErrorText('Oops.. Packaging Failed!');
+        if (upload?.error) {
+          console.error(upload.error);
+          setErrorText('Oops.. Processing Falied!');
         } else {
-          await storeToDB(platform);
-          downloadFile(downloadUrl);
+          setLoadingText(
+            `Packaging ${platform == 'win' ? 'Win Cursors' : 'XCursors'} ...`
+          );
+
+          const download = await api.downloadable(platform);
+
+          if (download?.error) {
+            console.error(download.error);
+            setErrorText('Oops.. Packaging Failed!');
+          } else {
+            await storeToDB(platform);
+            downloadFile(downloadUrl);
+          }
         }
       }
     }
-
     setLoading(false);
   };
 
@@ -181,9 +182,6 @@ export const DownloadButton: React.FC<Props> = (props) => {
         {showDropdown && (
           <div className='absolute w-full h-auto mt-2 z-10 right-0'>
             <div className='bg-[#2e2e2e] text-white border border-white/[.2] rounded-xl shadow-xl relative'>
-              {!props.disabled && total && (
-                <p className='font-bold text-white/[.2] text-xl text-center p-1 mt-2'>{`${count}/${total}`}</p>
-              )}
               {loading ? (
                 <div className='flex p-6 justify-center items-center'>
                   <div className='-ml-1 mr-3 h-5 w-5'>
@@ -201,22 +199,14 @@ export const DownloadButton: React.FC<Props> = (props) => {
                       <p>{errorText}</p>
                     </div>
                   )}
-                  <div className='p-4 grid grid-flow-row gap-4 diviide-y-2 divide-white/[.1] text-left'>
-                    <button
-                      disabled={props.disabled || loading || zeroCount}
-                      className='bg-white/[.1] rounded-xl p-4 text-left font-bold'
-                      onClick={() => handleDownload('x11')}>
-                      XCursors (.tar.gz)
-                    </button>
-                    <button
-                      disabled={props.disabled || loading || zeroCount}
-                      className='bg-white/[.1] rounded-xl p-4 text-left font-bold'
-                      onClick={() => handleDownload('win')}>
-                      Windows (.zip)
-                    </button>
-                  </div>
+                  <DownloadSubButtons
+                    disabled={props.disabled || loading}
+                    onClick={(p) => handleDownload(p)}
+                  />
                 </>
               )}
+
+              <DownloadCount token={api.jwt?.token} show={!props.disabled} />
             </div>
           </div>
         )}

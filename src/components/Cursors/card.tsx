@@ -58,6 +58,14 @@ export const CursorCard: React.FC<Props> = (props) => {
         } else {
           await cache.put(url, res.clone());
         }
+      } else {
+        const delay = 300;
+        await new Promise((resolve) =>
+          setTimeout(
+            resolve,
+            props.svg.isAnimated ? delay / props.svg.ids.length : delay
+          )
+        );
       }
 
       const frame = await res.text();
@@ -136,7 +144,9 @@ export const CursorCard: React.FC<Props> = (props) => {
               dangerouslySetInnerHTML={{ __html: svg }}
             />
           ) : (
-            <BrokenImage />
+            <div hidden={loading}>
+              <BrokenImage />
+            </div>
           )}
         </div>
       </div>
