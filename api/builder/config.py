@@ -8,7 +8,7 @@ def gtmp(sub_dir: str) -> Path:
 
 def gsubtmp(sid: str) -> Path:
     parent_dir = gtmp(sid)
-    return parent_dir / f"Bibata-live-{sid[:5]}"
+    return parent_dir / f"{sid[:5]}"
 
 
 class Config:

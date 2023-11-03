@@ -1,5 +1,6 @@
+import { LIB_VERSION } from '@root/version';
+
 import { Platform } from '@prisma/client';
-import { AuthToken } from 'bibata-live/core-api/types';
 
 import {
   AuthError,
@@ -8,15 +9,14 @@ import {
   GetSessionResponse,
   UploadResponse
 } from 'bibata-live/core-api/responses';
+import { AuthToken } from 'bibata-live/core-api/types';
 
 export class CoreApi {
   url: string;
-  downloadUrl: string;
   jwt: AuthToken | undefined;
 
   constructor() {
     this.url = '/api/core';
-    this.downloadUrl = `${this.url}/download`;
   }
 
   private __headers(token?: string) {
@@ -68,8 +68,12 @@ export class CoreApi {
     }
   }
 
-  public async downloadable(platform: Platform) {
-    const res = await fetch(`${this.downloadUrl}?type=${platform}`, {
+  public downloadUrl(p: Platform, n: string) {
+    return `${this.url}/download?platform=${p}&name=${n}&v=${LIB_VERSION}`;
+  }
+
+  public async downloadable(p: Platform, n: string) {
+    const res = await fetch(this.downloadUrl(p, n), {
       headers: this.__headers(this.jwt?.token)
     });
 

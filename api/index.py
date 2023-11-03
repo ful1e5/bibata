@@ -83,9 +83,9 @@ def download():
 
     res: FileResponse
     if param.platform == "win":
-        res = win_compress(id, logger)
+        res = win_compress(id, param, logger)
     else:
-        res = x11_compress(id, logger)
+        res = x11_compress(id, param, logger)
 
     if res.errors:
         errors.extend(res.errors)

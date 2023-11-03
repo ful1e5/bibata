@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 
 import { getDownloadCounts } from '@utils/sponsor/get-count';
@@ -11,23 +12,43 @@ type Props = {
 
 export const DownloadCount: React.FC<Props> = (props) => {
   const fetcher = () => {
-    return getDownloadCounts(props.token);
+    try {
+      return getDownloadCounts(props.token);
+    } catch {
+      return { total: 0, count: 0 };
+    }
   };
 
   const { data, isLoading } = useSWR<DownloadCounts>(
     '/api/db/download/count',
     fetcher
   );
+  const [noDownloads, setNoDownloads] = useState(false);
+
+  useEffect(() => {
+    if (data) {
+      if (data.total === data.count) {
+        setNoDownloads(true);
+      }
+    }
+  }, [data]);
 
   if (isLoading)
-    return <div className='h-2 w-full bg-yellow-400/[.5] animate-pulse' />;
+    return <div className='h-1 w-full bg-blue-400/[.5] animate-pulse' />;
 
   if (!data) return <></>;
 
   return (
     <>
-      {props.show && data!.total && (
-        <p className='font-bold text-center text-green-100/[.2] text-xl p-1 mb-2'>{`${data.count}/${data.total}`}</p>
+      {props.show && (data!.total || data.total === 0) && (
+        <p
+          className={`${
+            noDownloads
+              ? 'bg-red-400/[.03] text-red-400/[.8]'
+              : 'bg-green-400/[.03] text-green-400/[.8]'
+          } font-bold text-center text-xl p-1`}>
+          {`${data.count}/${data.total}`}
+        </p>
       )}
     </>
   );

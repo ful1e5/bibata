@@ -104,11 +104,13 @@ export const DownloadButton: React.FC<Props> = (props) => {
     if (count >= total! || (count === 0 && total === 0)) {
       setErrorText('Download Limit Exceeded.');
     } else {
-      const { images, size, delay } = props.config;
-      const downloadUrl = `${api.downloadUrl}?type=${platform}`;
+      const { images, size, delay, type } = props.config;
+
+      const name = `Bibata-${type}`;
+      const downloadUrl = api.downloadUrl(platform, name);
 
       setLoadingText(`Preparing Requests ...`);
-      const download = await api.downloadable(platform);
+      const download = await api.downloadable(platform, name);
 
       if (!download?.error) {
         downloadFile(downloadUrl);
@@ -127,7 +129,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
             `Packaging ${platform == 'win' ? 'Win Cursors' : 'XCursors'} ...`
           );
 
-          const download = await api.downloadable(platform);
+          const download = await api.downloadable(platform, name);
 
           if (download?.error) {
             console.error(download.error);
@@ -181,7 +183,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
 
         {showDropdown && (
           <div className='absolute w-full h-auto mt-2 z-10 right-0'>
-            <div className='bg-[#2e2e2e] text-white border border-white/[.2] rounded-xl shadow-xl relative'>
+            <div className='overflow-hidden bg-[#2e2e2e] text-white border border-white/[.2] rounded-xl shadow-xl relative'>
               {loading ? (
                 <div className='flex p-6 justify-center items-center'>
                   <div className='-ml-1 mr-3 h-5 w-5'>

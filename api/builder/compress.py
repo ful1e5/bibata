@@ -10,6 +10,7 @@ from clickgen.packer.windows import pack_win
 from clickgen.packer.x11 import pack_x11
 
 from api.builder.config import gsubtmp, gtmp
+from api.utils.parser import DownloadParams
 
 
 @dataclass
@@ -18,11 +19,12 @@ class FileResponse:
     errors: List[str]
 
 
-def win_compress(id: str, logger: Logger) -> FileResponse:
+def win_compress(id: str, param: DownloadParams, logger: Logger) -> FileResponse:
     errors: List[str] = []
 
     dir = gsubtmp(id)
-    fp = gtmp(id) / f"{dir.stem}.zip"
+    name = f"{param.name}-{dir.stem}-v{param.version}"
+    fp = gtmp(id) / f"{name}.zip"
 
     if not fp.exists():
         if len(list(dir.glob("*"))) <= 0:
@@ -31,8 +33,8 @@ def win_compress(id: str, logger: Logger) -> FileResponse:
         try:
             pack_win(
                 dir,
-                theme_name=dir.name,
-                comment="Bibata Live",
+                theme_name=param.name,
+                comment="Bibata Live Windows Cursors",
                 website="https://github.com/ful1e5/bibata.live",
             )
 
@@ -47,18 +49,19 @@ def win_compress(id: str, logger: Logger) -> FileResponse:
     return FileResponse(file=fp, errors=errors)
 
 
-def x11_compress(id: str, logger: Logger) -> FileResponse:
+def x11_compress(id: str, param: DownloadParams, logger: Logger) -> FileResponse:
     errors: List[str] = []
 
     dir = gsubtmp(id)
-    fp = gtmp(id) / f"{dir.stem}.tar.gz"
+    name = f"{param.name}-{dir.stem}-v{param.version}"
+    fp = gtmp(id) / f"{name}.tar.gz"
 
     if not fp.exists():
         if len(list(dir.rglob("*"))) <= 0:
             errors.append("Empty build directory")
 
         try:
-            pack_x11(dir, theme_name=dir.stem, comment="Bibata Live XCursors")
+            pack_x11(dir, theme_name=param.name, comment="Bibata Live XCursors")
 
             with tarfile.open(fp, "w:gz") as tar:
                 for f in dir.rglob("*"):

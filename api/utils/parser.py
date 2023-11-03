@@ -94,24 +94,47 @@ def parse_upload_formdata(request: Request, logger: Logger):
 
 @dataclass
 class DownloadParams:
+    name: str
+    version: str
     platform: str
     errors: List[str]
 
 
 def parse_download_params(request: Request, logger: Logger):
-    type: str = ""
+    platform: str = ""
+    name: str = ""
+    version: str = ""
     errors: List[str] = []
 
     try:
-        ptype = request.args.get("type")
-        if not ptype:
-            raise ValueError("'type' Param Not Found.")
-        if ptype != "win" and ptype != "x11":
-            raise ValueError(f"Invalid Platform '{ptype}'. It should be 'x11' or 'win'")
+        p = request.args.get("platform")
+        if not p:
+            raise ValueError("'platform' Param Not Found.")
+
+        if p != "win" and p != "x11":
+            raise ValueError(
+                f"Invalid Platform '{platform}'. It should be 'x11' or 'win'"
+            )
         else:
-            type = ptype
+            platform = p
+
+        n = request.args.get("name")
+        if not n:
+            raise ValueError("'name' Param Not Found.")
+        if type(n) is not str:
+            raise ValueError(f"Invalid filename '{n}'. It should be type 'string'")
+        else:
+            name = n
+
+        v = request.args.get("v")
+        if not v:
+            raise ValueError("'v' Param Not Found.")
+        if type(v) is not str:
+            raise ValueError(f"Invalid version '{v}'. It should be type 'string'")
+        else:
+            version = v
 
     except Exception as e:
         errors.append(str(e))
 
-    return DownloadParams(platform=type, errors=errors)
+    return DownloadParams(platform=platform, name=name, version=version, errors=errors)

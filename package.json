@@ -1,11 +1,12 @@
 {
   "name": "bibata.live",
-  "version": "0.1.0",
+  "version": "1.0.0-alpha.0",
   "private": true,
   "scripts": {
     "flask-dev": "pip3 install -r requirements.txt && python3 -m flask --debug --app api/index run  -p 5328 ",
     "next-dev": "next dev",
     "dev": "concurrently \"yarn next-dev\" \"yarn flask-dev\"",
+    "prebuild": "node -p \"'export const LIB_VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > src/version.ts",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
