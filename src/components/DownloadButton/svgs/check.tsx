@@ -1,6 +1,6 @@
 type Props = {};
 
-export const DownloadSVG: React.FC<Props> = (props) => {
+export const CheckSVG: React.FC<Props> = (props) => {
   return (
     <svg
       className='fill-current w-full'

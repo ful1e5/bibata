@@ -1,4 +1,5 @@
 import { LIB_VERSION } from '@root/version';
+import { LinuxDownloadSVG, WindowsDownloadSVG } from './svgs';
 
 type Props = {
   disabled?: boolean;
@@ -7,22 +8,26 @@ type Props = {
 
 export const DownloadSubButtons: React.FC<Props> = (props) => {
   return (
-    <div className='inline-flex flex-col justify-center items-center p-2 bg-black/[.2]'>
+    <div className='p-2 bg-black/[.1]'>
       <div className='p-4 grid grid-flow-col gap-4 diviide-y-2 divide-white/[.1] text-left'>
         <button
           disabled={props.disabled}
-          className='inline-flex flex-col justify-center items-center bg-white/[.1] rounded-xl p-4 text-center'
+          className='inline-flex flex-col justify-center items-center bg-white/[.1] hover:bg-orange-400 fill-white/[.5] hover:fill-black/[.6] text-white/[.7] hover:text-black/[.6] rounded-xl p-4 text-center'
           onClick={() => props.onClick('x11')}>
-          XCursors (.tar.gz)
+          <LinuxDownloadSVG />
+          <p className='text-xl font-bold mt-2'>XCursors</p>
+          <strong className='text-xs font-extrabold'>(.tar.gz)</strong>
         </button>
         <button
           disabled={props.disabled}
-          className='inline-flex flex-col justify-center items-center bg-white/[.1] rounded-xl p-4 text-center'
+          className='inline-flex flex-col justify-center items-center bg-white/[.1] hover:bg-blue-400 fill-white/[.5] hover:fill-black/[.6] text-white/[.7] hover:text-black/[.6] rounded-xl p-4 text-center'
           onClick={() => props.onClick('win')}>
-          Windows Cursors (.zip)
+          <WindowsDownloadSVG />
+          <p className='text-xl font-bold mt-2'>Win Cursors</p>
+          <strong className='text-xs font-extrabold'>(.zip)</strong>
         </button>
       </div>
-      <p className='opacity-20 font-bold'>v{LIB_VERSION}</p>
+      <p className='text-sm text-center text-white/[.6]'>v{LIB_VERSION}</p>
     </div>
   );
 };

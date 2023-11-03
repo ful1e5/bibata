@@ -8,7 +8,7 @@ import { getDownloadCounts } from '@utils/sponsor/get-count';
 
 import { DownloadCount } from './counts';
 import { DownloadSubButtons } from './sub-buttons';
-import { ErrorSVG, DownloadSVG, ProcessingSVG } from './svgs';
+import { ErrorSVG, ProcessingSVG } from './svgs';
 
 import { Image } from 'bibata-live/core-api/types';
 import { Color } from 'bibata-live/app';
@@ -176,9 +176,11 @@ export const DownloadButton: React.FC<Props> = (props) => {
             {loading || props.disabled ? 'Processing' : 'Download'}
           </p>
 
-          <span className='w-5 ml-2'>
-            {loading || props.disabled ? <ProcessingSVG /> : <DownloadSVG />}
-          </span>
+          {(loading || props.disabled) && (
+            <span className='w-5 ml-2'>
+              <ProcessingSVG />
+            </span>
+          )}
         </button>
 
         {showDropdown && (

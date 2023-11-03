@@ -34,7 +34,7 @@ export const DownloadCount: React.FC<Props> = (props) => {
   }, [data]);
 
   if (isLoading)
-    return <div className='h-1 w-full bg-blue-400/[.5] animate-pulse' />;
+    return <div className='h-1 w-full bg-purple-500/[.5] animate-pulse' />;
 
   if (!data) return <></>;
 
@@ -44,8 +44,8 @@ export const DownloadCount: React.FC<Props> = (props) => {
         <p
           className={`${
             noDownloads
-              ? 'bg-red-400/[.03] text-red-400/[.8]'
-              : 'bg-green-400/[.03] text-green-400/[.8]'
+              ? 'bg-red-400/[.03] text-red-100/[.8]'
+              : 'bg-green-400/[.03] text-green-100/[.8]'
           } font-bold text-center text-xl p-1`}>
           {`${data.count}/${data.total}`}
         </p>
