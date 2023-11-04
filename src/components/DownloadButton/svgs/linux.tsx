@@ -3,8 +3,8 @@ type Props = {};
 export const LinuxDownloadSVG: React.FC<Props> = (props) => {
   return (
     <svg
-      width='50'
-      height='50'
+      width='40'
+      height='40'
       className='fill-inherit'
       viewBox='0 0 75 75'
       fill='none'

@@ -3,7 +3,7 @@ type Props = {};
 export const ProcessingSVG: React.FC<Props> = (props) => {
   return (
     <svg
-      className='animate-spin w-full'
+      className='animate-spin w-5'
       xmlns='http://www.w3.org/2000/svg'
       fill='none'
       viewBox='0 0 24 24'>

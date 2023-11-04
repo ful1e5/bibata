@@ -6,8 +6,8 @@ import { CoreApi } from '@utils/core';
 import { Platform, Type } from '@prisma/client';
 import { getDownloadCounts } from '@utils/sponsor/get-count';
 
-import { DownloadCount } from './counts';
-import { DownloadSubButtons } from './sub-buttons';
+import { DownloadCount } from './Counts';
+import { DownloadSubButtons } from './SubButtons';
 import { ErrorSVG, ProcessingSVG } from './svgs';
 
 import { Image } from 'bibata-live/core-api/types';
@@ -33,6 +33,8 @@ type ProcessOptions = {
 
 export const DownloadButton: React.FC<Props> = (props) => {
   const api = props.api;
+  const { images, size, delay, type, color } = props.config;
+  const name = `Bibata-Live-${type}`;
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -40,10 +42,10 @@ export const DownloadButton: React.FC<Props> = (props) => {
   const [errorText, setErrorText] = useState<string>('');
 
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLButtonElement>(null);
 
-  const processImages = async (images: Image[], options: ProcessOptions) => {
-    for (const i of images) {
+  const processImages = async (imgs: Image[], options: ProcessOptions) => {
+    for (const i of imgs) {
       setLoadingText(`Processing '${i.name}' ...`);
 
       const formData = new FormData();
@@ -73,7 +75,6 @@ export const DownloadButton: React.FC<Props> = (props) => {
   };
 
   const storeToDB = async (platform: string) => {
-    const { type, color } = props.config;
     const toHex = (s: string) => `#${s}`;
 
     try {
@@ -104,9 +105,6 @@ export const DownloadButton: React.FC<Props> = (props) => {
     if (count >= total! || (count === 0 && total === 0)) {
       setErrorText('Download Limit Exceeded.');
     } else {
-      const { images, size, delay, type } = props.config;
-
-      const name = `Bibata-${type}`;
       const downloadUrl = api.downloadUrl(platform, name);
 
       setLoadingText(`Preparing Requests ...`);
@@ -164,27 +162,24 @@ export const DownloadButton: React.FC<Props> = (props) => {
   }, []);
 
   return (
-    <div className='flex items-center justify-center'>
-      <div
-        className='relative w-full sm:w-1/2 lg:w-1/4 px-20 sm:px-10 md:px-12 h-16'
-        ref={dropdownRef}>
+    <>
+      <div className=' flex justify-center'>
         <button
-          className='w-full h-full bg-green-600 hover:bg-green-500 rounded-3xl py-3 inline-flex items-center justify-center'
+          className='relative flex justify-center items-center gap-2 w-1/2 sm:w-1/3 lg:w-1/5 h-16 bg-green-600 hover:bg-green-500 rounded-3xl py-3'
           disabled={props.disabled}
+          ref={dropdownRef}
           onClick={() => setShowDropdown(!showDropdown)}>
           <p className='overflow-auto text-lg font-semibold'>
             {loading || props.disabled ? 'Processing' : 'Download'}
           </p>
 
-          {(loading || props.disabled) && (
-            <span className='w-5 ml-2'>
-              <ProcessingSVG />
-            </span>
-          )}
+          {(loading || props.disabled) && <ProcessingSVG />}
         </button>
+      </div>
 
-        {showDropdown && (
-          <div className='absolute w-full h-auto mt-2 z-10 right-0'>
+      {showDropdown && (
+        <div className='flex justify-center'>
+          <div className='absolute w-full sm:w-1/2 lg:w-1/4 2xl:w-1/5 h-auto mt-2 z-10 px-6 sm:px-0'>
             <div className='overflow-hidden bg-[#2e2e2e] text-white border border-white/[.2] rounded-xl shadow-xl relative'>
               {loading ? (
                 <div className='flex p-6 justify-center items-center'>
@@ -213,8 +208,8 @@ export const DownloadButton: React.FC<Props> = (props) => {
               <DownloadCount token={api.jwt?.token} show={!props.disabled} />
             </div>
           </div>
-        )}
-      </div>
-    </div>
+        </div>
+      )}
+    </>
   );
 };
