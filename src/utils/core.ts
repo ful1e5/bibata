@@ -27,14 +27,15 @@ export class CoreApi {
       : undefined;
   }
 
-  public async getSession(token: string) {
+  public async getSession(token?: string) {
+    token = token || this.jwt?.token;
     const res = await fetch(`${this.url}/session`, {
       headers: this.__headers(token),
       credentials: 'include'
     });
 
     const data: GetSessionResponse = await res.json();
-    this.jwt = { ...data, token: token };
+    this.jwt = { ...data, token: token! };
     return this.jwt;
   }
 
@@ -48,7 +49,7 @@ export class CoreApi {
     return data as DeleteSessionResponse;
   }
 
-  public async refreshSession(token: string) {
+  public async refreshSession(token?: string) {
     await this.deleteSession();
     return await this.getSession(token);
   }

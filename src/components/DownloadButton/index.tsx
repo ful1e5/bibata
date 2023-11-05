@@ -103,7 +103,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
     setLoading(true);
 
     const { count, total } = await getDownloadCounts(api.jwt?.token);
-    if (count >= total! || (count === 0 && total === 0)) {
+    if ((total && count >= total) || (count === 0 && total === 0)) {
       setErrorText('Download Limit Exceeded.');
     } else {
       const downloadUrl = api.downloadUrl(platform, name);
@@ -122,7 +122,8 @@ export const DownloadButton: React.FC<Props> = (props) => {
 
         if (upload?.error) {
           console.error(upload.error);
-          setErrorText('Oops.. Processing Falied!');
+          setErrorText('Oops.. Processing Falied! Try Again.');
+          await api.refreshSession();
         } else {
           setLoadingText(
             `Packaging ${platform == 'win' ? 'Win Cursors' : 'XCursors'} ...`
@@ -132,7 +133,8 @@ export const DownloadButton: React.FC<Props> = (props) => {
 
           if (download?.error) {
             console.error(download.error);
-            setErrorText('Oops.. Packaging Failed!');
+            setErrorText('Oops.. Packaging Failed! Try Again.');
+            await api.refreshSession();
           } else {
             await storeToDB(platform);
             downloadFile(downloadUrl);

@@ -46,9 +46,12 @@ export class FetchSVG {
       node.isAnimated = node.ids.length > 1;
     }
 
-    return svgs.sort((a, b) =>
-      a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1
-    );
+    return svgs.sort((a, b) => {
+      if (a.isAnimated === b.isAnimated) {
+        return a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
+      }
+      return a.isAnimated ? -1 : 1;
+    });
   }
 
   public async fetchImage(id: string, options: FetchImageOptions) {
