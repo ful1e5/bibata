@@ -163,19 +163,23 @@ export const DownloadButton: React.FC<Props> = (props) => {
     };
   }, []);
 
+  const busy = loading || props.disabled;
+
   return (
     <>
       <div className='flex justify-center'>
         <button
           ref={buttonRef}
-          className='relative flex justify-center items-center gap-2 w-1/2 sm:w-1/3 lg:w-1/5 h-16 bg-green-600 hover:bg-green-500 rounded-3xl py-3'
+          className={`relative flex justify-center items-center gap-2 w-1/2 sm:w-1/3 lg:w-1/5 h-16 rounded-3xl py-3 bg-green-600 hover:bg-green-500 ${
+            busy && 'opacity-60'
+          }`}
           disabled={props.disabled}
           onClick={() => setShowDropdown(!showDropdown)}>
           <p className='overflow-auto text-lg font-semibold'>
-            {loading || props.disabled ? 'Processing' : 'Download'}
+            {busy ? 'Processing' : 'Download'}
           </p>
 
-          {(loading || props.disabled) && <ProcessingSVG />}
+          {busy && <ProcessingSVG />}
         </button>
       </div>
 

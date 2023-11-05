@@ -81,20 +81,20 @@ export const CursorCard: React.FC<Props> = (props) => {
 
   // Use SVG sprites to reduce the number of HTTP requests
   // TODO: Fix Buggy Animation, Browser keep reloading when Any link is clicked
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     if (props.svg.isAnimated && loading === false) {
-  //       if (frameIndex < frames.length - 1) {
-  //         setFrameIndex(frameIndex + 1);
-  //       } else {
-  //         setFrameIndex(0);
-  //       }
-  //       setSvg(frames[frameIndex]);
-  //     }
-  //   }, props.delay);
-  //
-  //   return () => clearInterval(intervalId);
-  // }, [loading, frameIndex]);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (props.svg.isAnimated && loading === false) {
+        if (frameIndex < frames.length - 1) {
+          setFrameIndex(frameIndex + 1);
+        } else {
+          setFrameIndex(0);
+        }
+        setSvg(frames[frameIndex]);
+      }
+    }, props.delay);
+
+    return () => clearInterval(intervalId);
+  }, [loading, frameIndex, props.delay]);
 
   useEffect(() => {
     if (props.onLoad && !loading && frames) {

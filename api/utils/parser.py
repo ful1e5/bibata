@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from logging import Logger
-from typing import List
+from typing import List, Literal
 
 from flask import Request, json
 
@@ -96,7 +96,7 @@ def parse_upload_formdata(request: Request, logger: Logger):
 class DownloadParams:
     name: str
     version: str
-    platform: str
+    platform: Literal["win", "x11"]
     errors: List[str]
 
 

@@ -10,6 +10,7 @@ from clickgen.packer.windows import pack_win
 from clickgen.packer.x11 import pack_x11
 
 from api.builder.config import gsubtmp, gtmp
+from api.builder.files import attach_files
 from api.utils.parser import DownloadParams
 
 
@@ -38,6 +39,8 @@ def win_compress(id: str, param: DownloadParams, logger: Logger) -> FileResponse
                 website="https://github.com/ful1e5/bibata.live",
             )
 
+            attach_files(id, dir, param, logger)
+
             with ZipFile(fp, "w") as zip_file:
                 for f in dir.glob("*"):
                     zip_file.write(f, f.name)
@@ -62,6 +65,8 @@ def x11_compress(id: str, param: DownloadParams, logger: Logger) -> FileResponse
 
         try:
             pack_x11(dir, theme_name=param.name, comment="Bibata Live XCursors")
+
+            attach_files(id, dir, param, logger)
 
             with tarfile.open(fp, "w:gz") as tar:
                 for f in dir.rglob("*"):
