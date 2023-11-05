@@ -1,9 +1,13 @@
-import { useEffect, useState } from 'react';
 import useSWR from 'swr';
+import { useEffect, useState } from 'react';
 
+import Tooltip from '@components/Tooltip';
+
+import { DB_SEEDS } from '@root/configs';
 import { getDownloadCounts } from '@utils/sponsor/get-count';
 
 import { DownloadCounts } from 'bibata-live/misc';
+import { InfoSVG } from './svgs';
 
 type Props = {
   token?: string;
@@ -27,7 +31,7 @@ export const DownloadCount: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (data) {
-      if (data.total === data.count) {
+      if (data.count >= data.total!) {
         setNoDownloads(true);
       }
     }
@@ -41,14 +45,23 @@ export const DownloadCount: React.FC<Props> = (props) => {
   return (
     <>
       {props.show && (data!.total || data.total === 0) && (
-        <p
-          className={`${
-            noDownloads
-              ? 'bg-red-400/[.03] text-red-100/[.8]'
-              : 'bg-green-400/[.03] text-green-100/[.8]'
-          } font-bold text-center text-xl p-1`}>
-          {`${data.count}/${data.total}`}
-        </p>
+        <div className='flex flex-row py-1 justify-center items-center gap-1'>
+          <p
+            className={`${
+              noDownloads ? 'text-red-100/[.8]' : 'text-green-100/[.8]'
+            } font-extrabold text-center text-md p-1`}>
+            {`${data.count}/${data.total}`}
+          </p>
+          <Tooltip
+            content={
+              noDownloads
+                ? `Sponsor or help 'ful1e5' to reach his monthly GitHub Sponsorship goal for unlimited downloads.
+                   Download Counts = ${DB_SEEDS.DOWNLOAD_MULTIPLIER} x (Monthly Sponsorship in Cents)`
+                : `Download Counts = ${DB_SEEDS.DOWNLOAD_MULTIPLIER} x (Monthly Sponsorship in Cents)`
+            }>
+            <InfoSVG />
+          </Tooltip>
+        </div>
       )}
     </>
   );

@@ -42,7 +42,8 @@ export const DownloadButton: React.FC<Props> = (props) => {
   const [errorText, setErrorText] = useState<string>('');
 
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
-  const dropdownRef = useRef<HTMLButtonElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const processImages = async (imgs: Image[], options: ProcessOptions) => {
     for (const i of imgs) {
@@ -139,35 +140,36 @@ export const DownloadButton: React.FC<Props> = (props) => {
         }
       }
     }
+
     setLoading(false);
   };
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target as Node)
-    ) {
-      setShowDropdown(false);
-    }
-  };
-
   useEffect(() => {
-    // Attach the event listener when the component mounts
-    document.addEventListener('click', handleClickOutside);
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node) &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowDropdown(false);
+      }
+    }
 
-    // Detach the event listener when the component unmounts
+    document.addEventListener('mousedown', handleClickOutside);
+
     return () => {
-      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
   return (
     <>
-      <div className=' flex justify-center'>
+      <div className='flex justify-center'>
         <button
+          ref={buttonRef}
           className='relative flex justify-center items-center gap-2 w-1/2 sm:w-1/3 lg:w-1/5 h-16 bg-green-600 hover:bg-green-500 rounded-3xl py-3'
           disabled={props.disabled}
-          ref={dropdownRef}
           onClick={() => setShowDropdown(!showDropdown)}>
           <p className='overflow-auto text-lg font-semibold'>
             {loading || props.disabled ? 'Processing' : 'Download'}
@@ -178,9 +180,9 @@ export const DownloadButton: React.FC<Props> = (props) => {
       </div>
 
       {showDropdown && (
-        <div className='flex justify-center'>
+        <div className='flex justify-center' ref={dropdownRef}>
           <div className='absolute w-full sm:w-1/2 lg:w-1/4 2xl:w-1/5 h-auto mt-2 z-10 px-6 sm:px-0'>
-            <div className='overflow-hidden bg-[#2e2e2e] text-white border border-white/[.2] rounded-xl shadow-xl relative'>
+            <div className='bg-[#2e2e2e] text-white border border-white/[.2] rounded-xl shadow-xl relative'>
               {loading ? (
                 <div className='flex p-6 justify-center items-center'>
                   <div className='-ml-1 mr-3 h-5 w-5'>
@@ -191,11 +193,11 @@ export const DownloadButton: React.FC<Props> = (props) => {
               ) : (
                 <>
                   {errorText && (
-                    <div className='flex p-6 justify-center items-center'>
-                      <div className='-ml-1 mr-3 h-7 w-7'>
+                    <div className='flex p-6 justify-center items-center fill-red-300 text-red-300'>
+                      <div className='mr-1 mt-1 h-7 w-7'>
                         <ErrorSVG />
                       </div>
-                      <p>{errorText}</p>
+                      <p className='font-bold'>{errorText}</p>
                     </div>
                   )}
                   <DownloadSubButtons
