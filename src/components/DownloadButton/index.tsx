@@ -1,16 +1,21 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
 import { CoreApi } from '@utils/core';
-import { Platform, Type } from '@prisma/client';
 import { getDownloadCounts } from '@utils/sponsor/get-count';
+import { bugReportTemplate } from '@utils/bug-report';
 
 import { DownloadCount } from './Counts';
+import { DownloadSponsor } from './Sponsor';
 import { DownloadSubButtons } from './SubButtons';
 import { ErrorSVG, ProcessingSVG } from './svgs';
 
+import { BUG_REPORT_ENDPOINT } from '@root/configs';
+
 import { Image } from 'bibata-live/core-api/types';
+import { Platform, Type } from '@prisma/client';
 import { Color } from 'bibata-live/app';
 
 type Props = {
@@ -40,10 +45,15 @@ export const DownloadButton: React.FC<Props> = (props) => {
 
   const [loadingText, setLoadingText] = useState<string>('Preparing...');
   const [errorText, setErrorText] = useState<string>('');
+  const [errorLogs, setErrorLogs] = useState<any>(null);
 
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const print_error = async (e: any) => {
+    if (process.env.NODE_ENV === 'development') console.error(e);
+  };
 
   const processImages = async (imgs: Image[], options: ProcessOptions) => {
     for (const i of imgs) {
@@ -95,12 +105,14 @@ export const DownloadButton: React.FC<Props> = (props) => {
         })
       });
     } catch (e) {
-      console.error(e);
+      setErrorLogs(e);
+      print_error(e);
     }
   };
 
   const handleDownload = async (platform: Platform) => {
     setLoading(true);
+    setErrorLogs(null);
 
     const { count, total } = await getDownloadCounts(api.jwt?.token);
     if ((total && count >= total) || (count === 0 && total === 0)) {
@@ -121,7 +133,8 @@ export const DownloadButton: React.FC<Props> = (props) => {
         });
 
         if (upload?.error) {
-          console.error(upload.error);
+          print_error(upload.error);
+          setErrorLogs(upload.error);
           setErrorText('Oops.. Processing Falied! Try Again.');
           await api.refreshSession();
         } else {
@@ -132,7 +145,8 @@ export const DownloadButton: React.FC<Props> = (props) => {
           const download = await api.downloadable(platform, name);
 
           if (download?.error) {
-            console.error(download.error);
+            print_error(download.error);
+            setErrorLogs(download.error);
             setErrorText('Oops.. Packaging Failed! Try Again.');
             await api.refreshSession();
           } else {
@@ -206,6 +220,21 @@ export const DownloadButton: React.FC<Props> = (props) => {
                       <p className='font-bold'>{errorText}</p>
                     </div>
                   )}
+
+                  {errorLogs && (
+                    <div className='-mt-4 mb-3 flex justify-center'>
+                      <Link
+                        className='bg-red-500 hover:bg-red-400 px-4 py-2 rounded-xl '
+                        target='_blank'
+                        href={BUG_REPORT_ENDPOINT(
+                          errorText,
+                          bugReportTemplate(errorText, errorLogs)
+                        )}>
+                        Report Bug
+                      </Link>
+                    </div>
+                  )}
+
                   <DownloadSubButtons
                     disabled={props.disabled || loading}
                     onClick={(p) => handleDownload(p)}
@@ -213,6 +242,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
                 </>
               )}
 
+              <DownloadSponsor show={!props.disabled} />
               <DownloadCount token={api.jwt?.token} show={!props.disabled} />
             </div>
           </div>

@@ -130,7 +130,7 @@ export const CursorCard: React.FC<Props> = (props) => {
               dangerouslySetInnerHTML={{ __html: svg }}
             />
           ) : (
-            <div hidden={loading}>
+            <div className='object-center' hidden={loading}>
               <BrokenImage />
             </div>
           )}

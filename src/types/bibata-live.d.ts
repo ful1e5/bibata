@@ -24,6 +24,18 @@ declare module 'bibata-live/misc' {
     targetValueInDollar: number;
   };
 
+  type Sponsor = {
+    login: string;
+    url: string;
+    name: string;
+    avatarUrl: string;
+  };
+
+  type LuckySponsor = {
+    sponsors: Sponsor[];
+    others: number;
+  };
+
   type DownloadCounts = {
     total: number | null;
     count: number;

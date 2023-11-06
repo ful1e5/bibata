@@ -101,7 +101,7 @@ class DownloadParams:
 
 
 def parse_download_params(request: Request, logger: Logger):
-    platform: str = ""
+    platform: Literal["win", "x11"] = "x11"
     name: str = ""
     version: str = ""
     errors: List[str] = []

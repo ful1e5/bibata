@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { getUserTotalDownloads } from '@services/user';
+
 import { getIndex } from '@services/download';
 import { decodeAuthToken } from '@utils/auth/token';
 
 import { RESPONSES as res } from '@api/config';
+import { DB_SEEDS, SPONSOR_API_ENDPOINT } from '@root/configs';
 
 import { Goals, JWTToken } from 'bibata-live/misc';
-import { getUserTotalDownloads } from '@services/user';
-import { DB_SEEDS } from '@root/configs';
 
 export async function GET(request: NextRequest) {
   if (request.method === 'GET') {
@@ -16,9 +17,7 @@ export async function GET(request: NextRequest) {
     const token = request.headers.get('Authorization')?.replace('Bearer ', '');
 
     try {
-      const sponsor_data = (await fetch(
-        'https://sponsor-spotlight.vercel.app/api/fetch?goals=true'
-      )
+      const sponsor_data = (await fetch(`${SPONSOR_API_ENDPOINT}?goals=true`)
         .then((r) => r.json())
         .then((json) => json.goals)) as Goals;
 
