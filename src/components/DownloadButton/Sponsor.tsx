@@ -21,6 +21,14 @@ export const DownloadSponsor: React.FC<Props> = (props) => {
     return <div className='h-1 w-full bg-purple-500/[.8] animate-pulse' />;
 
   if (!data) return <></>;
+  const sponsor = data.sponsors[0];
+  const login = `@${sponsor.login}`;
+
+  const tooltip = `${login} and ${data.others} other${
+    data.others > 1 ? 's' : ''
+  } contribute ${
+    data.total_dollar
+  }$ per month to support and boost the project's development while enabling downloads.`;
 
   return (
     <>
@@ -34,17 +42,19 @@ export const DownloadSponsor: React.FC<Props> = (props) => {
             className='rounded-xl ring-1 ring-white/[.3] hover:bg-white/[.1]'
             href={data.sponsors[0].url}
             target='_blank'>
-            <Tooltip
-              content={`@${data.sponsors[0].login} and ${data.others} others enable this download and back the project's development.`}>
-              <div className='inline-flex p-2 justify-center items-center gap-3'>
+            <Tooltip content={tooltip}>
+              <div className='flex flex-row p-2 justify-center items-center gap-3'>
                 <div className='w-10 h-10 overflow-hidden rounded-2xl ring-white/[.2] ring-1 '>
-                  <img
-                    src={data.sponsors[0].avatarUrl}
-                    alt={`@${data.sponsors[0].login}`}
-                  />
+                  <img src={sponsor.avatarUrl} alt={login} />
                   <div className='w-full h-full animate-pulse bg-white/[.4]'></div>
                 </div>
-                <p>{data.sponsors[0].name}</p>
+
+                <div className='flex flex-col justify-center items-center gap-1 px-2'>
+                  <p>{sponsor.name}</p>
+                  <p className='font-black bg-green-400 px-2 rounded-lg text-black text-md'>
+                    {sponsor.dollar}$ / month
+                  </p>
+                </div>
               </div>
             </Tooltip>
           </Link>

@@ -29,11 +29,13 @@ declare module 'bibata-live/misc' {
     url: string;
     name: string;
     avatarUrl: string;
+    dollar: number;
   };
 
   type LuckySponsor = {
     sponsors: Sponsor[];
     others: number;
+    total_dollar: number;
   };
 
   type DownloadCounts = {
