@@ -72,7 +72,7 @@ export class FetchSVG {
 
       if (color && typeof color === 'object') {
         Object.entries(color).forEach(([match, replace]) => {
-          img = img.replace(new RegExp(`#${match}`, 'ig'), `#${replace}`);
+          img = img.replace(new RegExp(match, 'ig'), replace);
         });
       }
 

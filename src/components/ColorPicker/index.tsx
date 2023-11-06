@@ -41,7 +41,7 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
         style={
           props.color
             ? {
-                backgroundColor: `#${props.color.base}`
+                backgroundColor: props.color.base
               }
             : {
                 backgroundBlendMode: 'screen',

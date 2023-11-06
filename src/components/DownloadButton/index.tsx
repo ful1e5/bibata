@@ -86,8 +86,6 @@ export const DownloadButton: React.FC<Props> = (props) => {
   };
 
   const storeToDB = async (platform: string) => {
-    const toHex = (s: string) => `#${s}`;
-
     try {
       await fetch('/api/db/download/store', {
         method: 'POST',
@@ -99,9 +97,9 @@ export const DownloadButton: React.FC<Props> = (props) => {
         body: JSON.stringify({
           platform,
           type: type as Type,
-          baseColor: toHex(color.base),
-          outlineColor: toHex(color.outline),
-          watchBGColor: toHex(color.watch || color.base)
+          baseColor: color.base,
+          outlineColor: color.outline,
+          watchBGColor: color.watch || color.base
         })
       });
     } catch (e) {

@@ -65,11 +65,10 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
   };
 
   const handleColorPick = () => {
-    const fmt = (s: string) => s.replace('#', '');
     const color: Color = {
-      base: fmt(baseColor),
-      outline: fmt(outlineColor),
-      watch: fmt(watchColor)
+      base: baseColor,
+      outline: outlineColor,
+      watch: watchColor
     };
     props.onColorPick(color);
     props.onClose();

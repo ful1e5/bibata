@@ -37,11 +37,13 @@ export const CursorCard: React.FC<Props> = (props) => {
   const [frames, setFrames] = useState<string[]>([]);
   const [frameIndex, setFrameIndex] = useState<number>(0);
 
-  const c = JSON.stringify({
-    '00ff00': base,
-    '0000ff': outline,
-    ff0000: watch || base
-  });
+  const c = encodeURIComponent(
+    JSON.stringify({
+      '#00ff00': base,
+      '#0000ff': outline,
+      '#ff0000': watch || base
+    })
+  );
 
   const fetchSvgs = async () => {
     const l: string[] = [];

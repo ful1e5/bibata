@@ -1,10 +1,11 @@
-export const bugReportTemplate = (title: string, logs: any) => {
-  return encodeURIComponent(`**Auto-generate issue**
-
-### Error Message
+export const bugReportTemplate = (title: string, logs: any): string => {
+  return encodeURIComponent(`### Error
 ${title}
 
-### Traceback
+### Logs
 
-${JSON.stringify(logs)}`);
+\`\`\`text
+${JSON.stringify(logs, null, 2)}
+\`\`\`
+`);
 };
