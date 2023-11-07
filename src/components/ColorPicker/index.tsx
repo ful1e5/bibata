@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 
 import { ColorPickerModal } from './modal';
-import { Color, Colors } from 'bibata-live/app';
+import { Color, Colors } from 'bibata/app';
 
 type Props = {
   name: string;

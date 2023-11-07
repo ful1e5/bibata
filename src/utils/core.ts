@@ -8,8 +8,8 @@ import {
   DownloadError,
   GetSessionResponse,
   UploadResponse
-} from 'bibata-live/core-api/responses';
-import { AuthToken } from 'bibata-live/core-api/types';
+} from 'bibata/core-api/responses';
+import { AuthToken } from 'bibata/core-api/types';
 
 export class CoreApi {
   url: string;

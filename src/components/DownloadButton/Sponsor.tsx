@@ -1,11 +1,12 @@
 import useSWR from 'swr';
+import Link from 'next/link';
 
 import { SPONSOR_API_ENDPOINT } from '@root/configs';
 import { getLuckySponsor } from '@utils/sponsor/lucky-sponsor';
 
-import { LuckySponsor } from 'bibata-live/misc';
-import Link from 'next/link';
 import Tooltip from '@components/Tooltip';
+
+import { LuckySponsor } from 'bibata/misc';
 
 type Props = {
   show: boolean;

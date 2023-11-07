@@ -25,7 +25,7 @@ https://github.com/sponsors/ful1e5
 GPL-3.0 license
 
 [::] Bug Reports & Contact
-https://github.com/ful1e5/bibata.live/issues
+https://github.com/ful1e5/bibata/issues
 """
 
 WIN = """

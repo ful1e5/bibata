@@ -1,6 +1,6 @@
 export const metadata = {
-  title: 'Bibata Live | Login',
-  description: 'Login into Bibata Live'
+  title: 'Bibata | Login',
+  description: 'Login into Bibata'
 };
 
 interface Props {

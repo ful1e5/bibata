@@ -3,7 +3,7 @@ import Wheel from '@uiw/react-color-wheel';
 
 import { CursorPreview } from './preview';
 
-import { Color } from 'bibata-live/app';
+import { Color } from 'bibata/app';
 import { generateRandomColors } from '@utils/randomColors';
 
 type ColorWheelCardProps = {

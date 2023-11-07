@@ -6,7 +6,7 @@ import Tooltip from '@components/Tooltip';
 import { DB_SEEDS } from '@root/configs';
 import { getDownloadCounts } from '@utils/sponsor/get-count';
 
-import { DownloadCounts } from 'bibata-live/misc';
+import { DownloadCounts } from 'bibata/misc';
 import { InfoSVG } from './svgs';
 
 type Props = {

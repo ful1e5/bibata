@@ -2,7 +2,7 @@ import { v4 } from 'uuid';
 import jwt from 'jsonwebtoken';
 
 import { User } from '@prisma/client';
-import { JWTToken } from 'bibata-live/misc';
+import { JWTToken } from 'bibata/misc';
 
 const SECRET_KEY = process.env.NEXT_PUBLIC_JWT_SECRET;
 export const genAccessToken = (user?: User) => {

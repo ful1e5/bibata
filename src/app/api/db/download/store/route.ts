@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { AddDownloadData, addDownload } from '@services/download';
 import { decodeAuthToken } from '@utils/auth/token';
 
-import { JWTToken } from 'bibata-live/misc';
+import { JWTToken } from 'bibata/misc';
 
 import { RESPONSES as res } from '@api/config';
 

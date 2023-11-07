@@ -14,7 +14,7 @@ import { Cursors } from '@components/Cursors';
 
 import { genAccessToken } from '@utils/auth/token';
 
-import { Image } from 'bibata-live/core-api/types';
+import { Image } from 'bibata/core-api/types';
 
 export default function StudioPage() {
   const [type, setType] = useStorage<string>('type', TYPES[0]);

@@ -1,5 +1,5 @@
 'use client';
 
 export default function HomePage() {
-  return <main>Bibata.live App is Running</main>;
+  return <main>Bibata App is Running</main>;
 }

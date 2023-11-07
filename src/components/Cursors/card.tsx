@@ -6,8 +6,8 @@ import { fetchX } from '@utils/fetchX';
 
 import { COLORS_MASK_KEYS as mask } from '@root/configs';
 
-import { Color, SVG } from 'bibata-live/app';
-import { Image } from 'bibata-live/core-api/types';
+import { Color, SVG } from 'bibata/app';
+import { Image } from 'bibata/core-api/types';
 
 export const BrokenImage: React.FC = () => {
   return (

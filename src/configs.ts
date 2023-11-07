@@ -1,10 +1,10 @@
-import { Colors } from 'bibata-live/app';
+import { Colors } from 'bibata/app';
 
 export const SPONSOR_API_ENDPOINT =
   'https://sponsor-spotlight.vercel.app/api/fetch';
 
 export const BUG_REPORT_ENDPOINT = (title: string, body: string) => {
-  return `https://github.com/ful1e5/bibata.live/issues/new?labels=bug,auto+generated&title=${title}&body=${body}`;
+  return `https://github.com/ful1e5/bibata/issues/new?labels=bug,auto+generated&title=${title}&body=${body}`;
 };
 
 export const TYPES = ['Modern', 'Original'];

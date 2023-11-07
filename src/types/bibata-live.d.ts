@@ -1,4 +1,4 @@
-declare module 'bibata-live/app' {
+declare module 'bibata/app' {
   type SVG = {
     name: string;
     ids: string[];
@@ -16,7 +16,7 @@ declare module 'bibata-live/app' {
   };
 }
 
-declare module 'bibata-live/misc' {
+declare module 'bibata/misc' {
   type Goals = {
     monthlySponsorshipInCents: number;
     percentComplete: number;
@@ -57,7 +57,7 @@ declare module 'bibata-live/misc' {
   };
 }
 
-declare module 'bibata-live/core-api/types' {
+declare module 'bibata/core-api/types' {
   type Image = {
     name: string;
     frames: string[];
@@ -83,7 +83,7 @@ declare module 'bibata-live/core-api/types' {
   };
 }
 
-declare module 'bibata-live/core-api/responses' {
+declare module 'bibata/core-api/responses' {
   type AuthError = {
     status: number;
     error: string[];

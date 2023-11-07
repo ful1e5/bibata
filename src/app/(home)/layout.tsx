@@ -6,7 +6,7 @@ import { Providers } from '@app/(home)/providers';
 import { NavBar } from '@components/NavBar';
 
 export const metadata: Metadata = {
-  title: 'Bibata Live',
+  title: 'Bibata',
   description: "The place where Bibata's cursor gets personalized.",
   icons: {
     icon: ['favicon/favicon.ico?v=4'],

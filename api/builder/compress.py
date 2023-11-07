@@ -35,8 +35,8 @@ def win_compress(id: str, param: DownloadParams, logger: Logger) -> FileResponse
             pack_win(
                 dir,
                 theme_name=param.name,
-                comment="Bibata Live Windows Cursors",
-                website="https://github.com/ful1e5/bibata.live",
+                comment="Bibata Windows Cursors",
+                website="https://github.com/ful1e5/bibata",
             )
 
             attach_files(id, dir, param, logger)
@@ -64,7 +64,7 @@ def x11_compress(id: str, param: DownloadParams, logger: Logger) -> FileResponse
             errors.append("Empty build directory")
 
         try:
-            pack_x11(dir, theme_name=param.name, comment="Bibata Live XCursors")
+            pack_x11(dir, theme_name=param.name, comment="Bibata XCursors")
 
             attach_files(id, dir, param, logger)
 

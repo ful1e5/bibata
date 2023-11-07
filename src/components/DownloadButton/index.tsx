@@ -14,9 +14,9 @@ import { ErrorSVG, ProcessingSVG } from './svgs';
 
 import { BUG_REPORT_ENDPOINT } from '@root/configs';
 
-import { Image } from 'bibata-live/core-api/types';
+import { Color } from 'bibata/app';
+import { Image } from 'bibata/core-api/types';
 import { Platform, Type } from '@prisma/client';
-import { Color } from 'bibata-live/app';
 
 type Props = {
   disabled?: boolean;
@@ -42,7 +42,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
 
   const api = new CoreApi();
   const { images, size, delay, type, color } = configRef.current;
-  const name = `Bibata-Live-${type}`;
+  const name = `Bibata-${type}`;
 
   const [loading, setLoading] = useState<boolean>(false);
   const [lock, setLock] = useState<boolean>(false);

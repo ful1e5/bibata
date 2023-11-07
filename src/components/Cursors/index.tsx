@@ -11,8 +11,8 @@ import { CursorsError as Error } from './error';
 import { CursorsLoading as Loading } from './loading';
 import { CursorsTimeOut as Timeout } from './timeout';
 
-import { Color, SVG } from 'bibata-live/app';
-import { Image } from 'bibata-live/core-api/types';
+import { Color, SVG } from 'bibata/app';
+import { Image } from 'bibata/core-api/types';
 
 type Response = {
   data: SVG[];

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import * as Figma from 'figma-api';
 
-import { SVG } from 'bibata-live/app';
+import { SVG } from 'bibata/app';
 
 export type FetchImageOptions = {
   color: {

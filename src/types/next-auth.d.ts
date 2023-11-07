@@ -1,4 +1,4 @@
-import { UserRole, DBUser } from 'bibata-live/misc';
+import { UserRole, DBUser } from 'bibata/misc';
 
 import NextAuth from 'next-auth';
 

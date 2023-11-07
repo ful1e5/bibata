@@ -8,7 +8,7 @@ import { decodeAuthToken } from '@utils/auth/token';
 import { RESPONSES as res } from '@api/config';
 import { DB_SEEDS, SPONSOR_API_ENDPOINT } from '@root/configs';
 
-import { Goals, JWTToken } from 'bibata-live/misc';
+import { Goals, JWTToken } from 'bibata/misc';
 
 export async function GET(request: NextRequest) {
   if (request.method === 'GET') {

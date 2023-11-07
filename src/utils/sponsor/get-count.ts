@@ -1,4 +1,4 @@
-import { DownloadCounts } from 'bibata-live/misc';
+import { DownloadCounts } from 'bibata/misc';
 
 export const getDownloadCounts = async (token?: string) => {
   let headers = undefined;

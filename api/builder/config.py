@@ -3,7 +3,7 @@ from typing import Dict
 
 
 def gtmp(sub_dir: str) -> Path:
-    return Path("/tmp") / "bibata-live-builds" / sub_dir
+    return Path("/tmp") / "bibata-builds" / sub_dir
 
 
 def gsubtmp(sid: str) -> Path:
