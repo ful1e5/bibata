@@ -22,11 +22,7 @@ export async function GET(request: NextRequest, { params }: Param) {
       if (p.has('size')) size = Number(p.get('size')) || 0;
     }
 
-    if (p.has('color')) {
-      console.log(p.get('color'));
-
-      color = JSON.parse(p.get('color') || '');
-    }
+    if (p.has('color')) color = JSON.parse(p.get('color') || '');
 
     const api = new FetchSVG();
     const options = { color, size, display };

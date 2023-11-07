@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 
 import { fetchX } from '@utils/fetchX';
 
+import { COLORS_MASK_KEYS as mask } from '@root/configs';
+
 import { Color, SVG } from 'bibata-live/app';
 import { Image } from 'bibata-live/core-api/types';
 
@@ -39,9 +41,9 @@ export const CursorCard: React.FC<Props> = (props) => {
 
   const c = encodeURIComponent(
     JSON.stringify({
-      '#00ff00': base,
-      '#0000ff': outline,
-      '#ff0000': watch || base
+      [mask.base]: base,
+      [mask.outline]: outline,
+      [mask.watch]: watch || base
     })
   );
 

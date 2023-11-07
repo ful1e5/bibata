@@ -38,26 +38,25 @@ export const DownloadSponsor: React.FC<Props> = (props) => {
             Sponsored By
           </strong>
 
-          <Link
-            className='rounded-xl ring-1 ring-white/[.3] hover:bg-white/[.1]'
-            href={data.sponsors[0].url}
-            target='_blank'>
-            <Tooltip content={tooltip}>
-              <div className='flex flex-row p-2 justify-center items-center gap-3'>
-                <div className='w-10 h-10 overflow-hidden rounded-2xl ring-white/[.2] ring-1 '>
+          <Tooltip content={tooltip}>
+            <div className='flex flex-row p-2 justify-center items-center gap-3 rounded-xl ring-1 ring-white/[.3] hover:bg-white/[.1]'>
+              <div className='w-10 h-10 overflow-hidden rounded-2xl ring-1 ring-white/[.2] hover:ring-blue-400 hober:ring-2'>
+                <Link href={data.sponsors[0].url} target='_blank'>
                   <img src={sponsor.avatarUrl} alt={login} />
-                  <div className='w-full h-full animate-pulse bg-white/[.4]'></div>
-                </div>
-
-                <div className='flex flex-col justify-center items-center gap-1 px-2'>
-                  <p>{sponsor.name}</p>
-                  <p className='font-black bg-green-400 px-2 rounded-lg text-black text-md'>
-                    {sponsor.dollar}$ / month
-                  </p>
-                </div>
+                </Link>
+                <div className='w-full h-full animate-pulse bg-white/[.4]'></div>
               </div>
-            </Tooltip>
-          </Link>
+
+              <div className='flex flex-col justify-center items-center gap-1 px-2'>
+                <Link href={data.sponsors[0].url} target='_blank'>
+                  <p className='hover:underline'>{sponsor.name}</p>
+                </Link>
+                <p className='font-black bg-green-400 px-2 rounded-lg text-black text-md'>
+                  {sponsor.dollar}$ / month
+                </p>
+              </div>
+            </div>
+          </Tooltip>
         </div>
       )}
     </>

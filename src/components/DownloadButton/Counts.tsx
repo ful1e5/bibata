@@ -45,7 +45,7 @@ export const DownloadCount: React.FC<Props> = (props) => {
   return (
     <>
       {props.show && (data!.total || data.total === 0) && (
-        <div className='flex flex-row py-1 justify-center items-center gap-1'>
+        <div className='flex flex-row py-1 mt-1 justify-center items-center gap-1'>
           <p
             className={`${
               noDownloads ? 'text-red-100/[.8]' : 'text-green-100/[.8]'
@@ -55,7 +55,7 @@ export const DownloadCount: React.FC<Props> = (props) => {
           <Tooltip
             content={
               noDownloads
-                ? `Sponsor or help 'ful1e5' to reach his monthly GitHub Sponsorship goal for unlimited downloads.
+                ? `Help @ful1e5 to reach his monthly GitHub Sponsorship goal for unlimited downloads.
                    Download Counts = ${DB_SEEDS.DOWNLOAD_MULTIPLIER} x (Monthly Sponsorship in Cents)`
                 : `Download Counts = ${DB_SEEDS.DOWNLOAD_MULTIPLIER} x (Monthly Sponsorship in Cents)`
             }>

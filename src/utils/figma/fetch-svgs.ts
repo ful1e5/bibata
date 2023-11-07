@@ -27,13 +27,18 @@ export class FetchSVG {
       (e) => e.name === process.env.NODE_ENV
     )[0] as Figma.Node<'DOCUMENT'>;
 
-    const group = page.children.filter(
-      (e) => e.name === type && e.type === 'GROUP'
-    )[0] as Figma.Node<'DOCUMENT'>;
+    const entries: Figma.Node<keyof Figma.NodeTypes>[] = [];
+
+    page.children.forEach((e) => {
+      if ((e.name === type || e.name === 'Shared') && e.type === 'GROUP') {
+        const group = e as Figma.Node<'DOCUMENT'>;
+        group.children.forEach((svg) => entries.push(svg));
+      }
+    });
 
     const svgs: SVG[] = [];
 
-    for (const entry of group.children) {
+    for (const entry of entries) {
       const name = entry.name.split('::')[0];
       let node = svgs.find((svg) => svg.name === name);
 
