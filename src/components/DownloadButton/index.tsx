@@ -20,7 +20,7 @@ import { Color } from 'bibata-live/app';
 
 type Props = {
   disabled?: boolean;
-  api: CoreApi;
+  token: string;
   config: {
     type: string;
     color: Color;
@@ -37,11 +37,15 @@ type ProcessOptions = {
 };
 
 export const DownloadButton: React.FC<Props> = (props) => {
-  const api = props.api;
-  const { images, size, delay, type, color } = props.config;
+  const configRef = useRef(props.config);
+  const tokenRef = useRef(props.token);
+
+  const api = new CoreApi();
+  const { images, size, delay, type, color } = configRef.current;
   const name = `Bibata-Live-${type}`;
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [lock, setLock] = useState<boolean>(false);
 
   const [loadingText, setLoadingText] = useState<string>('Preparing...');
   const [errorText, setErrorText] = useState<string>('');
@@ -110,8 +114,10 @@ export const DownloadButton: React.FC<Props> = (props) => {
 
   const handleDownload = async (platform: Platform) => {
     setLoading(true);
+    setLock(true);
     setErrorLogs(null);
 
+    api.refreshSession(tokenRef.current);
     const { count, total } = await getDownloadCounts(api.jwt?.token);
     if ((total && count >= total) || (count === 0 && total === 0)) {
       setErrorText('Download Limit Exceeded.');
@@ -156,6 +162,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
     }
 
     setLoading(false);
+    setLock(false);
   };
 
   useEffect(() => {
@@ -177,6 +184,14 @@ export const DownloadButton: React.FC<Props> = (props) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!lock) {
+      api.deleteSession();
+      configRef.current = props.config;
+      tokenRef.current = props.token;
+    }
+  }, [lock, props.token]);
+
   const busy = loading || props.disabled;
 
   return (
@@ -184,10 +199,8 @@ export const DownloadButton: React.FC<Props> = (props) => {
       <div className='flex justify-center'>
         <button
           ref={buttonRef}
-          className={`relative flex justify-center items-center gap-2 w-1/2 sm:w-1/3 lg:w-1/5 h-16 rounded-3xl py-3 bg-green-600 hover:bg-green-500 ${
-            busy && 'opacity-60'
-          }`}
-          disabled={props.disabled}
+          className='disabled:opacity-50 relative flex justify-center items-center gap-2 w-1/2 sm:w-1/3 lg:w-1/5 h-16 rounded-3xl py-3 bg-green-600 hover:bg-green-500'
+          disabled={props.disabled && !lock}
           onClick={() => setShowDropdown(!showDropdown)}>
           <p className='overflow-auto text-lg font-semibold'>
             {busy ? 'Processing' : 'Download'}

@@ -12,12 +12,9 @@ import { ColorPicker } from '@components/ColorPicker';
 import { DownloadButton } from '@components/DownloadButton';
 import { Cursors } from '@components/Cursors';
 
-import { CoreApi } from '@utils/core';
 import { genAccessToken } from '@utils/auth/token';
 
 import { Image } from 'bibata-live/core-api/types';
-
-const api = new CoreApi();
 
 export default function StudioPage() {
   const [type, setType] = useStorage<string>('type', TYPES[0]);
@@ -39,18 +36,13 @@ export default function StudioPage() {
     setImagesCount(0);
   };
 
-  const refreshToken = () => {
-    if (session?.accessToken) {
-      setToken(session.accessToken);
-    } else {
-      setToken(genAccessToken());
-    }
-    api.refreshSession(token);
-  };
-
   useEffect(() => {
     if (status !== 'loading') {
-      refreshToken();
+      if (session?.accessToken) {
+        setToken(session.accessToken);
+      } else {
+        setToken(genAccessToken());
+      }
     }
   }, [status, update]);
 
@@ -62,7 +54,6 @@ export default function StudioPage() {
         onClick={(v) => {
           resetImages();
           setType(v);
-          refreshToken();
         }}
       />
 
@@ -70,10 +61,7 @@ export default function StudioPage() {
         <SizePicker
           list={SIZES}
           values={cursorSize}
-          onClick={(s) => {
-            setCursorSize(s);
-            api.refreshSession(token);
-          }}
+          onClick={(s) => setCursorSize(s)}
         />
       </div>
 
@@ -85,14 +73,13 @@ export default function StudioPage() {
             resetImages();
             setColorName(n);
             setColor(c);
-            refreshToken();
           }}
         />
       </div>
 
       <div className='my-10'>
         <DownloadButton
-          api={api}
+          token={token}
           disabled={
             imagesCount === 0 ||
             images.length === 0 ||
