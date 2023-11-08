@@ -17,7 +17,6 @@ import { Image } from 'bibata/core-api/types';
 type Response = {
   data: SVG[];
   error: string;
-  status: number;
 };
 
 type Props = {
@@ -41,10 +40,10 @@ export const Cursors: React.FC<Props> = (props) => {
   } = useSWR(`/api/svg?type=${props.type}`, fetcher);
 
   useEffect(() => {
-    if (props.onData && res?.data) {
+    if (!isLoading && !isValidating && res?.data && props.onData) {
       props.onData(res.data);
     }
-  }, [props.onData]);
+  }, [isLoading, isValidating, props]);
 
   if (isLoading || isValidating) return <Loading />;
 

@@ -4,7 +4,7 @@ type Options = {
 };
 
 export const fetchX = async (url: string, options?: Options) => {
-  const ttl = options?.revalidate || 60;
+  const ttl = options?.revalidate || 360;
   const group = options?.group || 'bibata.misc';
 
   const cache = await caches.open(group);
@@ -23,6 +23,8 @@ export const fetchX = async (url: string, options?: Options) => {
         headers
       });
       await cache.put(url, res.clone());
+    } else {
+      await cache.delete(url);
     }
   }
 

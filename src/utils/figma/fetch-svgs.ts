@@ -1,10 +1,9 @@
-import { NextResponse } from 'next/server';
 import * as Figma from 'figma-api';
 
 import { SVG } from 'bibata/app';
 
 export type FetchImageOptions = {
-  color: {
+  color?: {
     [key: string]: string;
   };
   size: number;
@@ -29,8 +28,10 @@ export class FetchSVG {
 
     const entries: Figma.Node<keyof Figma.NodeTypes>[] = [];
 
+    const groups = [type, 'Shared', 'Watch'];
+
     page.children.forEach((e) => {
-      if ((e.name === type || e.name === 'Shared') && e.type === 'GROUP') {
+      if (e.type === 'GROUP' && groups.includes(e.name)) {
         const group = e as Figma.Node<'DOCUMENT'>;
         group.children.forEach((svg) => entries.push(svg));
       }
@@ -59,22 +60,28 @@ export class FetchSVG {
     });
   }
 
-  public async fetchImage(id: string, options: FetchImageOptions) {
-    const { color, size, display } = options;
-
+  public async getSvgUrl(ids: string) {
     const { images } = await this.api.getImage(this.key, {
-      ids: id,
+      ids: ids,
       scale: 1,
       format: 'svg'
     });
 
+    if (typeof images === 'object') {
+      return images;
+    }
+  }
+
+  public async fetchImage(url: string, options: FetchImageOptions) {
+    const { color, size, display } = options;
+
     let img = '';
 
-    if (typeof images === 'object' && images[id]) {
-      await fetch(images[id] || '', { next: { revalidate: 360 } })
-        .then((res) => res.text())
-        .then((t) => (img = t));
+    await fetch(url, { next: { revalidate: 360 } })
+      .then((res) => res.text())
+      .then((t) => (img = t));
 
+    if (img) {
       if (color && typeof color === 'object') {
         Object.entries(color).forEach(([match, replace]) => {
           img = img.replace(new RegExp(match, 'ig'), replace);
@@ -95,11 +102,6 @@ export class FetchSVG {
       }
     }
 
-    return new NextResponse(img, {
-      headers: {
-        'content-type': 'image/svg+xml',
-        'Cache-Control': 'public, max-age=3600'
-      }
-    });
+    return img;
   }
 }

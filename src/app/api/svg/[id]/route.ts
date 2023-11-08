@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { FetchSVG } from '@utils/figma/fetch-svgs';
-import { figmaAPIError } from '@utils/figma/handle-error';
 
 import { RESPONSES as res } from '@api/config';
+import { Redis } from 'ioredis';
 
 type Param = { params: { id: string } };
 
@@ -24,17 +24,34 @@ export async function GET(request: NextRequest, { params }: Param) {
 
     if (p.has('color')) color = JSON.parse(p.get('color') || '');
 
-    const api = new FetchSVG();
     const options = { color, size, display };
 
     if (id) {
       try {
-        return await api.fetchImage(id, options);
+        const redis = new Redis();
+        const api = new FetchSVG();
+
+        const url = await redis.get(id);
+        const img = await api.fetchImage(url!, options);
+
+        if (img) {
+          return new NextResponse(img, {
+            headers: {
+              'content-type': 'image/svg+xml',
+              'Cache-Control': 'public, max-age=3600'
+            }
+          });
+        } else {
+          return NextResponse.json(
+            { error: 'Image not found' },
+            { status: 404 }
+          );
+        }
       } catch (e) {
-        return figmaAPIError(e);
+        return NextResponse.json({ error: JSON.stringify(e) }, { status: 500 });
       }
     } else {
-      return NextResponse.json({ error: `SVG id not found` }, { status: 404 });
+      return NextResponse.json({ error: 'SVG id not found' }, { status: 404 });
     }
   } else {
     return res.invalid_method;
