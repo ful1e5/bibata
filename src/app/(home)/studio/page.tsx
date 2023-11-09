@@ -23,7 +23,8 @@ export default function StudioPage() {
   const [colorName, setColorName] = useStorage('colorName', 'Amber');
   const [color, setColor] = useStorage('color', PREBUILT_COLORS[colorName]);
 
-  const [animationDelay, setAnimationDelay] = useState<number>(100);
+  // eslint-disable-next-line no-unused-vars
+  const [animationDelay, setAnimationDelay] = useState<number>(15);
 
   const [images, setImages] = useState<Image[]>([]);
   const [imagesCount, setImagesCount] = useState(0);

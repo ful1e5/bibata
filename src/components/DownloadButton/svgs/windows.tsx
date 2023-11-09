@@ -1,6 +1,11 @@
+'use client';
+
+import React from 'react';
+
 type Props = {};
 
-export const WindowsDownloadSVG: React.FC<Props> = (props) => {
+// eslint-disable-next-line no-unused-vars
+export const WindowsDownloadSVG: React.FC<Props> = (_props) => {
   return (
     <svg
       width='40'

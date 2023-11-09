@@ -1,13 +1,16 @@
+'use client';
+
+import React, { useEffect, useState } from 'react';
 import useSWR from 'swr';
-import { useEffect, useState } from 'react';
 
 import Tooltip from '@components/Tooltip';
+import { InfoSVG } from './svgs';
 
 import { DB_SEEDS } from '@root/configs';
+
 import { getDownloadCounts } from '@utils/sponsor/get-count';
 
 import { DownloadCounts } from 'bibata/misc';
-import { InfoSVG } from './svgs';
 
 type Props = {
   token?: string;

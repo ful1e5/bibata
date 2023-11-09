@@ -1,8 +1,11 @@
 'use client';
 
-import { signIn, signOut } from 'next-auth/react';
+import React from 'react';
+import Image from 'next/legacy/image';
 
+import { signIn, signOut } from 'next-auth/react';
 import { Session } from 'next-auth';
+
 import { LogoutSVG } from './svgs';
 
 type Props = {
@@ -10,7 +13,7 @@ type Props = {
 };
 
 export const Profile: React.FC<Props> = (props) => {
-  const user = props?.session?.user;
+  const user = props.session?.user;
   return (
     <div className='inline-flex items-center gap-2'>
       {!props.session ? (
@@ -33,7 +36,13 @@ export const Profile: React.FC<Props> = (props) => {
           </button>
 
           <div className='w-14 h-14 overflow-hidden rounded-3xl ring-white/[.2] ring-1 '>
-            <img title={user?.name!} src={user?.avatarUrl} alt={user?.login!} />
+            <Image
+              width={100}
+              height={100}
+              title={user?.name!}
+              src={user?.avatarUrl}
+              alt={user?.login!}
+            />
             <div className='w-full h-full animate-pulse bg-white/[.4]'></div>
           </div>
         </>

@@ -1,12 +1,15 @@
 'use client';
 
+import React from 'react';
+
 interface Props {
   list: string[];
   value: string;
-  onClick: (v: string) => void;
+
+  onClick: (v: string) => void; // eslint-disable-line no-unused-vars
 }
 
-export function TypePicker(props: Props) {
+export const TypePicker: React.FC<Props> = (props) => {
   return (
     <div className='flex items-center justify-center'>
       <div className='w-full sm:w-1/2 bg-black/[0.2] overflow-hidden rounded-3xl border-white/[.08] border'>
@@ -28,4 +31,4 @@ export function TypePicker(props: Props) {
       </div>
     </div>
   );
-}
+};

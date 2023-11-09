@@ -6,6 +6,7 @@ import { FetchSVG } from '@utils/figma/fetch-svgs';
 import { TYPES } from '@root/configs';
 import { ApiError } from 'figma-api/lib/utils';
 
+// eslint-disable-next-line no-unused-vars
 export async function GET(_request: NextRequest) {
   const response = await update();
   return NextResponse.json(

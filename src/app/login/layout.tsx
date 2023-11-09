@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const metadata = {
   title: 'Bibata | Login',
   description: 'Login into Bibata'

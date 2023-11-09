@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { fetchX } from '@utils/fetchX';
 
@@ -27,6 +27,8 @@ type Props = {
   svg: SVG;
   color: Color;
   delay: number;
+
+  // eslint-disable-next-line no-unused-vars
   onLoad?: (image: Image) => void;
 };
 

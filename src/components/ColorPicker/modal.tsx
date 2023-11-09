@@ -1,15 +1,18 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Wheel from '@uiw/react-color-wheel';
 
 import { CursorPreview } from './preview';
 
-import { Color } from 'bibata/app';
 import { generateRandomColors } from '@utils/randomColors';
+
+import { Color } from 'bibata/app';
 
 type ColorWheelCardProps = {
   title: string;
   value: string;
   children?: React.ReactNode;
+
+  // eslint-disable-next-line no-unused-vars
   onChange?: (c: string) => void;
 };
 
@@ -47,7 +50,9 @@ const ColorWheelCard: React.FC<ColorWheelCardProps> = (props) => {
 
 type ColorPickerModalProps = {
   isOpen: boolean;
+
   onClose: () => void;
+  // eslint-disable-next-line no-unused-vars
   onColorPick: (color: Color) => void;
 };
 

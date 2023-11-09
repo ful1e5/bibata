@@ -1,10 +1,15 @@
-import useSWR from 'swr';
-import Link from 'next/link';
+'use client';
 
-import { SPONSOR_API_ENDPOINT } from '@root/configs';
-import { getLuckySponsor } from '@utils/sponsor/lucky-sponsor';
+import React from 'react';
+import Link from 'next/link';
+import Image from 'next/legacy/image';
+import useSWR from 'swr';
 
 import Tooltip from '@components/Tooltip';
+
+import { getLuckySponsor } from '@utils/sponsor/lucky-sponsor';
+
+import { SPONSOR_API_ENDPOINT } from '@root/configs';
 
 import { LuckySponsor } from 'bibata/misc';
 
@@ -43,7 +48,12 @@ export const DownloadSponsor: React.FC<Props> = (props) => {
             <div className='flex flex-row p-2 justify-center items-center gap-3 rounded-xl ring-1 ring-white/[.3] hover:bg-white/[.1]'>
               <div className='w-10 h-10 overflow-hidden rounded-2xl ring-1 ring-white/[.2] hover:ring-blue-400 hober:ring-2'>
                 <Link href={data.sponsors[0].url} target='_blank'>
-                  <img src={sponsor.avatarUrl} alt={login} />
+                  <Image
+                    width={100}
+                    height={100}
+                    src={sponsor.avatarUrl}
+                    alt={login}
+                  />
                 </Link>
                 <div className='w-full h-full animate-pulse bg-white/[.4]'></div>
               </div>

@@ -1,16 +1,18 @@
 'use client';
 
+import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 import { useSession } from 'next-auth/react';
 
-import { usePathname } from 'next/navigation';
 import { Profile } from './profile';
 import { ProBadge } from './svgs';
 
 type Props = {};
 
-export const NavBar: React.FC<Props> = (props) => {
+// eslint-disable-next-line no-unused-vars
+export const NavBar: React.FC<Props> = (_props) => {
   const pathname = usePathname();
   const { data: session, status } = useSession();
 

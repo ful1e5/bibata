@@ -1,12 +1,15 @@
 'use client';
 
+import React from 'react';
+
 interface Props {
   list: number[];
   values: number;
-  onClick: (v: number) => void;
+
+  onClick: (v: number) => void; // eslint-disable-line no-unused-vars
 }
 
-export function SizePicker(props: Props) {
+export const SizePicker: React.FC<Props> = (props) => {
   return (
     <div className='flex items-center justify-center'>
       <div className='w-full sm:w-1/2 grid grid-cols-7 sm:grid-cols-8 gap-2 '>
@@ -28,4 +31,4 @@ export function SizePicker(props: Props) {
       </div>
     </div>
   );
-}
+};

@@ -1,6 +1,11 @@
+'use client';
+
+import React from 'react';
+
 type Props = {};
 
-export const CursorsLoading: React.FC<Props> = (props) => {
+// eslint-disable-next-line no-unused-vars
+export const CursorsLoading: React.FC<Props> = (_props) => {
   const cards = Array.from(new Array(12), (_, i) => i + 1);
   return (
     <div className='container mx-auto px-4'>

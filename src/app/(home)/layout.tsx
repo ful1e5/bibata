@@ -1,5 +1,6 @@
 import '@app/(home)/globals.css';
 
+import React from 'react';
 import { Metadata } from 'next';
 
 import { Providers } from '@app/(home)/providers';

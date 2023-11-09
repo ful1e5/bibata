@@ -1,8 +1,7 @@
 'use client';
 
+import React, { useEffect } from 'react';
 import useSWR from 'swr';
-
-import { useEffect } from 'react';
 
 import { fetchX } from '@utils/fetchX';
 
@@ -23,8 +22,9 @@ type Props = {
   type: string;
   color: Color;
   delay: number;
-  onLoad?: (image: Image) => void;
-  onData?: (svgs: SVG[]) => void;
+
+  onLoad?: (image: Image) => void; // eslint-disable-line no-unused-vars
+  onData?: (svgs: SVG[]) => void; // eslint-disable-line no-unused-vars
 };
 
 export const Cursors: React.FC<Props> = (props) => {
@@ -43,7 +43,7 @@ export const Cursors: React.FC<Props> = (props) => {
     if (!isLoading && !isValidating && res?.data && props.onData) {
       props.onData(res.data);
     }
-  }, [isLoading, isValidating, props]);
+  }, [isLoading, isValidating, props, res]);
 
   if (isLoading || isValidating) return <Loading />;
 

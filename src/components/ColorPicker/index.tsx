@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 
 import { ColorPickerModal } from './modal';
+
 import { Color, Colors } from 'bibata/app';
 
 type Props = {
@@ -58,6 +59,8 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
 type ColorPickerProps = {
   colors: Colors;
   colorName: string;
+
+  // eslint-disable-next-line no-unused-vars
   onClick?: (name: string, c: Color) => void;
 };
 

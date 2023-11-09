@@ -1,3 +1,7 @@
 {
-  "extends": "next/core-web-vitals"
+  "globals": {
+    "globalThis": true
+  },
+  "ignorePatterns": ["src/types/**"],
+  "extends": ["next/core-web-vitals", "next", "prettier", "eslint:recommended"]
 }

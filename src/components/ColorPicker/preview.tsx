@@ -1,3 +1,7 @@
+'use client';
+
+import React from 'react';
+
 type Props = {
   base: string;
   outline: string;

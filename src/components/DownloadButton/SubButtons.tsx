@@ -1,9 +1,15 @@
+'use client';
+
+import React from 'react';
+
 import { LIB_VERSION } from '@root/version';
+
 import { LinuxDownloadSVG, WindowsDownloadSVG } from './svgs';
 
 type Props = {
   disabled?: boolean;
-  onClick: (p: 'x11' | 'win') => void;
+
+  onClick: (p: 'x11' | 'win') => void; // eslint-disable-line no-unused-vars
 };
 
 export const DownloadSubButtons: React.FC<Props> = (props) => {
