@@ -2,8 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { fetchX } from '@utils/fetchX';
-
 import { COLORS_MASK_KEYS as mask } from '@root/configs';
 
 import { Color, SVG } from 'bibata/app';
@@ -37,9 +35,8 @@ export const CursorCard: React.FC<Props> = (props) => {
 
   const [loading, setLoading] = useState<boolean>(true);
 
-  const [svg, setSvg] = useState<string | null>();
+  const [index, setIndex] = useState<number>(0);
   const [frames, setFrames] = useState<string[]>([]);
-  const [frameIndex, setFrameIndex] = useState<number>(0);
 
   const c = encodeURIComponent(
     JSON.stringify({
@@ -49,33 +46,21 @@ export const CursorCard: React.FC<Props> = (props) => {
     })
   );
 
-  const fetchSvgs = async () => {
-    const l: string[] = [];
-    for (const id of props.svg.ids) {
-      const url = `/api/svg/${id}?color=${c}&display`;
-      let res = await fetch(url, { next: { revalidate: 360 } });
-
-      if (res.status !== 200) {
-        const r = await res.json();
-        throw new Error(r['error']);
-      } else {
-        const frame = await res.text();
-        l.push(frame);
-      }
-    }
-    return l;
-  };
-
   useEffect(() => {
     setLoading(true);
     setFrames([]);
-    setSvg('');
 
     const fetchSvg = async () => {
       try {
-        const list = await fetchSvgs();
-        setFrames([...list]);
-        setSvg(list[0]);
+        const url = `/api/svg/${props.svg.name}?color=${c}&display`;
+        let res = await fetch(url, { next: { revalidate: 360 } });
+        const json = await res.json();
+
+        if (res.status !== 200) {
+          throw new Error(json['error']);
+        } else {
+          setFrames([...json.data]);
+        }
       } catch (e) {
         console.error(e);
       }
@@ -86,19 +71,18 @@ export const CursorCard: React.FC<Props> = (props) => {
   }, [props.color, props.svg]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (props.svg.isAnimated && loading === false) {
-        if (frameIndex < frames.length - 1) {
-          setFrameIndex(frameIndex + 1);
+    if (props.svg.isAnimated && loading === false) {
+      const intervalId = setInterval(() => {
+        if (index < frames.length - 1) {
+          setIndex(index + 1);
         } else {
-          setFrameIndex(0);
+          setIndex(0);
         }
-        setSvg(frames[frameIndex]);
-      }
-    }, props.delay);
+      }, props.delay);
 
-    return () => clearInterval(intervalId);
-  }, [loading, frameIndex, props.delay]); // eslint-disable-line react-hooks/exhaustive-deps
+      return () => clearInterval(intervalId);
+    }
+  }, [props.svg, loading, index, props.delay]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (props.onLoad && !loading && frames) {
@@ -127,11 +111,11 @@ export const CursorCard: React.FC<Props> = (props) => {
           className={`${
             !loading ? 'opacity-100' : 'opacity-0'
           } transition-opacity duration-500 flex justify-center`}>
-          {svg ? (
+          {frames ? (
             <span
               className='object-none h-full p-4 top-0 absolute'
               hidden={loading}
-              dangerouslySetInnerHTML={{ __html: svg }}
+              dangerouslySetInnerHTML={{ __html: frames[index] }}
             />
           ) : (
             <div className='object-center' hidden={loading}>

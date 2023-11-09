@@ -30,30 +30,31 @@ const update = async () => {
           return { error: JSON.stringify(e) };
         });
 
-      let all_ids = [];
+      let all_ids: string[] = [];
       for (let { ids } of svgs) {
         all_ids.push(ids.join(','));
       }
       const images = await fetcher.getSvgUrl(all_ids.join(','));
 
       if (images) {
-        Object.entries(images).forEach(([id, url]) => {
-          if (url) {
+        svgs.forEach(({ name, ids }) => {
+          const urls = ids.map((id) => images[id]);
+          if (urls) {
             redis
-              .set(id, url)
-              .then((v) => console.info(`Updated '${id}': ${v} `))
+              .set(name, JSON.stringify(urls))
+              .then((v) => console.info(`Updated '${name}': ${v} `))
               .catch((e) => {
                 console.error(e);
                 return { error: JSON.stringify(e) };
               });
           } else {
-            const error = `[Figma API] Unable to fetch '${id}' url.`;
+            const error = `[Figma API] Unable to fetch '${name}' locations.`;
             console.error(error);
             return { error };
           }
         });
       } else {
-        return { error: `[Figma API] Unable to fetch '${type}' urls` };
+        return { error: `[Figma API] Unable to fetch '${type}' locations.` };
       }
     }
 

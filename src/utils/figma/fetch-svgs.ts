@@ -72,7 +72,7 @@ export class FetchSVG {
     }
   }
 
-  public async fetchImage(url: string, options: FetchImageOptions) {
+  public async generateImage(url: string, options: FetchImageOptions) {
     const { color, size, display } = options;
 
     let img = '';

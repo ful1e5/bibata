@@ -1,15 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { Redis } from 'ioredis';
 import { FetchSVG } from '@utils/figma/fetch-svgs';
 
 import { RESPONSES as res } from '@api/config';
-import { Redis } from 'ioredis';
 
-type Param = { params: { id: string } };
+type Param = { params: { name: string } };
+
+const NOT_FOUND = NextResponse.json(
+  { error: 'Image not found' },
+  { status: 404 }
+);
 
 export async function GET(request: NextRequest, { params }: Param) {
   if (request.method === 'GET') {
-    const id = params.id;
+    const name = params.name;
     const p = request.nextUrl.searchParams;
 
     let display = false;
@@ -26,26 +31,28 @@ export async function GET(request: NextRequest, { params }: Param) {
 
     const options = { color, size, display };
 
-    if (id) {
+    if (name) {
       try {
-        const redis = new Redis();
+        const redis = new Redis({ connectTimeout: 10000 });
         const api = new FetchSVG();
 
-        const url = await redis.get(id);
-        const img = await api.fetchImage(url!, options);
+        const raw = await redis.get(name);
+        if (!raw) return NOT_FOUND;
 
-        if (img) {
-          return new NextResponse(img, {
-            headers: {
-              'content-type': 'image/svg+xml',
-              'Cache-Control': 'public, max-age=3600'
-            }
-          });
+        const urls: string[] = JSON.parse(raw);
+        if (!urls) return NOT_FOUND;
+
+        const data: string[] = [];
+
+        for (const url of urls) {
+          const img = await api.generateImage(url, options);
+          data.push(img);
+        }
+
+        if (data) {
+          return NextResponse.json({ data });
         } else {
-          return NextResponse.json(
-            { error: 'Image not found' },
-            { status: 404 }
-          );
+          return NOT_FOUND;
         }
       } catch (e) {
         return NextResponse.json({ error: JSON.stringify(e) }, { status: 500 });
