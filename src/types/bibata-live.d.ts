@@ -1,7 +1,8 @@
 declare module 'bibata/app' {
   type SVG = {
+    id: string;
     name: string;
-    ids: string[];
+    node_ids: string[];
     isAnimated: boolean;
   };
 

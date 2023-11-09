@@ -30,18 +30,18 @@ const update = async () => {
           return { error: JSON.stringify(e) };
         });
 
-      let all_ids: string[] = [];
-      for (let { ids } of svgs) {
-        all_ids.push(ids.join(','));
+      let all_node_ids: string[] = [];
+      for (let { node_ids } of svgs) {
+        all_node_ids.push(node_ids.join(','));
       }
-      const images = await fetcher.getSvgUrl(all_ids.join(','));
+      const images = await fetcher.getSvgUrl(all_node_ids.join(','));
 
       if (images) {
-        svgs.forEach(({ name, ids }) => {
-          const urls = ids.map((id) => images[id]);
+        svgs.forEach(({ id, name, node_ids }) => {
+          const urls = node_ids.map((nid) => images[nid]);
           if (urls) {
             redis
-              .set(name, JSON.stringify(urls))
+              .set(id, JSON.stringify(urls))
               .then((v) => console.info(`Updated '${name}': ${v} `))
               .catch((e) => {
                 console.error(e);

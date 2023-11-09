@@ -3,8 +3,6 @@
 import React, { useEffect } from 'react';
 import useSWR from 'swr';
 
-import { fetchX } from '@utils/fetchX';
-
 import { CursorCard as Card } from './card';
 import { CursorsError as Error } from './error';
 import { CursorsLoading as Loading } from './loading';

@@ -5,7 +5,7 @@ import { FetchSVG } from '@utils/figma/fetch-svgs';
 
 import { RESPONSES as res } from '@api/config';
 
-type Param = { params: { name: string } };
+type Param = { params: { id: string } };
 
 const NOT_FOUND = NextResponse.json(
   { error: 'Image not found' },
@@ -14,7 +14,7 @@ const NOT_FOUND = NextResponse.json(
 
 export async function GET(request: NextRequest, { params }: Param) {
   if (request.method === 'GET') {
-    const name = params.name;
+    const id = params.id;
     const p = request.nextUrl.searchParams;
 
     let display = false;
@@ -31,12 +31,12 @@ export async function GET(request: NextRequest, { params }: Param) {
 
     const options = { color, size, display };
 
-    if (name) {
+    if (id) {
       try {
         const redis = new Redis({ connectTimeout: 10000 });
         const api = new FetchSVG();
 
-        const raw = await redis.get(name);
+        const raw = await redis.get(id);
         if (!raw) return NOT_FOUND;
 
         const urls: string[] = JSON.parse(raw);

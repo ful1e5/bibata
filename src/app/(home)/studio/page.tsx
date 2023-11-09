@@ -46,6 +46,7 @@ export default function StudioPage() {
       }
     }
   }, [status, update]); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <main className='container m-auto p-7'>
       <TypePicker

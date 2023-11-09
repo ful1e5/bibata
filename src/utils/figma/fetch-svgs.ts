@@ -1,3 +1,4 @@
+import { v4 } from 'uuid';
 import * as Figma from 'figma-api';
 
 import { SVG } from 'bibata/app';
@@ -44,12 +45,13 @@ export class FetchSVG {
       let node = svgs.find((svg) => svg.name === name);
 
       if (!node) {
-        node = { name, ids: [], isAnimated: false };
+        const id = v4();
+        node = { id, name, node_ids: [], isAnimated: false };
         svgs.push(node);
       }
 
-      node.ids.push(entry.id);
-      node.isAnimated = node.ids.length > 1;
+      node.node_ids.push(entry.id);
+      node.isAnimated = node.node_ids.length > 1;
     }
 
     return svgs.sort((a, b) => {

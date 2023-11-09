@@ -12,7 +12,7 @@ export const BrokenImage: React.FC = () => {
     <svg
       width='20'
       height='20'
-      className='fill-current top-1/2 opacity-20 absolute'
+      className='fill-current opacity-20'
       viewBox='0 0 20 20'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'>
@@ -52,7 +52,7 @@ export const CursorCard: React.FC<Props> = (props) => {
 
     const fetchSvg = async () => {
       try {
-        const url = `/api/svg/${props.svg.name}?color=${c}&display`;
+        const url = `/api/svg/${props.svg.id}?color=${c}&display`;
         let res = await fetch(url, { next: { revalidate: 360 } });
         const json = await res.json();
 
@@ -62,7 +62,11 @@ export const CursorCard: React.FC<Props> = (props) => {
           setFrames([...json.data]);
         }
       } catch (e) {
-        console.error(e);
+        if (process.env.NODE_ENV === 'development') {
+          console.error(e);
+        } else {
+          console.error(`Unable to fetch '${props.svg.name}'`);
+        }
       }
       setLoading(false);
     };
@@ -94,35 +98,35 @@ export const CursorCard: React.FC<Props> = (props) => {
         );
       });
 
-      props.onLoad({ name: props.svg.name, frames: codes });
+      if (codes.length > 0) {
+        props.onLoad({ name: props.svg.name, frames: codes });
+      }
     }
   }, [loading, frames]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className='mb-4 overflow-hidden rounded-3xl bg-white/[0.05] border-white/[.1] border'>
-      <div className='w-full h-40 mb-4 relative'>
-        <div
-          className={`w-full h-full bg-gray-300/[.3] ${
-            loading ? 'animate-pulse bg-white/[.2]' : 'bg-white/[.05]'
-          }`}
-        />
-
-        <div
-          className={`${
-            !loading ? 'opacity-100' : 'opacity-0'
-          } transition-opacity duration-500 flex justify-center`}>
-          {frames ? (
-            <span
-              className='object-none h-full p-4 top-0 absolute'
-              hidden={loading}
-              dangerouslySetInnerHTML={{ __html: frames[index] }}
-            />
-          ) : (
-            <div className='object-center' hidden={loading}>
-              <BrokenImage />
-            </div>
-          )}
-        </div>
+      <div className='w-full h-40 bg-white/[.1] mb-4 '>
+        {!loading ? (
+          <div
+            className={`flex justify-center items-center h-full ${
+              !loading ? 'opacity-100' : 'opacity-0'
+            } transition-opacity duration-500`}>
+            {frames.length > 0 ? (
+              <span
+                className='h-28'
+                hidden={loading}
+                dangerouslySetInnerHTML={{ __html: frames[index] }}
+              />
+            ) : (
+              <span hidden={loading}>
+                <BrokenImage />
+              </span>
+            )}
+          </div>
+        ) : (
+          <div className='w-full h-full animate-pulse bg-white/[.2]' />
+        )}
       </div>
 
       <div className='text-center'>
