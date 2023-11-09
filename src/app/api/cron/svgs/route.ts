@@ -16,7 +16,7 @@ export async function GET(_request: NextRequest) {
 }
 
 const update = async () => {
-  const redis = new Redis();
+  const redis = new Redis({ connectTimeout: 10000 });
   const fetcher = new FetchSVG();
 
   try {
@@ -27,6 +27,7 @@ const update = async () => {
         .then((v) => console.info(`Updated Type '${type}': ${v} `))
         .catch((e) => {
           console.error(e);
+          redis.quit();
           return { error: JSON.stringify(e) };
         });
 
@@ -45,6 +46,7 @@ const update = async () => {
               .then((v) => console.info(`Updated '${name}': ${v} `))
               .catch((e) => {
                 console.error(e);
+                redis.quit();
                 return { error: JSON.stringify(e) };
               });
           } else {
@@ -58,6 +60,7 @@ const update = async () => {
       }
     }
 
+    redis.quit();
     return;
   } catch (_e) {
     // @ts-ignore

@@ -11,10 +11,11 @@ export async function GET(request: NextRequest) {
 
     if (type) {
       if (TYPES.includes(type)) {
-        const redis = new Redis();
+        const redis = new Redis({ connectTimeout: 10000 });
         const data: SVG[] = await redis
           .get(type)
           .then((s) => JSON.parse(s || '[]'));
+        redis.quit();
 
         const error = data.length === 0 ? 'Unable to fetch SVG nodes' : null;
 

@@ -37,6 +37,7 @@ export async function GET(request: NextRequest, { params }: Param) {
         const api = new FetchSVG();
 
         const raw = await redis.get(id);
+        redis.quit();
         if (!raw) return NOT_FOUND;
 
         const urls: string[] = JSON.parse(raw);
