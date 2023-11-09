@@ -19,7 +19,7 @@ export function useLocalStorage<T>(
 
   useEffect(() => {
     setValue(get());
-  }, [localStorage]);
+  }, [localStorage]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     ls.set(key, value);

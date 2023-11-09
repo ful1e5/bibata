@@ -45,8 +45,7 @@ export default function StudioPage() {
         setToken(genAccessToken());
       }
     }
-  }, [status, update]);
-
+  }, [status, update]); // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <main className='container m-auto p-7'>
       <TypePicker

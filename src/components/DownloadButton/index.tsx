@@ -190,7 +190,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
       configRef.current = props.config;
       tokenRef.current = props.token;
     }
-  }, [lock, props.token]);
+  }, [lock, props.token]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const busy = loading || props.disabled;
 

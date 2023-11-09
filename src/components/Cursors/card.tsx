@@ -53,7 +53,7 @@ export const CursorCard: React.FC<Props> = (props) => {
     const l: string[] = [];
     for (const id of props.svg.ids) {
       const url = `/api/svg/${id}?color=${c}&display`;
-      let res = await fetchX(url, { group: 'images' });
+      let res = await fetch(url, { next: { revalidate: 360 } });
 
       if (res.status !== 200) {
         const r = await res.json();
@@ -83,10 +83,8 @@ export const CursorCard: React.FC<Props> = (props) => {
     };
 
     fetchSvg();
-  }, [props.color, props.svg]);
+  }, [props.color, props.svg]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Use SVG sprites to reduce the number of HTTP requests
-  // TODO: Fix Buggy Animation, Browser keep reloading when Any link is clicked
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (props.svg.isAnimated && loading === false) {
@@ -100,7 +98,7 @@ export const CursorCard: React.FC<Props> = (props) => {
     }, props.delay);
 
     return () => clearInterval(intervalId);
-  }, [loading, frameIndex, props.delay]);
+  }, [loading, frameIndex, props.delay]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (props.onLoad && !loading && frames) {
@@ -114,7 +112,7 @@ export const CursorCard: React.FC<Props> = (props) => {
 
       props.onLoad({ name: props.svg.name, frames: codes });
     }
-  }, [loading, frames]);
+  }, [loading, frames]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className='mb-4 overflow-hidden rounded-3xl bg-white/[0.05] border-white/[.1] border'>

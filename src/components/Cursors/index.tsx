@@ -29,7 +29,7 @@ type Props = {
 
 export const Cursors: React.FC<Props> = (props) => {
   const fetcher = async (url: string) => {
-    const res = await fetchX(url, { group: 'images-info' });
+    const res = await fetch(url, { next: { revalidate: 360 } });
     return (await res.json()) as Response;
   };
 
