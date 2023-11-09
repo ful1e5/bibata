@@ -1,0 +1,7 @@
+Flask==2.2.2
+Werkzeug==2.2.2
+Flask-Cors===4.0.0
+python-dotenv===1.0.0
+PyJWT===2.8.0
+Wand===0.6.11
+clickgen===2.1.9

@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  PRO
+  ADMIN
+}
+
+enum Platform {
+  win
+  x11
+}
+
+enum Type {
+  Modern
+  Original
+}
+
+model User {
+  id                 String     @id @default(cuid())
+  userId             String     @unique
+  login              String
+  name               String?
+  email              String?    @unique
+  url                String
+  avatarUrl          String
+  totalDownloadCount Int?
+
+  index              Int        @unique @default(autoincrement())
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  role               Role       @default(USER)
+  downloads          Download[]
+}
+
+model Download {
+  id           String   @id @default(cuid())
+
+  baseColor    String
+  outlineColor String
+  watchBGColor String
+
+  platform     Platform
+  type         Type
+
+  index        Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user         User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String?
+}
