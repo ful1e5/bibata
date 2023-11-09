@@ -6,8 +6,12 @@ import { FetchSVG } from '@utils/figma/fetch-svgs';
 import { TYPES } from '@root/configs';
 import { ApiError } from 'figma-api/lib/utils';
 
-// eslint-disable-next-line no-unused-vars
-export async function GET(_request: NextRequest) {
+export async function GET(request: NextRequest) {
+  if (
+    request.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`
+  ) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
   const response = await update();
   return NextResponse.json(
     { fetchAt: Date.now(), ...response },
