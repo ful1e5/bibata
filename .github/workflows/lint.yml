@@ -16,7 +16,6 @@ jobs:
       - name: Setup Node.js and Yarn
         uses: actions/setup-node@v3
         with:
-          node-version: 14
           registry-url: https://registry.yarnpkg.com
 
       - name: Cache Yarn dependencies
