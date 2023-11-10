@@ -22,7 +22,7 @@ app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 # CORS(app, supports_credentials=True)
 
 
-@app.route("/api/session", methods=["GET"])
+@app.route("/api/core/session", methods=["GET"])
 # @cross_origin(origins="*")
 def get_session():
     auth = decode_auth_header()
@@ -34,7 +34,7 @@ def get_session():
         return jsonify({"id": auth.id, "role": auth.role})
 
 
-@app.route("/api/session", methods=["DELETE"])
+@app.route("/api/core/session", methods=["DELETE"])
 def destroy_session():
     k = session_keys["build"]
     id = session.get(k, None)
@@ -45,7 +45,7 @@ def destroy_session():
     return jsonify({"id": id})
 
 
-@app.route("/api/upload", methods=["POST"])
+@app.route("/api/core/upload", methods=["POST"])
 @auth_required
 def upload_images():
     errors: List[str] = []
@@ -68,7 +68,7 @@ def upload_images():
         return jsonify({"status": 200, "id": id, "file": name, "error": None})
 
 
-@app.route("/api/download", methods=["GET"])
+@app.route("/api/core/download", methods=["GET"])
 def download():
     errors: List[str] = []
 

@@ -1,9 +1,13 @@
 namespace NodeJS {
   interface ProcessEnv {
+    readonly VERCEL_ENV: 'preview' | 'development' | 'production';
+    readonly NEXT_PUBLIC_VERCEL_URL: string;
+
+    readonly NEXT_PUBLIC_JWT_SECRET: string;
+
     readonly NEXTAUTH_SECRET: string;
     readonly FLASK_SECRET: string;
     readonly CRON_SECRET: string;
-    readonly NEXT_PUBLIC_JWT_SECRET: string;
 
     readonly GITHUB_ID: string;
     readonly GITHUB_SECRET: string;

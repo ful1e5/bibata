@@ -40,7 +40,7 @@ export const Profile: React.FC<Props> = (props) => {
               width={100}
               height={100}
               title={user?.name!}
-              src={user?.avatarUrl}
+              src={user?.avatarUrl!}
               alt={user?.login!}
             />
             <div className='w-full h-full animate-pulse bg-white/[.4]'></div>
