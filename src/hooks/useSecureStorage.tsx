@@ -6,23 +6,29 @@ import ls from 'localstorage-slim';
 
 ls.config.encrypt = true;
 
-export function useLocalStorage<T>(
+export function useSecureStorage<T>(
   key: string,
   initialValue: T
 ): [T, React.Dispatch<T>] {
+  key = `bibata.${key}`;
+
   const get = () => {
-    const d: T = ls.get(key) || initialValue;
-    return d;
+    try {
+      const d: T = ls.get(key) || initialValue;
+      return d;
+    } catch {
+      return initialValue;
+    }
   };
 
   const [value, setValue] = useState<T>(() => get());
 
   useEffect(() => {
-    setValue(get());
-  }, [localStorage]); // eslint-disable-line react-hooks/exhaustive-deps
+    setValue(() => get());
+  }, [key, initialValue]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    ls.set(key, value);
+    ls.set(key, value, { encrypt: true });
   }, [key, value]);
 
   return [value, setValue];

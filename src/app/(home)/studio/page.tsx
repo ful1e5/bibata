@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 
 import { TYPES, PREBUILT_COLORS, SIZES } from '@root/configs';
-import { useLocalStorage as useStorage } from '@hooks/useLocalStorage';
+import { useSecureStorage as useStorage } from '@hooks/useSecureStorage';
 
 import { TypePicker } from '@components/TypePicker';
 import { SizePicker } from '@components/SizePicker';

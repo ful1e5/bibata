@@ -8,7 +8,7 @@ import { genAccessToken } from '@utils/auth/token';
 import { DB_SEEDS } from '@root/configs';
 import { Role } from '@prisma/client';
 
-export const authOptions: AuthOptions = {
+const authOptions: AuthOptions = {
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_ID,
