@@ -2,7 +2,6 @@ import os
 from logging import Logger
 from typing import List
 
-import cairosvg
 from clickgen.parser import open_blob
 from clickgen.writer import to_win, to_x11
 
@@ -15,19 +14,12 @@ def store_cursors(sid: str, data: UploadFormData, logger: Logger):
 
     name = data.name
     platform = data.platform
-    frames = data.frames
+    pngs = data.frames
     size = data.size
     delay = data.delay
 
-    pngs: List[bytes] = []
-
     try:
-        for f in frames:
-            png = cairosvg.svg2png(f)
-            if type(png) is bytes:
-                pngs.append(png)
-
-        if not pngs:
+        if len(pngs) == 0:
             errors.append("Unable to convert SVG to PNG")
             return None, errors
 

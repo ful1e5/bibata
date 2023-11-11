@@ -17,19 +17,14 @@ export async function GET(request: NextRequest, { params }: Param) {
     const id = params.id;
     const p = request.nextUrl.searchParams;
 
-    let display = false;
     let color: { [key: string]: string } = {};
-    let size: number = 0;
+    let size: number = 256;
 
-    if (p.has('display')) display = true;
-
-    if (!display) {
-      if (p.has('size')) size = Number(p.get('size')) || 0;
-    }
+    if (p.has('size')) size = Number(p.get('size')) || 256;
 
     if (p.has('color')) color = JSON.parse(p.get('color') || '');
 
-    const options = { color, size, display };
+    const options = { color, size };
 
     if (id) {
       try {
@@ -47,7 +42,7 @@ export async function GET(request: NextRequest, { params }: Param) {
 
         for (const url of urls) {
           const img = await api.generateImage(url, options);
-          data.push(img);
+          data.push(`data:image/png;base64,${img!.toString('base64')}`);
         }
 
         if (data) {

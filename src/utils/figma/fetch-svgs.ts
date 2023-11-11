@@ -1,6 +1,8 @@
 import { v4 } from 'uuid';
 import * as Figma from 'figma-api';
 
+import sharp from 'sharp';
+
 import { SVG } from 'bibata/app';
 
 export type FetchImageOptions = {
@@ -8,7 +10,6 @@ export type FetchImageOptions = {
     [key: string]: string;
   };
   size: number;
-  display: boolean;
 };
 
 export class FetchSVG {
@@ -29,7 +30,7 @@ export class FetchSVG {
 
     const entries: Figma.Node<keyof Figma.NodeTypes>[] = [];
 
-    const groups = [type, 'Shared', 'Watch'];
+    const groups = [type, 'Shared', 'Wait'];
 
     page.children.forEach((e) => {
       if (e.type === 'GROUP' && groups.includes(e.name)) {
@@ -46,7 +47,7 @@ export class FetchSVG {
 
       if (!node) {
         const id = v4();
-        node = { id, name, node_ids: [], isAnimated: false };
+        node = { id: `i-${id}`, name, node_ids: [], isAnimated: false };
         svgs.push(node);
       }
 
@@ -75,7 +76,7 @@ export class FetchSVG {
   }
 
   public async generateImage(url: string, options: FetchImageOptions) {
-    const { color, size, display } = options;
+    const { color, size } = options;
 
     let img = '';
 
@@ -90,20 +91,13 @@ export class FetchSVG {
         });
       }
 
-      if (display) {
-        img = img.replace(
-          'width="256" height="256"',
-          'width="100%" height="100%"'
-          // `preserveAspectRatio="xMaxYMid meet" width="100%" height="100%"`
-        );
-      } else if (size !== 0) {
-        img = img.replace(
-          'width="256" height="256"',
-          `preserveAspectRatio="xMaxYMid meet" width="${size}" height="${size}"`
-        );
-      }
+      return await sharp(Buffer.from(img))
+        .resize(size, size)
+        .png()
+        .toBuffer()
+        .catch((e) => {
+          console.error(e);
+        });
     }
-
-    return img;
   }
 }

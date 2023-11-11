@@ -8,7 +8,8 @@ import { ApiError } from 'figma-api/lib/utils';
 
 export async function GET(request: NextRequest) {
   if (
-    request.headers.get('Authorization') !== `Bearer ${process.env.CRON_SECRET}`
+    request.headers.get('Authorization') !==
+    `Bearer ${process.env.SVG_FETCH_SECRET}`
   ) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -21,18 +22,29 @@ export async function GET(request: NextRequest) {
 
 const update = async () => {
   const redis = new Redis({ connectTimeout: 10000 });
-  const fetcher = new FetchSVG();
 
+  const deleteOldImageUrls = async () => {
+    const keys = await redis.keys('i-*');
+    if (keys.length > 0) {
+      await redis.del(...keys);
+      console.log(`Deleted ${keys.length} URLs.`);
+    }
+  };
+
+  const fetcher = new FetchSVG();
+  await deleteOldImageUrls();
   try {
     for (const type of TYPES) {
       const svgs = await fetcher.fetchSVGs({ type });
+      redis.del(type);
       redis
         .set(type, JSON.stringify(svgs))
         .then((v) => console.info(`Updated Type '${type}': ${v} `))
         .catch((e) => {
-          console.error(e);
-          redis.quit();
-          return { error: JSON.stringify(e) };
+          if (e) {
+            console.error(e);
+            return { error: JSON.stringify(e) };
+          }
         });
 
       let all_node_ids: string[] = [];
@@ -49,9 +61,10 @@ const update = async () => {
               .set(id, JSON.stringify(urls))
               .then((v) => console.info(`Updated '${name}': ${v} `))
               .catch((e) => {
-                console.error(e);
-                redis.quit();
-                return { error: JSON.stringify(e) };
+                if (e) {
+                  console.error(e);
+                  return { error: JSON.stringify(e) };
+                }
               });
           } else {
             const error = `[Figma API] Unable to fetch '${name}' locations.`;

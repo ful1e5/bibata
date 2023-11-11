@@ -187,8 +187,8 @@ export const DownloadButton: React.FC<Props> = (props) => {
   useEffect(() => {
     if (!lock) {
       api.deleteSession();
-      configRef.current = props.config;
       tokenRef.current = props.token;
+      configRef.current = props.config;
     }
   }, [lock, props.token]); // eslint-disable-line react-hooks/exhaustive-deps
 
