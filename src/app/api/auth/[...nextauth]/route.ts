@@ -22,7 +22,11 @@ const authOptions: AuthOptions = {
               type: 'text',
               placeholder: 'abdullah'
             },
-            password: { label: 'Password', type: 'password' }
+            password: {
+              label: 'Password',
+              type: 'text',
+              placeholder: 'abdullah'
+            }
           },
           async authorize(cred) {
             if (cred?.username === 'abdullah' && cred.password === 'abdullah') {
