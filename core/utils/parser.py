@@ -8,7 +8,7 @@ from flask import Request, json
 @dataclass
 class UploadFormData:
     name: str
-    frames: List[str]
+    frames: List[bytes]
     platform: str
     size: int
     delay: int

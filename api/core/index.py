@@ -8,8 +8,6 @@ from core.builder.compress import FileResponse, win_compress, x11_compress
 from core.builder.cursor import store_cursors
 from core.utils.parser import parse_download_params, parse_upload_formdata
 from core.utils.token import decode_auth_header
-
-# from flask_cors import CORS, cross_origin
 from core.utils.wrappers import auth_required, destroy_build_session, session_keys
 
 load_dotenv()
@@ -19,11 +17,9 @@ logger = app.logger
 
 app.secret_key = os.getenv("FLASK_SECRET")
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
-# CORS(app, supports_credentials=True)
 
 
 @app.route("/api/core/session", methods=["GET"])
-# @cross_origin(origins="*")
 def get_session():
     auth = decode_auth_header()
 

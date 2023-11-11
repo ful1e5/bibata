@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/legacy/image';
 
 import { signIn, signOut } from 'next-auth/react';
 import { Session } from 'next-auth';
@@ -36,7 +35,7 @@ export const Profile: React.FC<Props> = (props) => {
           </button>
 
           <div className='w-14 h-14 overflow-hidden rounded-3xl ring-white/[.2] ring-1 '>
-            <Image
+            <img
               width={100}
               height={100}
               title={user?.name!}

@@ -24,31 +24,26 @@ const authOptions: AuthOptions = {
             },
             password: {
               label: 'Password',
-              type: 'text',
-              placeholder: 'abdullah'
+              type: 'password'
             }
           },
-          async authorize(cred) {
-            if (cred?.username === 'abdullah' && cred.password === 'abdullah') {
-              try {
-                return {
-                  id: '12345-12345-12345-12345',
-                  userId: '9919',
-                  login: 'abdullah',
-                  name: 'Abdullah',
-                  email: 'abdullah@example.com',
-                  url: 'https://github.com/github',
-                  avatarUrl: 'https://avatars.githubusercontent.com/u/9919?v=4',
-                  totalDownloadCount: 100,
-                  index: 1,
-                  role: 'USER',
-                  createdAt: new Date(),
-                  updatedAt: new Date()
-                };
-              } catch {
-                return null;
-              }
-            } else {
+          async authorize() {
+            try {
+              return {
+                id: '12345-12345-12345-12345',
+                userId: '9919',
+                login: 'abdullah',
+                name: 'Abdullah',
+                email: 'abdullah@example.com',
+                url: 'https://github.com/github',
+                avatarUrl: 'https://avatars.githubusercontent.com/u/9919',
+                totalDownloadCount: 100,
+                index: 1,
+                role: 'USER',
+                createdAt: new Date(),
+                updatedAt: new Date()
+              };
+            } catch {
               return null;
             }
           }
