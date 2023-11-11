@@ -16,9 +16,7 @@ export class CoreApi {
   jwt: AuthToken | undefined;
 
   constructor() {
-    this.url = process.env.NEXT_PUBLIC_VERCEL_URL
-      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api`
-      : '/api/core';
+    this.url = '/api/core';
   }
 
   private __headers(token?: string) {

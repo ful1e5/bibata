@@ -3,8 +3,8 @@ from shutil import rmtree
 
 from flask import g, jsonify, session
 
-from api.builder.config import gtmp
-from api.utils.token import decode_auth_header
+from core.builder.config import gtmp
+from core.utils.token import decode_auth_header
 
 session_keys = {"build": "cbuid"}
 

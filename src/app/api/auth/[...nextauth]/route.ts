@@ -26,20 +26,24 @@ const authOptions: AuthOptions = {
           },
           async authorize(cred) {
             if (cred?.username === 'abdullah' && cred.password === 'abdullah') {
-              return {
-                id: '12345-12345-12345-12345',
-                userId: '9919',
-                login: 'abdullah',
-                name: 'Abdullah',
-                email: 'abdullah@example.com',
-                url: 'https://github.com/github',
-                avatarUrl: 'https://avatars.githubusercontent.com/u/9919?v=4',
-                totalDownloadCount: 100,
-                index: 1,
-                role: 'USER',
-                createdAt: new Date(),
-                updatedAt: new Date()
-              };
+              try {
+                return {
+                  id: '12345-12345-12345-12345',
+                  userId: '9919',
+                  login: 'abdullah',
+                  name: 'Abdullah',
+                  email: 'abdullah@example.com',
+                  url: 'https://github.com/github',
+                  avatarUrl: 'https://avatars.githubusercontent.com/u/9919?v=4',
+                  totalDownloadCount: 100,
+                  index: 1,
+                  role: 'USER',
+                  createdAt: new Date(),
+                  updatedAt: new Date()
+                };
+              } catch {
+                return null;
+              }
             } else {
               return null;
             }

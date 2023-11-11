@@ -1,6 +1,6 @@
 import os
 from logging import Logger
-from typing import List, Union
+from typing import List
 
 from clickgen.parser import open_blob
 from clickgen.writer import to_win, to_x11
@@ -8,8 +8,8 @@ from wand.api import library
 from wand.color import Color
 from wand.image import Image
 
-from api.builder.config import configs, gsubtmp
-from api.utils.parser import UploadFormData
+from core.builder.config import configs, gsubtmp
+from core.utils.parser import UploadFormData
 
 
 def store_cursors(sid: str, data: UploadFormData, logger: Logger):

@@ -6,7 +6,6 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'avatars.githubusercontent.com',
-        port: '',
         pathname: '/u/**'
       }
     ]
@@ -18,7 +17,7 @@ const nextConfig = {
         destination:
           process.env.NODE_ENV === 'development'
             ? 'http://localhost:5328/api/:path*'
-            : '/api/'
+            : '/api/:path*'
       }
     ];
   }

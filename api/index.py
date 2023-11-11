@@ -4,13 +4,13 @@ from typing import List
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request, send_file, session
 
-# from flask_cors import CORS, cross_origin
-from utils.wrappers import auth_required, destroy_build_session, session_keys
+from core.builder.compress import FileResponse, win_compress, x11_compress
+from core.builder.cursor import store_cursors
+from core.utils.parser import parse_download_params, parse_upload_formdata
+from core.utils.token import decode_auth_header
 
-from api.builder.compress import FileResponse, win_compress, x11_compress
-from api.builder.cursor import store_cursors
-from api.utils.parser import parse_download_params, parse_upload_formdata
-from api.utils.token import decode_auth_header
+# from flask_cors import CORS, cross_origin
+from core.utils.wrappers import auth_required, destroy_build_session, session_keys
 
 load_dotenv()
 
