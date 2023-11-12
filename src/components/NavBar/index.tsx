@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
 import { Profile } from './profile';
-import { ProBadge } from './svgs';
+import { ProBadge, BibataLogo } from './svgs';
 
 type Props = {};
 
@@ -23,9 +23,11 @@ export const NavBar: React.FC<Props> = (_props) => {
           className='overflow-hidden text-3xl font-bold inline-flex gap-1'
           href='/'
           title='Goto Homepage'>
-          Bibata
+          <span className='block sm:hidden'>
+            <BibataLogo />
+          </span>
           <span className='hidden sm:block'>
-            {pathname === '/studio' && ' Studio'}
+            {pathname === '/studio' && 'Bibata Studio'}
             {session?.user?.role === 'PRO' && <ProBadge />}
           </span>
         </Link>
