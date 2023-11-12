@@ -103,7 +103,13 @@ export const CursorCard: React.FC<Props> = (props) => {
               !loading ? 'opacity-100' : 'opacity-0'
             } transition-opacity duration-500`}>
             {frames.length > 0 ? (
-              <img className='h-28' hidden={loading} src={frames[index]} />
+              <img
+                className='h-36 sm:h-28'
+                hidden={loading}
+                alt={props.svg.name}
+                title={props.svg.name}
+                src={frames[index]}
+              />
             ) : (
               <span hidden={loading}>
                 <BrokenImage />

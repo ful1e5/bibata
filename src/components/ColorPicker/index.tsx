@@ -23,7 +23,7 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
 
   return (
     <button
-      className={`container py-3 flex flex-col justify-center items-center rounded-3xl ring-1 ${
+      className={`container py-2 sm:py-5 flex flex-row sm:flex-col gap-4 sm:gap-0 justify-center items-center rounded-3xl ring-1 ${
         props.selected ? 'ring-white/[.3] bg-white/[.1]' : 'ring-white/[.2]'
       }`}
       title={
@@ -32,13 +32,9 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
           : 'Customize Bibata Colors'
       }
       disabled={props.selected && props.disabled}
-      onClick={props.onClick}
-      style={{
-        maxWidth: '100%',
-        overflow: 'hidden'
-      }}>
+      onClick={props.onClick}>
       <div
-        className='mt-2 w-14 h-14 rounded-full font-bold flex justify-center items-center text-center shadow-xl'
+        className='w-10 h-10 sm:w-20 sm:h-20 rounded-full font-bold flex justify-center items-center text-center shadow-xl'
         style={
           props.color
             ? {
@@ -51,7 +47,9 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
         }>
         {props.children}
       </div>
-      <div className='mt-3 text-center'>{props.name}</div>
+      <div className='mt-0 sm:mt-3 text-center hidden sm:block'>
+        {props.name}
+      </div>
     </button>
   );
 };
@@ -70,7 +68,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = (props) => {
   return (
     <>
       <div className='flex items-center justify-center'>
-        <div className='px-10 sm:p-0 w-full md:w-1/2 mx-3 sm:mx-32 grid grid-cols-2 sm:grid-cols-4 gap-5 sm:gap-7'>
+        <div className='w-full md:w-2/3 lg:w-1/2 sm:mx-32 grid grid-cols-2 md:grid-cols-4 gap-5 sm:gap-7'>
           {Object.entries(props.colors).map(([name, color], i) => (
             <ColorPickerButton
               key={i}

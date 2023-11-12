@@ -23,8 +23,11 @@ export const NavBar: React.FC<Props> = (_props) => {
           className='overflow-hidden text-3xl font-bold inline-flex gap-1'
           href='/'
           title='Goto Homepage'>
-          {pathname === '/studio' ? 'Bibata Studio' : 'Bibata'}
-          {session?.user?.role === 'PRO' && <ProBadge />}
+          Bibata
+          <span className='hidden sm:block'>
+            {pathname === '/studio' && ' Studio'}
+            {session?.user?.role === 'PRO' && <ProBadge />}
+          </span>
         </Link>
         {status === 'loading' ? (
           <div className='m-2 w-24 mr-4'>

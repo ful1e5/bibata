@@ -208,12 +208,11 @@ export const DownloadButton: React.FC<Props> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (!lock && props.config !== configRef.current) {
-      api.deleteSession();
-      tokenRef.current = props.token;
+    if (!lock) {
       configRef.current = props.config;
+      tokenRef.current = props.token;
     }
-  }, [lock, props.token, props.config]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [lock, props.disabled, props.token]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const busy = loading || props.disabled;
 
@@ -222,7 +221,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
       <div className='flex justify-center'>
         <button
           ref={buttonRef}
-          className='disabled:opacity-50 relative flex justify-center items-center gap-2 w-1/2 sm:w-1/3 lg:w-1/5 h-16 rounded-3xl py-3 bg-green-600 hover:bg-green-500'
+          className='disabled:opacity-50 relative flex justify-center items-center gap-2 w-3/4 sm:w-1/3 lg:w-1/5 h-16 rounded-3xl py-3 bg-green-600 hover:bg-green-500'
           disabled={props.disabled && !lock}
           onClick={() => setShowDropdown(!showDropdown)}>
           <p className='overflow-auto text-lg font-semibold'>

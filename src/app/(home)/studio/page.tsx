@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 
 import { TYPES, PREBUILT_COLORS, SIZES } from '@root/configs';
-import { useSecureStorage as useStorage } from '@hooks/useSecureStorage';
 
 import { TypePicker } from '@components/TypePicker';
 import { SizePicker } from '@components/SizePicker';
@@ -17,11 +16,11 @@ import { genAccessToken } from '@utils/auth/token';
 import { Image } from 'bibata/core-api/types';
 
 export default function StudioPage() {
-  const [type, setType] = useStorage<string>('type', TYPES[0]);
-  const [cursorSize, setCursorSize] = useStorage('cursorSize', SIZES[0]);
+  const [type, setType] = useState(TYPES[0]);
+  const [cursorSize, setCursorSize] = useState(SIZES[0]);
 
-  const [colorName, setColorName] = useStorage('colorName', 'Amber');
-  const [color, setColor] = useStorage('color', PREBUILT_COLORS[colorName]);
+  const [colorName, setColorName] = useState('Amber');
+  const [color, setColor] = useState(PREBUILT_COLORS[colorName]);
 
   // eslint-disable-next-line no-unused-vars
   const [animationDelay, setAnimationDelay] = useState<number>(15);
