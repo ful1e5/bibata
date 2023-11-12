@@ -53,7 +53,6 @@ declare module 'next-auth' {
   interface User extends PrismaUser {}
 
   interface Session extends Session {
-    accessToken?: string;
     user?: PrismaUser;
   }
 }

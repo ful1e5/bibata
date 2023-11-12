@@ -36,13 +36,17 @@ export default function StudioPage() {
     setImagesCount(0);
   };
 
+  const refreshToken = () => {
+    if (session?.user) {
+      setToken(genAccessToken(session.user));
+    } else {
+      setToken(genAccessToken());
+    }
+  };
+
   useEffect(() => {
     if (status !== 'loading') {
-      if (session?.accessToken) {
-        setToken(session.accessToken);
-      } else {
-        setToken(genAccessToken());
-      }
+      refreshToken();
     }
   }, [status, update]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -54,6 +58,7 @@ export default function StudioPage() {
         onClick={(v) => {
           resetImages();
           setType(v);
+          refreshToken();
         }}
       />
 
@@ -61,7 +66,10 @@ export default function StudioPage() {
         <SizePicker
           list={SIZES}
           values={cursorSize}
-          onClick={(s) => setCursorSize(s)}
+          onClick={(s) => {
+            setCursorSize(s);
+            refreshToken();
+          }}
         />
       </div>
 
@@ -73,6 +81,7 @@ export default function StudioPage() {
             resetImages();
             setColorName(n);
             setColor(c);
+            refreshToken();
           }}
         />
       </div>

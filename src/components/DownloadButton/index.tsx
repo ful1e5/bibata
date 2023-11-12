@@ -137,7 +137,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
 
     setErrorLogs({ text: '' });
 
-    api.refreshSession(tokenRef.current);
+    await api.refreshSession(tokenRef.current);
     const { count, total } = await getDownloadCounts(api.jwt?.token);
     if ((total && count >= total) || (count === 0 && total === 0)) {
       setErrorLogs({ text: 'Download Limit Exceeded.' });
@@ -208,9 +208,11 @@ export const DownloadButton: React.FC<Props> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (!lock) {
-      configRef.current = props.config;
+    if (lock === false) {
       tokenRef.current = props.token;
+      configRef.current = props.config;
+
+      api.deleteSession();
     }
   }, [lock, props.disabled, props.token]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -237,12 +239,14 @@ export const DownloadButton: React.FC<Props> = (props) => {
           <div className='absolute w-full sm:w-1/2 lg:w-1/4 2xl:w-1/5 h-auto mt-2 z-10 px-6 sm:px-0'>
             <div className='bg-[#2e2e2e] text-white border border-white/[.2] rounded-xl shadow-xl relative'>
               {loading ? (
-                <div className='flex p-6 justify-center items-center'>
-                  <div className='-ml-1 mr-3 h-5 w-5'>
-                    <ProcessingSVG />
+                <>
+                  <div className='flex p-6 justify-center items-center'>
+                    <div className='-ml-1 mr-3 h-5 w-5'>
+                      <ProcessingSVG />
+                    </div>
+                    <p>{loadingText}</p>
                   </div>
-                  <p>{loadingText}</p>
-                </div>
+                </>
               ) : (
                 <>
                   <DownloadError

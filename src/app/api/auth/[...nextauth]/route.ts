@@ -4,7 +4,6 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 
 import { upsertUser } from '@services/user';
 import { isSponsor } from '@utils/sponsor/is-sponsor';
-import { genAccessToken } from '@utils/auth/token';
 
 import { DB_SEEDS } from '@root/configs';
 import { Role } from '@prisma/client';
@@ -85,9 +84,6 @@ const authOptions: AuthOptions = {
     },
 
     async session({ session, token }) {
-      if (token.user) {
-        session.accessToken = genAccessToken(token.user);
-      }
       return Promise.resolve({ ...session, user: { ...token.user } });
     }
   }
