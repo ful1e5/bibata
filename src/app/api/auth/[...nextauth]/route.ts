@@ -6,7 +6,7 @@ import { upsertUser } from '@services/user';
 import { isSponsor } from '@utils/sponsor/is-sponsor';
 
 import { DB_SEEDS } from '@root/configs';
-import { Role } from '@prisma/client';
+import { Role, User } from '@prisma/client';
 
 const PREVIEW = process.env.VERCEL_ENV === 'preview';
 
@@ -26,22 +26,25 @@ const authOptions: AuthOptions = {
               type: 'password'
             }
           },
-          async authorize() {
+          async authorize(cred) {
             try {
-              return {
+              const user: User = {
                 id: '12345-12345-12345-12345',
                 userId: '9919',
                 login: 'abdullah',
                 name: 'Abdullah',
                 email: 'abdullah@example.com',
                 url: 'https://github.com/github',
-                avatarUrl: 'https://avatars.githubusercontent.com/u/9919',
-                totalDownloadCount: 100,
+                avatarUrl: 'https://picsum.photos/400/400',
+                totalDownloadCount: 5,
                 index: 1,
                 role: 'USER',
                 createdAt: new Date(),
                 updatedAt: new Date()
               };
+
+              if (cred?.username === 'abdullah') user.role = 'PRO';
+              return user;
             } catch {
               return null;
             }
