@@ -4,13 +4,11 @@ from typing import List
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request, send_file, session
 
-# from flask_cors import CORS, cross_origin
-from utils.wrappers import auth_required, destroy_build_session, session_keys
-
-from api.builder.compress import FileResponse, win_compress, x11_compress
-from api.builder.cursor import store_cursors
-from api.utils.parser import parse_download_params, parse_upload_formdata
-from api.utils.token import decode_auth_header
+from core.builder.compress import FileResponse, win_compress, x11_compress
+from core.builder.cursor import store_cursors
+from core.utils.parser import parse_download_params, parse_upload_formdata
+from core.utils.token import decode_auth_header
+from core.utils.wrappers import auth_required, destroy_build_session, session_keys
 
 load_dotenv()
 
@@ -19,11 +17,9 @@ logger = app.logger
 
 app.secret_key = os.getenv("FLASK_SECRET")
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
-# CORS(app, supports_credentials=True)
 
 
-@app.route("/api/session", methods=["GET"])
-# @cross_origin(origins="*")
+@app.route("/api/core/session", methods=["GET"])
 def get_session():
     auth = decode_auth_header()
 
@@ -34,7 +30,7 @@ def get_session():
         return jsonify({"id": auth.id, "role": auth.role})
 
 
-@app.route("/api/session", methods=["DELETE"])
+@app.route("/api/core/session", methods=["DELETE"])
 def destroy_session():
     k = session_keys["build"]
     id = session.get(k, None)
@@ -45,7 +41,7 @@ def destroy_session():
     return jsonify({"id": id})
 
 
-@app.route("/api/upload", methods=["POST"])
+@app.route("/api/core/upload", methods=["POST"])
 @auth_required
 def upload_images():
     errors: List[str] = []
@@ -68,7 +64,7 @@ def upload_images():
         return jsonify({"status": 200, "id": id, "file": name, "error": None})
 
 
-@app.route("/api/download", methods=["GET"])
+@app.route("/api/core/download", methods=["GET"])
 def download():
     errors: List[str] = []
 

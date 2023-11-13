@@ -1,15 +1,12 @@
 import os
 from logging import Logger
-from typing import List, Union
+from typing import List
 
 from clickgen.parser import open_blob
 from clickgen.writer import to_win, to_x11
-from wand.api import library
-from wand.color import Color
-from wand.image import Image
 
-from api.builder.config import configs, gsubtmp
-from api.utils.parser import UploadFormData
+from core.builder.config import configs, gsubtmp
+from core.utils.parser import UploadFormData
 
 
 def store_cursors(sid: str, data: UploadFormData, logger: Logger):
@@ -17,25 +14,12 @@ def store_cursors(sid: str, data: UploadFormData, logger: Logger):
 
     name = data.name
     platform = data.platform
-    frames = data.frames
+    pngs = data.frames
     size = data.size
     delay = data.delay
 
-    pngs: List[bytes] = []
-
     try:
-        for f in frames:
-            with Image() as image:
-                with Color("transparent") as background_color:
-                    library.MagickSetBackgroundColor(
-                        image.wand, background_color.resource
-                    )
-                    image.read(blob=f.encode(), format="svg")
-                    png = image.make_blob("png32")
-                    if type(png) is bytes:
-                        pngs.append(png)
-
-        if not pngs:
+        if len(pngs) == 0:
             errors.append("Unable to convert SVG to PNG")
             return None, errors
 

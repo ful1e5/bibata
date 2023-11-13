@@ -1,6 +1,6 @@
-import { UserRole, DBUser } from 'bibata/misc';
-
 import NextAuth from 'next-auth';
+
+import { User as PrismaUser } from '@prisma/client';
 
 declare module 'next-auth' {
   interface Profile extends Profile {
@@ -50,16 +50,15 @@ declare module 'next-auth' {
     };
   }
 
-  interface User extends DBUser {}
+  interface User extends PrismaUser {}
 
   interface Session extends Session {
-    accessToken?: string;
-    user?: DBUser;
+    user?: PrismaUser;
   }
 }
 
 declare module 'next-auth/jwt' {
   interface JWT extends JWT {
-    user?: DBUser;
+    user?: PrismaUser;
   }
 }

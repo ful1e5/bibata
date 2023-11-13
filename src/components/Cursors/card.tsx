@@ -52,7 +52,7 @@ export const CursorCard: React.FC<Props> = (props) => {
 
     const fetchSvg = async () => {
       try {
-        const url = `/api/svg/${props.svg.id}?color=${c}&display`;
+        const url = `/api/svg/${props.svg.id}?color=${c}`;
         let res = await fetch(url, { next: { revalidate: 360 } });
         const json = await res.json();
 
@@ -89,48 +89,42 @@ export const CursorCard: React.FC<Props> = (props) => {
   }, [props.svg, loading, index, props.delay]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (props.onLoad && !loading && frames) {
-      const codes: string[] = [];
-
-      frames.forEach((f) => {
-        codes.push(
-          f.replace('width="100%" height="100%"', 'width="256" height="256"')
-        );
-      });
-
-      if (codes.length > 0) {
-        props.onLoad({ name: props.svg.name, frames: codes });
-      }
+    if (props.onLoad && !loading && frames.length > 0) {
+      props.onLoad({ name: props.svg.name, frames });
     }
   }, [loading, frames]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className='mb-4 overflow-hidden rounded-3xl bg-white/[0.05] border-white/[.1] border'>
-      <div className='w-full h-40 bg-white/[.1] mb-4 '>
-        {!loading ? (
-          <div
-            className={`flex justify-center items-center h-full ${
-              !loading ? 'opacity-100' : 'opacity-0'
-            } transition-opacity duration-500`}>
-            {frames.length > 0 ? (
-              <span
-                className='h-28'
-                hidden={loading}
-                dangerouslySetInnerHTML={{ __html: frames[index] }}
-              />
-            ) : (
-              <span hidden={loading}>
-                <BrokenImage />
-              </span>
-            )}
-          </div>
-        ) : (
-          <div className='w-full h-full animate-pulse bg-white/[.2]' />
-        )}
-      </div>
+    <div className='flex justify-center'>
+      <div className='w-4/6 sm:w-full mb-4 overflow-hidden rounded-3xl bg-white/[0.05] border-white/[.1] border'>
+        <div className='w-full h-40 bg-white/[.1] mb-4 '>
+          {!loading ? (
+            <div
+              className={`flex justify-center items-center h-full ${
+                !loading ? 'opacity-100' : 'opacity-0'
+              } transition-opacity duration-500`}>
+              {frames.length > 0 ? (
+                <img
+                  className='h-36 sm:h-28'
+                  hidden={loading}
+                  alt={props.svg.name}
+                  title={props.svg.name}
+                  src={frames[index]}
+                />
+              ) : (
+                <span hidden={loading}>
+                  <BrokenImage />
+                </span>
+              )}
+            </div>
+          ) : (
+            <div className='w-full h-full animate-pulse bg-white/[.2]' />
+          )}
+        </div>
 
-      <div className='text-center'>
-        <p className='mb-2'>{props.svg.name}</p>
+        <div className='text-center'>
+          <p className='mb-2'>{props.svg.name}</p>
+        </div>
       </div>
     </div>
   );

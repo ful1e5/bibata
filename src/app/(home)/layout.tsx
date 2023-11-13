@@ -17,9 +17,9 @@ export const metadata: Metadata = {
   manifest: '/favicon/site.webmanifest'
 };
 
-interface Props {
+type Props = {
   children: React.ReactNode;
-}
+};
 
 export default function RootLayout({ children }: Props) {
   return (

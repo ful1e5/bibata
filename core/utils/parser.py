@@ -1,3 +1,4 @@
+import base64
 from dataclasses import dataclass
 from logging import Logger
 from typing import List, Literal
@@ -8,7 +9,7 @@ from flask import Request, json
 @dataclass
 class UploadFormData:
     name: str
-    frames: List[str]
+    frames: List[bytes]
     platform: str
     size: int
     delay: int
@@ -22,7 +23,7 @@ def parse_upload_formdata(request: Request, logger: Logger):
     size: int = 0
     delay: int = 0
     platform: str = ""
-    frames: List[str] = []
+    frames: List[bytes] = []
 
     try:
         form_data = request.form.get("data")
@@ -77,7 +78,8 @@ def parse_upload_formdata(request: Request, logger: Logger):
                             f"Invalid 'frames[{i}]' type. It must  be type 'string'"
                         )
                     else:
-                        frames.append(v)
+                        base64_str = v[len("data:image/png;base64,") :]
+                        frames.append(base64.b64decode(base64_str))
 
     except Exception as e:
         errors.append(str(e))

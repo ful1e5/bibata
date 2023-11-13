@@ -1,24 +1,15 @@
+const devMode = process.env.NODE_ENV === 'development';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'avatars.githubusercontent.com',
-        port: '',
-        pathname: '/u/**'
-      }
-    ]
-  },
   rewrites: async () => {
     return [
       {
-        source: '/api/core/:path*',
-        destination:
-          process.env.NODE_ENV === 'development'
-            ? 'http://localhost:5328/api/:path*'
-            : '/api/'
+        source: devMode ? '/api/core/:path*' : '/api/:path*',
+        destination: devMode
+          ? 'http://localhost:5328/api/core/:path*'
+          : '/api/:path*'
       }
     ];
   }

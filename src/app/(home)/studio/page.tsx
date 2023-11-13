@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 
 import { TYPES, PREBUILT_COLORS, SIZES } from '@root/configs';
-import { useSecureStorage as useStorage } from '@hooks/useSecureStorage';
 
 import { TypePicker } from '@components/TypePicker';
 import { SizePicker } from '@components/SizePicker';
@@ -17,11 +16,11 @@ import { genAccessToken } from '@utils/auth/token';
 import { Image } from 'bibata/core-api/types';
 
 export default function StudioPage() {
-  const [type, setType] = useStorage<string>('type', TYPES[0]);
-  const [cursorSize, setCursorSize] = useStorage('cursorSize', SIZES[0]);
+  const [type, setType] = useState(TYPES[0]);
+  const [cursorSize, setCursorSize] = useState(SIZES[0]);
 
-  const [colorName, setColorName] = useStorage('colorName', 'Amber');
-  const [color, setColor] = useStorage('color', PREBUILT_COLORS[colorName]);
+  const [colorName, setColorName] = useState('Amber');
+  const [color, setColor] = useState(PREBUILT_COLORS[colorName]);
 
   // eslint-disable-next-line no-unused-vars
   const [animationDelay, setAnimationDelay] = useState<number>(15);
@@ -37,13 +36,17 @@ export default function StudioPage() {
     setImagesCount(0);
   };
 
+  const refreshToken = () => {
+    if (session?.user) {
+      setToken(genAccessToken(session.user));
+    } else {
+      setToken(genAccessToken());
+    }
+  };
+
   useEffect(() => {
     if (status !== 'loading') {
-      if (session?.accessToken) {
-        setToken(session.accessToken);
-      } else {
-        setToken(genAccessToken());
-      }
+      refreshToken();
     }
   }, [status, update]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -55,6 +58,7 @@ export default function StudioPage() {
         onClick={(v) => {
           resetImages();
           setType(v);
+          refreshToken();
         }}
       />
 
@@ -62,7 +66,10 @@ export default function StudioPage() {
         <SizePicker
           list={SIZES}
           values={cursorSize}
-          onClick={(s) => setCursorSize(s)}
+          onClick={(s) => {
+            setCursorSize(s);
+            refreshToken();
+          }}
         />
       </div>
 
@@ -74,6 +81,7 @@ export default function StudioPage() {
             resetImages();
             setColorName(n);
             setColor(c);
+            refreshToken();
           }}
         />
       </div>

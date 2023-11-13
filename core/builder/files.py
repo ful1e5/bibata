@@ -2,7 +2,7 @@ from logging import Logger
 from pathlib import Path
 from typing import Literal
 
-from api.utils.parser import DownloadParams
+from core.utils.parser import DownloadParams
 
 README = """[::] Bibata Cursor
 TLDR; This cursor set is a masterpiece of cursors available on the internet,

@@ -9,9 +9,9 @@ from zipfile import ZipFile
 from clickgen.packer.windows import pack_win
 from clickgen.packer.x11 import pack_x11
 
-from api.builder.config import gsubtmp, gtmp
-from api.builder.files import attach_files
-from api.utils.parser import DownloadParams
+from core.builder.config import gsubtmp, gtmp
+from core.builder.files import attach_files
+from core.utils.parser import DownloadParams
 
 
 @dataclass

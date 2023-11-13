@@ -2,6 +2,9 @@
   "globals": {
     "globalThis": true
   },
+  "extends": ["next/core-web-vitals", "next", "prettier", "eslint:recommended"],
   "ignorePatterns": ["src/types/**"],
-  "extends": ["next/core-web-vitals", "next", "prettier", "eslint:recommended"]
+  "rules": {
+    "@next/next/no-img-element": "off"
+  }
 }

@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/legacy/image';
 import useSWR from 'swr';
 
 import Tooltip from '@components/Tooltip';
@@ -48,7 +47,7 @@ export const DownloadSponsor: React.FC<Props> = (props) => {
             <div className='flex flex-row p-2 justify-center items-center gap-3 rounded-xl ring-1 ring-white/[.3] hover:bg-white/[.1]'>
               <div className='w-10 h-10 overflow-hidden rounded-2xl ring-1 ring-white/[.2] hover:ring-blue-400 hober:ring-2'>
                 <Link href={data.sponsors[0].url} target='_blank'>
-                  <Image
+                  <img
                     width={100}
                     height={100}
                     src={sponsor.avatarUrl}

@@ -2,6 +2,14 @@ name: CI
 
 on:
   push:
+    paths-ignore:
+      - README.md
+      - LICENSE
+
+  pull_request:
+    paths-ignore:
+      - README.md
+      - LICENSE
     branches:
       - main
 
@@ -19,7 +27,7 @@ jobs:
           registry-url: https://registry.yarnpkg.com
 
       - name: Cache Yarn dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             node_modules
@@ -27,8 +35,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      - name: Install dependencies
+      - name: Install Yarn dependencies
         run: yarn install
 
-      - name: Lint
+      - name: Yarn Lint
         run: yarn lint
+
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.8
+          cache: 'pip'
+
+      - name: Install pip dependencies
+        run: python -m pip install --upgrade pip flake8
+
+      - name: Flake8
+        run: flake8 api core
