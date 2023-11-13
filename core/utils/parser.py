@@ -78,7 +78,7 @@ def parse_upload_formdata(request: Request, logger: Logger):
                             f"Invalid 'frames[{i}]' type. It must  be type 'string'"
                         )
                     else:
-                        base64_str = v[len("data:image/png;base64,") :]  # noqa: E203
+                        base64_str = v[len("data:image/png;base64,") :]
                         frames.append(base64.b64decode(base64_str))
 
     except Exception as e:

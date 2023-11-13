@@ -1,3 +1,5 @@
+import { GitHubLogo } from './github';
 import { LogoutSVG } from './logout';
 
-export { LogoutSVG };
+export { GitHubLogo, LogoutSVG };
+

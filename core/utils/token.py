@@ -68,7 +68,7 @@ def decode_auth_header():
 
     auth_header = request.headers.get("Authorization")
     if auth_header and auth_header.startswith("Bearer "):
-        token = auth_header[len("Bearer ") :]  # noqa: E203
+        token = auth_header[len("Bearer ") :]
         try:
             auth = decode_token(token)
             if auth == "expired":

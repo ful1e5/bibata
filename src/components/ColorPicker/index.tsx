@@ -34,7 +34,7 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
       disabled={props.selected && props.disabled}
       onClick={props.onClick}>
       <div
-        className='w-10 h-10 sm:w-20 sm:h-20 rounded-full font-bold flex justify-center items-center text-center shadow-xl'
+        className='w-12 h-12 sm:w-20 sm:h-20 rounded-full font-bold flex justify-center items-center text-center shadow-xl'
         style={
           props.color
             ? {
@@ -68,7 +68,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = (props) => {
   return (
     <>
       <div className='flex items-center justify-center'>
-        <div className='w-full md:w-2/3 lg:w-1/2 sm:mx-32 grid grid-cols-2 md:grid-cols-4 gap-5 sm:gap-7'>
+        <div className='w-full md:w-2/3 lg:w-1/2 sm:mx-32 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-7'>
           {Object.entries(props.colors).map(([name, color], i) => (
             <ColorPickerButton
               key={i}

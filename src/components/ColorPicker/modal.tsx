@@ -107,7 +107,7 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
                 watch={watchColor}
               />
             </div>
-            <div className='mt-8 grid grid-cols-3 gap-10'>
+            <div className='mt-8 grid sm:grid-cols-3 gap-10'>
               <ColorWheelCard
                 title='Base'
                 value={baseColor}
