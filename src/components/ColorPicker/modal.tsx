@@ -25,12 +25,12 @@ const ColorWheelCard: React.FC<ColorWheelCardProps> = (props) => {
   return (
     <div className='flex flex-col justify-center items-center'>
       <div className='font-bold'>{props.title}</div>
-      <div className='mt-2 p-2'>{props.children}</div>
+      <div className='text-xl sm:text mt-2 p-2'>{props.children}</div>
       <input
         type='text'
         minLength={1}
         maxLength={7}
-        className='w-full mt-2 p-1 bg-transparent text-center border border-white/[.1] hover:border-white focus:outline-none rounded'
+        className='w-3/4 sm:w-full mt-2 p-1 bg-white/[.05] text-center border border-white/[.1] hover:border-white focus:outline-none rounded-2xl'
         value={props.value}
         placeholder='e.g., #ff0000'
         onChange={(e) => {
@@ -89,13 +89,13 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
             <div className='flex justify-between'>
               <div>
                 <button
-                  className='px-6 py-4 bg-gray-500 text-white rounded-xl font-bold hover:bg-gray-400'
+                  className='px-6 py-4 bg-[#93f5d2] text-black rounded-3xl font-bold hover:bg-[#d9c57f]'
                   onClick={refreshColors}>
-                  Refresh
+                  Magic
                 </button>
               </div>
               <button
-                className='px-6 py-4 bg-gray-500 text-white rounded-xl font-bold hover:bg-gray-400'
+                className='px-6 py-4 bg-gray-500 text-white rounded-3xl font-bold hover:bg-gray-400'
                 onClick={props.onClose}>
                 X
               </button>
@@ -152,7 +152,7 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
             </div>
             <div className='mt-11 flex justify-center'>
               <button
-                className='w-1/2 py-4 bg-green-600 text-white font-bold rounded-xl text-xl hover:bg-green-500'
+                className='w-1/2 py-4 bg-green-600 text-white font-bold rounded-3xl text-xl hover:bg-green-500'
                 onClick={handleColorPick}>
                 Apply
               </button>

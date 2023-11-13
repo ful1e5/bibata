@@ -8,7 +8,7 @@ type Props = {};
 export const GitHubLogo: React.FC<Props> = (_props) => {
   return (
     <svg
-      className='fill-current w-6 h-6 sm:w-8 sm:h-8'
+      className='fill-current w-6 h-6 sm:w-7 sm:h-7'
       width='22'
       height='22'
       viewBox='0 0 100 100'

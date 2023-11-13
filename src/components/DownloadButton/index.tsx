@@ -223,7 +223,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
       <div className='flex justify-center'>
         <button
           ref={buttonRef}
-          className='disabled:opacity-50 relative flex justify-center items-center gap-2 w-3/4 sm:w-1/3 lg:w-1/5 h-16 rounded-3xl py-3 bg-green-600 hover:bg-green-500'
+          className='disabled:opacity-50 relative flex justify-center items-center gap-2 w-4/5 sm:w-1/3 lg:w-1/5 h-16 rounded-3xl py-3 bg-green-600 hover:bg-green-500'
           disabled={props.disabled && !lock}
           onClick={() => setShowDropdown(!showDropdown)}>
           <p className='overflow-auto text-lg font-semibold'>

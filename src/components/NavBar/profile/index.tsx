@@ -17,7 +17,7 @@ export const Profile: React.FC<Props> = (props) => {
     <div className='inline-flex items-center gap-2'>
       {!props.session ? (
         <button
-          className='inline-flex items-center py-1 sm:py-2 px-3 sm:px-6 bg-white/[.03]  ring-1 ring-white/[.2] shadow text-white fill-white rounded-2xl text-lg font-semibold'
+          className='inline-flex items-center py-1 sm:py-2 px-3 sm:px-6 bg-white/[.03] ring-1 ring-white/[.2] shadow text-white fill-white rounded-xl sm:rounded-2xl text-lg font-semibold'
           title='Click to Connect your GitHub Account'
           onClick={() => signIn('github', { callbackUrl: '/' })}>
           <span className='mr-2 block sm:hidden text-xl font-bold'>+</span>

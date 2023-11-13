@@ -28,7 +28,7 @@ export const NavBar: React.FC<Props> = (_props) => {
           </Link>
           <span className='inline-flex items-center gap-1'>
             {pathname === '/studio' && (
-              <span className='text-2xl sm:text-4xl font-bold'>Studio</span>
+              <span className='text-2xl sm:text-3xl font-bold'>Studio</span>
             )}
             {session?.user?.role === 'PRO' && <ProBadge />}
           </span>

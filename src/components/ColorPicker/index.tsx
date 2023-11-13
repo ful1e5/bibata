@@ -23,7 +23,7 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
 
   return (
     <button
-      className={`container py-2 sm:py-5 flex flex-row sm:flex-col gap-4 sm:gap-0 justify-center items-center rounded-3xl ring-1 ${
+      className={`container p-7 sm:p-6 flex flex-row sm:flex-col gap-4 sm:gap-0 justify-center items-center rounded-3xl ring-1 ${
         props.selected ? 'ring-white/[.3] bg-white/[.1]' : 'ring-white/[.2]'
       }`}
       title={
@@ -34,17 +34,22 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
       disabled={props.selected && props.disabled}
       onClick={props.onClick}>
       <div
-        className='w-12 h-12 sm:w-20 sm:h-20 rounded-full font-bold flex justify-center items-center text-center shadow-xl'
+        className='w-4/5 sm:w-20 h-24 sm:h-20 rounded-full flex justify-center items-center'
         style={
           props.color
             ? {
+                color: props.color.outline,
                 backgroundColor: props.color.base
               }
             : {
+                color: 'transparent',
                 backgroundBlendMode: 'screen',
                 background: `radial-gradient( circle closest-side, hsl(0, 0%, 100%), hsl(0, 0%, 0%) 90%), conic-gradient(${stops})`
               }
         }>
+        <p className='overflow-auto sm:hidden text-lg font-bold'>
+          {props.name}
+        </p>
         {props.children}
       </div>
       <div className='mt-0 sm:mt-3 text-center hidden sm:block'>
