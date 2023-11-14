@@ -6,22 +6,23 @@ export class ImageRedis {
   constructor() {}
 
   private __createClient() {
-    return new Redis({
+    const client = new Redis({
       host: process.env.REDIS_HOST,
       password: process.env.REDIS_PASSWORD,
       port: process.env.REDIS_PORT
-    }).on('error', (err) => {
-      if (err.code == 'ECONNREFUSED') {
-        client.disconnect();
-        return;
-      }
-
-      if (process.env.NODE_ENV === 'development') {
-        console.error(err.stack);
-      } else {
-        console.error(err.message);
-      }
     });
+    client.on('error', (err) => {
+      if (err) {
+        if (process.env.NODE_ENV === 'development') {
+          console.error(err.stack);
+        } else {
+          console.error(err.message);
+        }
+        client.disconnect();
+      }
+      return;
+    });
+    return client;
   }
 
   public async del(key: RedisKey) {
