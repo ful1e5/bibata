@@ -10,7 +10,7 @@ import Link from 'next/link';
 
 import { bugReportTemplate } from '@utils/bug-report';
 
-import { ErrorSVG } from './svgs';
+import { ErrorSVG } from '@components/svgs';
 
 import { BUG_REPORT_ENDPOINT } from '@root/configs';
 
@@ -25,8 +25,8 @@ export const DownloadError: React.FC<Props> = (props) => {
       {props.logs.text && (
         <>
           <div className='flex mt-2 p-4 justify-center items-center fill-red-300 text-red-300'>
-            <div className='mr-1 mt-1 h-7 w-7'>
-              <ErrorSVG />
+            <div className='mr-2 h-6 w-6'>
+              <ErrorSVG size={19} />
             </div>
             <p className='font-bold'>{props.logs.text}</p>
           </div>

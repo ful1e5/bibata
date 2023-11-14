@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import useSWR from 'swr';
 
 import Tooltip from '@components/Tooltip';
-import { InfoSVG } from './svgs';
+import { InfoSVG } from '@components/svgs';
 
 import { DB_SEEDS } from '@root/configs';
 

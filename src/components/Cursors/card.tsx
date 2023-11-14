@@ -95,36 +95,34 @@ export const CursorCard: React.FC<Props> = (props) => {
   }, [loading, frames]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className='flex justify-center'>
-      <div className='w-4/6 sm:w-full mb-4 overflow-hidden rounded-3xl bg-white/[0.05] border-white/[.1] border'>
-        <div className='w-full h-40 bg-white/[.1] mb-4 '>
-          {!loading ? (
-            <div
-              className={`flex justify-center items-center h-full ${
-                !loading ? 'opacity-100' : 'opacity-0'
-              } transition-opacity duration-500`}>
-              {frames.length > 0 ? (
-                <img
-                  className='h-36 sm:h-28'
-                  hidden={loading}
-                  alt={props.svg.name}
-                  title={props.svg.name}
-                  src={frames[index]}
-                />
-              ) : (
-                <span hidden={loading}>
-                  <BrokenImage />
-                </span>
-              )}
-            </div>
-          ) : (
-            <div className='w-full h-full animate-pulse bg-white/[.2]' />
-          )}
-        </div>
+    <div className='w-full mb-4 overflow-hidden rounded-2xl sm:rounded-3xl bg-white/[0.05] border-white/[.1] border'>
+      <div className='w-full h-20 sm:h-40 bg-white/[.1] mb-4 '>
+        {!loading ? (
+          <div
+            className={`flex justify-center items-center h-full ${
+              !loading ? 'opacity-100' : 'opacity-0'
+            } transition-opacity duration-500`}>
+            {frames.length > 0 ? (
+              <img
+                className='h-12 sm:h-28'
+                hidden={loading}
+                alt={props.svg.name}
+                title={props.svg.name}
+                src={frames[index]}
+              />
+            ) : (
+              <span hidden={loading}>
+                <BrokenImage />
+              </span>
+            )}
+          </div>
+        ) : (
+          <div className='w-full h-full animate-pulse bg-white/[.2]' />
+        )}
+      </div>
 
-        <div className='text-center'>
-          <p className='mb-2'>{props.svg.name}</p>
-        </div>
+      <div className='text-center text-[6px] sm:text-sm'>
+        <p className='mb-2'>{props.svg.name}</p>
       </div>
     </div>
   );

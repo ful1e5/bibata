@@ -9,7 +9,7 @@ import { DownloadCount } from './Counts';
 import { DownloadSponsor } from './Sponsor';
 import { DownloadSubButtons } from './SubButtons';
 import { DownloadError, ErrorLogs } from './Error';
-import { ProcessingSVG } from './svgs';
+import { ProcessingSVG } from '@components/svgs';
 
 import { Color } from 'bibata/app';
 import { Image } from 'bibata/core-api/types';
@@ -223,10 +223,10 @@ export const DownloadButton: React.FC<Props> = (props) => {
       <div className='flex justify-center'>
         <button
           ref={buttonRef}
-          className='disabled:opacity-50 relative flex justify-center items-center gap-2 w-4/5 sm:w-1/3 lg:w-1/5 h-16 rounded-3xl py-3 bg-green-600 hover:bg-green-500'
+          className='disabled:opacity-50 relative flex justify-center items-center gap-2 w-4/5 sm:w-1/3 lg:w-1/5 h-11 sm:h-16 rounded-2xl sm:rounded-3xl py-3 bg-green-600 hover:bg-green-500'
           disabled={props.disabled && !lock}
           onClick={() => setShowDropdown(!showDropdown)}>
-          <p className='overflow-auto text-lg font-semibold'>
+          <p className='overflow-auto text-sm sm:text-lg font-semibold'>
             {busy ? 'Processing' : 'Download'}
           </p>
 

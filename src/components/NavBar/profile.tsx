@@ -5,7 +5,7 @@ import React from 'react';
 import { signIn, signOut } from 'next-auth/react';
 import { Session } from 'next-auth';
 
-import { LogoutSVG, GitHubLogo } from './svgs';
+import { LogoutSVG, GitHubLogo } from '@components/svgs';
 
 type Props = {
   session: Session | null;
@@ -14,7 +14,7 @@ type Props = {
 export const Profile: React.FC<Props> = (props) => {
   const user = props.session?.user;
   return (
-    <div className='inline-flex items-center gap-2'>
+    <div className='inline-flex items-center gap-1'>
       {!props.session ? (
         <button
           className='inline-flex items-center py-1 sm:py-2 px-3 sm:px-6 bg-white/[.03] ring-1 ring-white/[.2] shadow text-white fill-white rounded-xl sm:rounded-2xl text-lg font-semibold'
@@ -27,7 +27,7 @@ export const Profile: React.FC<Props> = (props) => {
       ) : (
         <>
           <button
-            className='w-10 p-2 rounded-full hover:bg-white/[.3]'
+            className='w-8 sm:w-10 p-2 rounded-full hover:bg-white/[.3]'
             title='Logout'
             onClick={(e) => {
               e.preventDefault();
@@ -36,7 +36,7 @@ export const Profile: React.FC<Props> = (props) => {
             <LogoutSVG />
           </button>
 
-          <div className='w-14 h-14 overflow-hidden rounded-3xl ring-white/[.2] ring-1 '>
+          <div className='w-7 sm:w-14 h-7 sm:h-14 overflow-hidden rounded-3xl ring-white/[.2] ring-1 '>
             <img
               width={100}
               height={100}
