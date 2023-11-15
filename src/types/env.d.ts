@@ -8,8 +8,8 @@ namespace NodeJS {
     readonly SVG_FETCH_SECRET: string;
 
     readonly REDIS_HOST?: string;
-    readonly REDIS_PASSWORD?: string;
     readonly REDIS_PORT?: number;
+    readonly REDIS_PASSWORD?: string;
 
     readonly GITHUB_ID: string;
     readonly GITHUB_SECRET: string;

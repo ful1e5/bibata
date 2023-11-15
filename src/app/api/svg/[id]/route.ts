@@ -36,6 +36,7 @@ export async function GET(request: NextRequest, { params }: Param) {
           data.push(`data:image/png;base64,${img!.toString('base64')}`);
         }
 
+        await redis.client.quit();
         if (data) {
           return NextResponse.json({ data });
         } else {

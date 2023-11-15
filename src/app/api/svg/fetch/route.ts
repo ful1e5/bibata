@@ -5,6 +5,7 @@ import { ImageRedis } from '@services/redis';
 import { FetchSVG } from '@utils/figma/fetch-svgs';
 
 import { TYPES } from '@root/configs';
+
 import { ApiError } from 'figma-api/lib/utils';
 
 export async function GET(request: NextRequest) {
@@ -24,10 +25,10 @@ export async function GET(request: NextRequest) {
 
 const update = async () => {
   const fetcher = new FetchSVG();
-  const redis = new ImageRedis();
-
-  await redis.rmOldUrls();
   try {
+    const redis = new ImageRedis();
+    await redis.rmOldUrls();
+
     for (const type of TYPES) {
       const svgs = await fetcher.fetchSVGs({ type });
       await redis.del(type);
@@ -56,25 +57,27 @@ const update = async () => {
       }
     }
 
+    await redis.client.quit();
     return;
-  } catch (_e) {
-    // @ts-ignore
-    let e: ApiError = _e;
-
-    if (e?.response?.data) {
-      const res = e.response.data;
-      return {
-        error: `[Figma API] ${res.err}`,
-        status: res.status || 400
-      };
-    } else {
-      // @ts-ignore
-      const error = await _e.toJSON();
-      return {
-        error: `[Figma API] ${error.message}`,
-        stack: error.stack,
-        status: 504
-      };
+  } catch (e) {
+    if (e instanceof Error) {
+      return { error: e.message, status: 504 };
     }
+
+    if (e instanceof ApiError) {
+      if (e.response.data) {
+        const res = e.response.data;
+        return {
+          error: `[Figma API] ${res.err}`,
+          status: res.status || 400
+        };
+      }
+    }
+
+    return {
+      error: 'Internal Server Error',
+      stack: JSON.stringify(e),
+      status: 504
+    };
   }
 };

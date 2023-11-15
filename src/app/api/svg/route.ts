@@ -24,6 +24,7 @@ export async function GET(request: NextRequest) {
               ? "Oops! It looks like there's a little hiccup fetching the SVG nodes right now."
               : null;
 
+          await redis.client.quit();
           return NextResponse.json(
             { error, data },
             { status: error ? 404 : 200 }
