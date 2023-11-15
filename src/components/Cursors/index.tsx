@@ -53,7 +53,7 @@ export const Cursors: React.FC<Props> = (props) => {
 
   return (
     <div className='container sm:px-4'>
-      <div className='grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6'>
+      <div className='grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4'>
         {svgs.map((e) => (
           <Card
             key={e.id}

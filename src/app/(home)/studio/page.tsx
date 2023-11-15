@@ -62,7 +62,7 @@ export default function StudioPage() {
         }}
       />
 
-      <div className='mt-10'>
+      <div className='mt-5'>
         <SizePicker
           list={SIZES}
           values={cursorSize}

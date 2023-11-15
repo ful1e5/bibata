@@ -12,7 +12,7 @@ interface Props {
 export const SizePicker: React.FC<Props> = (props) => {
   return (
     <div className='flex items-center justify-center'>
-      <div className='w-full sm:w-1/2 grid grid-cols-7 sm:grid-cols-8 gap-2 '>
+      <div className='w-full sm:w-1/2 grid grid-cols-7 sm:grid-cols-8 gap-1 sm:gap-2 text-xs sm:text-sm'>
         {props.list.map((t) => (
           <button
             key={t}

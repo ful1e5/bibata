@@ -4,7 +4,7 @@ import React from 'react';
 
 import { LIB_VERSION } from '@root/version';
 
-import { LinuxDownloadSVG, WindowsDownloadSVG } from './svgs';
+import { LinuxDownloadSVG, WindowsDownloadSVG } from '@components/svgs';
 
 type Props = {
   disabled?: boolean;

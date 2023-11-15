@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
 import { Profile } from './profile';
-import { ProBadge, BibataLogo } from './svgs';
+import { ProBadge, BibataLogo } from '@components/svgs';
 
 type Props = {};
 
@@ -17,20 +17,20 @@ export const NavBar: React.FC<Props> = (_props) => {
   const { data: session, status } = useSession();
 
   return (
-    <header className='bg-transparent p-5 top-0 w-full h-15'>
+    <header className='bg-transparent p-2 sm:p-5 top-0 w-full h-15'>
       <div className='flex items-center justify-between'>
         <div className='overflow-hidden flex items-center justify-center gap-4'>
           <Link
             href='/'
             title='Goto Homepage'
-            className='bg-blue-800 p-2 rounded-3xl'>
+            className='bg-blue-800 p-2 rounded-xl sm:rounded-3xl'>
             <BibataLogo />
           </Link>
           <span className='inline-flex items-center gap-1'>
             {pathname === '/studio' && (
-              <span className='text-2xl sm:text-3xl font-bold'>Studio</span>
+              <span className='text-lg sm:text-3xl font-bold'>Studio</span>
             )}
-            {session?.user?.role === 'PRO' && <ProBadge />}
+            {session?.user?.role === 'PRO' && <ProBadge size={18} />}
           </span>
         </div>
         {status === 'loading' ? (

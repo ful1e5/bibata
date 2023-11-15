@@ -8,7 +8,7 @@ type Props = {};
 export const BibataLogo: React.FC<Props> = (_props) => {
   return (
     <svg
-      className='fill-current w-11 h-11 sm:w-12 sm:h-12'
+      className='fill-current w-4 h-4 sm:w-12 sm:h-12'
       width='100'
       height='100'
       viewBox='0 0 100 100'

@@ -2,16 +2,16 @@
 
 import React from 'react';
 
-type Props = {};
+type Props = {
+  size?: number;
+};
 
-// eslint-disable-next-line no-unused-vars
-export const ProBadge: React.FC<Props> = (_props) => {
+export const ProBadge: React.FC<Props> = (props) => {
   return (
     <svg
-      width='30'
-      height='30'
+      width={props.size || 30}
+      height={props.size || 30}
       viewBox='0 0 30 30'
-      fill='none'
       className='fill-current'
       xmlns='http://www.w3.org/2000/svg'>
       <path
