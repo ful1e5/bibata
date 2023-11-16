@@ -89,11 +89,8 @@ export default function StudioPage() {
       <div className='my-10'>
         <DownloadButton
           token={token}
-          disabled={
-            imagesCount === 0 ||
-            images.length === 0 ||
-            imagesCount !== images.length
-          }
+          disabled={images.length === 0 || imagesCount !== images.length}
+          lock={imagesCount === 0}
           config={{
             size: cursorSize,
             delay: animationDelay,

@@ -15,12 +15,10 @@ export async function GET(request: NextRequest) {
       if (TYPES.includes(type)) {
         try {
           const redis = new ImageRedis();
-          const data: SVG[] = await redis
-            .get(type)
-            .then((s) => JSON.parse((s as string) || '[]'));
+          const data = (await redis.get(type)) as SVG[] | null;
 
           const error =
-            data.length === 0
+            !data || data.length === 0
               ? "Oops! It looks like there's a little hiccup fetching the SVG nodes right now."
               : null;
 

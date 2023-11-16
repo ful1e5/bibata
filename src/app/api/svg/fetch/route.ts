@@ -27,7 +27,8 @@ const update = async () => {
   const fetcher = new FetchSVG();
   try {
     const redis = new ImageRedis();
-    await redis.rmOldUrls();
+    const rmCount = await redis.rmOldUrls();
+    let svgCount = 0;
 
     for (const type of TYPES) {
       const svgs = await fetcher.fetchSVGs({ type });
@@ -55,12 +56,14 @@ const update = async () => {
       } else {
         return { error: `[Figma API] Unable to fetch '${type}' locations.` };
       }
+
+      svgCount += svgs.length;
     }
 
-    return;
+    return { rmUrlsCount: rmCount, fetchedSVGCounts: svgCount };
   } catch (e) {
     if (e instanceof Error) {
-      return { error: e.message, status: 504 };
+      return { error: e.message, stack: e, status: 504 };
     }
 
     if (e instanceof ApiError) {

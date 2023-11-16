@@ -47,7 +47,7 @@ export class FetchSVG {
 
       if (!node) {
         const id = v4();
-        node = { id: `i-${id}`, name, node_ids: [], isAnimated: false };
+        node = { id: `img:${id}`, name, node_ids: [], isAnimated: false };
         svgs.push(node);
       }
 

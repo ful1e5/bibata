@@ -31,17 +31,16 @@ export const Cursors: React.FC<Props> = (props) => {
     return (await res.json()) as Response;
   };
 
-  const {
-    data: res,
-    isLoading,
-    isValidating
-  } = useSWR(`/api/svg?type=${props.type}`, fetcher);
+  const { data: res, isLoading } = useSWR(
+    `/api/svg?type=${props.type}`,
+    fetcher
+  );
 
   useEffect(() => {
-    if (!isLoading && !isValidating && res?.data && props.onData) {
+    if (!isLoading && res?.data && props.onData) {
       props.onData(res.data);
     }
-  }, [isLoading, isValidating, props, res]);
+  }, [isLoading, props, res]);
 
   if (isLoading) return <Loading />;
 
