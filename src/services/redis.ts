@@ -10,12 +10,11 @@ export class ImageRedis {
   }
 
   private __connect() {
-    const client = new Redis({
+    const client: Redis = new Redis({
       host: process.env.REDIS_HOST,
       port: process.env.REDIS_PORT,
       password: process.env.REDIS_PASSWORD,
-      lazyConnect: true,
-      tls: {}
+      lazyConnect: true
     });
     client.on('ready', () => {
       console.info('Redis cluster Ready');
@@ -39,8 +38,8 @@ export class ImageRedis {
   }
 
   public async saveSVGs(key: RedisKey, value: SVG[]) {
-    return await this.client.set(key, JSON.stringify(value), (s) => {
-      console.info(`Updated Type '${key}': ${s} `);
+    await this.client.set(key, JSON.stringify(value), (s) => {
+      s && console.info(`Updated Type '${key}': ${s} `);
     });
   }
 
@@ -54,7 +53,7 @@ export class ImageRedis {
 
   public async saveUrls(key: RedisKey, name: string, urls: (string | null)[]) {
     return await this.client.set(key, JSON.stringify(urls), (s) => {
-      console.info(`Updated '${name}': ${s} `);
+      s && console.info(`Updated '${name}': ${s} `);
     });
   }
 }
