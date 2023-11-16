@@ -15,9 +15,7 @@ export async function GET(request: NextRequest) {
       if (TYPES.includes(type)) {
         try {
           const redis = new ImageRedis();
-          const data: SVG[] = await redis
-            .get(type)
-            .then((s) => JSON.parse((s as string) || '[]'));
+          const data = (await redis.get(type)) as SVG[];
 
           const error =
             data.length === 0

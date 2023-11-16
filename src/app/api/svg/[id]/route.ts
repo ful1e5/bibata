@@ -21,11 +21,7 @@ export async function GET(request: NextRequest, { params }: Param) {
     if (id) {
       try {
         const redis = new ImageRedis();
-        const raw = (await redis.get(id)) as string;
-
-        if (!raw) return res.image_not_found;
-
-        const urls: string[] = JSON.parse(raw);
+        const urls = (await redis.get(id)) as string[];
         if (!urls) return res.image_not_found;
 
         const data: string[] = [];
