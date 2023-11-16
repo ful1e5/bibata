@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { ImageRedis } from '@services/redis';
+import { ImageRedis } from '@services/kv';
 import { FetchSVG } from '@utils/figma/fetch-svgs';
 
 import { RESPONSES as res } from '@api/config';
@@ -21,7 +21,7 @@ export async function GET(request: NextRequest, { params }: Param) {
     if (id) {
       try {
         const redis = new ImageRedis();
-        const raw = await redis.get(id);
+        const raw = (await redis.get(id)) as string;
 
         if (!raw) return res.image_not_found;
 
@@ -36,7 +36,6 @@ export async function GET(request: NextRequest, { params }: Param) {
           data.push(`data:image/png;base64,${img!.toString('base64')}`);
         }
 
-        await redis.client.quit();
         if (data) {
           return NextResponse.json({ data });
         } else {
