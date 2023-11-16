@@ -7,10 +7,6 @@ namespace NodeJS {
     readonly FLASK_SECRET: string;
     readonly SVG_FETCH_SECRET: string;
 
-    readonly REDIS_HOST?: string;
-    readonly REDIS_PORT?: number;
-    readonly REDIS_PASSWORD?: string;
-
     readonly GITHUB_ID: string;
     readonly GITHUB_SECRET: string;
 

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { ImageRedis } from '@services/redis';
+import { ImageRedis } from '@services/kv';
 
 import { FetchSVG } from '@utils/figma/fetch-svgs';
 
@@ -57,7 +57,6 @@ const update = async () => {
       }
     }
 
-    await redis.client.quit();
     return;
   } catch (e) {
     if (e instanceof Error) {

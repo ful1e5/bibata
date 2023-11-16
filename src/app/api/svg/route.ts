@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { ImageRedis } from '@services/redis';
+import { ImageRedis } from '@services/kv';
 
 import { TYPES } from '@root/configs';
 import { RESPONSES as res } from '@api/config';
@@ -17,14 +17,13 @@ export async function GET(request: NextRequest) {
           const redis = new ImageRedis();
           const data: SVG[] = await redis
             .get(type)
-            .then((s) => JSON.parse(s || '[]'));
+            .then((s) => JSON.parse((s as string) || '[]'));
 
           const error =
             data.length === 0
               ? "Oops! It looks like there's a little hiccup fetching the SVG nodes right now."
               : null;
 
-          await redis.client.quit();
           return NextResponse.json(
             { error, data },
             { status: error ? 404 : 200 }
