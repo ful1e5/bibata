@@ -24,9 +24,15 @@ export class FetchSVG {
 
   public async fetchSVGs({ type }: { type: string }) {
     const file = await this.api.getFile(this.key);
+
+    console.warn('Figma File');
+    console.warn(file);
+
     const page = file.document.children.filter(
       (e) => e.name === process.env.NODE_ENV
     )[0] as Figma.Node<'DOCUMENT'>;
+
+    console.warn(page);
 
     const entries: Figma.Node<keyof Figma.NodeTypes>[] = [];
 
@@ -34,6 +40,8 @@ export class FetchSVG {
 
     page.children.forEach((e) => {
       if (e.type === 'GROUP' && groups.includes(e.name)) {
+        console.log('Figma Groups');
+        console.log(e);
         const group = e as Figma.Node<'DOCUMENT'>;
         group.children.forEach((svg) => entries.push(svg));
       }
