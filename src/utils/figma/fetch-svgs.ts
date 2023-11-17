@@ -25,14 +25,14 @@ export class FetchSVG {
   public async fetchSVGs({ type }: { type: string }) {
     const file = await this.api.getFile(this.key);
 
-    console.warn('Figma File');
-    console.warn(file);
+    console.error('Figma File');
+    console.error(file);
 
     const page = file.document.children.filter(
       (e) => e.name === process.env.NODE_ENV
     )[0] as Figma.Node<'DOCUMENT'>;
 
-    console.warn(page);
+    console.error(page);
 
     const entries: Figma.Node<keyof Figma.NodeTypes>[] = [];
 
