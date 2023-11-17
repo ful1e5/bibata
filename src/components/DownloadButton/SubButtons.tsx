@@ -2,12 +2,11 @@
 
 import React from 'react';
 
-import { LIB_VERSION } from '@root/version';
-
 import { LinuxDownloadSVG, WindowsDownloadSVG } from '@components/svgs';
 
 type Props = {
   disabled?: boolean;
+  version: string;
 
   onClick: (p: 'x11' | 'win') => void; // eslint-disable-line no-unused-vars
 };
@@ -33,7 +32,7 @@ export const DownloadSubButtons: React.FC<Props> = (props) => {
           <strong className='text-xs font-extrabold'>(.zip)</strong>
         </button>
       </div>
-      <p className='text-sm text-center text-white/[.6]'>v{LIB_VERSION}</p>
+      <p className='text-sm text-center text-white/[.6]'>v{props.version}</p>
     </div>
   );
 };

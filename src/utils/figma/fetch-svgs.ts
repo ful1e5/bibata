@@ -3,6 +3,8 @@ import * as Figma from 'figma-api';
 
 import sharp from 'sharp';
 
+import { VERSIONS } from '@root/configs';
+
 import { SVG } from 'bibata/app';
 
 export type FetchImageOptions = {
@@ -10,6 +12,11 @@ export type FetchImageOptions = {
     [key: string]: string;
   };
   size: number;
+};
+
+export type FetchSVGsOptions = {
+  type: string;
+  version: string | null;
 };
 
 export class FetchSVG {
@@ -22,17 +29,20 @@ export class FetchSVG {
     this.key = process.env.FIGMA_FILE;
   }
 
-  public async fetchSVGs({ type }: { type: string }) {
+  public async fetchSVGs({ type, version }: FetchSVGsOptions) {
+    if (!version || !VERSIONS.includes(version)) {
+      throw new Error(`Invalid version: ${version}`);
+      return;
+    }
     const file = await this.api.getFile(this.key);
 
-    console.error('Figma File');
-    console.error(file);
-
     const page = file.document.children.filter(
-      (e) => e.name === process.env.NODE_ENV
+      (e) => e.name === version
     )[0] as Figma.Node<'DOCUMENT'>;
 
-    console.error(page);
+    if (!page) {
+      throw new Error(`'${version}' Named Page not found in Fimga file`);
+    }
 
     const entries: Figma.Node<keyof Figma.NodeTypes>[] = [];
 
@@ -40,8 +50,6 @@ export class FetchSVG {
 
     page.children.forEach((e) => {
       if (e.type === 'GROUP' && groups.includes(e.name)) {
-        console.log('Figma Groups');
-        console.log(e);
         const group = e as Figma.Node<'DOCUMENT'>;
         group.children.forEach((svg) => entries.push(svg));
       }
@@ -54,8 +62,9 @@ export class FetchSVG {
       let node = svgs.find((svg) => svg.name === name);
 
       if (!node) {
-        const id = v4();
-        node = { id: `img:${id}`, name, node_ids: [], isAnimated: false };
+        let id = v4();
+        id = `img:${id}:${version}`;
+        node = { id, name, node_ids: [], isAnimated: false };
         svgs.push(node);
       }
 

@@ -86,16 +86,16 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
           onClick={(e) => e.target === e.currentTarget && props.onClose()}
           className='z-20 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-80'>
           <div className='bg-[#333333] w-full md:w-1/2 xl:w-1/3 max-h-full overflow-y-auto p-4 m-4 rounded-3xl shadow-lg'>
-            <div className='flex justify-between'>
+            <div className='flex justify-between text-xs'>
               <div>
                 <button
-                  className='px-6 py-4 bg-[#93f5d2] text-black rounded-3xl font-bold hover:bg-[#d9c57f]'
+                  className='p-2 bg-[#93f5d2] text-black rounded-2xl font-bold hover:bg-[#d9c57f] active:bg-[#ffc68f]'
                   onClick={refreshColors}>
                   Magic
                 </button>
               </div>
               <button
-                className='px-6 py-4 bg-gray-500 text-white rounded-3xl font-bold hover:bg-gray-400'
+                className='p-2 bg-gray-500 text-white rounded-full font-bold hover:bg-gray-400'
                 onClick={props.onClose}>
                 X
               </button>

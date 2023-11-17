@@ -69,12 +69,12 @@ export class CoreApi {
     }
   }
 
-  public downloadUrl(p: Platform, n: string) {
-    return `${this.url}/download?platform=${p}&name=${n}&v=${LIB_VERSION}`;
+  public downloadUrl(p: Platform, n: string, v: string) {
+    return `${this.url}/download?platform=${p}&name=${n}&v=${v}`;
   }
 
-  public async downloadable(p: Platform, n: string) {
-    const res = await fetch(this.downloadUrl(p, n), {
+  public async downloadable(p: Platform, n: string, v: string) {
+    const res = await fetch(this.downloadUrl(p, n, v), {
       headers: this.__headers(this.jwt?.token)
     });
 
