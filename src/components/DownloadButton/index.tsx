@@ -19,6 +19,7 @@ type Props = {
   disabled?: boolean;
   lock?: boolean;
   token: string;
+  version: string;
   config: {
     type: string;
     color: Color;
@@ -143,10 +144,10 @@ export const DownloadButton: React.FC<Props> = (props) => {
     if ((total && count >= total) || (count === 0 && total === 0)) {
       setErrorLogs({ text: 'Download Limit Exceeded.' });
     } else {
-      const downloadUrl = api.downloadUrl(platform, name);
+      const downloadUrl = api.downloadUrl(platform, name, props.version);
 
       setLoadingText(`Preparing Requests ...`);
-      const download = await api.downloadable(platform, name);
+      const download = await api.downloadable(platform, name, props.version);
 
       if (!download?.error) {
         downloadFile(downloadUrl);
@@ -165,7 +166,11 @@ export const DownloadButton: React.FC<Props> = (props) => {
             `Packaging ${platform === 'win' ? 'Win Cursors' : 'XCursors'} ...`
           );
 
-          const download = await api.downloadable(platform, name);
+          const download = await api.downloadable(
+            platform,
+            name,
+            props.version
+          );
 
           if (download?.error) {
             printError(download.error);
@@ -224,7 +229,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
       <div className='flex justify-center'>
         <button
           ref={buttonRef}
-          title={props.lock ? 'Download Locked' : loadingText}
+          title={props.lock ? 'Download Locked' : 'Download'}
           className='disabled:opacity-50 relative flex justify-center items-center gap-2 w-4/5 sm:w-1/3 lg:w-1/5 h-11 sm:h-16 rounded-2xl sm:rounded-3xl py-3 bg-green-600 hover:bg-green-500'
           disabled={props.disabled && !lock && !props.lock}
           onClick={() => !props.lock && setShowDropdown(!showDropdown)}>
@@ -257,6 +262,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
                   />
                   <DownloadSubButtons
                     disabled={busy}
+                    version={props.version}
                     onClick={(p) => handleDownload(p)}
                   />
                 </>

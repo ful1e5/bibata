@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 
 import { TYPES, PREBUILT_COLORS, SIZES } from '@root/configs';
+import { LIB_VERSION } from '@root/version';
 
 import { TypePicker } from '@components/TypePicker';
 import { SizePicker } from '@components/SizePicker';
@@ -24,6 +25,9 @@ export default function StudioPage() {
 
   // eslint-disable-next-line no-unused-vars
   const [animationDelay, setAnimationDelay] = useState<number>(15);
+
+  // eslint-disable-next-line no-unused-vars
+  const [version, setVersion] = useState(LIB_VERSION);
 
   const [images, setImages] = useState<Image[]>([]);
   const [imagesCount, setImagesCount] = useState(0);
@@ -89,6 +93,7 @@ export default function StudioPage() {
       <div className='my-10'>
         <DownloadButton
           token={token}
+          version={version}
           disabled={images.length === 0 || imagesCount !== images.length}
           lock={imagesCount === 0}
           config={{
@@ -103,6 +108,7 @@ export default function StudioPage() {
 
       <Cursors
         type={type}
+        version={version}
         color={color}
         delay={animationDelay}
         onData={(svgs) => setImagesCount(svgs.length)}

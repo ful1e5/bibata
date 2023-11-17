@@ -18,6 +18,7 @@ type Response = {
 
 type Props = {
   type: string;
+  version: string;
   color: Color;
   delay: number;
 
@@ -32,7 +33,7 @@ export const Cursors: React.FC<Props> = (props) => {
   };
 
   const { data: res, isLoading } = useSWR(
-    `/api/svg?type=${props.type}`,
+    `/api/svg?type=${props.type}&v=${props.version}`,
     fetcher
   );
 

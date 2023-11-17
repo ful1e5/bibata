@@ -15,7 +15,9 @@ export async function GET(request: NextRequest) {
   ) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-  const response = await update();
+
+  const version = request.nextUrl.searchParams.get('v');
+  const response = await update(version);
 
   return NextResponse.json(
     { fetchAt: Date.now(), ...response },
@@ -23,18 +25,25 @@ export async function GET(request: NextRequest) {
   );
 }
 
-const update = async () => {
-  const fetcher = new FetchSVG();
+const update = async (version: string | null) => {
   try {
+    const fetcher = new FetchSVG();
     const redis = new ImageRedis();
     const rmCount = await redis.rmOldUrls();
     let svgCount = 0;
 
     for (const type of TYPES) {
-      const svgs = await fetcher.fetchSVGs({ type });
-      await redis.del(type);
+      const svgs = await fetcher.fetchSVGs({ type, version });
 
-      redis.saveSVGs(type, svgs);
+      if (!svgs) {
+        return {
+          error: `Something went wrong. SVGs. not found`
+        };
+      }
+
+      const key = `${type}:${version}`;
+      await redis.del(key);
+      redis.saveSVGs(key, svgs);
 
       let all_node_ids: string[] = [];
       for (let { node_ids } of svgs) {
@@ -60,7 +69,7 @@ const update = async () => {
       svgCount += svgs.length;
     }
 
-    return { rmUrlsCount: rmCount, fetchedSVGCounts: svgCount };
+    return { removed: rmCount, fetched: svgCount };
   } catch (e) {
     console.error(e);
     if (e instanceof Error) {
