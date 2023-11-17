@@ -62,6 +62,7 @@ const update = async () => {
 
     return { rmUrlsCount: rmCount, fetchedSVGCounts: svgCount };
   } catch (e) {
+    console.error(e);
     if (e instanceof Error) {
       return { error: e.message, stack: e, status: 504 };
     }
