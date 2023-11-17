@@ -32,7 +32,6 @@ export class FetchSVG {
   public async fetchSVGs({ type, version }: FetchSVGsOptions) {
     if (!version || !VERSIONS.includes(version)) {
       throw new Error(`Invalid version: ${version}`);
-      return;
     }
     const file = await this.api.getFile(this.key);
 

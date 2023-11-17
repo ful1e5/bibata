@@ -1,5 +1,3 @@
-import { LIB_VERSION } from '@root/version';
-
 import { Platform } from '@prisma/client';
 
 import {
