@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-import { ImageRedis } from '@services/kv';
 import sharp from 'sharp';
 
 import { RESPONSES as res } from '@api/config';
