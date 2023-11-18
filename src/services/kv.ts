@@ -1,4 +1,3 @@
-import { kv } from '@vercel/kv';
 import { VercelKV, createClient } from '@vercel/kv';
 
 import { SVG } from 'bibata/app';
