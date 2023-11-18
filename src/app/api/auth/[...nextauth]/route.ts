@@ -37,9 +37,7 @@ const authOptions: AuthOptions = {
             role === 'USER' ? DB_SEEDS.FRESH_SIGNUP_DOWNLOADS : null
         };
 
-        if (!PREVIEW) {
-          token.user = await upsertUser(user);
-        }
+        token.user = await upsertUser(user);
       }
 
       return token;
