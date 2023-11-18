@@ -229,7 +229,11 @@ export const DownloadButton: React.FC<Props> = (props) => {
       <div className='flex justify-center'>
         <button
           ref={buttonRef}
-          title={props.lock ? 'Download Locked' : 'Download'}
+          title={
+            props.lock
+              ? 'Download locked while collecting cursor images.'
+              : 'Download'
+          }
           className='disabled:opacity-50 relative flex justify-center items-center gap-2 w-4/5 sm:w-1/3 lg:w-1/5 h-11 sm:h-16 rounded-2xl sm:rounded-3xl py-3 bg-green-600 hover:bg-green-500'
           disabled={props.disabled && !lock && !props.lock}
           onClick={() => !props.lock && setShowDropdown(!showDropdown)}>

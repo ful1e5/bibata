@@ -33,6 +33,7 @@ class Config:
         self.links = links
 
 
+# TODO: Configure Hotspots
 configs: Dict[str, Config] = {
     "bd_double_arrow": Config(
         winname="Dgn1",

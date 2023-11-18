@@ -38,13 +38,11 @@ export const CursorCard: React.FC<Props> = (props) => {
   const [index, setIndex] = useState<number>(0);
   const [frames, setFrames] = useState<string[]>([]);
 
-  const c = encodeURIComponent(
-    JSON.stringify({
-      [mask.base]: base,
-      [mask.outline]: outline,
-      [mask.watch]: watch || base
-    })
-  );
+  const colors = {
+    [mask.base]: base,
+    [mask.outline]: outline,
+    [mask.watch]: watch || base
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -52,8 +50,20 @@ export const CursorCard: React.FC<Props> = (props) => {
 
     const fetchSvg = async () => {
       try {
-        const url = `/api/svg/${props.svg.id}?color=${c}`;
-        let res = await fetch(url, { next: { revalidate: 360 } });
+        const frames: string[] = [];
+
+        for (let i = 0; i < props.svg.urls.length; i++) {
+          const url = props.svg.urls[i];
+          await fetch(url, { next: { revalidate: 360 } })
+            .then((res) => res.text())
+            .then((t) => (frames[i] = t));
+        }
+
+        let res = await fetch(`/api/svg/${props.svg.id}`, {
+          method: 'POST',
+          body: JSON.stringify({ colors, frames }),
+          next: { revalidate: 360 }
+        });
         const json = await res.json();
 
         if (res.status !== 200) {

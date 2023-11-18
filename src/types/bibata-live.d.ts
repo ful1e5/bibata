@@ -3,6 +3,7 @@ declare module 'bibata/app' {
     id: string;
     name: string;
     node_ids: string[];
+    urls: string[];
     isAnimated: boolean;
   };
 

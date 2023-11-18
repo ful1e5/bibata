@@ -1,35 +1,63 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-import { ImageRedis } from '@services/kv';
-import { FetchSVG } from '@utils/figma/fetch-svgs';
+import sharp from 'sharp';
 
 import { RESPONSES as res } from '@api/config';
 
 type Param = { params: { id: string } };
 
-export async function GET(request: NextRequest, { params }: Param) {
-  if (request.method === 'GET') {
+type Body = {
+  colors: {
+    [key: string]: string;
+  };
+  frames: string[];
+};
+
+export async function POST(request: NextRequest, { params }: Param) {
+  if (request.method === 'POST') {
     const id = params.id;
     const p = request.nextUrl.searchParams;
 
-    let color: { [key: string]: string } = {};
-    if (p.has('color')) color = JSON.parse(p.get('color') || '');
+    const body = (await request.json()) as Body;
 
     let size: number = 256;
     if (p.has('size')) size = Number(p.get('size')) || size;
 
     if (id) {
       try {
-        const redis = new ImageRedis();
-        const urls = (await redis.get(id)) as string[];
-        if (!urls) return res.image_not_found;
+        const colors = body.colors;
+        const frames = body.frames;
+        if (!frames) return res.image_not_found;
 
         const data: string[] = [];
 
-        const api = new FetchSVG();
-        for (const url of urls) {
-          const img = await api.generateImage(url, { color, size });
-          data.push(`data:image/png;base64,${img!.toString('base64')}`);
+        for (let i = 0; i < body.frames.length; i++) {
+          let img = body.frames[i];
+          if (img) {
+            if (colors && typeof colors === 'object') {
+              Object.entries(colors).forEach(([match, replace]) => {
+                img = img!.replace(new RegExp(match, 'ig'), replace);
+              });
+            }
+
+            const buffer = await sharp(Buffer.from(img))
+              .resize(size, size)
+              .png()
+              .toBuffer()
+              .catch((e) => {
+                return NextResponse.json({
+                  error: `Unable to convert to PNG`,
+                  stack: e
+                });
+              });
+
+            if (buffer) {
+              data.push(`data:image/png;base64,${buffer.toString('base64')}`);
+            } else {
+              return NextResponse.json({
+                error: `Unable to convert 'frames[${i}]' to PNG`
+              });
+            }
+          }
         }
 
         if (data) {

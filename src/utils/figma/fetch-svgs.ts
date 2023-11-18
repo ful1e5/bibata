@@ -1,8 +1,6 @@
 import { v4 } from 'uuid';
 import * as Figma from 'figma-api';
 
-import sharp from 'sharp';
-
 import { VERSIONS } from '@root/configs';
 
 import { SVG } from 'bibata/app';
@@ -29,6 +27,18 @@ export class FetchSVG {
     this.key = process.env.FIGMA_FILE;
   }
 
+  private async __getSvgUrl(ids: string) {
+    const { images } = await this.api.getImage(this.key, {
+      ids: ids,
+      scale: 1,
+      format: 'svg'
+    });
+
+    if (typeof images === 'object') {
+      return images;
+    }
+  }
+
   public async fetchSVGs({ type, version }: FetchSVGsOptions) {
     if (!version || !VERSIONS.includes(version)) {
       throw new Error(`Invalid version: ${version}`);
@@ -40,7 +50,9 @@ export class FetchSVG {
     )[0] as Figma.Node<'DOCUMENT'>;
 
     if (!page) {
-      throw new Error(`'${version}' Named Page not found in Fimga file`);
+      throw new Error(
+        `[Figma API] '${version}' Named Page not found in Fimga file`
+      );
     }
 
     const entries: Figma.Node<keyof Figma.NodeTypes>[] = [];
@@ -63,12 +75,34 @@ export class FetchSVG {
       if (!node) {
         let id = v4();
         id = `img:${id}:${version}`;
-        node = { id, name, node_ids: [], isAnimated: false };
+        node = { id, name, node_ids: [], urls: [], isAnimated: false };
         svgs.push(node);
       }
 
       node.node_ids.push(entry.id);
       node.isAnimated = node.node_ids.length > 1;
+    }
+
+    let all_ids: string[] = [];
+    for (let { node_ids } of svgs) {
+      all_ids.push(node_ids.join(','));
+    }
+    const imgUrls = await this.__getSvgUrl(all_ids.join(','));
+
+    if (imgUrls) {
+      for (let i = 0; i < svgs.length; i++) {
+        const { name, node_ids } = svgs[i];
+        const mappedUrls = node_ids.map((nid) => imgUrls[nid]) as string[];
+        if (mappedUrls && mappedUrls.length === node_ids.length) {
+          svgs[i].urls = mappedUrls;
+        } else {
+          throw new Error(
+            `[Figma API] Unable to fetch '${name}' URLs properly.`
+          );
+        }
+      }
+    } else {
+      throw new Error(`[Figma API] Unable to fetch '${type}' URLs.`);
     }
 
     return svgs.sort((a, b) => {
@@ -77,43 +111,5 @@ export class FetchSVG {
       }
       return a.isAnimated ? -1 : 1;
     });
-  }
-
-  public async getSvgUrl(ids: string) {
-    const { images } = await this.api.getImage(this.key, {
-      ids: ids,
-      scale: 1,
-      format: 'svg'
-    });
-
-    if (typeof images === 'object') {
-      return images;
-    }
-  }
-
-  public async generateImage(url: string, options: FetchImageOptions) {
-    const { color, size } = options;
-
-    let img = '';
-
-    await fetch(url, { next: { revalidate: 360 } })
-      .then((res) => res.text())
-      .then((t) => (img = t));
-
-    if (img) {
-      if (color && typeof color === 'object') {
-        Object.entries(color).forEach(([match, replace]) => {
-          img = img.replace(new RegExp(match, 'ig'), replace);
-        });
-      }
-
-      return await sharp(Buffer.from(img))
-        .resize(size, size)
-        .png()
-        .toBuffer()
-        .catch((e) => {
-          console.error(e);
-        });
-    }
   }
 }
