@@ -23,9 +23,12 @@ export default function StudioPage() {
   const [colorName, setColorName] = useState('Amber');
   const [color, setColor] = useState(PREBUILT_COLORS[colorName]);
 
+  // TODO: Configure animation
   // eslint-disable-next-line no-unused-vars
   const [animationDelay, setAnimationDelay] = useState<number>(15);
 
+  // TODO: access version with page parameter `v`
+  // example: bibata/studio?v=1.0.0-alpha
   // eslint-disable-next-line no-unused-vars
   const [version, setVersion] = useState(LIB_VERSION);
 
