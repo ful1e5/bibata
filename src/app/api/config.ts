@@ -24,8 +24,6 @@ export const RESPONSES = {
     { error: 'Image not found' },
     { status: 404 }
   ),
-  internal_error: NextResponse.json(
-    { error: 'Internal Error' },
-    { status: 500 }
-  )
+  internal_error: (e: any) =>
+    NextResponse.json({ error: 'Runtime Error', stack: e }, { status: 500 })
 };

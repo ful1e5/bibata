@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
 
         const error =
           !data || data.length === 0
-            ? "Oops! It looks like there's a little hiccup fetching the SVG nodes right now."
+            ? `Oops! It looks like there's a little hiccup fetching the ${type} v${version} SVG nodes right now.`
             : null;
 
         return NextResponse.json(
@@ -44,8 +44,7 @@ export async function GET(request: NextRequest) {
           { status: error ? 404 : 200 }
         );
       } catch (e) {
-        console.error(e);
-        return res.internal_error;
+        return res.internal_error(e);
       }
     } else {
       return NextResponse.json(

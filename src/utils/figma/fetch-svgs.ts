@@ -57,7 +57,7 @@ export class FetchSVG {
 
     const entries: Figma.Node<keyof Figma.NodeTypes>[] = [];
 
-    const groups = [type, 'Shared', 'Wait'];
+    const groups = [type, 'Shared', 'Wait', `${type} Watch`];
 
     page.children.forEach((e) => {
       if (e.type === 'GROUP' && groups.includes(e.name)) {
