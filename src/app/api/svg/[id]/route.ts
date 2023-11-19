@@ -66,8 +66,7 @@ export async function POST(request: NextRequest, { params }: Param) {
           return res.image_not_found;
         }
       } catch (e) {
-        console.error(e);
-        return res.internal_error;
+        return res.internal_error(e);
       }
     } else {
       return NextResponse.json({ error: 'SVG id not found' }, { status: 404 });

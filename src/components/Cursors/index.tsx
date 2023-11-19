@@ -14,6 +14,7 @@ import { Image } from 'bibata/core-api/types';
 type Response = {
   data: SVG[];
   error: string;
+  stack: string;
 };
 
 type Props = {
@@ -47,7 +48,17 @@ export const Cursors: React.FC<Props> = (props) => {
 
   if (!res) return <Timeout />;
 
-  if (res.error) return <Error message={res.error} />;
+  if (res.error)
+    return (
+      <Error
+        message={res.error}
+        stack={res.stack}
+        type={props.type}
+        version={props.version}
+        color={props.color}
+        delay={props.delay}
+      />
+    );
 
   const svgs = res.data as SVG[];
 

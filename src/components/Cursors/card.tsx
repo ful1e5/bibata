@@ -75,7 +75,10 @@ export const CursorCard: React.FC<Props> = (props) => {
         if (process.env.NODE_ENV === 'development') {
           console.error(e);
         } else {
-          console.error(`Unable to fetch '${props.svg.name}'`);
+          console.error(
+            `Unable to procces '${props.svg.name}' Cursor.
+Report Issue here: https://github.com/ful1e5/bibata/issues`
+          );
         }
       }
       setLoading(false);
