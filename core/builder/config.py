@@ -8,7 +8,7 @@ def gtmp(sub_dir: str) -> Path:
 
 def gsubtmp(sid: str) -> Path:
     parent_dir = gtmp(sid)
-    return parent_dir / f"{sid[:5]}"
+    return parent_dir / f"Bibata-{sid[:5]}"
 
 
 class Config:
@@ -33,7 +33,6 @@ class Config:
         self.links = links
 
 
-# TODO: Configure Hotspots
 configs: Dict[str, Config] = {
     "bd_double_arrow": Config(
         winname="Dgn1",

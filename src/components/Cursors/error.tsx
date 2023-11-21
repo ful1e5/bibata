@@ -15,7 +15,6 @@ type Props = {
   type: string;
   version: string;
   color: Color;
-  delay: number;
 
   message: string;
   stack: any;
@@ -32,11 +31,7 @@ ${props.type} ${props.version}
 
 \`\`\`json
 ${JSON.stringify(props.color, null, 2)}
-\`\`\`
-
-
-#### Cursor Delay
-${props.delay}ms`;
+\`\`\``;
 
   const body = bugReportTemplate(detail, props.stack);
 

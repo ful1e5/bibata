@@ -8,8 +8,7 @@ import { CursorsError as Error } from './error';
 import { CursorsLoading as Loading } from './loading';
 import { CursorsTimeOut as Timeout } from './timeout';
 
-import { Color, SVG } from 'bibata/app';
-import { Image } from 'bibata/core-api/types';
+import { Color, SVG, Image } from 'bibata/app';
 
 type Response = {
   data: SVG[];
@@ -21,7 +20,6 @@ type Props = {
   type: string;
   version: string;
   color: Color;
-  delay: number;
 
   onLoad?: (image: Image) => void; // eslint-disable-line no-unused-vars
   onData?: (svgs: SVG[]) => void; // eslint-disable-line no-unused-vars
@@ -56,7 +54,6 @@ export const Cursors: React.FC<Props> = (props) => {
         type={props.type}
         version={props.version}
         color={props.color}
-        delay={props.delay}
       />
     );
 
@@ -66,13 +63,7 @@ export const Cursors: React.FC<Props> = (props) => {
     <div className='container sm:px-4'>
       <div className='grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-4'>
         {svgs.map((e) => (
-          <Card
-            key={e.id}
-            delay={props.delay}
-            color={props.color}
-            svg={e}
-            onLoad={props.onLoad}
-          />
+          <Card key={e.id} color={props.color} svg={e} onLoad={props.onLoad} />
         ))}
       </div>
     </div>

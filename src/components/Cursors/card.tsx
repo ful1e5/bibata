@@ -2,10 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { COLORS_MASK_KEYS as mask } from '@root/configs';
+import { DELAYS, COLORS_MASK as mask } from '@root/configs';
 
-import { Color, SVG } from 'bibata/app';
-import { Image } from 'bibata/core-api/types';
+import { fetchX } from '@utils/fetchX';
+
+import { Color, Image, SVG } from 'bibata/app';
 
 export const BrokenImage: React.FC = () => {
   return (
@@ -24,7 +25,6 @@ export const BrokenImage: React.FC = () => {
 type Props = {
   svg: SVG;
   color: Color;
-  delay: number;
 
   // eslint-disable-next-line no-unused-vars
   onLoad?: (image: Image) => void;
@@ -35,6 +35,7 @@ export const CursorCard: React.FC<Props> = (props) => {
 
   const [loading, setLoading] = useState<boolean>(true);
 
+  const [delayX, setDelayX] = useState(2);
   const [index, setIndex] = useState<number>(0);
   const [frames, setFrames] = useState<string[]>([]);
 
@@ -50,19 +51,30 @@ export const CursorCard: React.FC<Props> = (props) => {
 
     const fetchSvg = async () => {
       try {
-        const frames: string[] = [];
+        const fms: string[] = [];
+        const urls = props.svg.urls;
+        const isAnimated = props.svg.isAnimated;
+        const step = Math.round(urls.length / DELAYS[delayX].frames);
 
-        for (let i = 0; i < props.svg.urls.length; i++) {
-          const url = props.svg.urls[i];
-          await fetch(url, { next: { revalidate: 360 } })
-            .then((res) => res.text())
-            .then((t) => (frames[i] = t));
+        for (let i = 0; i < urls.length; isAnimated ? (i += step) : i++) {
+          const b64 = await fetchX(urls[i], {
+            init: {
+              next: { revalidate: 360 }
+            },
+            revalidate: 1200,
+            group: 'bibata.svg-cache'
+          }).then((res) => res.text());
+          fms.push(b64);
         }
 
-        let res = await fetch(`/api/svg/${props.svg.id}`, {
-          method: 'POST',
-          body: JSON.stringify({ colors, frames }),
-          next: { revalidate: 360 }
+        let res = await fetchX(`/api/svg/${props.svg.id}`, {
+          init: {
+            method: 'POST',
+            body: JSON.stringify({ colors, frames: fms }),
+            next: { revalidate: 360 }
+          },
+          revalidate: 120,
+          group: 'bibata.svg-build-cache'
         });
         const json = await res.json();
 
@@ -85,7 +97,7 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
     };
 
     fetchSvg();
-  }, [props.color, props.svg]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [props.color, props.svg, delayX]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (props.svg.isAnimated && loading === false) {
@@ -95,48 +107,71 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
         } else {
           setIndex(0);
         }
-      }, props.delay);
+      }, DELAYS[delayX].delay);
 
       return () => clearInterval(intervalId);
     }
-  }, [props.svg, loading, index, props.delay]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [props.svg, loading, index, delayX]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (props.onLoad && !loading && frames.length > 0) {
-      props.onLoad({ name: props.svg.name, frames });
+      props.onLoad({
+        name: props.svg.name,
+        frames,
+        delay: DELAYS[delayX].delay
+      });
     }
   }, [loading, frames]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div className='w-full mb-4 overflow-hidden rounded-2xl sm:rounded-3xl bg-white/[0.05] border-white/[.1] border'>
-      <div className='w-full h-20 sm:h-40 bg-white/[.1] mb-4 '>
-        {!loading ? (
-          <div
-            className={`flex justify-center items-center h-full ${
-              !loading ? 'opacity-100' : 'opacity-0'
-            } transition-opacity duration-500`}>
-            {frames.length > 0 ? (
-              <img
-                className='h-12 sm:h-28'
-                hidden={loading}
-                alt={props.svg.name}
-                title={props.svg.name}
-                src={frames[index]}
-              />
-            ) : (
-              <span hidden={loading}>
-                <BrokenImage />
-              </span>
-            )}
-          </div>
-        ) : (
-          <div className='w-full h-full animate-pulse bg-white/[.2]' />
-        )}
-      </div>
+    <button
+      disabled={!props.svg.isAnimated}
+      onClick={() => {
+        if (!loading) {
+          setDelayX(delayX < Object.keys(DELAYS).length ? delayX + 1 : 1);
+        }
+      }}>
+      <div className='w-full mb-4 overflow-hidden rounded-2xl sm:rounded-3xl bg-white/[0.05] border-white/[.1] border'>
+        <div
+          title={props.svg.name}
+          className='relative w-full h-20 sm:h-40 bg-white/[.1] mb-4 '>
+          {!loading ? (
+            <div
+              className={`flex flex-col justify-center items-center h-full ${
+                !loading ? 'opacity-100' : 'opacity-0'
+              } transition-opacity duration-500`}>
+              {frames.length > 0 ? (
+                <>
+                  <img
+                    className='h-12 sm:h-28'
+                    hidden={loading}
+                    alt={props.svg.name}
+                    src={frames[index]}
+                  />
+                </>
+              ) : (
+                <span hidden={loading}>
+                  <BrokenImage />
+                </span>
+              )}
+            </div>
+          ) : (
+            <div className='w-full h-full animate-pulse bg-white/[.2]' />
+          )}
 
-      <div className='text-center text-[6px] sm:text-sm'>
-        <p className='mb-2'>{props.svg.name}</p>
+          {props.svg.isAnimated && (
+            <div className='absolute right-2 top-2'>
+              <div className='bg-blue-500 p-1 px-2 font-black rounded-xl text-sm'>
+                {`${delayX}x`}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className='text-center text-[6px] sm:text-sm'>
+          <p className='mb-2'>{props.svg.name}</p>
+        </div>
       </div>
-    </div>
+    </button>
   );
 };

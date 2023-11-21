@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 
-import { TYPES, PREBUILT_COLORS, SIZES } from '@root/configs';
+import { TYPES, COLORS, SIZES } from '@root/configs';
 import { LIB_VERSION } from '@root/version';
 
 import { TypePicker } from '@components/TypePicker';
@@ -14,18 +14,14 @@ import { Cursors } from '@components/Cursors';
 
 import { genAccessToken } from '@utils/auth/token';
 
-import { Image } from 'bibata/core-api/types';
+import { Image } from 'bibata/app';
 
 export default function StudioPage() {
   const [type, setType] = useState(TYPES[0]);
-  const [cursorSize, setCursorSize] = useState(SIZES[0]);
+  const [cursorSize, setCursorSize] = useState(SIZES[3]);
 
   const [colorName, setColorName] = useState('Amber');
-  const [color, setColor] = useState(PREBUILT_COLORS[colorName]);
-
-  // TODO: Configure animation
-  // eslint-disable-next-line no-unused-vars
-  const [animationDelay, setAnimationDelay] = useState<number>(15);
+  const [color, setColor] = useState(COLORS[colorName]);
 
   // TODO: access version with page parameter `v`
   // example: bibata/studio?v=1.0.0-alpha
@@ -83,7 +79,7 @@ export default function StudioPage() {
       <div className='mt-10'>
         <ColorPicker
           colorName={colorName}
-          colors={PREBUILT_COLORS}
+          colors={COLORS}
           onClick={(n, c) => {
             resetImages();
             setColorName(n);
@@ -95,13 +91,12 @@ export default function StudioPage() {
 
       <div className='my-10'>
         <DownloadButton
-          token={token}
+          auth={token}
           version={version}
           disabled={images.length === 0}
           lock={imagesCount === 0 || imagesCount !== images.length}
           config={{
             size: cursorSize,
-            delay: animationDelay,
             color,
             images,
             type
@@ -113,15 +108,16 @@ export default function StudioPage() {
         type={type}
         version={version}
         color={color}
-        delay={animationDelay}
         onData={(svgs) => setImagesCount(svgs.length)}
         onLoad={(i) => {
           const l = images;
-          const isAvailable = l.some((e) => e.name === i.name);
-          if (!isAvailable) {
+          const index = l.findIndex((e) => e.name === i.name);
+          if (index >= 0) {
+            l[index] = i;
+          } else {
             l.push(i);
-            setImages([...l]);
           }
+          setImages([...l]);
         }}
       />
     </main>

@@ -89,5 +89,10 @@ def attach_files(id: str, p: Path, param: DownloadParams, logger: Logger):
     attach_readme(p, param.platform, logger)
     attach_license(p, logger)
     attach_version_file(
-        p, f"ID={id}\nTYPE={param.name}\nVERSION={param.version}", logger
+        p,
+        f"""ID={id}
+Author=Abdualkaiz Khatri <kaizmandhu@gmail.com>
+Type={param.name}
+Version={param.version}""",
+        logger,
     )

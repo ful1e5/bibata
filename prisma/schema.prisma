@@ -15,6 +15,7 @@ enum Role {
   USER
   PRO
   ADMIN
+  ANONYMOUS
 }
 
 enum Platform {

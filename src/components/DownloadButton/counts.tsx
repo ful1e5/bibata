@@ -13,7 +13,7 @@ import { getDownloadCounts } from '@utils/sponsor/get-count';
 import { DownloadCounts } from 'bibata/misc';
 
 type Props = {
-  token?: string;
+  token: string;
   show: boolean;
 };
 

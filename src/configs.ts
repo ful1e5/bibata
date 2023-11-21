@@ -1,4 +1,4 @@
-import { Colors } from 'bibata/app';
+import { Colors, Delays } from 'bibata/app';
 
 export const VERSIONS = ['1.0.0-alpha.0'];
 
@@ -13,16 +13,22 @@ export const TYPES = ['Modern', 'Original'];
 
 export const SIZES = [16, 20, 22, 24, 28, 32, 40, 48, 56, 64, 72, 80, 88, 96];
 
-export const COLORS_MASK_KEYS = {
+export const COLORS_MASK = {
   base: '#00ff00',
   outline: '#0000ff',
   watch: '#ff0000'
 };
 
-export const PREBUILT_COLORS: Colors = {
+export const COLORS: Colors = {
   Amber: { base: '#ff8300', outline: '#ffffff', watch: '#001524' },
   Classic: { base: '#000000', outline: '#ffffff' },
   Ice: { base: '#ffffff', outline: '#000000' }
+};
+
+export const DELAYS: Delays = {
+  1: { frames: 108, delay: 30 },
+  2: { frames: 54, delay: 30 },
+  3: { frames: 36, delay: 30 }
 };
 
 export const DB_SEEDS = {
