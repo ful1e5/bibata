@@ -1,7 +1,19 @@
 {
   "name": "bibata",
+  "description": "CLI for converting cursor svg files to png.",
+  "author": "Abdulkaiz Khatri <kaizmandhu@gmail.com>",
   "version": "1.0.0-alpha.0",
   "private": true,
+  "bugs": {
+    "url": "https://github.com/ful1e5/bibata/issues",
+    "email": "kaizmandhu@gmail.com"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "https://opensource.org/license/mit/"
+  },
+  "repository": "ful1e5/bibata",
+  "fundinig": "https://github.com/ful1e5/bibata?sponsor=1",
   "scripts": {
     "flask-dev": "pip3 install --upgrade pip && pip3 install -r requirements.txt && python3 -m flask --debug --app api/core/index run -p 5328",
     "next-dev": "next dev",
