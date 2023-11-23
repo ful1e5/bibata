@@ -15,7 +15,6 @@ def auth_required(f):
         k = session_keys["build"]
         id: str = session.get(k, None)
 
-        invalid_session = jsonify({"status": 401, "error": ["Invalid Session"]})
         unauth = jsonify({"status": 401, "error": ["Unauthorized."]})
 
         if id:
@@ -24,7 +23,10 @@ def auth_required(f):
                 return auth[0], auth[1]
             else:
                 if auth.id != id:
-                    return invalid_session, 401
+                    return (
+                        jsonify({"status": 401, "error": [f"Invalid Session {id}"]}),
+                        401,
+                    )
                 else:
                     g.auth = auth
                     return f(*args, **kwargs)

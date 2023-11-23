@@ -21,7 +21,7 @@ app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 
 @app.route("/api/core/session", methods=["GET"])
 def get_session():
-    auth = decode_auth_header()
+    auth = decode_auth_header(logger)
 
     if isinstance(auth, tuple):
         return auth[0], auth[1]

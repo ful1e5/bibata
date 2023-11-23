@@ -5,26 +5,25 @@ import React, { useEffect, useRef, useState } from 'react';
 import { CoreApi } from '@utils/core';
 import { getDownloadCounts } from '@utils/sponsor/get-count';
 
-import { DownloadCount } from './Counts';
-import { DownloadSponsor } from './Sponsor';
-import { DownloadSubButtons } from './SubButtons';
-import { DownloadError, ErrorLogs } from './Error';
+import { DownloadCount } from './counts';
+import { DownloadSponsor } from './sponsor';
+import { DownloadSubButtons } from './sub-buttons';
+import { DownloadError, ErrorLogs } from './error';
 import { LockSVG, ProcessingSVG } from '@components/svgs';
 
-import { Color } from 'bibata/app';
-import { Image } from 'bibata/core-api/types';
 import { Platform, Type } from '@prisma/client';
+import { Color, Image } from 'bibata/app';
+import { AuthToken } from 'bibata/core-api/types';
 
 type Props = {
   disabled?: boolean;
   lock?: boolean;
-  token: string;
+  auth: AuthToken;
   version: string;
   config: {
     type: string;
     color: Color;
     size: number;
-    delay: number;
     images: Image[];
   };
 };
@@ -32,16 +31,13 @@ type Props = {
 type ProcessOptions = {
   platform: Platform;
   size: number;
-  delay: number;
 };
 
 export const DownloadButton: React.FC<Props> = (props) => {
-  const configRef = useRef(props.config);
-  const tokenRef = useRef(props.token);
+  const { images, size, type, color } = props.config;
+  const { id, token, role } = props.auth;
 
-  const api = new CoreApi();
-  const { images, size, delay, type, color } = configRef.current;
-  const name = `Bibata-${type}`;
+  const name = `Bibata-${type}${props.auth.role === 'PRO' ? '-Pro' : ''}`;
 
   const [loading, setLoading] = useState<boolean>(false);
   const [lock, setLock] = useState<boolean>(false);
@@ -64,14 +60,19 @@ export const DownloadButton: React.FC<Props> = (props) => {
   }) => {
     setErrorLogs({
       ...errorLogs,
-      id: api.jwt?.id,
-      role: api.jwt?.role,
+      id,
+      role,
+      token,
       text: opt.text,
       [opt.key]: opt.error
     });
   };
 
-  const processImages = async (imgs: Image[], options: ProcessOptions) => {
+  const processImages = async (
+    api: CoreApi,
+    imgs: Image[],
+    options: ProcessOptions
+  ) => {
     for (const i of imgs) {
       setLoadingText(`Processing '${i.name}' ...`);
 
@@ -81,6 +82,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
         JSON.stringify({
           name: i.name,
           frames: i.frames,
+          delay: i.delay,
           ...options
         })
       );
@@ -113,7 +115,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${api.jwt?.token}`
+          Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({
           platform,
@@ -139,38 +141,33 @@ export const DownloadButton: React.FC<Props> = (props) => {
 
     setErrorLogs({ text: '' });
 
-    await api.refreshSession(tokenRef.current);
-    const { count, total } = await getDownloadCounts(api.jwt?.token);
+    const api = new CoreApi();
+    await api.refreshSession(token);
+    const { count, total } = await getDownloadCounts(token);
     if ((total && count >= total) || (count === 0 && total === 0)) {
       setErrorLogs({ text: 'Download Limit Exceeded.' });
     } else {
-      const downloadUrl = api.downloadUrl(platform, name, props.version);
+      const n = `${name}${role === 'PRO' ? '-Pro' : ''}`;
+
+      const downloadUrl = api.downloadUrl(platform, n, props.version);
 
       setLoadingText(`Preparing Requests ...`);
-      const download = await api.downloadable(platform, name, props.version);
+      const download = await api.downloadable(platform, n, props.version);
 
       if (!download?.error) {
         downloadFile(downloadUrl);
       } else {
-        const upload = await processImages(images, {
-          platform,
-          size,
-          delay
-        });
+        const upload = await processImages(api, images, { platform, size });
 
         if (upload?.error) {
           printError(upload.error);
-          await api.refreshSession();
+          await api.refreshSession(token);
         } else {
           setLoadingText(
             `Packaging ${platform === 'win' ? 'Win Cursors' : 'XCursors'} ...`
           );
 
-          const download = await api.downloadable(
-            platform,
-            name,
-            props.version
-          );
+          const download = await api.downloadable(platform, n, props.version);
 
           if (download?.error) {
             printError(download.error);
@@ -181,7 +178,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
               text: 'Oops.. Packaging Failed! Try Again.'
             });
 
-            await api.refreshSession();
+            await api.refreshSession(token);
           } else {
             await storeToDB(platform);
             downloadFile(downloadUrl);
@@ -214,13 +211,11 @@ export const DownloadButton: React.FC<Props> = (props) => {
   }, []);
 
   useEffect(() => {
-    if (lock === false) {
-      tokenRef.current = props.token;
-      configRef.current = props.config;
-
+    if (lock === false && !props.lock) {
+      const api = new CoreApi();
       api.deleteSession();
     }
-  }, [lock, props.disabled, props.token]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [lock, props.lock, props.disabled, props.auth]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const busy = loading || props.disabled;
 
@@ -273,7 +268,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
               )}
 
               <DownloadSponsor show={!props.disabled} />
-              <DownloadCount token={api.jwt?.token} show={!props.disabled} />
+              <DownloadCount token={token} show={!props.disabled} />
             </div>
           </div>
         </div>

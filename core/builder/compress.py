@@ -24,7 +24,7 @@ def win_compress(id: str, param: DownloadParams, logger: Logger) -> FileResponse
     errors: List[str] = []
 
     dir = gsubtmp(id)
-    name = f"{param.name}-{dir.stem}-v{param.version}"
+    name = f"{param.name}-{dir.stem.split('-')[1]}-v{param.version}"
     fp = gtmp(id) / f"{name}.zip"
 
     if not fp.exists():
@@ -33,8 +33,8 @@ def win_compress(id: str, param: DownloadParams, logger: Logger) -> FileResponse
 
         try:
             pack_win(
-                dir,
-                theme_name=param.name,
+                dir / "cursors",
+                theme_name=name,
                 comment="Bibata Windows Cursors",
                 website="https://github.com/ful1e5/bibata",
             )
@@ -42,8 +42,8 @@ def win_compress(id: str, param: DownloadParams, logger: Logger) -> FileResponse
             attach_files(id, dir, param, logger)
 
             with ZipFile(fp, "w") as zip_file:
-                for f in dir.glob("*"):
-                    zip_file.write(f, f.name)
+                for f in dir.rglob("*"):
+                    zip_file.write(f, str(f.relative_to(dir.parent)))
 
             rmtree(dir)
         except Exception as e:
@@ -56,7 +56,7 @@ def x11_compress(id: str, param: DownloadParams, logger: Logger) -> FileResponse
     errors: List[str] = []
 
     dir = gsubtmp(id)
-    name = f"{param.name}-{dir.stem}-v{param.version}"
+    name = f"{param.name}-{dir.stem.split('-')[1]}-v{param.version}"
     fp = gtmp(id) / f"{name}.tar.gz"
 
     if not fp.exists():
@@ -64,13 +64,13 @@ def x11_compress(id: str, param: DownloadParams, logger: Logger) -> FileResponse
             errors.append("Empty build directory")
 
         try:
-            pack_x11(dir, theme_name=param.name, comment="Bibata XCursors")
+            pack_x11(dir, theme_name=name, comment="Bibata XCursors")
 
             attach_files(id, dir, param, logger)
 
             with tarfile.open(fp, "w:gz") as tar:
                 for f in dir.rglob("*"):
-                    tar.add(f, str(f.relative_to(dir)))
+                    tar.add(f, str(f.relative_to(dir.parent)))
 
             rmtree(dir)
         except Exception as e:

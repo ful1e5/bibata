@@ -6,5 +6,9 @@
   "ignorePatterns": ["src/types/**"],
   "rules": {
     "@next/next/no-img-element": "off"
+  },
+  "env": {
+    "browser": true,
+    "commonjs": true
   }
 }

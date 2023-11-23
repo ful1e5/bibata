@@ -37,7 +37,7 @@ def store_cursors(sid: str, data: UploadFormData, logger: Logger):
                 ext, cur = to_win(blob.frames)
                 cursor_name = config.winname
 
-                tmp_dir = gsubtmp(sid)
+                tmp_dir = gsubtmp(sid) / "cursors"
                 tmp_dir.mkdir(parents=True, exist_ok=True)
                 f = tmp_dir / f"{cursor_name}{ext}"
                 f.write_bytes(cur)

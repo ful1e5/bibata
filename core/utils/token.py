@@ -1,5 +1,6 @@
 import os
 from dataclasses import dataclass
+from logging import Logger
 from typing import Literal, Union
 
 import jwt
@@ -44,7 +45,10 @@ def as_token(data) -> Union[None, AuthToken]:
         return None
 
 
-def decode_token(token: str):
+def decode_token(token: str, logger: Union[Logger, None] = None):
+    def log_error(e):
+        logger.error(e) if logger else None
+
     try:
         payload = jwt.decode(token, SECRET, algorithms=["HS256"])
         auth = as_token(payload)
@@ -52,15 +56,21 @@ def decode_token(token: str):
             return auth
         else:
             return "invalid"
-    except jwt.ExpiredSignatureError:
+    except jwt.ExpiredSignatureError as e:
+        log_error(e)
         return "expired"
-    except jwt.InvalidTokenError:
+    except jwt.InvalidTokenError as e:
+        log_error(e)
         return "invalid"
-    except Exception:
+    except Exception as e:
+        log_error(e)
         return "invalid"
 
 
-def decode_auth_header():
+def decode_auth_header(logger: Union[Logger, None] = None):
+    def log_error(e):
+        logger.error(e) if logger else None
+
     unauth = jsonify({"status": 401, "error": ["Unauthorized"]})
     invalid = jsonify({"status": 401, "error": ["Invalid Token"]})
     expired = jsonify({"status": 401, "error": ["Expired Token"]})
@@ -70,14 +80,15 @@ def decode_auth_header():
     if auth_header and auth_header.startswith("Bearer "):
         token = auth_header[len("Bearer ") :]
         try:
-            auth = decode_token(token)
+            auth = decode_token(token, logger)
             if auth == "expired":
                 return expired, 401
             elif auth == "invalid":
                 return invalid, 401
             else:
                 return auth
-        except Exception:
+        except Exception as e:
+            log_error(f"Exception on parsing: {e}\n token:{token}")
             return internal_error, 500
 
     else:

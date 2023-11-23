@@ -26,7 +26,11 @@ export class CoreApi {
   }
 
   public async getSession(token?: string) {
-    token = token || this.jwt?.token;
+    if (!token) {
+      throw new Error(
+        'Unable to generate a core API session. The token is undefined.'
+      );
+    }
     const res = await fetch(`${this.url}/session`, {
       headers: this.__headers(token),
       credentials: 'include'
@@ -44,10 +48,11 @@ export class CoreApi {
     });
 
     const data = await res.json();
+    this.jwt = undefined;
     return data as DeleteSessionResponse;
   }
 
-  public async refreshSession(token?: string) {
+  public async refreshSession(token: string) {
     await this.deleteSession();
     return await this.getSession(token);
   }

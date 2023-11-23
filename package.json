@@ -1,9 +1,21 @@
 {
   "name": "bibata",
+  "description": "CLI for converting cursor svg files to png.",
+  "author": "Abdulkaiz Khatri <kaizmandhu@gmail.com>",
   "version": "1.0.0-alpha.0",
   "private": true,
+  "bugs": {
+    "url": "https://github.com/ful1e5/bibata/issues",
+    "email": "kaizmandhu@gmail.com"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "https://opensource.org/license/mit/"
+  },
+  "repository": "ful1e5/bibata",
+  "fundinig": "https://github.com/ful1e5/bibata?sponsor=1",
   "scripts": {
-    "flask-dev": "pip3 install --upgrade pip && pip3 install -r requirements.txt && python3 -m flask --debug --app api/core/index run  -p 5328 ",
+    "flask-dev": "pip3 install --upgrade pip && pip3 install -r requirements.txt && python3 -m flask --debug --app api/core/index run -p 5328",
     "next-dev": "next dev",
     "dev": "concurrently \"yarn next-dev\" \"yarn flask-dev\"",
     "prebuild": "node -p \"'export const LIB_VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > src/version.ts",
@@ -19,7 +31,6 @@
     "concurrently": "^8.0.1",
     "figma-api": "^1.11.0",
     "jsonwebtoken": "^8.5.1",
-    "localstorage-slim": "^2.6.0",
     "next": "^14.0.0",
     "next-auth": "^4.24.3",
     "react": "^18.2.0",
