@@ -7,11 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
-## [v0.0.1-alpha.0] - 09 July 2021
+## [v1.0.0-alpha.0] - 23 November 2023
 
-### Added
+### What's New?
 
 -   Initial public release 🎊
 
-[unreleased]: https://github.com/ful1e5/bibata/compare/v0.0.1-alpha.0...main
-[v0.0.1-alpha.0]: https://github.com/ful1e5/bibata/tree/v0.0.1-alpha.0
+[unreleased]: https://github.com/ful1e5/bibata/compare/v1.0.0-alpha.0...main
+[v1.0.0-alpha.0]: https://github.com/ful1e5/bibata/tree/v1.0.0-alpha.0
