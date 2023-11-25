@@ -58,7 +58,7 @@ type ColorPickerModalProps = {
 
 export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
   const [wheelSize, setWheelSize] = useState(
-    window.innerWidth <= 500 ? 50 : 90
+    window?.innerWidth <= 500 ? 50 : 90
   );
 
   const defaultColor = generateRandomColors();
@@ -84,15 +84,17 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
   };
 
   useEffect(() => {
-    const handleResize = () => {
-      setWheelSize(window.innerWidth <= 500 ? 50 : 90);
-    };
+    if (window !== undefined) {
+      const handleResize = () => {
+        setWheelSize(window.innerWidth <= 500 ? 50 : 90);
+      };
 
-    window.addEventListener('resize', handleResize);
+      window.addEventListener('resize', handleResize);
 
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }
   }, []);
 
   return (

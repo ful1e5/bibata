@@ -90,7 +90,7 @@ export const CursorPreview: React.FC<Props> = (props) => {
                 dur='3.0303030303030303s'
               />
               <path
-                fill-opacity='0.8'
+                fillOpacity='0.8'
                 fill='#32a0da'
                 d='M50 50L50 0A50 50 0 0 1 100 50Z'
                 transform='rotate(270 50 50)'
