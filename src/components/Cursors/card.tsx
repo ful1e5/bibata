@@ -134,7 +134,7 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
       <div className='w-full mb-4 overflow-hidden rounded-2xl sm:rounded-3xl bg-white/[0.05] border-white/[.1] border'>
         <div
           title={props.svg.name}
-          className='relative w-full h-20 sm:h-40 bg-white/[.1] mb-4 '>
+          className='relative w-full h-24 sm:h-40 bg-white/[.1] mb-4 '>
           {!loading ? (
             <div
               className={`flex flex-col justify-center items-center h-full ${
@@ -143,7 +143,7 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
               {frames.length > 0 ? (
                 <>
                   <img
-                    className='h-12 sm:h-28'
+                    className='h-14 sm:h-28'
                     hidden={loading}
                     alt={props.svg.name}
                     src={frames[index]}
@@ -161,14 +161,14 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
 
           {props.svg.isAnimated && (
             <div className='absolute right-2 top-2'>
-              <div className='bg-blue-500 p-1 px-2 sm:px-1 font-bold sm:font-black rounded-xl text-xs sm:text-sm'>
+              <div className='bg-blue-500 p-1 sm:px-2 sm:py-1 font-black rounded-xl text-[6px] sm:text-sm'>
                 {`${delayX}x`}
               </div>
             </div>
           )}
         </div>
 
-        <div className='text-center text-[6px] sm:text-sm'>
+        <div className='text-center text-[8px] sm:text-sm'>
           <p className='mb-2'>{props.svg.name}</p>
         </div>
       </div>

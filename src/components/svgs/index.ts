@@ -12,6 +12,9 @@ import { LockSVG } from './lock';
 import { LinuxDownloadSVG } from './linux';
 import { WindowsDownloadSVG } from './windows';
 
+import { RefreshSVG } from './refresh';
+import { CloseSVG } from './close';
+
 export {
   BibataLogo,
   GitHubLogo,
@@ -23,5 +26,7 @@ export {
   ErrorSVG,
   InfoSVG,
   WindowsDownloadSVG,
-  LinuxDownloadSVG
+  LinuxDownloadSVG,
+  RefreshSVG,
+  CloseSVG
 };
