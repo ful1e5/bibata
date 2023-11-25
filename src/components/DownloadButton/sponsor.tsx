@@ -59,7 +59,7 @@ export const DownloadSponsor: React.FC<Props> = (props) => {
 
               <div className='flex flex-col justify-center items-center gap-1 px-2'>
                 <Link href={data.sponsors[0].url} target='_blank'>
-                  <p className='hover:underline'>{sponsor.name}</p>
+                  <p className='hover:underline'>{sponsor.name || login}</p>
                 </Link>
                 <p className='font-black bg-green-400 px-2 rounded-lg text-black text-md'>
                   {sponsor.dollar}$ / month

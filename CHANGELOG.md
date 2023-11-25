@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Fixes
+
+-   Print username in sponsor card if name is empty
+
 ## [v1.0.0-alpha.0] - 23 November 2023
 
 ### What's New?
