@@ -161,7 +161,7 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
 
           {props.svg.isAnimated && (
             <div className='absolute right-2 top-2'>
-              <div className='bg-blue-500 p-1 px-2 font-black rounded-xl text-sm'>
+              <div className='bg-blue-500 p-1 px-2 sm:px-1 font-bold sm:font-black rounded-xl text-xs sm:text-sm'>
                 {`${delayX}x`}
               </div>
             </div>

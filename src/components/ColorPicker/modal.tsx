@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Wheel from '@uiw/react-color-wheel';
 
 import { CursorPreview } from './preview';
@@ -24,13 +24,13 @@ const ColorWheelCard: React.FC<ColorWheelCardProps> = (props) => {
 
   return (
     <div className='flex flex-col justify-center items-center'>
-      <div className='font-bold'>{props.title}</div>
+      <div className='font-bold text-xs sm:text-md'>{props.title}</div>
       <div className='text-xl sm:text mt-2 p-2'>{props.children}</div>
       <input
         type='text'
         minLength={1}
         maxLength={7}
-        className='w-3/4 sm:w-full mt-2 p-1 bg-white/[.05] text-center border border-white/[.1] hover:border-white focus:outline-none rounded-2xl'
+        className='w-4/5 sm:w-full text-xs sm:text-md mt-2 p-1 bg-white/[.05] text-center border border-white/[.1] hover:border-white focus:outline-none rounded-2xl'
         value={props.value}
         placeholder='e.g., #ff0000'
         onChange={(e) => {
@@ -57,6 +57,10 @@ type ColorPickerModalProps = {
 };
 
 export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
+  const [wheelSize, setWheelSize] = useState(
+    window.innerWidth <= 500 ? 50 : 90
+  );
+
   const defaultColor = generateRandomColors();
   const [baseColor, setBaseColor] = useState<string>(defaultColor[0]);
   const [outlineColor, setOutlineColor] = useState<string>(defaultColor[1]);
@@ -79,6 +83,18 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
     props.onClose();
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWheelSize(window.innerWidth <= 500 ? 50 : 90);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
     <>
       {props.isOpen && (
@@ -100,21 +116,21 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
                 X
               </button>
             </div>
-            <div className='h-96 md:h-72 mt-2'>
+            <div className='h-72 sm:h-96 md:h-72 mt-2'>
               <CursorPreview
                 base={baseColor}
                 outline={outlineColor}
                 watch={watchColor}
               />
             </div>
-            <div className='mt-8 grid sm:grid-cols-3 gap-10'>
+            <div className='mt-8 grid grid-cols-3 gap-10'>
               <ColorWheelCard
                 title='Base'
                 value={baseColor}
                 onChange={(c) => setBaseColor(c)}>
                 <Wheel
-                  width={100}
-                  height={100}
+                  width={wheelSize}
+                  height={wheelSize}
                   color={baseColor}
                   onChange={(cr) => {
                     setBaseColor(cr.hex);
@@ -127,8 +143,8 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
                 value={outlineColor}
                 onChange={(c) => setOutlineColor(c)}>
                 <Wheel
-                  width={100}
-                  height={100}
+                  width={wheelSize}
+                  height={wheelSize}
                   color={outlineColor}
                   onChange={(cr) => {
                     setOutlineColor(cr.hex);
@@ -141,8 +157,8 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
                 value={watchColor}
                 onChange={(c) => setWatchColor(c)}>
                 <Wheel
-                  width={100}
-                  height={100}
+                  width={wheelSize}
+                  height={wheelSize}
                   color={watchColor}
                   onChange={(cr) => {
                     setWatchColor(cr.hex);

@@ -23,7 +23,7 @@ export const DownloadSponsor: React.FC<Props> = (props) => {
   );
 
   if (isLoading)
-    return <div className='h-1 w-full bg-purple-500/[.8] animate-pulse' />;
+    return <div className='h-1 w-full bg-blue-600 animate-pulse' />;
 
   if (!data) return <></>;
   const sponsor = data.sponsors[0];

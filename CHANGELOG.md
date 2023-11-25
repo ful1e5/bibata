@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixes
 
 -   Print username in sponsor card if name is empty
+-   Common UI bugs and Color picker modal for small devices
 
 ## [v1.0.0-alpha.0] - 23 November 2023
 

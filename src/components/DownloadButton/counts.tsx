@@ -41,7 +41,7 @@ export const DownloadCount: React.FC<Props> = (props) => {
   }, [data]);
 
   if (isLoading)
-    return <div className='h-1 w-full bg-purple-500/[.5] animate-pulse' />;
+    return <div className='h-1 w-full bg-blue-500/[.8] animate-pulse' />;
 
   if (!data) return <></>;
 

@@ -19,7 +19,7 @@ export const NavBar: React.FC<Props> = (_props) => {
   return (
     <header className='bg-transparent p-2 sm:p-5 top-0 w-full h-15'>
       <div className='flex items-center justify-between'>
-        <div className='overflow-hidden flex items-center justify-center gap-4'>
+        <div className='overflow-hidden flex items-center justify-center gap-2'>
           <Link
             href='/'
             title='Goto Homepage'
@@ -28,14 +28,14 @@ export const NavBar: React.FC<Props> = (_props) => {
           </Link>
           <span className='inline-flex items-center gap-1'>
             {pathname === '/studio' && (
-              <span className='text-lg sm:text-3xl font-bold'>Studio</span>
+              <span className='text-xl sm:text-3xl font-bold'>Studio</span>
             )}
             {session?.user?.role === 'PRO' && <ProBadge size={18} />}
           </span>
         </div>
         {status === 'loading' ? (
-          <div className='m-2 w-24 mr-4'>
-            <div className='rounded-full h-8 ring-white/[.2] ring-1 p-1 animate-pulse bg-white/[.1]' />
+          <div className='m-1 sm:m-1 w-16 sm:w-24 mr-1 sm:mr-4'>
+            <div className='rounded-full h-6 sm:h-8 ring-white/[.2] ring-1 p-1 animate-pulse bg-white/[.1]' />
           </div>
         ) : (
           <Profile session={session} />
