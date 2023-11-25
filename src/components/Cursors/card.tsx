@@ -7,6 +7,7 @@ import { DELAYS, COLORS_MASK as mask } from '@root/configs';
 import { fetchX } from '@utils/fetchX';
 
 import { Color, Image, SVG } from 'bibata/app';
+import { ProcessingSVG } from '@components/svgs';
 
 export const BrokenImage: React.FC = () => {
   return (
@@ -156,7 +157,9 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
               )}
             </div>
           ) : (
-            <div className='w-full h-full animate-pulse bg-white/[.2]' />
+            <div className='flex justify-center items-center w-full h-full animate-pulse bg-white/[.2]'>
+              <ProcessingSVG />
+            </div>
           )}
 
           {props.svg.isAnimated && (
