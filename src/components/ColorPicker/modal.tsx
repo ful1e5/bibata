@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect, useState } from 'react';
 import Wheel from '@uiw/react-color-wheel';
 
@@ -57,9 +59,13 @@ type ColorPickerModalProps = {
 };
 
 export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
-  const [wheelSize, setWheelSize] = useState(
-    window?.innerWidth <= 500 ? 50 : 90
-  );
+  const [wheelSize, setWheelSize] = useState(() => {
+    try {
+      return window.innerWidth <= 500 ? 50 : 90;
+    } catch {
+      return 90;
+    }
+  });
 
   const defaultColor = generateRandomColors();
   const [baseColor, setBaseColor] = useState<string>(defaultColor[0]);
