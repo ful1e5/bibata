@@ -123,7 +123,7 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
                 <CloseSVG />
               </button>
             </div>
-            <div className='h-56 sm:h-96 md:h-72 mt-2'>
+            <div className='h-48 sm:h-96 md:h-72 mt-2'>
               <CursorPreview
                 base={baseColor}
                 outline={outlineColor}
@@ -175,7 +175,7 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
             </div>
             <div className='mt-11 flex justify-center'>
               <button
-                className='w-1/2 py-4 bg-green-600 text-white font-bold rounded-3xl text-xl hover:bg-green-500'
+                className='w-36 py-3 bg-green-600 text-white font-bold rounded-2xl text-sm sm:text-md hover:bg-green-500'
                 onClick={handleColorPick}>
                 Apply
               </button>

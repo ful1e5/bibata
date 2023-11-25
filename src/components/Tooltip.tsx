@@ -18,7 +18,7 @@ const Tooltip: React.FC<Props> = (props) => {
       onMouseLeave={() => setShowTooltip(false)}
       onClick={() => setShowTooltip(!showTooltip)}>
       {showTooltip && (
-        <div className='absolute w-96 top-1/2 left-1/2 transform -translate-x-1/2 translate-y-4 py-2 px-4 bg-black text-white rounded-xl shadow'>
+        <div className='absolute w-52 sm:w-64 top-1/2 left-1/2 transform -translate-x-1/2 translate-y-4 py-2 px-4 bg-black text-white rounded-xl text-[8px] sm:text-xs shadow'>
           {props.content}
         </div>
       )}

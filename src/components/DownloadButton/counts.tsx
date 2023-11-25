@@ -26,10 +26,7 @@ export const DownloadCount: React.FC<Props> = (props) => {
     }
   };
 
-  const { data, isLoading } = useSWR<DownloadCounts>(
-    '/api/db/download/count',
-    fetcher
-  );
+  const { data } = useSWR<DownloadCounts>('/api/db/download/count', fetcher);
   const [noDownloads, setNoDownloads] = useState(false);
 
   useEffect(() => {
@@ -39,9 +36,6 @@ export const DownloadCount: React.FC<Props> = (props) => {
       }
     }
   }, [data]);
-
-  if (isLoading)
-    return <div className='h-1 w-full bg-blue-500/[.8] animate-pulse' />;
 
   if (!data) return <></>;
 

@@ -17,13 +17,10 @@ type Props = {
 };
 
 export const DownloadSponsor: React.FC<Props> = (props) => {
-  const { data, isLoading } = useSWR<LuckySponsor>(
+  const { data } = useSWR<LuckySponsor>(
     `${SPONSOR_API_ENDPOINT}?single=true`,
     () => getLuckySponsor()
   );
-
-  if (isLoading)
-    return <div className='h-1 w-full bg-blue-600 animate-pulse' />;
 
   if (!data) return <></>;
   const sponsor = data.sponsors[0];
