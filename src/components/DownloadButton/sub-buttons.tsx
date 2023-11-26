@@ -20,7 +20,7 @@ export const DownloadSubButtons: React.FC<Props> = (props) => {
           className='inline-flex flex-col justify-center items-center bg-white/[.1] hover:bg-orange-400 fill-white/[.5] hover:fill-black/[.6] text-white/[.7] hover:text-black/[.6] rounded-xl p-4 text-center'
           onClick={() => props.onClick('x11')}>
           <LinuxDownloadSVG />
-          <p className='text-xl font-bold mt-2'>XCursors</p>
+          <p className='text-sm font-bold mt-2'>XCursors</p>
           <strong className='text-xs font-extrabold'>(.tar.gz)</strong>
         </button>
         <button
@@ -28,7 +28,7 @@ export const DownloadSubButtons: React.FC<Props> = (props) => {
           className='inline-flex flex-col justify-center items-center bg-white/[.1] hover:bg-blue-400 fill-white/[.5] hover:fill-black/[.6] text-white/[.7] hover:text-black/[.6] rounded-xl p-4 text-center'
           onClick={() => props.onClick('win')}>
           <WindowsDownloadSVG />
-          <p className='text-xl font-bold mt-2'>Win Cursors</p>
+          <p className='text-sm font-bold mt-2'>Win Cursors</p>
           <strong className='text-xs font-extrabold'>(.zip)</strong>
         </button>
       </div>

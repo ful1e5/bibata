@@ -132,15 +132,19 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
           setDelayX(delayX < Object.keys(DELAYS).length ? delayX + 1 : 1);
         }
       }}>
-      <div className='w-full mb-4 overflow-hidden rounded-2xl sm:rounded-3xl bg-white/[0.05] border-white/[.1] border'>
+      <div
+        style={{
+          backgroundColor: `color-mix(in lch, #1e1e1e 95%, ${props.color.base})`
+        }}
+        className='w-full mb-4 overflow-hidden rounded-2xl sm:rounded-3xl border-white/[.1] border'>
         <div
           title={props.svg.name}
-          className='relative w-full h-24 sm:h-40 bg-white/[.1] mb-4 '>
+          className='relative w-full h-24 sm:h-40 mb-4'>
           {!loading ? (
             <div
               className={`flex flex-col justify-center items-center h-full ${
-                !loading ? 'opacity-100' : 'opacity-0'
-              } transition-opacity duration-500`}>
+                !loading ? 'scale-100' : 'scale-0'
+              } transition-all duration-500`}>
               {frames.length > 0 ? (
                 <>
                   <img
@@ -164,7 +168,11 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
 
           {props.svg.isAnimated && (
             <div className='absolute right-2 top-2'>
-              <div className='bg-blue-500 p-1 sm:px-2 sm:py-1 font-black rounded-xl text-[6px] sm:text-sm'>
+              <div
+                className='p-1 sm:px-2 sm:py-1 font-black rounded-xl text-[6px] sm:text-sm'
+                style={{
+                  backgroundColor: `color-mix(in lch, #000000 70%, ${props.color.base})`
+                }}>
                 {`${delayX}x`}
               </div>
             </div>

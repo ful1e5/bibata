@@ -62,7 +62,7 @@ type ColorPickerModalProps = {
 export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
   const [wheelSize, setWheelSize] = useState(() => {
     try {
-      return window.innerWidth <= 500 ? 70 : 90;
+      return window.innerWidth <= 500 ? 65 : 90;
     } catch {
       return 90;
     }
@@ -93,7 +93,7 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
   useEffect(() => {
     if (window !== undefined) {
       const handleResize = () => {
-        setWheelSize(window.innerWidth <= 500 ? 70 : 90);
+        setWheelSize(window.innerWidth <= 500 ? 65 : 90);
       };
 
       window.addEventListener('resize', handleResize);
@@ -109,8 +109,8 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
       {props.isOpen && (
         <div
           onClick={(e) => e.target === e.currentTarget && props.onClose()}
-          className='z-20 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-80'>
-          <div className='bg-[#333333] w-full md:w-1/2 xl:w-1/3 max-h-full overflow-y-auto p-4 m-4 rounded-3xl shadow-lg'>
+          className='z-20 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black backdrop-filter backdrop-blur-xl firefox:bg-opacity-80'>
+          <div className='w-full md:w-1/2 xl:w-1/3 max-h-full overflow-y-auto p-4 m-4 rounded-3xl shadow-lg bg-black ring-1 ring-white/[.06]'>
             <div className='flex justify-between text-xs'>
               <button
                 className='p-2 bg-[#93f5d2] text-black rounded-2xl hover:bg-[#d9c57f] active:bg-[#ffc68f]'

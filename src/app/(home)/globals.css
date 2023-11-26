@@ -10,6 +10,12 @@
   --text-light: #000000;
 }
 
+/** Remove Tap highlight from buttons **/
+
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
 .dark {
   background-color: var(--bg-dark);
   color: var(--text-dark);
@@ -20,8 +26,6 @@
   color: var(--text-light);
 }
 
-/** Remove Tap highlight from buttons **/
-
-* {
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+.clip-bottom {
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
 }
