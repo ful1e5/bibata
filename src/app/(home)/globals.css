@@ -3,18 +3,25 @@
 @tailwind utilities;
 
 :root {
-  --foreground: #000000;
-  --background: #ffffff;
+  --bg-dark: #1e1e22;
+  --bg-light: #ffffff;
+
+  --text-dark: #ffffff;
+  --text-light: #000000;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground: #ffffff;
-    --background: #1e1e1e;
-  }
+.dark {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
+.light {
+  background-color: var(--bg-light);
+  color: var(--text-light);
+}
+
+/** Remove Tap highlight from buttons **/
+
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }

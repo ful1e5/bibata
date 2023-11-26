@@ -25,7 +25,7 @@ export default function RootLayout({ children }: Props) {
   return (
     <html lang='en'>
       <Providers>
-        <body>
+        <body className='dark'>
           <NavBar />
           {children}
         </body>
