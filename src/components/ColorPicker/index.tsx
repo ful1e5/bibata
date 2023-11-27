@@ -23,11 +23,11 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
 
   return (
     <button
-      className={`p-1.5 flex flex-col gap-1 justify-center items-center rounded-xl sm:rounded-2xl ring-1 ${
+      className={`p-1.5 flex flex-col gap-1 justify-center items-center rounded-xl sm:rounded-2xl ring-2 transform ${
         props.selected
-          ? 'ring-2 ring-white/[.1] text-2xl transform -translate-y-4 transition-all duration-75 font-bold shadow-md'
-          : 'ring-white/[.2] '
-      }`}
+          ? 'ring-white/[.5] -translate-y-4 scale-100 font-bold shadow-md'
+          : 'ring-white/[.2] scale-95'
+      } transition-all ease-in-out duration-100`}
       title={
         props.name !== 'Custom'
           ? `Bibata ${props.name}`
@@ -36,8 +36,8 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
       style={
         props.selected && props.color
           ? {
-              color: props.color.outline,
-              backgroundColor: props.color.base
+              backgroundColor: props.color.base,
+              color: props.color.outline
             }
           : {}
       }

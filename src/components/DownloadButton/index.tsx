@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 
 import { CoreApi } from '@utils/core';
 import { getDownloadCounts } from '@utils/sponsor/get-count';
@@ -33,7 +33,7 @@ type ProcessOptions = {
   size: number;
 };
 
-export const DownloadButton: React.FC<Props> = (props) => {
+export const DownloadButton: React.FC<Props> = memo((props) => {
   const { images, size, type, color } = props.config;
   const { id, token, role } = props.auth;
 
@@ -276,4 +276,4 @@ export const DownloadButton: React.FC<Props> = (props) => {
       )}
     </>
   );
-};
+});

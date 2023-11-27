@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import useSWR from 'swr';
 
 import { CursorCard as Card } from './card';
@@ -25,7 +25,7 @@ type Props = {
   onData?: (svgs: SVG[]) => void; // eslint-disable-line no-unused-vars
 };
 
-export const Cursors: React.FC<Props> = (props) => {
+export const Cursors: React.FC<Props> = memo((props) => {
   const fetcher = async (url: string) => {
     const res = await fetch(url, { next: { revalidate: 360 } });
     return (await res.json()) as Response;
@@ -68,4 +68,4 @@ export const Cursors: React.FC<Props> = (props) => {
       </div>
     </div>
   );
-};
+});
