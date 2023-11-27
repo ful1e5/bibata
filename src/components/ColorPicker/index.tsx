@@ -23,10 +23,10 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
 
   return (
     <button
-      className={`p-1.5 flex flex-col gap-1 justify-center items-center rounded-xl sm:rounded-2xl ring-2 transform ${
+      className={`p-1.5 flex flex-col gap-1 justify-center items-center rounded-xl sm:rounded-2xl transform ${
         props.selected
-          ? 'ring-white/[.5] -translate-y-4 scale-100 font-bold shadow-md'
-          : 'ring-white/[.2] scale-95'
+          ? '-translate-y-4 scale-100 font-bold'
+          : 'ring-1 ring-white/[.1] scale-95'
       } transition-all ease-in-out duration-100`}
       title={
         props.name !== 'Custom'
@@ -34,11 +34,19 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
           : 'Customize Bibata Colors'
       }
       style={
-        props.selected && props.color
-          ? {
-              backgroundColor: props.color.base,
-              color: props.color.outline
-            }
+        props.selected
+          ? props.color
+            ? {
+                backgroundColor: props.color.base,
+                color: props.color.outline,
+                boxShadow: '0 4px 10px rgba(255, 255, 255, 0.2)'
+              }
+            : {
+                backgroundColor: '#010101',
+                color: '#ffffff',
+                boxShadow:
+                  '0 4px 6px rgba(0, 0, 0, 0.1), 0 6px 15px rgba(0, 0, 0, 0.1), 0 9px 24px rgba(255, 0, 0, 0.5), 0 12px 30px rgba(0, 255, 0, 0.5), 0 15px 36px rgba(0, 0, 255, 0.5)'
+              }
           : {}
       }
       disabled={props.selected && props.disabled}

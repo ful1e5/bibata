@@ -34,6 +34,7 @@ export const CursorCard: React.FC<Props> = (props) => {
   const { id, name, isAnimated, urls } = props.svg;
 
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   const [delayX, setDelayX] = useState(2);
   const [index, setIndex] = useState(0);
@@ -46,22 +47,21 @@ export const CursorCard: React.FC<Props> = (props) => {
   };
 
   useEffect(() => {
-    setLoading(true);
     setFrames([]);
+    setLoading(true);
 
     const abortController = new AbortController();
     const { signal } = abortController;
 
     const fetchSvg = async () => {
       try {
-        if (signal.aborted) return;
-
         const fms: string[] = [];
         const step = Math.round(urls.length / DELAYS[delayX].frames);
 
-        for (let i = 0; i < urls.length; isAnimated ? (i += step) : i++) {
-          if (signal.aborted) return;
+        if (signal.aborted) return null;
 
+        for (let i = 0; i < urls.length; isAnimated ? (i += step) : i++) {
+          if (signal.aborted) return null;
           const b64 = await fetchX(urls[i], {
             init: { next: { revalidate: 360 }, signal },
             revalidate: 1200,
@@ -70,8 +70,6 @@ export const CursorCard: React.FC<Props> = (props) => {
 
           fms.push(b64);
         }
-
-        if (signal.aborted) return;
 
         let res = await fetchX(`/api/svg/${id}`, {
           init: {
@@ -83,16 +81,18 @@ export const CursorCard: React.FC<Props> = (props) => {
           group: 'bibata.svg-build-cache'
         });
 
-        if (signal.aborted) return;
+        if (signal.aborted) return null;
 
         const json = await res.json();
 
         if (res.status !== 200) {
+          setError(true);
           throw new Error(json['error']);
         } else if (json.data.length === 0) {
+          setError(true);
           throw new Error('Empty cursor frames');
         } else {
-          setFrames([...json.data]);
+          return json.data as string[];
         }
       } catch (e) {
         if (process.env.NODE_ENV === 'development') {
@@ -103,19 +103,25 @@ export const CursorCard: React.FC<Props> = (props) => {
 Report Issue here: https://github.com/ful1e5/bibata/issues`
           );
         }
+        return null;
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     };
 
-    fetchSvg();
+    fetchSvg().then((svgs) => {
+      svgs && setFrames([...svgs]);
+    });
 
-    return () => abortController.abort();
+    return () => {
+      abortController.abort();
+    };
   }, [props.color, props.svg, delayX]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (isAnimated && loading === false) {
+    if (isAnimated && !loading) {
       const intervalId = setInterval(() => {
-        if (index < frames.length - 1) {
+        if (index < DELAYS[delayX].frames - 1) {
           setIndex(index + 1);
         } else {
           setIndex(0);
@@ -128,7 +134,6 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
 
   useEffect(() => {
     const frameCount = isAnimated ? DELAYS[delayX].frames : 1;
-    console.log(frames.length, frameCount);
     if (props.onLoad && !loading && frames.length === frameCount) {
       props.onLoad({ name, frames, delay: DELAYS[delayX].delay });
     }
@@ -144,11 +149,11 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
       }}>
       <div
         style={{
-          backgroundColor: `color-mix(in lch, #1e1e1e 95%, ${props.color.base})`
+          backgroundColor: `color-mix(in srgb, #1e1e1e 95%, ${props.color.base})`
         }}
         className='w-full mb-4 overflow-hidden rounded-2xl sm:rounded-3xl border-white/[.1] border'>
         <div title={name} className='relative w-full h-24 sm:h-40 mb-4'>
-          {loading && (
+          {(loading || frames.length === 0) && (
             <div className='flex justify-center items-center w-full h-full animate-pulse bg-white/[.2]'>
               <ProcessingSVG />
             </div>
@@ -158,7 +163,7 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
             className={`flex flex-col justify-center items-center h-full ${
               !loading ? 'scale-100' : 'scale-0'
             } transition-all duration-500`}>
-            {!loading && frames.length > 0 ? (
+            {!loading && !error && frames.length > 0 ? (
               <img
                 className='h-14 sm:h-28'
                 hidden={loading}

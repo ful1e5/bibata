@@ -13,7 +13,7 @@ type Props = {
 
 export const DownloadSubButtons: React.FC<Props> = (props) => {
   return (
-    <div className='p-2 bg-black/[.1]'>
+    <div className='p-2 bg-black/[.4]'>
       <div className='p-4 grid grid-flow-col gap-4 diviide-y-2 divide-white/[.1] text-left'>
         <button
           disabled={props.disabled}

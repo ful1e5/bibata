@@ -8,11 +8,11 @@ import { getDownloadCounts } from '@utils/sponsor/get-count';
 import { DownloadCount } from './counts';
 import { DownloadSponsor } from './sponsor';
 import { DownloadSubButtons } from './sub-buttons';
-import { DownloadError, ErrorLogs } from './error';
+import { DownloadError } from './error';
 import { LockSVG, ProcessingSVG } from '@components/svgs';
 
 import { Platform, Type } from '@prisma/client';
-import { Color, Image } from 'bibata/app';
+import { Color, Image, ErrorLogs } from 'bibata/app';
 import { AuthToken } from 'bibata/core-api/types';
 
 type Props = {
@@ -33,7 +33,7 @@ type ProcessOptions = {
   size: number;
 };
 
-export const DownloadButton: React.FC<Props> = memo((props) => {
+const DownloadButton: React.FC<Props> = memo((props) => {
   const { images, size, type, color } = props.config;
   const { id, token, role } = props.auth;
 
@@ -277,3 +277,6 @@ export const DownloadButton: React.FC<Props> = memo((props) => {
     </>
   );
 });
+
+DownloadButton.displayName = 'DownloadButton';
+export { DownloadButton };

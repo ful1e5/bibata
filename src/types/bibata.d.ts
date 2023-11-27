@@ -31,6 +31,11 @@ declare module 'bibata/app' {
     frames: string[];
     delay: number;
   };
+
+  type ErrorLogs = {
+    text: string;
+    [k: string]: any;
+  };
 }
 
 declare module 'bibata/misc' {
