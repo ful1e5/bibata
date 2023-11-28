@@ -49,7 +49,7 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
       onClick={props.onClick}>
       <div
         className={`w-full h-20 md:h-32 flex justify-center items-center ${
-          selected ? 'rounded-lg sm:rounded-xl' : 'rounded-3xl'
+          selected ? 'rounded-lg sm:rounded-xl' : 'rounded-2xl sm:rounded-3xl'
         }`}
         style={
           color

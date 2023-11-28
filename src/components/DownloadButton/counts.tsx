@@ -43,7 +43,7 @@ export const DownloadCount: React.FC<Props> = (props) => {
   if (isLoading) {
     return (
       <div className='py-3 animate-pulse flex justify-center items-center '>
-        <div className='h-5 w-28 bg-white/[.3] rounded-full ring-1 ring-white/[.5]' />
+        <div className='h-5 w-28 bg-white/[.2] rounded-lg' />
       </div>
     );
   }

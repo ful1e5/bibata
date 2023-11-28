@@ -113,12 +113,8 @@ export default function StudioPage() {
           const l = images;
           const index = l.findIndex((e) => e.name === i.name);
           if (index >= 0) {
-            if (loading) {
-              l.splice(index, 1);
-            } else {
-              l[index] = i;
-            }
-          } else {
+            loading ? l.splice(index, 1) : (l[index] = i);
+          } else if (!loading) {
             l.push(i);
           }
           setImages([...l]);

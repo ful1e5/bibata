@@ -21,7 +21,7 @@ export const TypePicker: React.FC<Props> = (props) => {
               onClick={() => props.onClick(t)}
               className={`${
                 t === props.value
-                  ? 'bg-white/[.1] text-white/[.9] font-bold'
+                  ? 'bg-white text-black font-bold'
                   : 'bg-transparent text-white/[.65] hover:text-white font-normal hover:font-bold'
               } py-4 font-bold text-center rounded-2xl`}>
               {t}
