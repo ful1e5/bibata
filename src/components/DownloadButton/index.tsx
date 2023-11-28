@@ -1,6 +1,6 @@
 'use client';
 
-import React, { memo, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { CoreApi } from '@utils/core';
 import { getDownloadCounts } from '@utils/sponsor/get-count';
