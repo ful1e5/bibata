@@ -151,7 +151,9 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
     <button
       disabled={!isAnimated}
       onClick={() => {
-        setDelayX(delayX < Object.keys(DELAYS).length ? delayX + 1 : 1);
+        if (!loading && frames.length > 0) {
+          setDelayX(delayX < Object.keys(DELAYS).length ? delayX + 1 : 1);
+        }
       }}>
       <div
         style={{
