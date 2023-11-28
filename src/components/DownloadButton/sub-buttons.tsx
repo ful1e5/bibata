@@ -13,8 +13,8 @@ type Props = {
 
 export const DownloadSubButtons: React.FC<Props> = (props) => {
   return (
-    <div className='p-2 bg-black/[.4]'>
-      <div className='p-4 grid grid-flow-col gap-4 diviide-y-2 divide-white/[.1] text-left'>
+    <div className='p-2'>
+      <div className='p-6 grid grid-flow-col gap-4 diviide-y-2 divide-white/[.1] text-left'>
         <button
           disabled={props.disabled}
           className='inline-flex flex-col justify-center items-center bg-white/[.1] hover:bg-orange-400 fill-white/[.5] hover:fill-black/[.6] text-white/[.7] hover:text-black/[.6] rounded-xl p-4 text-center'

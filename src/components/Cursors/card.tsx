@@ -26,7 +26,7 @@ type Props = {
   color: Color;
 
   // eslint-disable-next-line no-unused-vars
-  onLoad?: (image: Image) => void;
+  onLoad?: (image: Image, loading: boolean) => void;
 };
 
 export const CursorCard: React.FC<Props> = (props) => {
@@ -46,6 +46,62 @@ export const CursorCard: React.FC<Props> = (props) => {
     [mask.watch]: watch || base
   };
 
+  const fetchSvg = async (signal: AbortSignal) => {
+    try {
+      const fms: string[] = [];
+      const step = Math.round(urls.length / DELAYS[delayX].frames);
+
+      if (signal.aborted) return null;
+
+      for (let i = 0; i < urls.length; isAnimated ? (i += step) : i++) {
+        if (signal.aborted) return null;
+        const b64 = await fetchX(urls[i], {
+          init: { next: { revalidate: 360 }, signal },
+          revalidate: 1200,
+          group: 'bibata.svg-cache'
+        }).then((res) => res.text());
+
+        fms.push(b64);
+      }
+
+      if (signal.aborted) return null;
+
+      let res = await fetchX(`/api/svg/${id}`, {
+        init: {
+          method: 'POST',
+          body: JSON.stringify({ colors, frames: fms, signal }),
+          next: { revalidate: 360 }
+        },
+        revalidate: 1200,
+        group: 'bibata.svg-build-cache'
+      });
+
+      if (signal.aborted) return null;
+
+      const json = await res.json();
+
+      if (res.status !== 200) {
+        setError(true);
+        throw new Error(json['error']);
+      } else if (json.data.length === 0) {
+        setError(true);
+        throw new Error('Empty cursor frames');
+      } else {
+        return json.data as string[];
+      }
+    } catch (e) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error(e);
+      } else {
+        console.error(
+          `Unable to procces '${name}' Cursor.
+Report Issue here: https://github.com/ful1e5/bibata/issues`
+        );
+      }
+      return null;
+    }
+  };
+
   useEffect(() => {
     setFrames([]);
     setLoading(true);
@@ -53,69 +109,18 @@ export const CursorCard: React.FC<Props> = (props) => {
     const abortController = new AbortController();
     const { signal } = abortController;
 
-    const fetchSvg = async () => {
-      try {
-        const fms: string[] = [];
-        const step = Math.round(urls.length / DELAYS[delayX].frames);
-
-        if (signal.aborted) return null;
-
-        for (let i = 0; i < urls.length; isAnimated ? (i += step) : i++) {
-          if (signal.aborted) return null;
-          const b64 = await fetchX(urls[i], {
-            init: { next: { revalidate: 360 }, signal },
-            revalidate: 1200,
-            group: 'bibata.svg-cache'
-          }).then((res) => res.text());
-
-          fms.push(b64);
-        }
-
-        let res = await fetchX(`/api/svg/${id}`, {
-          init: {
-            method: 'POST',
-            body: JSON.stringify({ colors, frames: fms, signal }),
-            next: { revalidate: 360 }
-          },
-          revalidate: 1200,
-          group: 'bibata.svg-build-cache'
-        });
-
-        if (signal.aborted) return null;
-
-        const json = await res.json();
-
-        if (res.status !== 200) {
-          setError(true);
-          throw new Error(json['error']);
-        } else if (json.data.length === 0) {
-          setError(true);
-          throw new Error('Empty cursor frames');
-        } else {
-          return json.data as string[];
-        }
-      } catch (e) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error(e);
-        } else {
-          console.error(
-            `Unable to procces '${name}' Cursor.
-Report Issue here: https://github.com/ful1e5/bibata/issues`
-          );
-        }
-        return null;
-      } finally {
+    try {
+      fetchSvg(signal).then((svgs) => {
+        svgs && setFrames([...svgs]);
         setLoading(false);
-      }
-    };
+      });
 
-    fetchSvg().then((svgs) => {
-      svgs && setFrames([...svgs]);
-    });
-
-    return () => {
-      abortController.abort();
-    };
+      return () => {
+        abortController.abort(`Aborted Fetching Cursor ${name}`);
+      };
+    } catch (e) {
+      console.log(`Aborted Fetching Cursor ${name}`);
+    }
   }, [props.color, props.svg, delayX]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
@@ -134,8 +139,11 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
 
   useEffect(() => {
     const frameCount = isAnimated ? DELAYS[delayX].frames : 1;
-    if (props.onLoad && !loading && frames.length === frameCount) {
-      props.onLoad({ name, frames, delay: DELAYS[delayX].delay });
+    if (props.onLoad) {
+      props.onLoad(
+        { name, frames, delay: DELAYS[delayX].delay },
+        loading || frames.length === 0 || frames.length !== frameCount
+      );
     }
   }, [loading, frames]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -143,9 +151,7 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
     <button
       disabled={!isAnimated}
       onClick={() => {
-        if (!loading) {
-          setDelayX(delayX < Object.keys(DELAYS).length ? delayX + 1 : 1);
-        }
+        setDelayX(delayX < Object.keys(DELAYS).length ? delayX + 1 : 1);
       }}>
       <div
         style={{

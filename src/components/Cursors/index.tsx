@@ -21,7 +21,7 @@ type Props = {
   version: string;
   color: Color;
 
-  onLoad?: (image: Image) => void; // eslint-disable-line no-unused-vars
+  onLoad?: (image: Image, loading: boolean) => void; // eslint-disable-line no-unused-vars
   onData?: (svgs: SVG[]) => void; // eslint-disable-line no-unused-vars
 };
 

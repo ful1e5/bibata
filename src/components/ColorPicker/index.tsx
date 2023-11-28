@@ -15,6 +15,8 @@ type Props = {
 };
 
 export const ColorPickerButton: React.FC<Props> = (props) => {
+  const { name, color, selected, disabled } = props;
+
   const stops = Array.from(
     { length: 12 },
     (_, i) => `hsl(${i * (360 / 12)}, 100%, 50%)`
@@ -24,22 +26,16 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
   return (
     <button
       className={`p-1.5 flex flex-col gap-1 justify-center items-center rounded-xl sm:rounded-2xl transform ${
-        props.selected
-          ? '-translate-y-4 scale-100 font-bold'
-          : 'ring-1 ring-white/[.1] scale-95'
+        selected ? '-translate-y-4 scale-100 font-bold' : 'scale-95'
       } transition-all ease-in-out duration-100`}
-      title={
-        props.name !== 'Custom'
-          ? `Bibata ${props.name}`
-          : 'Customize Bibata Colors'
-      }
+      title={name !== 'Custom' ? `Bibata ${name}` : 'Customize Bibata Colors'}
       style={
-        props.selected
-          ? props.color
+        selected
+          ? color
             ? {
-                backgroundColor: props.color.base,
-                color: props.color.outline,
-                boxShadow: '0 4px 10px rgba(255, 255, 255, 0.2)'
+                backgroundColor: color.base,
+                color: color.outline,
+                boxShadow: `0 0 12px 0 ${color.base}77`
               }
             : {
                 backgroundColor: '#010101',
@@ -49,15 +45,17 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
               }
           : {}
       }
-      disabled={props.selected && props.disabled}
+      disabled={selected && disabled}
       onClick={props.onClick}>
       <div
-        className='w-full h-20 md:h-32 flex rounded-lg sm:rounded-xl justify-center items-center'
+        className={`w-full h-20 md:h-32 flex justify-center items-center ${
+          selected ? 'rounded-lg sm:rounded-xl' : 'rounded-3xl'
+        }`}
         style={
-          props.color
+          color
             ? {
-                color: props.color.outline,
-                backgroundColor: props.color.base
+                color: color.outline,
+                backgroundColor: color.base
               }
             : {
                 color: 'transparent',
@@ -67,9 +65,7 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
         }>
         <p>{'o-o'}</p>
       </div>
-      <div className='mt-0 sm:mt-3 text-center text-xs sm:text-sm'>
-        {props.name}
-      </div>
+      <div className='mt-0 sm:mt-3 text-center text-xs sm:text-sm'>{name}</div>
     </button>
   );
 };
