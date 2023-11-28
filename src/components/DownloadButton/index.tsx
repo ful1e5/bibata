@@ -33,7 +33,7 @@ type ProcessOptions = {
   size: number;
 };
 
-const DownloadButton: React.FC<Props> = memo((props) => {
+export const DownloadButton: React.FC<Props> = (props) => {
   const { images, size, type, color } = props.config;
   const { id, token, role } = props.auth;
 
@@ -276,7 +276,4 @@ const DownloadButton: React.FC<Props> = memo((props) => {
       )}
     </>
   );
-});
-
-DownloadButton.displayName = 'DownloadButton';
-export { DownloadButton };
+};
