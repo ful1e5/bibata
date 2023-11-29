@@ -15,6 +15,9 @@ import { WindowsDownloadSVG } from './windows';
 import { RefreshSVG } from './refresh';
 import { CloseSVG } from './close';
 
+import { ModernSVG } from './modern';
+import { OriginalSVG } from './original';
+
 export {
   BibataLogo,
   GitHubLogo,
@@ -28,5 +31,7 @@ export {
   WindowsDownloadSVG,
   LinuxDownloadSVG,
   RefreshSVG,
-  CloseSVG
+  CloseSVG,
+  ModernSVG,
+  OriginalSVG
 };

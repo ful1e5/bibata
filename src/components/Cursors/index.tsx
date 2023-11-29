@@ -28,7 +28,9 @@ type Props = {
 const Cursors: React.FC<Props> = memo((props) => {
   const fetcher = async (url: string) => {
     const res = await fetch(url, { next: { revalidate: 360 } });
-    return (await res.json()) as Response;
+    if (res) {
+      return (await res.json()) as Response;
+    }
   };
 
   const { data: res, isLoading } = useSWR(

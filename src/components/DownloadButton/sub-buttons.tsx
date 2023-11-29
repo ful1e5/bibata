@@ -32,7 +32,9 @@ export const DownloadSubButtons: React.FC<Props> = (props) => {
           <strong className='text-xs font-extrabold'>(.zip)</strong>
         </button>
       </div>
-      <p className='text-sm text-center text-white/[.6]'>v{props.version}</p>
+      <p className='text-xs text-center font-mono text-white/[.8]'>
+        v{props.version}
+      </p>
     </div>
   );
 };

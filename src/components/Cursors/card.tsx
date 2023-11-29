@@ -47,36 +47,37 @@ export const CursorCard: React.FC<Props> = (props) => {
   };
 
   const fetchSvg = async (signal: AbortSignal) => {
+    setFrames([]);
+    setLoading(true);
+
     try {
       const fms: string[] = [];
       const step = Math.round(urls.length / DELAYS[delayX].frames);
 
-      if (signal.aborted) return null;
-
       for (let i = 0; i < urls.length; isAnimated ? (i += step) : i++) {
-        if (signal.aborted) return null;
-        const b64 = await fetchX(urls[i], {
+        const res = await fetchX(urls[i], {
           init: { next: { revalidate: 360 }, signal },
           revalidate: 1200,
           group: 'bibata.svg-cache'
-        }).then((res) => res.text());
+        });
 
+        if (!res) return;
+
+        const b64 = await res.text();
         fms.push(b64);
       }
-
-      if (signal.aborted) return null;
 
       let res = await fetchX(`/api/svg/${id}`, {
         init: {
           method: 'POST',
-          body: JSON.stringify({ colors, frames: fms, signal }),
+          body: JSON.stringify({ colors, frames: fms }),
           next: { revalidate: 360 }
         },
         revalidate: 1200,
         group: 'bibata.svg-build-cache'
       });
 
-      if (signal.aborted) return null;
+      if (!res || signal.aborted) return;
 
       const json = await res.json();
 
@@ -85,9 +86,12 @@ export const CursorCard: React.FC<Props> = (props) => {
         throw new Error(json['error']);
       } else if (json.data.length === 0) {
         setError(true);
-        throw new Error('Empty cursor frames');
+        throw new Error(
+          `Empty cursor frames while signal is ${signal.aborted}`
+        );
       } else {
-        return json.data as string[];
+        setFrames([...json.data]);
+        setLoading(false);
       }
     } catch (e) {
       if (process.env.NODE_ENV === 'development') {
@@ -98,29 +102,22 @@ export const CursorCard: React.FC<Props> = (props) => {
 Report Issue here: https://github.com/ful1e5/bibata/issues`
         );
       }
-      return null;
     }
   };
 
   useEffect(() => {
-    setFrames([]);
-    setLoading(true);
-
     const abortController = new AbortController();
     const { signal } = abortController;
+    const reason = new DOMException(
+      `Cleaning up old fetch requests of '${name}'`,
+      'AbortError'
+    );
 
-    try {
-      fetchSvg(signal).then((svgs) => {
-        svgs && setFrames([...svgs]);
-        setLoading(false);
-      });
+    fetchSvg(signal);
 
-      return () => {
-        abortController.abort(`Aborted Fetching Cursor ${name}`);
-      };
-    } catch (e) {
-      console.log(`Aborted Fetching Cursor ${name}`);
-    }
+    return () => {
+      abortController.abort(reason);
+    };
   }, [props.color, props.svg, delayX]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {

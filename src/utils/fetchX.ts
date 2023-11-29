@@ -24,36 +24,44 @@ export const fetchX = async (url: string, options?: Options) => {
   const cache = await caches.open(group);
   let res = await cache.match(key);
 
-  if (!res) {
+  if (!res && !init?.signal?.aborted) {
     res = await fetch(url, { ...options?.init });
 
-    if (res.status === 200) {
+    if (res && res.status === 200) {
       const cacheTimestamp = new Date().toUTCString();
-      const headers = new Headers(res.headers);
-      headers.set('x-cache-timestamp', cacheTimestamp);
-      res = new Response(res.body, {
-        status: res.status,
-        statusText: res.statusText,
-        headers
-      });
-      await cache.put(key, res.clone());
+      if (res?.headers) {
+        const headers = new Headers(res.headers);
+        headers.set('x-cache-timestamp', cacheTimestamp);
+        res = new Response(res.body, {
+          status: res.status,
+          statusText: res.statusText,
+          headers
+        });
+        await cache.put(key, res.clone());
+      } else {
+        return;
+      }
     } else {
-      await cache.delete(url);
-    }
-  }
-
-  // Check if the cache has exceeded the TTL
-  const cacheTimestamp = res.headers.get('x-cache-timestamp');
-  if (cacheTimestamp) {
-    const currentTime = Date.now();
-    const cacheTime = new Date(cacheTimestamp).getTime();
-    const cacheAge = (currentTime - cacheTime) / 1000; // Calculate cache age in seconds
-
-    if (cacheAge > ttl) {
-      // Cache has expired, delete it
       await cache.delete(key);
     }
   }
 
-  return res;
+  if (!res?.headers) {
+    return;
+  } else {
+    // Check if the cache has exceeded the TTL
+    const cacheTimestamp = res.headers.get('x-cache-timestamp');
+    if (cacheTimestamp) {
+      const currentTime = Date.now();
+      const cacheTime = new Date(cacheTimestamp).getTime();
+      const cacheAge = (currentTime - cacheTime) / 1000; // Calculate cache age in seconds
+
+      if (cacheAge > ttl) {
+        // Cache has expired, delete it
+        await cache.delete(key);
+      }
+    }
+
+    return res;
+  }
 };

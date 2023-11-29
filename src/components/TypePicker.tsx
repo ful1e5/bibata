@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import { ModernSVG, OriginalSVG } from './svgs';
+
 interface Props {
   list: string[];
   value: string;
@@ -12,19 +14,24 @@ interface Props {
 export const TypePicker: React.FC<Props> = (props) => {
   return (
     <div className='flex items-center justify-center'>
-      <div className='w-full sm:w-1/2 bg-black/[0.2] overflow-hidden rounded-3xl border-white/[.08] border'>
-        <div className={`p-1 grid grid-cols-2 gap-y-4 gap-1`}>
+      <div className='w-5/6 sm:w-1/2 lg:w-2/5 bg-black/[0.2] overflow-hidden '>
+        <div className={`grid grid-cols-2 gap-3`}>
           {props.list.map((t) => (
             <button
               key={t}
               title={`Bibata ${t}`}
+              disabled={t === props.value}
               onClick={() => props.onClick(t)}
-              className={`${
+              className={`py-2 inline-flex justify-center items-center gap font-bold border rounded-2xl shadow-md border-gray-500 ${
                 t === props.value
-                  ? 'bg-white text-black font-bold'
-                  : 'bg-transparent text-white/[.65] hover:text-white font-normal hover:font-bold'
-              } py-4 font-bold text-center rounded-2xl`}>
-              {t}
+                  ? 'bg-white fill-black text-black font-bold'
+                  : 'fill-gray-500 text-gray-500 hover:text-white hover:fill-white hover:border-white'
+              }`}>
+              <>
+                {t === 'Modern' && <ModernSVG />}
+                {t === 'Original' && <OriginalSVG />}
+                {t}
+              </>
             </button>
           ))}
         </div>
