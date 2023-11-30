@@ -3,12 +3,12 @@
 import React from 'react';
 
 type Props = {
-  gems: 'Amber' | 'Ice' | 'Classic' | 'Custom';
+  gems: string;
 };
 
 // eslint-disable-next-line no-unused-vars
 export const GemsSVG: React.FC<Props> = (props) => {
-  if (props.gems === 'Amber')
+  if (props.gems === 'Amber') {
     return (
       <svg
         className='fill-current h-12 sm:h-16'
@@ -83,8 +83,7 @@ export const GemsSVG: React.FC<Props> = (props) => {
         </defs>
       </svg>
     );
-
-  if (props.gems === 'Ice')
+  } else if (props.gems === 'Ice') {
     return (
       <svg
         className='fill-current h-12 sm:h-16'
@@ -167,8 +166,7 @@ export const GemsSVG: React.FC<Props> = (props) => {
         </defs>
       </svg>
     );
-
-  if (props.gems === 'Classic')
+  } else if (props.gems === 'Classic') {
     return (
       <svg
         className='fill-current h-12 sm:h-16'
@@ -249,8 +247,7 @@ export const GemsSVG: React.FC<Props> = (props) => {
         </defs>
       </svg>
     );
-
-  if (props.gems === 'Custom')
+  } else {
     return (
       <svg
         className='fill-current h-12 sm:h-16'
@@ -366,4 +363,5 @@ export const GemsSVG: React.FC<Props> = (props) => {
         </defs>
       </svg>
     );
+  }
 };
