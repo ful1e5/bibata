@@ -14,7 +14,7 @@ interface Props {
 export const TypePicker: React.FC<Props> = (props) => {
   return (
     <div className='flex items-center justify-center'>
-      <div className='w-5/6 sm:w-1/2 lg:w-2/5 bg-black/[0.2] overflow-hidden '>
+      <div className='w-full sm:w-1/2 lg:w-2/5 px-12 sm:px-0'>
         <div className={`grid grid-cols-2 gap-3`}>
           {props.list.map((t) => (
             <button
@@ -22,15 +22,15 @@ export const TypePicker: React.FC<Props> = (props) => {
               title={`Bibata ${t}`}
               disabled={t === props.value}
               onClick={() => props.onClick(t)}
-              className={`py-2 inline-flex justify-center items-center gap font-bold border rounded-2xl shadow-md border-gray-500 ${
+              className={`py-2 flex justify-center items-center gap-1 font-bold border rounded-2xl shadow-md border-white/[.2] ${
                 t === props.value
                   ? 'bg-white fill-black text-black font-bold'
-                  : 'fill-gray-500 text-gray-500 hover:text-white hover:fill-white hover:border-white'
+                  : 'fill-white/[.4] text-white/[.4] hover:text-white hover:fill-white hover:border-white'
               }`}>
               <>
                 {t === 'Modern' && <ModernSVG />}
                 {t === 'Original' && <OriginalSVG />}
-                {t}
+                <p className='hidden sm:block'>{t}</p>
               </>
             </button>
           ))}

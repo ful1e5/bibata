@@ -17,7 +17,7 @@ export const NavBar: React.FC<Props> = (_props) => {
   const { data: session, status } = useSession();
 
   return (
-    <header className='sticky py-px top-0 z-20 bg-[#030303] backdrop-filter backdrop-blur-md border-b border-white/[.1] firefox:bg-opacity-90'>
+    <header className='sticky py-px top-0 z-20 bg-[#030303] backdrop-filter backdrop-blur-2xl border-b border-white/[.1] firefox:bg-opacity-70'>
       <nav className='container mx-auto p-3 md:p-4 flex items-center justify-between'>
         <Link href='/'>
           <div className='overflow-hidden flex items-center justify-center gap-2'>

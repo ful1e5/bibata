@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { ColorPickerModal } from './modal';
 
 import { Color, Colors } from 'bibata/app';
+import { GemsSVG } from '@components/svgs';
 
 type Props = {
   name: string;
@@ -48,7 +49,7 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
       disabled={selected && disabled}
       onClick={props.onClick}>
       <div
-        className={`w-full h-20 md:h-32 flex justify-center items-center ${
+        className={`w-full h-24 md:h-32 flex justify-center items-center ${
           selected ? 'rounded-lg sm:rounded-xl' : 'rounded-2xl sm:rounded-3xl'
         }`}
         style={
@@ -63,7 +64,7 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
                 background: wheel
               }
         }>
-        <p>{'o-o'}</p>
+        <GemsSVG gems={name} />
       </div>
       <div className='mt-0 sm:mt-3 text-center text-xs sm:text-sm'>{name}</div>
     </button>

@@ -18,6 +18,8 @@ import { CloseSVG } from './close';
 import { ModernSVG } from './modern';
 import { OriginalSVG } from './original';
 
+import { GemsSVG } from './gems';
+
 export {
   BibataLogo,
   GitHubLogo,
@@ -33,5 +35,6 @@ export {
   RefreshSVG,
   CloseSVG,
   ModernSVG,
-  OriginalSVG
+  OriginalSVG,
+  GemsSVG
 };

@@ -157,7 +157,7 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
           backgroundColor: `color-mix(in srgb, #1e1e1e 95%, ${props.color.base})`
         }}
         className='w-full mb-4 overflow-hidden rounded-2xl sm:rounded-3xl border-white/[.1] border'>
-        <div title={name} className='relative w-full h-24 sm:h-40 mb-4'>
+        <div title={name} className='relative w-full h-24 sm:h-40'>
           {(loading || frames.length === 0) && (
             <div className='flex justify-center items-center w-full h-full animate-pulse bg-white/[.2]'>
               <ProcessingSVG />
@@ -194,7 +194,7 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
         </div>
 
         <div className='text-center text-[8px] sm:text-sm'>
-          <p className='mb-2'>{name}</p>
+          <p className='py-3'>{name}</p>
         </div>
       </div>
     </button>
