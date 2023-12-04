@@ -85,9 +85,15 @@ export class CoreApi {
     if (res.status === 200) {
       try {
         const blob = await res.blob();
-        const name = res.headers
-          .get('Content-Disposition')
-          .split('filename=')[1];
+        const name =
+          res.headers.get('Content-Disposition')?.split('filename=')[1] || null;
+
+        if (!name) {
+          return {
+            id: this.jwt?.id,
+            error: ['Unable to get download filename']
+          } as DownloadError;
+        }
         return { blob, name } as DownloadFile;
       } catch (e) {
         return {
