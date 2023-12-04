@@ -4,6 +4,7 @@ import {
   AuthError,
   DeleteSessionResponse,
   DownloadError,
+  DownloadFile,
   GetSessionResponse,
   UploadResponse
 } from 'bibata/core-api/responses';
@@ -72,20 +73,39 @@ export class CoreApi {
     }
   }
 
-  public downloadUrl(p: Platform, n: string, v: string) {
+  private __downloadUrl(p: Platform, n: string, v: string) {
     return `${this.url}/download?platform=${p}&name=${n}&v=${v}`;
   }
 
-  public async downloadable(p: Platform, n: string, v: string) {
-    const res = await fetch(this.downloadUrl(p, n, v), {
+  public async download(p: Platform, n: string, v: string) {
+    const res = await fetch(this.__downloadUrl(p, n, v), {
       headers: this.__headers(this.jwt?.token)
     });
 
     if (res.status === 200) {
-      return null;
-    } else {
+      try {
+        const blob = await res.blob();
+        const name = res.headers
+          .get('Content-Disposition')
+          .split('filename=')[1];
+        return { blob, name } as DownloadFile;
+      } catch (e) {
+        return {
+          id: this.jwt?.id,
+          error: [
+            'Unhandle Exception Occur while downloading cursor package.',
+            JSON.stringify(e)
+          ]
+        } as DownloadError;
+      }
+    } else if (res.status === 400) {
       const data = await res.json();
       return data as DownloadError;
+    } else {
+      return {
+        id: this.jwt?.id,
+        error: ['Internal Error Occur while downloading cursor package.']
+      } as DownloadError;
     }
   }
 }

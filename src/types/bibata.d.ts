@@ -94,7 +94,6 @@ declare module 'bibata/core-api/responses' {
   };
 
   type UploadResponse = {
-    status: number;
     id: string;
     files: string[];
     error: string[];
@@ -110,8 +109,12 @@ declare module 'bibata/core-api/responses' {
   };
 
   type DownloadError = {
-    status: number;
     id: string;
     error: string[];
+  };
+
+  type DownloadFile = {
+    blob: Blob;
+    name: string;
   };
 }

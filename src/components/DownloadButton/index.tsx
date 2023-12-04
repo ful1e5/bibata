@@ -14,6 +14,7 @@ import { LockSVG, ProcessingSVG } from '@components/svgs';
 import { Platform, Type } from '@prisma/client';
 import { Color, Image, ErrorLogs } from 'bibata/app';
 import { AuthToken } from 'bibata/core-api/types';
+import { DownloadFile } from 'bibata/core-api/responses';
 
 type Props = {
   disabled?: boolean;
@@ -90,21 +91,26 @@ export const DownloadButton: React.FC<Props> = (props) => {
       const upload = await api.uploadImages(formData);
       if (upload?.error) {
         updateErrorLogs({
+          text: 'Oops.. Processing Falied! Try Again.',
           key: 'upload',
-          error: upload.error,
-          text: 'Oops.. Processing Falied! Try Again.'
+          error: upload.error
         });
         return upload;
       }
     }
   };
 
-  const downloadFile = (url: string) => {
+  const downloadFile = (file: DownloadFile) => {
+    const url = window.URL.createObjectURL(new Blob([file.blob]));
+
     const link = document.createElement('a');
     link.href = url;
+    link.setAttribute('download', file.name);
+
     document.body.appendChild(link);
     link.click();
     link.parentNode?.removeChild(link);
+
     setErrorLogs({ text: '' });
   };
 
@@ -127,9 +133,9 @@ export const DownloadButton: React.FC<Props> = (props) => {
       });
     } catch (e) {
       updateErrorLogs({
+        text: 'Unexpected Internal Error.',
         key: 'count',
-        error: e,
-        text: 'Unexpected Internal Error.'
+        error: e
       });
       printError(e);
     }
@@ -146,43 +152,33 @@ export const DownloadButton: React.FC<Props> = (props) => {
     const { count, total } = await getDownloadCounts(token);
     if ((total && count >= total) || (count === 0 && total === 0)) {
       setErrorLogs({ text: 'Download Limit Exceeded.' });
+      setLock(false);
     } else {
       const n = `${name}${role === 'PRO' ? '-Pro' : ''}`;
 
-      const downloadUrl = api.downloadUrl(platform, n, props.version);
-
       setLoadingText(`Preparing Requests ...`);
-      const download = await api.downloadable(platform, n, props.version);
+      const upload = await processImages(api, images, { platform, size });
 
-      if (!download?.error) {
-        downloadFile(downloadUrl);
+      if (upload?.error) {
+        printError(upload.error);
+        await api.refreshSession(token);
       } else {
-        const upload = await processImages(api, images, { platform, size });
+        setLoadingText(
+          `Packaging ${platform === 'win' ? 'Win Cursors' : 'XCursors'} ...`
+        );
 
-        if (upload?.error) {
-          printError(upload.error);
-          await api.refreshSession(token);
+        const file = await api.download(platform, n, props.version);
+
+        if ('blob' in file) {
+          await storeToDB(platform);
+          downloadFile(file);
         } else {
-          setLoadingText(
-            `Packaging ${platform === 'win' ? 'Win Cursors' : 'XCursors'} ...`
-          );
-
-          const download = await api.downloadable(platform, n, props.version);
-
-          if (download?.error) {
-            printError(download.error);
-
-            updateErrorLogs({
-              key: 'download',
-              error: download.error,
-              text: 'Oops.. Packaging Failed! Try Again.'
-            });
-
-            await api.refreshSession(token);
-          } else {
-            await storeToDB(platform);
-            downloadFile(downloadUrl);
-          }
+          printError(file.error);
+          updateErrorLogs({
+            text: 'Oops.. Packaging Failed! Try Again.',
+            key: 'download',
+            error: file.error || file
+          });
         }
       }
     }

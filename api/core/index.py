@@ -53,15 +53,15 @@ def upload_images():
 
     if data.errors:
         errors.extend(data.errors)
-        return jsonify({"status": 400, "id": id, "file": None, "error": errors}), 400
+        return jsonify({"id": id, "file": None, "error": errors}), 400
 
     name, errs = store_cursors(id, data, logger)
     errors.extend(errs)
 
     if errors:
-        return jsonify({"status": 400, "id": id, "file": None, "error": errors}), 400
+        return jsonify({"id": id, "file": None, "error": errors}), 400
     else:
-        return jsonify({"status": 200, "id": id, "file": name, "error": None})
+        return jsonify({"id": id, "file": name, "error": None})
 
 
 @app.route("/api/core/download", methods=["GET"])
@@ -75,7 +75,7 @@ def download():
 
     if param.errors:
         errors.extend(param.errors)
-        return jsonify({"status": 400, "id": id, "error": errors}), 400
+        return jsonify({"id": id, "error": errors}), 400
 
     res: FileResponse
     if param.platform == "win":
@@ -85,6 +85,6 @@ def download():
 
     if res.errors:
         errors.extend(res.errors)
-        return jsonify({"status": 400, "id": id, "error": errors}), 400
+        return jsonify({"id": id, "error": errors}), 400
     else:
         return send_file(res.file, as_attachment=True)

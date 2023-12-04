@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Improvements:
+
+-   Added Download counts for 'PRO' Users
+-   Background Blur for modal and Navigation bar
+
 ### Fixes
 
 -   Print username in sponsor card if name is empty
