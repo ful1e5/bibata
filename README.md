@@ -5,13 +5,13 @@
 
 The place where Bibata's cursor gets personalized. This project is the successor to [Bibata_Cursor](https://github.com/ful1e5/Bibata_Cursor) and provides the easiest personalization of cursors, along with other options to create your own Bibata cursor.
 
-#### Bibata?
+## Bibata?
 
 TLDR; This cursor set is a masterpiece of cursors available on the internet, hand-designed by [Abdulkaiz Khatri](https://github.com/ful1e5).
 
 Bibata is an open-source, compact, and material designed cursor set that aims to improve the cursor experience for users. It is one of the most popular cursor sets in the Linux community and is now available for free on Windows as well, with multiple color and size options. Its goal is to offer personalized cursors to users.
 
-#### What does "Bibata" word mean?
+### What does "Bibata" word mean?
 
 The sweetest word I ever spoke was "BI-Buh," which, coincidentally, is also the word for peanuts. To make it more pronounceable and not sound like a baby's words, I added the suffix "Ta." And with that, my journey in the world of open-source began.
 
@@ -28,7 +28,7 @@ Bibata, originally an open-source project, has evolved into a web application to
 
 Upon achieving my monthly sponsorship goal, the public download limit is lifted.
 
-#### Information on Downloads
+### Information on Downloads
 
 -   **Pro:** Unlimited Downloads
 -   **Fresh SignIn:** 20 Free Downloads
@@ -38,7 +38,7 @@ Upon achieving my monthly sponsorship goal, the public download limit is lifted.
 
 To access the benefits of a "Pro" account, initiate sponsorship for [ful1e5](https://github.com/sponsors/ful1e5) with a **monthly tier**. Connect this sponsored account with the Bibata app to unlock unlimited downloads.
 
-### TODO:
+## TODO:
 
 -   [ ] Custom size component
 -   [ ] Report issues with error stack when errors are generated while crafting cursor images

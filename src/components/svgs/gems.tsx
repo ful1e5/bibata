@@ -11,7 +11,7 @@ export const GemsSVG: React.FC<Props> = (props) => {
   if (props.gems === 'Amber') {
     return (
       <svg
-        className='fill-current h-12 sm:h-16'
+        className='fill-current h-7 sm:h-16'
         viewBox='0 0 500 500'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'>
@@ -86,7 +86,7 @@ export const GemsSVG: React.FC<Props> = (props) => {
   } else if (props.gems === 'Ice') {
     return (
       <svg
-        className='fill-current h-12 sm:h-16'
+        className='fill-current h-7 sm:h-16'
         viewBox='0 0 500 500'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'>
@@ -169,7 +169,7 @@ export const GemsSVG: React.FC<Props> = (props) => {
   } else if (props.gems === 'Classic') {
     return (
       <svg
-        className='fill-current h-12 sm:h-16'
+        className='fill-current h-7 sm:h-16'
         viewBox='0 0 500 500'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'>
@@ -182,7 +182,7 @@ export const GemsSVG: React.FC<Props> = (props) => {
             <path
               d='M333.645 249.726L252.68 486.23C250.909 486.551 249.091 486.551 247.32 486.23L166.355 249.726H333.655H333.645Z'
               fill='#DEDBE3'
-              fill-opacity='0.62'
+              fillOpacity='0.62'
             />
             <path
               d='M333.645 249.726H166.346L247.32 13.2415C249.091 12.9195 250.909 12.9195 252.68 13.2415L292.528 129.642L299.772 150.797L304.147 163.581L326.316 228.315L333.645 249.735V249.726Z'
@@ -215,7 +215,7 @@ export const GemsSVG: React.FC<Props> = (props) => {
             height='513.471'
             filterUnits='userSpaceOnUse'
             colorInterpolationFilters='sRGB'>
-            <feFlood flood-opacity='0' result='BackgroundImageFix' />
+            <feFlood floodOpacity='0' result='BackgroundImageFix' />
             <feColorMatrix
               in='SourceAlpha'
               type='matrix'
@@ -250,7 +250,7 @@ export const GemsSVG: React.FC<Props> = (props) => {
   } else {
     return (
       <svg
-        className='fill-current h-12 sm:h-16'
+        className='fill-current h-7 sm:h-16'
         viewBox='0 0 500 500'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'>

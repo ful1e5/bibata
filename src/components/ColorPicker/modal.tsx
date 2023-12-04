@@ -109,7 +109,7 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
       {props.isOpen && (
         <div
           onClick={(e) => e.target === e.currentTarget && props.onClose()}
-          className='z-20 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black backdrop-filter backdrop-blur-xl firefox:bg-opacity-80'>
+          className='z-20 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black backdrop-filter backdrop-blur-xl firefox:bg-opacity-80 bg-opacity-80'>
           <div className='w-full md:w-1/2 xl:w-1/3 max-h-full overflow-y-auto p-4 m-4 rounded-3xl shadow-lg bg-black ring-1 ring-white/[.06]'>
             <div className='flex justify-between text-xs'>
               <button

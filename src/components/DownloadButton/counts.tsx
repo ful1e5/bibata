@@ -22,7 +22,7 @@ export const DownloadCount: React.FC<Props> = (props) => {
     try {
       return getDownloadCounts(props.token);
     } catch {
-      return { total: 0, count: 0 };
+      return { total: 0, count: 0, role: 'ANONYMOUS' };
     }
   };
 
@@ -52,13 +52,13 @@ export const DownloadCount: React.FC<Props> = (props) => {
 
   return (
     <>
-      {props.show && (data!.total || data.total === 0) && (
+      {props.show && (
         <div className='flex flex-row py-1 mt-1 justify-center items-center gap-1'>
           <p
             className={`${
               noDownloads ? 'text-red-100/[.8]' : 'text-green-100/[.8]'
             } font-extrabold text-center text-md p-1`}>
-            {`${data.count}/${data.total}`}
+            {`${data.count}`}/{data.role === 'PRO' ? <> &#8734;</> : data.total}
           </p>
           <Tooltip
             tooltip={

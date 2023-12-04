@@ -25,7 +25,8 @@ export async function GET(request: NextRequest) {
         total: DB_SEEDS.DOWNLOADS_PER_CENTS(
           sponsor_data.monthlySponsorshipInCents
         ),
-        count: await getIndex(null)
+        count: await getIndex(null),
+        role: 'ANONYMOUS'
       });
 
       if (!token) return sponsorCount;
@@ -41,7 +42,11 @@ export async function GET(request: NextRequest) {
 
           if (total === undefined) return sponsorCount;
 
-          return NextResponse.json({ total, count: await getIndex(auth.id) });
+          return NextResponse.json({
+            total,
+            count: await getIndex(auth.id),
+            role: auth.role
+          });
         } else {
           return sponsorCount;
         }
