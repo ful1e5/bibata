@@ -1,6 +1,6 @@
 import { Colors, Delays } from 'bibata/app';
 
-export const VERSIONS = ['1.0.0-alpha.0'];
+export const VERSIONS = ['1.0.0-alpha.0', '1.0.0-alpha.1'];
 
 export const SPONSOR_API_ENDPOINT =
   'https://sponsor-spotlight.vercel.app/api/fetch';

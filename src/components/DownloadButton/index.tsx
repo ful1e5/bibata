@@ -8,12 +8,13 @@ import { getDownloadCounts } from '@utils/sponsor/get-count';
 import { DownloadCount } from './counts';
 import { DownloadSponsor } from './sponsor';
 import { DownloadSubButtons } from './sub-buttons';
-import { DownloadError, ErrorLogs } from './error';
+import { DownloadError } from './error';
 import { LockSVG, ProcessingSVG } from '@components/svgs';
 
 import { Platform, Type } from '@prisma/client';
-import { Color, Image } from 'bibata/app';
+import { Color, Image, ErrorLogs } from 'bibata/app';
 import { AuthToken } from 'bibata/core-api/types';
+import { DownloadFile } from 'bibata/core-api/responses';
 
 type Props = {
   disabled?: boolean;
@@ -90,21 +91,26 @@ export const DownloadButton: React.FC<Props> = (props) => {
       const upload = await api.uploadImages(formData);
       if (upload?.error) {
         updateErrorLogs({
+          text: 'Oops.. Processing Falied! Try Again.',
           key: 'upload',
-          error: upload.error,
-          text: 'Oops.. Processing Falied! Try Again.'
+          error: upload.error
         });
         return upload;
       }
     }
   };
 
-  const downloadFile = (url: string) => {
+  const downloadFile = (file: DownloadFile) => {
+    const url = window.URL.createObjectURL(new Blob([file.blob]));
+
     const link = document.createElement('a');
     link.href = url;
+    link.setAttribute('download', file.name);
+
     document.body.appendChild(link);
     link.click();
     link.parentNode?.removeChild(link);
+
     setErrorLogs({ text: '' });
   };
 
@@ -127,18 +133,18 @@ export const DownloadButton: React.FC<Props> = (props) => {
       });
     } catch (e) {
       updateErrorLogs({
+        text: 'Unexpected Internal Error.',
         key: 'count',
-        error: e,
-        text: 'Unexpected Internal Error.'
+        error: e
       });
       printError(e);
     }
   };
 
   const handleDownload = async (platform: Platform) => {
+    setLoadingText('Authorizing...');
     setLoading(true);
     setLock(true);
-
     setErrorLogs({ text: '' });
 
     const api = new CoreApi();
@@ -146,43 +152,33 @@ export const DownloadButton: React.FC<Props> = (props) => {
     const { count, total } = await getDownloadCounts(token);
     if ((total && count >= total) || (count === 0 && total === 0)) {
       setErrorLogs({ text: 'Download Limit Exceeded.' });
+      setLock(false);
     } else {
       const n = `${name}${role === 'PRO' ? '-Pro' : ''}`;
 
-      const downloadUrl = api.downloadUrl(platform, n, props.version);
-
       setLoadingText(`Preparing Requests ...`);
-      const download = await api.downloadable(platform, n, props.version);
+      const upload = await processImages(api, images, { platform, size });
 
-      if (!download?.error) {
-        downloadFile(downloadUrl);
+      if (upload?.error) {
+        printError(upload.error);
+        await api.refreshSession(token);
       } else {
-        const upload = await processImages(api, images, { platform, size });
+        setLoadingText(
+          `Packaging ${platform === 'win' ? 'Win Cursors' : 'XCursors'} ...`
+        );
 
-        if (upload?.error) {
-          printError(upload.error);
-          await api.refreshSession(token);
+        const file = await api.download(platform, n, props.version);
+
+        if ('blob' in file) {
+          await storeToDB(platform);
+          downloadFile(file);
         } else {
-          setLoadingText(
-            `Packaging ${platform === 'win' ? 'Win Cursors' : 'XCursors'} ...`
-          );
-
-          const download = await api.downloadable(platform, n, props.version);
-
-          if (download?.error) {
-            printError(download.error);
-
-            updateErrorLogs({
-              key: 'download',
-              error: download.error,
-              text: 'Oops.. Packaging Failed! Try Again.'
-            });
-
-            await api.refreshSession(token);
-          } else {
-            await storeToDB(platform);
-            downloadFile(downloadUrl);
-          }
+          printError(file.error);
+          updateErrorLogs({
+            text: 'Oops.. Packaging Failed! Try Again.',
+            key: 'download',
+            error: file.error || file
+          });
         }
       }
     }
@@ -242,15 +238,16 @@ export const DownloadButton: React.FC<Props> = (props) => {
 
       {showDropdown && (
         <div className='flex justify-center' ref={dropdownRef}>
+          <div className='absolute clip-bottom h-2 w-4 bg-white/[.4]' />
           <div className='absolute w-full sm:w-1/2 lg:w-1/4 2xl:w-1/5 h-auto mt-2 z-10 px-6 sm:px-0'>
-            <div className='bg-[#2e2e2e] text-white border border-white/[.2] rounded-xl shadow-xl relative'>
+            <div className='bg-black backdrop-filter backdrop-blur-2xl firefox:bg-opacity-40 bg-opacity-40 border border-white/[.2] text-white rounded-3xl shadow-lg relative'>
               {loading ? (
                 <>
                   <div className='flex p-6 justify-center items-center'>
-                    <div className='-ml-1 mr-3 h-5 w-5'>
+                    <div className='-ml-1 mr-3 h-4 w-4'>
                       <ProcessingSVG />
                     </div>
-                    <p>{loadingText}</p>
+                    <p className='text-[10px] sm:text-sm'>{loadingText}</p>
                   </div>
                 </>
               ) : (

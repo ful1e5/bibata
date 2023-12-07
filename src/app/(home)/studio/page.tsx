@@ -109,12 +109,12 @@ export default function StudioPage() {
         version={version}
         color={color}
         onData={(svgs) => setImagesCount(svgs.length)}
-        onLoad={(i) => {
+        onLoad={(i, loading) => {
           const l = images;
           const index = l.findIndex((e) => e.name === i.name);
           if (index >= 0) {
-            l[index] = i;
-          } else {
+            loading ? l.splice(index, 1) : (l[index] = i);
+          } else if (!loading) {
             l.push(i);
           }
           setImages([...l]);

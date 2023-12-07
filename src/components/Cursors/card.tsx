@@ -7,13 +7,12 @@ import { DELAYS, COLORS_MASK as mask } from '@root/configs';
 import { fetchX } from '@utils/fetchX';
 
 import { Color, Image, SVG } from 'bibata/app';
+import { ProcessingSVG } from '@components/svgs';
 
 export const BrokenImage: React.FC = () => {
   return (
     <svg
-      width='20'
-      height='20'
-      className='fill-current opacity-20'
+      className='fill-current opacity-20 w-5'
       viewBox='0 0 20 20'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'>
@@ -27,16 +26,18 @@ type Props = {
   color: Color;
 
   // eslint-disable-next-line no-unused-vars
-  onLoad?: (image: Image) => void;
+  onLoad?: (image: Image, loading: boolean) => void;
 };
 
 export const CursorCard: React.FC<Props> = (props) => {
   const { base, outline, watch } = props.color;
+  const { id, name, isAnimated, urls } = props.svg;
 
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   const [delayX, setDelayX] = useState(2);
-  const [index, setIndex] = useState<number>(0);
+  const [index, setIndex] = useState(0);
   const [frames, setFrames] = useState<string[]>([]);
 
   const colors = {
@@ -45,64 +46,84 @@ export const CursorCard: React.FC<Props> = (props) => {
     [mask.watch]: watch || base
   };
 
-  useEffect(() => {
-    setLoading(true);
+  const fetchSvg = async (signal: AbortSignal) => {
     setFrames([]);
+    setLoading(true);
 
-    const fetchSvg = async () => {
-      try {
-        const fms: string[] = [];
-        const urls = props.svg.urls;
-        const isAnimated = props.svg.isAnimated;
-        const step = Math.round(urls.length / DELAYS[delayX].frames);
+    try {
+      const fms: string[] = [];
+      const step = Math.round(urls.length / DELAYS[delayX].frames);
 
-        for (let i = 0; i < urls.length; isAnimated ? (i += step) : i++) {
-          const b64 = await fetchX(urls[i], {
-            init: {
-              next: { revalidate: 360 }
-            },
-            revalidate: 1200,
-            group: 'bibata.svg-cache'
-          }).then((res) => res.text());
-          fms.push(b64);
-        }
-
-        let res = await fetchX(`/api/svg/${props.svg.id}`, {
-          init: {
-            method: 'POST',
-            body: JSON.stringify({ colors, frames: fms }),
-            next: { revalidate: 360 }
-          },
-          revalidate: 120,
-          group: 'bibata.svg-build-cache'
+      for (let i = 0; i < urls.length; isAnimated ? (i += step) : i++) {
+        const res = await fetchX(urls[i], {
+          init: { next: { revalidate: 360 }, signal },
+          revalidate: 1200,
+          group: 'bibata.svg-cache'
         });
-        const json = await res.json();
 
-        if (res.status !== 200) {
-          throw new Error(json['error']);
-        } else {
-          setFrames([...json.data]);
-        }
-      } catch (e) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error(e);
-        } else {
-          console.error(
-            `Unable to procces '${props.svg.name}' Cursor.
-Report Issue here: https://github.com/ful1e5/bibata/issues`
-          );
-        }
+        if (!res || signal.aborted) return;
+
+        const b64 = await res.text();
+        fms.push(b64);
       }
-      setLoading(false);
-    };
 
-    fetchSvg();
+      let res = await fetchX(`/api/svg/${id}`, {
+        init: {
+          method: 'POST',
+          body: JSON.stringify({ colors, frames: fms }),
+          next: { revalidate: 360 }
+        },
+        revalidate: 1200,
+        group: 'bibata.svg-build-cache'
+      });
+
+      if (!res || signal.aborted) return;
+
+      const json = await res.json();
+
+      if (res.status !== 200) {
+        setError(true);
+        throw new Error(json['error']);
+      } else if (json.data.length === 0) {
+        setError(true);
+        throw new Error(
+          `Empty cursor frames while signal is ${signal.aborted}`
+        );
+      } else {
+        setFrames([...json.data]);
+        setLoading(false);
+      }
+    } catch (e) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error(e);
+      } else {
+        console.error(
+          `Unable to procces '${name}' Cursor.
+Report Issue here: https://github.com/ful1e5/bibata/issues`
+        );
+      }
+    }
+  };
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    const { signal } = abortController;
+    const reason = new DOMException(
+      `Cleaning up old fetch requests of '${name}'`,
+      'AbortError'
+    );
+
+    fetchSvg(signal);
+
+    return () => {
+      abortController.abort(reason);
+    };
   }, [props.color, props.svg, delayX]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (props.svg.isAnimated && loading === false) {
+    if (isAnimated && !loading) {
       const intervalId = setInterval(() => {
-        if (index < frames.length - 1) {
+        if (index < DELAYS[delayX].frames - 1) {
           setIndex(index + 1);
         } else {
           setIndex(0);
@@ -114,62 +135,66 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
   }, [props.svg, loading, index, delayX]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (props.onLoad && !loading && frames.length > 0) {
-      props.onLoad({
-        name: props.svg.name,
-        frames,
-        delay: DELAYS[delayX].delay
-      });
+    const frameCount = isAnimated ? DELAYS[delayX].frames : 1;
+    if (props.onLoad) {
+      props.onLoad(
+        { name, frames, delay: DELAYS[delayX].delay },
+        loading || frames.length === 0 || frames.length !== frameCount
+      );
     }
   }, [loading, frames]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <button
-      disabled={!props.svg.isAnimated}
+      disabled={!isAnimated}
       onClick={() => {
-        if (!loading) {
+        if (!loading && frames.length > 0) {
           setDelayX(delayX < Object.keys(DELAYS).length ? delayX + 1 : 1);
         }
       }}>
-      <div className='w-full mb-4 overflow-hidden rounded-2xl sm:rounded-3xl bg-white/[0.05] border-white/[.1] border'>
-        <div
-          title={props.svg.name}
-          className='relative w-full h-20 sm:h-40 bg-white/[.1] mb-4 '>
-          {!loading ? (
-            <div
-              className={`flex flex-col justify-center items-center h-full ${
-                !loading ? 'opacity-100' : 'opacity-0'
-              } transition-opacity duration-500`}>
-              {frames.length > 0 ? (
-                <>
-                  <img
-                    className='h-12 sm:h-28'
-                    hidden={loading}
-                    alt={props.svg.name}
-                    src={frames[index]}
-                  />
-                </>
-              ) : (
-                <span hidden={loading}>
-                  <BrokenImage />
-                </span>
-              )}
+      <div
+        style={{
+          backgroundColor: `color-mix(in srgb, #1e1e1e 95%, ${props.color.base})`
+        }}
+        className='w-full mb-4 overflow-hidden rounded-2xl sm:rounded-3xl border-white/[.1] border'>
+        <div title={name} className='relative w-full h-24 sm:h-40'>
+          {(loading || frames.length === 0) && (
+            <div className='flex justify-center items-center w-full h-full animate-pulse bg-white/[.2]'>
+              <ProcessingSVG />
             </div>
-          ) : (
-            <div className='w-full h-full animate-pulse bg-white/[.2]' />
           )}
 
-          {props.svg.isAnimated && (
+          <div
+            className={`flex flex-col justify-center items-center h-full ${
+              !loading ? 'scale-100' : 'scale-0'
+            } transition-all duration-500`}>
+            {!loading && !error && frames.length > 0 ? (
+              <img
+                className='h-14 sm:h-28'
+                hidden={loading}
+                alt={name}
+                src={frames[index]}
+              />
+            ) : (
+              <BrokenImage />
+            )}
+          </div>
+
+          {isAnimated && (
             <div className='absolute right-2 top-2'>
-              <div className='bg-blue-500 p-1 px-2 font-black rounded-xl text-sm'>
+              <div
+                className='p-1 sm:px-2 sm:py-1 font-black rounded-xl text-[6px] sm:text-sm'
+                style={{
+                  backgroundColor: `color-mix(in srgb, #000000 70%, ${props.color.base})`
+                }}>
                 {`${delayX}x`}
               </div>
             </div>
           )}
         </div>
 
-        <div className='text-center text-[6px] sm:text-sm'>
-          <p className='mb-2'>{props.svg.name}</p>
+        <div className='text-center text-[8px] sm:text-sm'>
+          <p className='py-3'>{name}</p>
         </div>
       </div>
     </button>

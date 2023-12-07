@@ -1,10 +1,5 @@
 'use client';
 
-export type ErrorLogs = {
-  text: string;
-  [k: string]: any;
-};
-
 import React from 'react';
 import Link from 'next/link';
 
@@ -13,6 +8,8 @@ import { bugReportTemplate } from '@utils/bug-report';
 import { ErrorSVG } from '@components/svgs';
 
 import { BUG_REPORT_ENDPOINT } from '@root/configs';
+
+import { ErrorLogs } from 'bibata/app';
 
 type Props = {
   logs: ErrorLogs;

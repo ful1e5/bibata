@@ -22,7 +22,7 @@ export const DownloadCount: React.FC<Props> = (props) => {
     try {
       return getDownloadCounts(props.token);
     } catch {
-      return { total: 0, count: 0 };
+      return { total: 0, count: 0, role: 'ANONYMOUS' };
     }
   };
 
@@ -40,23 +40,28 @@ export const DownloadCount: React.FC<Props> = (props) => {
     }
   }, [data]);
 
-  if (isLoading)
-    return <div className='h-1 w-full bg-purple-500/[.5] animate-pulse' />;
+  if (isLoading) {
+    return (
+      <div className='py-3 animate-pulse flex justify-center items-center '>
+        <div className='h-5 w-28 bg-white/[.2] rounded-lg' />
+      </div>
+    );
+  }
 
   if (!data) return <></>;
 
   return (
     <>
-      {props.show && (data!.total || data.total === 0) && (
+      {props.show && (
         <div className='flex flex-row py-1 mt-1 justify-center items-center gap-1'>
           <p
             className={`${
               noDownloads ? 'text-red-100/[.8]' : 'text-green-100/[.8]'
             } font-extrabold text-center text-md p-1`}>
-            {`${data.count}/${data.total}`}
+            {`${data.count}`}/{data.role === 'PRO' ? <> &#8734;</> : data.total}
           </p>
           <Tooltip
-            content={
+            tooltip={
               noDownloads
                 ? `Help @ful1e5 to reach his monthly GitHub Sponsorship goal for unlimited downloads.
                    Download Counts = ${DB_SEEDS.DOWNLOAD_MULTIPLIER} x (Monthly Sponsorship in Cents)`

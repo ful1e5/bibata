@@ -43,6 +43,7 @@ declare module 'bibata/misc' {
   type DownloadCounts = {
     total: number | null;
     count: number;
+    role: Role;
   };
 
   type JWTToken = {

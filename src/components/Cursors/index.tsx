@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import useSWR from 'swr';
 
 import { CursorCard as Card } from './card';
@@ -21,14 +21,16 @@ type Props = {
   version: string;
   color: Color;
 
-  onLoad?: (image: Image) => void; // eslint-disable-line no-unused-vars
+  onLoad?: (image: Image, loading: boolean) => void; // eslint-disable-line no-unused-vars
   onData?: (svgs: SVG[]) => void; // eslint-disable-line no-unused-vars
 };
 
-export const Cursors: React.FC<Props> = (props) => {
+const Cursors: React.FC<Props> = memo((props) => {
   const fetcher = async (url: string) => {
     const res = await fetch(url, { next: { revalidate: 360 } });
-    return (await res.json()) as Response;
+    if (res) {
+      return (await res.json()) as Response;
+    }
   };
 
   const { data: res, isLoading } = useSWR(
@@ -68,4 +70,7 @@ export const Cursors: React.FC<Props> = (props) => {
       </div>
     </div>
   );
-};
+});
+
+Cursors.displayName = 'Cursor';
+export { Cursors };
