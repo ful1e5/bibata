@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (!version || !VERSIONS.includes(version)) {
       return NextResponse.json(
         {
-          error: `Invalid Request. The version:'${version}' parameter is invalid`
+          error: `Sorry, unable to retrieve the v${version} Cursor Bitmaps. Please try again later.`
         },
         { status: 400 }
       );

@@ -61,7 +61,7 @@ export const CursorCard: React.FC<Props> = (props) => {
           group: 'bibata.svg-cache'
         });
 
-        if (!res) return;
+        if (!res || signal.aborted) return;
 
         const b64 = await res.text();
         fms.push(b64);

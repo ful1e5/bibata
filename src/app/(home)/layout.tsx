@@ -10,9 +10,9 @@ export const metadata: Metadata = {
   title: 'Bibata',
   description: "The place where Bibata's cursor gets personalized.",
   icons: {
-    icon: ['favicon/favicon.ico?v=4'],
-    apple: ['favicon/apple-touch-icon.png?v=4'],
-    shortcut: ['favicon/apple-touch-icon.png']
+    icon: ['favicon/favicon.ico?v=2'],
+    apple: ['favicon/apple-touch-icon.png?v=2'],
+    shortcut: ['favicon/apple-touch-icon.png?v=2']
   },
   manifest: '/favicon/site.webmanifest'
 };

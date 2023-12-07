@@ -7,10 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
-### Improvements:
+### What's New?
 
 -   Added Download counts for 'PRO' Users
 -   Background Blur for modal and Navigation bar
+
+### Cursors Package Update:
+
+-   Sharp angle corner & resize cursors for 'Bibata Original' (related to Bibata_Cursor#146)
 
 ### Fixes
 
