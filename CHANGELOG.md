@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [v1.0.0-alpha.1] - 07 December 2023
+
 ### What's New?
 
 -   Added Download counts for 'PRO' Users
@@ -27,5 +29,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Initial public release 🎊
 
-[unreleased]: https://github.com/ful1e5/bibata/compare/v1.0.0-alpha.0...main
+[unreleased]: https://github.com/ful1e5/bibata/compare/v1.0.0-alpha.1...main
+[v1.0.0-alpha.1]: https://github.com/ful1e5/bibata/compare/v1.0.0-alpha.0...v1.0.0-alpha.1
 [v1.0.0-alpha.0]: https://github.com/ful1e5/bibata/tree/v1.0.0-alpha.0
