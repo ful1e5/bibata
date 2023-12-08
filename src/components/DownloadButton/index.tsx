@@ -12,6 +12,7 @@ import { DownloadError } from './error';
 import { LockSVG, ProcessingSVG } from '@components/svgs';
 
 import { Platform, Type } from '@prisma/client';
+import { AddDownloadData } from '@services/download';
 import { Color, Image, ErrorLogs } from 'bibata/app';
 import { AuthToken } from 'bibata/core-api/types';
 import { DownloadFile } from 'bibata/core-api/responses';
@@ -128,8 +129,8 @@ export const DownloadButton: React.FC<Props> = (props) => {
           type: type as Type,
           baseColor: color.base,
           outlineColor: color.outline,
-          watchBGColor: color.watch || color.base
-        })
+          watchBGColor: color.watch?.bg || color.base
+        } as AddDownloadData['data'])
       });
     } catch (e) {
       updateErrorLogs({

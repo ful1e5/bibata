@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### What's New?
+
+-   Monochrome colored wedge animation Mode in Customize button
+
 ## [v1.0.0-alpha.1] - 07 December 2023
 
 ### What's New?

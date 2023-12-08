@@ -8,7 +8,7 @@ type Props = {};
 export const RefreshSVG: React.FC<Props> = (_props) => {
   return (
     <svg
-      className='fill-current w-6'
+      className='fill-current w-4 sm:w-6'
       fill='none'
       viewBox='0 0 100 100'
       xmlns='http://www.w3.org/2000/svg'>

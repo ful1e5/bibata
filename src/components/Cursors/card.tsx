@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { DELAYS, COLORS_MASK as mask } from '@root/configs';
+import { DELAYS, WATCH_COLORS, COLORS_MASK as mask } from '@root/configs';
 
 import { fetchX } from '@utils/fetchX';
 
@@ -43,7 +43,11 @@ export const CursorCard: React.FC<Props> = (props) => {
   const colors = {
     [mask.base]: base,
     [mask.outline]: outline,
-    [mask.watch]: watch || base
+    [mask.watch?.bg!]: watch?.bg || base,
+    [mask.watch?.c1!]: watch?.c1 || WATCH_COLORS.c1,
+    [mask.watch?.c2!]: watch?.c2 || WATCH_COLORS.c2,
+    [mask.watch?.c3!]: watch?.c3 || WATCH_COLORS.c3,
+    [mask.watch?.c4!]: watch?.c4 || WATCH_COLORS.c4
   };
 
   const fetchSvg = async (signal: AbortSignal) => {

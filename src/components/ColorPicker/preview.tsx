@@ -5,7 +5,13 @@ import React from 'react';
 type Props = {
   base: string;
   outline: string;
-  watch?: string;
+  watch: {
+    bg: string;
+    c1: string;
+    c2: string;
+    c3: string;
+    c4: string;
+  };
 };
 
 export const CursorPreview: React.FC<Props> = (props) => {
@@ -26,7 +32,7 @@ export const CursorPreview: React.FC<Props> = (props) => {
         cx='118'
         cy='162'
         r='70.5'
-        fill={props.watch || props.base}
+        fill={props.watch.bg}
         stroke={props.outline}
         strokeWidth='17'
       />
@@ -44,7 +50,7 @@ export const CursorPreview: React.FC<Props> = (props) => {
               />
               <path
                 fillOpacity='0.8'
-                fill='#f05125'
+                fill={props.watch.c3}
                 d='M50 50L50 0A50 50 0 0 1 100 50Z'
               />
             </g>
@@ -59,7 +65,7 @@ export const CursorPreview: React.FC<Props> = (props) => {
               />
               <path
                 fillOpacity='0.8'
-                fill='#fdb813'
+                fill={props.watch.c4}
                 d='M50 50L50 0A50 50 0 0 1 100 50Z'
                 transform='rotate(90 50 50)'
               />
@@ -75,7 +81,7 @@ export const CursorPreview: React.FC<Props> = (props) => {
               />
               <path
                 fillOpacity='0.8'
-                fill='#7fbb42'
+                fill={props.watch.c2}
                 d='M50 50L50 0A50 50 0 0 1 100 50Z'
                 transform='rotate(180 50 50)'
               />
@@ -91,7 +97,7 @@ export const CursorPreview: React.FC<Props> = (props) => {
               />
               <path
                 fillOpacity='0.8'
-                fill='#32a0da'
+                fill={props.watch.c1}
                 d='M50 50L50 0A50 50 0 0 1 100 50Z'
                 transform='rotate(270 50 50)'
               />

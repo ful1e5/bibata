@@ -8,7 +8,7 @@ type Props = {};
 export const CloseSVG: React.FC<Props> = (_props) => {
   return (
     <svg
-      className='fill-current w-4'
+      className='fill-current w-2 sm:w-4'
       viewBox='0 0 100 100'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'>
