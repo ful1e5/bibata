@@ -153,40 +153,36 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
           className='z-20 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black backdrop-filter backdrop-blur-xl firefox:bg-opacity-80 bg-opacity-80'>
           <div className='w-full md:w-1/2 xl:w-1/3 max-h-full overflow-y-auto p-4 m-4 rounded-3xl shadow-lg bg-black ring-1 ring-white/[.06]'>
             <div className='flex justify-between text-xs'>
-              <div className='flex gap-2 text-xs'>
-                <button
-                  className='p-1 sm:p-2 bg-white/[.1] text-white rounded-lg sm:rounded-2xl hover:bg-green-400 active:bg-green-200 hover:text-black'
-                  onClick={refreshColors}>
-                  <RefreshSVG />
-                </button>
-
-                <button
-                  className={`p-1 sm:p-2 w-10 sm:w-20 rounded-lg sm:rounded-2xl text-xs sm:text-lg font-black ${
-                    monochromeMode
-                      ? 'bg-white text-black'
-                      : 'bg-gradient-to-br from-blue-500 via-voilet-500 to-pink-500 text-white'
-                  }`}
-                  onClick={() => setMonochromeMode((b) => !b)}>
-                  {monochromeMode ? '1' : <>&infin;</>}
-                </button>
-              </div>
               <button
-                className='p-2 sm:p-3 bg-white/[.1] text-white rounded-lg sm:rounded-2xl font-bold hover:bg-white hover:text-black'
+                className='p-2 bg-white/[.1] text-white rounded-lg sm:rounded-2xl hover:bg-green-400 active:bg-green-200 hover:text-black'
+                onClick={refreshColors}>
+                <RefreshSVG />
+              </button>
+
+              <button
+                className={`py-2 px-5 rounded-lg sm:rounded-2xl text-xs sm:text-lg font-bold ${
+                  monochromeMode
+                    ? 'bg-white hover:bg-white/[.7] text-black'
+                    : 'bg-white/[.2] hover:bg-white/[.6] hover:text-black'
+                }`}
+                onClick={() => setMonochromeMode((b) => !b)}>
+                {monochromeMode ? 'Mono' : 'Default'}
+              </button>
+
+              <button
+                className='p-3 bg-white/[.1] text-white rounded-xl font-bold hover:bg-white hover:text-black'
                 onClick={props.onClose}>
                 <CloseSVG />
               </button>
             </div>
-            <div className='h-48 sm:h-96 md:h-72 mt-2'>
+            <div className='mt-5 p-5 h-48 sm:h-96 md:h-72'>
               <CursorPreview
                 base={baseColor}
                 outline={outlineColor}
                 watch={watchColor}
               />
             </div>
-            <div
-              className={`mt-8 grid gap-10 ${
-                monochromeMode ? 'grid-cols-3' : 'grid-cols-2 sm:grid-cols-3'
-              }`}>
+            <div className='mt-3 grid grid-cols-3 gap-10'>
               <ColorWheelCard
                 title='Base'
                 value={baseColor}
@@ -273,6 +269,8 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
                     />
                   </ColorWheelCard>
 
+                  <span />
+
                   <ColorWheelCard
                     title='Watch Color 4'
                     value={watchColor4}
@@ -286,9 +284,12 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
                       }}
                     />
                   </ColorWheelCard>
+
+                  <span />
                 </>
               )}
             </div>
+
             <div className='mt-11 flex justify-center'>
               <button
                 className='w-36 py-3 bg-green-600 text-white font-bold rounded-2xl text-sm sm:text-md hover:bg-green-500'

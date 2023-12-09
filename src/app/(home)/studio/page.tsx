@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
+import tinycolor from 'tinycolor2';
 
 import { TYPES, COLORS, SIZES } from '@root/configs';
 import { LIB_VERSION } from '@root/version';
@@ -22,6 +23,7 @@ export default function StudioPage() {
 
   const [colorName, setColorName] = useState('Amber');
   const [color, setColor] = useState(COLORS[colorName]);
+  const bg = tinycolor.mix(color.base, '#0f0f0f', 98);
 
   // TODO: access version with page parameter `v`
   // example: bibata/studio?v=1.0.0-alpha
@@ -54,72 +56,79 @@ export default function StudioPage() {
   }, [status, update]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <main className='container m-auto p-7'>
-      <TypePicker
-        list={TYPES}
-        value={type}
-        onClick={(v) => {
-          resetImages();
-          setType(v);
-          refreshToken();
-        }}
-      />
-
-      <div className='mt-5'>
-        <SizePicker
-          list={SIZES}
-          values={cursorSize}
-          onClick={(s) => {
-            setCursorSize(s);
-            refreshToken();
-          }}
-        />
-      </div>
-
-      <div className='mt-10'>
-        <ColorPicker
-          colorName={colorName}
-          colors={COLORS}
-          onClick={(n, c) => {
+    <main
+      style={{
+        background: `radial-gradient(circle, ${bg.toHexString()} 10%, ${bg
+          .lighten(2)
+          .toHexString()})`
+      }}>
+      <div className='container m-auto p-7'>
+        <TypePicker
+          list={TYPES}
+          value={type}
+          onClick={(v) => {
             resetImages();
-            setColorName(n);
-            setColor(c);
+            setType(v);
             refreshToken();
           }}
         />
-      </div>
 
-      <div className='my-10'>
-        <DownloadButton
-          auth={token}
+        <div className='mt-5'>
+          <SizePicker
+            list={SIZES}
+            values={cursorSize}
+            onClick={(s) => {
+              setCursorSize(s);
+              refreshToken();
+            }}
+          />
+        </div>
+
+        <div className='mt-10'>
+          <ColorPicker
+            colorName={colorName}
+            colors={COLORS}
+            onClick={(n, c) => {
+              resetImages();
+              setColorName(n);
+              setColor(c);
+              refreshToken();
+            }}
+          />
+        </div>
+
+        <div className='my-10'>
+          <DownloadButton
+            auth={token}
+            version={version}
+            disabled={images.length === 0}
+            lock={imagesCount === 0 || imagesCount !== images.length}
+            config={{
+              size: cursorSize,
+              color,
+              images,
+              type
+            }}
+          />
+        </div>
+
+        <Cursors
+          type={type}
           version={version}
-          disabled={images.length === 0}
-          lock={imagesCount === 0 || imagesCount !== images.length}
-          config={{
-            size: cursorSize,
-            color,
-            images,
-            type
+          color={color}
+          onData={(svgs) => setImagesCount(svgs.length)}
+          onLoad={(i, loading) => {
+            const l = images;
+            const index = l.findIndex((e) => e.name === i.name);
+            if (index >= 0) {
+              loading ? l.splice(index, 1) : (l[index] = i);
+            } else if (!loading) {
+              l.push(i);
+            }
+            setImages([...l]);
           }}
         />
       </div>
-
-      <Cursors
-        type={type}
-        version={version}
-        color={color}
-        onData={(svgs) => setImagesCount(svgs.length)}
-        onLoad={(i, loading) => {
-          const l = images;
-          const index = l.findIndex((e) => e.name === i.name);
-          if (index >= 0) {
-            loading ? l.splice(index, 1) : (l[index] = i);
-          } else if (!loading) {
-            l.push(i);
-          }
-          setImages([...l]);
-        }}
-      />
     </main>
   );
 }

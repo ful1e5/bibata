@@ -50,6 +50,7 @@ declare module 'bibata/misc' {
     total: number | null;
     count: number;
     role: Role;
+    error: any;
   };
 
   type JWTToken = {

@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
       }
     } catch (e) {
       console.error(e);
-      return NextResponse.json({ total: 0, count: 0 });
+      return NextResponse.json({ total: 0, count: 0, error: e });
     }
   } else {
     return res.invalid_method;

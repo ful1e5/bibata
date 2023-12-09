@@ -150,9 +150,15 @@ export const DownloadButton: React.FC<Props> = (props) => {
 
     const api = new CoreApi();
     await api.refreshSession(token);
-    const { count, total } = await getDownloadCounts(token);
+    const { count, total, role, error } = await getDownloadCounts(token);
     if ((total && count >= total) || (count === 0 && total === 0)) {
-      setErrorLogs({ text: 'Download Limit Exceeded.' });
+      setErrorLogs({
+        text: 'Download Limit Exceeded.',
+        count,
+        total,
+        role,
+        error
+      });
       setLock(false);
     } else {
       const n = `${name}${role === 'PRO' ? '-Pro' : ''}`;
