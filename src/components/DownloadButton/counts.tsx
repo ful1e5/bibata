@@ -22,7 +22,7 @@ export const DownloadCount: React.FC<Props> = (props) => {
     try {
       return getDownloadCounts(props.token);
     } catch {
-      return { total: 0, count: 0, role: 'ANONYMOUS' };
+      return { total: 0, count: 0, role: 'ANONYMOUS', error: null };
     }
   };
 
