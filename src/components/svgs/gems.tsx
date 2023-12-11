@@ -11,7 +11,7 @@ export const GemsSVG: React.FC<Props> = (props) => {
   if (props.gems === 'Amber') {
     return (
       <svg
-        className='fill-current h-7 sm:h-16'
+        className='fill-current h-10 md:h-16'
         viewBox='0 0 500 500'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'>
@@ -86,7 +86,7 @@ export const GemsSVG: React.FC<Props> = (props) => {
   } else if (props.gems === 'Ice') {
     return (
       <svg
-        className='fill-current h-7 sm:h-16'
+        className='fill-current h-10 md:h-16'
         viewBox='0 0 500 500'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'>
@@ -169,7 +169,7 @@ export const GemsSVG: React.FC<Props> = (props) => {
   } else if (props.gems === 'Classic') {
     return (
       <svg
-        className='fill-current h-7 sm:h-16'
+        className='fill-current h-10 md:h-16'
         viewBox='0 0 500 500'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'>
@@ -250,7 +250,7 @@ export const GemsSVG: React.FC<Props> = (props) => {
   } else {
     return (
       <svg
-        className='fill-current h-7 sm:h-16'
+        className='fill-current h-10 md:h-16'
         viewBox='0 0 500 500'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'>
