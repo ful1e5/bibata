@@ -69,8 +69,8 @@ export const DownloadSponsor: React.FC<Props> = (props) => {
                     src={sponsor.avatarUrl}
                     alt={login}
                   />
+                  <div className='w-full h-full animate-pulse bg-white/[.4]'></div>
                 </Link>
-                <div className='w-full h-full animate-pulse bg-white/[.4]'></div>
               </div>
 
               <div className='flex flex-col justify-center items-center gap-1 px-2'>

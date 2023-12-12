@@ -11,11 +11,11 @@ export const GemsSVG: React.FC<Props> = (props) => {
   if (props.gems === 'Amber') {
     return (
       <svg
-        className='fill-current h-10 md:h-16'
+        className='fill-current h-8 md:h-16'
         viewBox='0 0 500 500'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'>
-        <g filter='url(#filter0_d_137_31)'>
+        <g>
           <path
             d='M462.058 211.823L387.969 439.868C386.7 443.787 384.229 447.067 381.051 449.367C377.881 451.676 373.988 453.005 369.873 453.005H130.105C125.99 453.005 122.096 451.676 118.927 449.367C115.749 447.058 113.295 443.787 112.017 439.868L37.9109 211.764C36.6585 207.862 36.7266 203.789 37.9365 200.074C39.1378 196.343 41.5063 192.977 44.8376 190.566L238.828 49.621C242.168 47.2098 246.078 46 249.997 46C253.917 46 257.836 47.2098 261.167 49.621L455.157 190.566C458.497 192.994 460.857 196.343 462.067 200.074C463.277 203.806 463.345 207.904 462.067 211.823H462.058Z'
             fill='#F4B573'
@@ -45,52 +45,16 @@ export const GemsSVG: React.FC<Props> = (props) => {
             fill='#FFEFDE'
           />
         </g>
-        <defs>
-          <filter
-            id='filter0_d_137_31'
-            x='17'
-            y='36'
-            width='466'
-            height='447.014'
-            filterUnits='userSpaceOnUse'
-            colorInterpolationFilters='sRGB'>
-            <feFlood floodOpacity='0' result='BackgroundImageFix' />
-            <feColorMatrix
-              in='SourceAlpha'
-              type='matrix'
-              values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
-              result='hardAlpha'
-            />
-            <feOffset dy='10' />
-            <feGaussianBlur stdDeviation='10' />
-            <feComposite in2='hardAlpha' operator='out' />
-            <feColorMatrix
-              type='matrix'
-              values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.6 0'
-            />
-            <feBlend
-              mode='normal'
-              in2='BackgroundImageFix'
-              result='effect1_dropShadow_137_31'
-            />
-            <feBlend
-              mode='normal'
-              in='SourceGraphic'
-              in2='effect1_dropShadow_137_31'
-              result='shape'
-            />
-          </filter>
-        </defs>
       </svg>
     );
   } else if (props.gems === 'Ice') {
     return (
       <svg
-        className='fill-current h-10 md:h-16'
+        className='fill-current h-8 md:h-16'
         viewBox='0 0 500 500'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'>
-        <g filter='url(#filter0_d_137_19)'>
+        <g>
           <path
             d='M462.991 138.65V361.35C462.991 366.223 462.037 371.003 460.231 375.433C458.374 380.017 455.605 384.226 452.035 387.795L387.778 452.052C384.217 455.613 380.008 458.382 375.425 460.24C370.986 462.046 366.215 463 361.341 463H138.65C133.777 463 128.997 462.046 124.567 460.24C120.119 458.45 116.038 455.784 112.545 452.384L112.205 452.052L80.0763 419.924L47.6327 387.472C44.2163 383.979 41.5666 379.881 39.7689 375.442C37.9542 370.994 37 366.223 37 361.341V138.65C37 133.768 37.9542 128.989 39.7604 124.567C41.6177 119.983 44.3867 115.774 47.948 112.213L112.205 47.9565C115.774 44.3867 119.983 41.6177 124.567 39.7604C129.006 37.9542 133.777 37 138.65 37H361.35C366.223 37 371.003 37.9542 375.433 39.7604C380.017 41.6263 384.226 44.3952 387.787 47.9565L452.043 112.213C455.605 115.774 458.374 119.983 460.24 124.567C462.046 128.997 463 133.777 463 138.65H462.991Z'
             fill='#AFBFFF'
@@ -128,53 +92,17 @@ export const GemsSVG: React.FC<Props> = (props) => {
             fill='#F2F2F2'
           />
         </g>
-        <defs>
-          <filter
-            id='filter0_d_137_19'
-            x='17'
-            y='27'
-            width='466'
-            height='466'
-            filterUnits='userSpaceOnUse'
-            colorInterpolationFilters='sRGB'>
-            <feFlood floodOpacity='0' result='BackgroundImageFix' />
-            <feColorMatrix
-              in='SourceAlpha'
-              type='matrix'
-              values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
-              result='hardAlpha'
-            />
-            <feOffset dy='10' />
-            <feGaussianBlur stdDeviation='10' />
-            <feComposite in2='hardAlpha' operator='out' />
-            <feColorMatrix
-              type='matrix'
-              values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.6 0'
-            />
-            <feBlend
-              mode='normal'
-              in2='BackgroundImageFix'
-              result='effect1_dropShadow_137_19'
-            />
-            <feBlend
-              mode='normal'
-              in='SourceGraphic'
-              in2='effect1_dropShadow_137_19'
-              result='shape'
-            />
-          </filter>
-        </defs>
       </svg>
     );
   } else if (props.gems === 'Classic') {
     return (
       <svg
-        className='fill-current h-10 md:h-16'
+        className='fill-current h-8 md:h-16'
         viewBox='0 0 500 500'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'>
         <g clipPath='url(#clip0_137_42)'>
-          <g filter='url(#filter0_d_137_42)'>
+          <g>
             <path
               d='M463 249.726C463 253.201 461.816 256.658 459.43 259.48L261.117 481.599C258.788 484.127 255.805 485.671 252.68 486.229C250.909 486.551 249.091 486.551 247.32 486.229C244.129 485.661 241.08 484.061 238.731 481.428L40.8447 259.802C38.2784 256.932 37 253.334 37 249.726C37 246.118 38.2879 242.529 40.8447 239.66L238.731 18.0426C241.08 15.41 244.119 13.8097 247.32 13.2415C249.091 12.9195 250.909 12.9195 252.68 13.2415C255.814 13.8002 258.797 15.3343 261.127 17.8816L459.24 239.764C461.74 242.624 463 246.184 463 249.735V249.726Z'
               fill='#BAB8BC'
@@ -207,40 +135,6 @@ export const GemsSVG: React.FC<Props> = (props) => {
           </g>
         </g>
         <defs>
-          <filter
-            id='filter0_d_137_42'
-            x='17'
-            y='3'
-            width='466'
-            height='513.471'
-            filterUnits='userSpaceOnUse'
-            colorInterpolationFilters='sRGB'>
-            <feFlood floodOpacity='0' result='BackgroundImageFix' />
-            <feColorMatrix
-              in='SourceAlpha'
-              type='matrix'
-              values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
-              result='hardAlpha'
-            />
-            <feOffset dy='10' />
-            <feGaussianBlur stdDeviation='10' />
-            <feComposite in2='hardAlpha' operator='out' />
-            <feColorMatrix
-              type='matrix'
-              values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.6 0'
-            />
-            <feBlend
-              mode='normal'
-              in2='BackgroundImageFix'
-              result='effect1_dropShadow_137_42'
-            />
-            <feBlend
-              mode='normal'
-              in='SourceGraphic'
-              in2='effect1_dropShadow_137_42'
-              result='shape'
-            />
-          </filter>
           <clipPath id='clip0_137_42'>
             <rect width='500' height='500' fill='white' />
           </clipPath>
@@ -250,11 +144,11 @@ export const GemsSVG: React.FC<Props> = (props) => {
   } else {
     return (
       <svg
-        className='fill-current h-10 md:h-16'
+        className='fill-current h-8 md:h-16'
         viewBox='0 0 500 500'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'>
-        <g filter='url(#filter0_d_137_161)'>
+        <g>
           <path
             d='M360.537 359.208L139.471 359.208L250 185.896L289.865 248.398L300.881 265.677L307.356 275.815L346.692 337.499L360.537 359.208Z'
             fill='url(#paint0_linear_137_161)'
@@ -283,40 +177,6 @@ export const GemsSVG: React.FC<Props> = (props) => {
           />
         </g>
         <defs>
-          <filter
-            id='filter0_d_137_161'
-            x='17.0044'
-            y='69.8491'
-            width='465.996'
-            height='380.302'
-            filterUnits='userSpaceOnUse'
-            colorInterpolationFilters='sRGB'>
-            <feFlood floodOpacity='0' result='BackgroundImageFix' />
-            <feColorMatrix
-              in='SourceAlpha'
-              type='matrix'
-              values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
-              result='hardAlpha'
-            />
-            <feOffset dy='10' />
-            <feGaussianBlur stdDeviation='10' />
-            <feComposite in2='hardAlpha' operator='out' />
-            <feColorMatrix
-              type='matrix'
-              values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.6 0'
-            />
-            <feBlend
-              mode='normal'
-              in2='BackgroundImageFix'
-              result='effect1_dropShadow_137_161'
-            />
-            <feBlend
-              mode='normal'
-              in='SourceGraphic'
-              in2='effect1_dropShadow_137_161'
-              result='shape'
-            />
-          </filter>
           <linearGradient
             id='paint0_linear_137_161'
             x1='250'

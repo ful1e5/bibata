@@ -49,8 +49,8 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
       disabled={selected && disabled}
       onClick={props.onClick}>
       <div
-        className={`w-full h-24 md:h-32 flex justify-center items-center ${
-          selected ? 'rounded-lg sm:rounded-xl' : 'rounded-2xl sm:rounded-3xl'
+        className={`w-full h-24 md:h-32 flex justify-center items-center sm:my-2 rounded-xl sm:rounded-3xl ring-1 ${
+          selected ? 'ring-transparent' : 'ring-white/[.3]'
         }`}
         style={
           color
@@ -58,15 +58,34 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
                 color: color.outline,
                 backgroundColor: color.base
               }
-            : {
-                color: 'transparent',
-                backgroundBlendMode: 'screen',
-                background: wheel
-              }
+            : selected
+              ? {}
+              : {
+                  color: 'transparent',
+                  backgroundBlendMode: 'screen',
+                  background: wheel
+                }
         }>
-        <GemsSVG gems={name} />
+        <span
+          className='overflow-hidden p-3 md:p-6 rounded-full'
+          style={
+            selected
+              ? color
+                ? {
+                    color: color?.base,
+                    backgroundColor: color?.outline
+                  }
+                : {
+                    color: 'transparent',
+                    backgroundBlendMode: 'screen',
+                    background: wheel
+                  }
+              : {}
+          }>
+          <GemsSVG gems={name} />
+        </span>
       </div>
-      <div className='mt-2 mb-3 text-center text-xs sm:text-sm'>{name}</div>
+      <div className='mt-1 mb-3 text-center text-xs sm:text-sm'>{name}</div>
     </button>
   );
 };
@@ -85,7 +104,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = (props) => {
   return (
     <>
       <div className='flex items-center justify-center'>
-        <div className='w-full md:w-2/3 lg:w-1/2 sm:mx-32 grid grid-cols-2 sm:grid-cols-4 gap-x-3 gap-y-6 sm:gap-7'>
+        <div className='w-full md:w-2/3 lg:w-1/2 sm:mx-32 grid grid-cols-4 gap-1 sm:gap-7'>
           {Object.entries(props.colors).map(([name, color], i) => (
             <ColorPickerButton
               key={i}

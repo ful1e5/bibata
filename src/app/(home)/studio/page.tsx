@@ -62,7 +62,7 @@ export default function StudioPage() {
           .lighten(2)
           .toHexString()})`
       }}>
-      <div className='container m-auto p-7'>
+      <div className='container m-auto px-3 py-6'>
         <TypePicker
           list={TYPES}
           value={type}
@@ -73,7 +73,7 @@ export default function StudioPage() {
           }}
         />
 
-        <div className='mt-5'>
+        <div className='my-10'>
           <SizePicker
             list={SIZES}
             values={cursorSize}
@@ -97,7 +97,7 @@ export default function StudioPage() {
           />
         </div>
 
-        <div className='my-10'>
+        <div className='mt-7 mb-12'>
           <DownloadButton
             auth={token}
             version={version}
