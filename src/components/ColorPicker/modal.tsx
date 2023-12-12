@@ -143,7 +143,7 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
 
   useEffect(() => {
     monoWedgeColors();
-  }, [monochromeMode]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [monochromeMode, baseColor]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

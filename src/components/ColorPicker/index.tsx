@@ -66,7 +66,7 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
         }>
         <GemsSVG gems={name} />
       </div>
-      <div className='mt-0 sm:mt-3 text-center text-xs sm:text-sm'>{name}</div>
+      <div className='mt-2 mb-3 text-center text-xs sm:text-sm'>{name}</div>
     </button>
   );
 };
@@ -85,7 +85,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = (props) => {
   return (
     <>
       <div className='flex items-center justify-center'>
-        <div className='w-full md:w-2/3 lg:w-1/2 sm:mx-32 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-7'>
+        <div className='w-full md:w-2/3 lg:w-1/2 sm:mx-32 grid grid-cols-2 sm:grid-cols-4 gap-x-3 gap-y-6 sm:gap-7'>
           {Object.entries(props.colors).map(([name, color], i) => (
             <ColorPickerButton
               key={i}
