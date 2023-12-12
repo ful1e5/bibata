@@ -32,7 +32,7 @@ Upon achieving my monthly sponsorship goal, the public download limit is lifted.
 
 -   **Pro:** Unlimited Downloads
 -   **Fresh SignIn:** 20 Free Downloads
--   **Public Downloads:** Determined by (monthly sponsorship in cents x 10)
+-   **Public Downloads:** Determined by (monthly sponsorship in cents x 3)
 
 ## How to Upgrade to a "Pro" Account?
 
@@ -40,11 +40,11 @@ To access the benefits of a "Pro" account, initiate sponsorship for [ful1e5](htt
 
 ## TODO:
 
+-   [ ] Landing page
 -   [ ] Custom size component
 -   [ ] Report issues with error stack when errors are generated while crafting cursor images
 -   [ ] Download as PNGs.
 -   [ ] Define Tailwind rules.
--   [ ] Landing page
 -   [ ] Admin Page
 -   [ ] Docs
 -   [ ] Write tests

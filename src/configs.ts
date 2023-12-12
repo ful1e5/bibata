@@ -40,6 +40,6 @@ export const DELAYS: Delays = {
 
 export const DB_SEEDS = {
   FRESH_SIGNUP_DOWNLOADS: 20,
-  DOWNLOAD_MULTIPLIER: 10,
-  DOWNLOADS_PER_CENTS: (cents: number) => cents * DB_SEEDS.DOWNLOAD_MULTIPLIER // 1000 public Downloads per dollar
+  DOWNLOAD_MULTIPLIER: 3,
+  DOWNLOADS_PER_CENTS: (cents: number) => cents * DB_SEEDS.DOWNLOAD_MULTIPLIER // 300 public Downloads per dollar
 };
