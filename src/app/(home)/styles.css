@@ -1,0 +1,22 @@
+.heading-0 {
+  @apply text-[70px] sm:text-[150px] text-center font-black tracking-tighter leading-none uppercase;
+}
+.heading-1 {
+  @apply text-[18px] sm:text-6xl text-center font-black tracking-tighter uppercase;
+}
+
+.sub-heading {
+  @apply text-[9px] sm:text-sm uppercase text-center text-white/[.7] font-semibold w-3/4 lg:w-1/2;
+}
+
+.heading-button {
+  @apply flex gap-2 px-14 py-6 rounded-full uppercase;
+}
+
+.selected-button {
+  @apply bg-white font-black hover:bg-[#d7f47e];
+}
+
+.outlined-button {
+  @apply text-white/[.6] hover:text-[#d7f47e] ring-1 ring-white/[.6] hover:ring-[#d7f47e] font-bold;
+}

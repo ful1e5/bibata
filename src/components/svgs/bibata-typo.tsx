@@ -5,7 +5,7 @@ import React from 'react';
 type Props = {};
 
 // eslint-disable-next-line no-unused-vars
-export const BibataLogo: React.FC<Props> = (_props) => {
+export const BibataTypoLogo: React.FC<Props> = (_props) => {
   return (
     <svg
       className='fill-current h-12 sm:h-16'

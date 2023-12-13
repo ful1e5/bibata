@@ -23,7 +23,9 @@ export default function StudioPage() {
 
   const [colorName, setColorName] = useState('Amber');
   const [color, setColor] = useState(COLORS[colorName]);
-  const bg = tinycolor.mix(color.base, '#0f0f0f', 98);
+  const bg = tinycolor('#141414').toHexString();
+  const tint1 = tinycolor.mix(bg, color.base, 2).toHexString();
+  const tint2 = tinycolor.mix(bg, color.base, 3).toHexString();
 
   // TODO: access version with page parameter `v`
   // example: bibata/studio?v=1.0.0-alpha
@@ -58,9 +60,7 @@ export default function StudioPage() {
   return (
     <main
       style={{
-        background: `radial-gradient(circle, ${bg.toHexString()} 10%, ${bg
-          .lighten(2)
-          .toHexString()})`
+        background: `radial-gradient(circle at center, ${tint1} 0%, ${tint2} 50%, ${tint1} 75%, ${bg} 100%)`
       }}>
       <div className='container m-auto px-3 py-6'>
         <TypePicker

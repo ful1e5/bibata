@@ -26,7 +26,7 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
 
   return (
     <button
-      className={`p-1.5 flex flex-col gap-1 justify-center items-center rounded-xl sm:rounded-2xl transform ${
+      className={`p-1.5 flex flex-col gap-1 justify-center items-center rounded-full transform ${
         selected ? '-translate-y-4 scale-100 font-bold' : 'scale-95'
       } transition-all ease-in-out duration-100`}
       title={name !== 'Custom' ? `Bibata ${name}` : 'Customize Bibata Colors'}
@@ -39,7 +39,8 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
                 boxShadow: `0 0 12px 0 ${color.base}77`
               }
             : {
-                backgroundColor: '#010101',
+                background:
+                  'linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(255,255,255,0.10) 0%, rgba(0,0,0,0.40) 120%) #555555',
                 color: '#ffffff',
                 boxShadow:
                   '0 4px 6px rgba(0, 0, 0, 0.1), 0 6px 15px rgba(0, 0, 0, 0.1), 0 9px 24px rgba(255, 0, 0, 0.5), 0 12px 30px rgba(0, 255, 0, 0.5), 0 15px 36px rgba(0, 0, 255, 0.5)'
@@ -49,7 +50,7 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
       disabled={selected && disabled}
       onClick={props.onClick}>
       <div
-        className={`w-full h-24 md:h-32 flex justify-center items-center sm:my-2 rounded-xl sm:rounded-3xl ring-1 ${
+        className={`w-full h-24 sm:h-32 md:h-52 xl:h-64 flex justify-center items-center rounded-full ring-1 ${
           selected ? 'ring-transparent' : 'ring-white/[.3]'
         }`}
         style={

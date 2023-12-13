@@ -1,12 +1,12 @@
 import { BibataLogo } from './bibata';
+import { BibataTypoLogo } from './bibata-typo';
 import { GitHubLogo } from './github';
-import { LogoutSVG } from './logout';
-import { ProBadge } from './pro';
 
 import { CheckSVG } from './check';
 import { ErrorSVG } from './error';
 import { InfoSVG } from './info';
 import { ProcessingSVG } from './processing';
+import { DownloadSVG } from './download';
 import { LockSVG } from './lock';
 
 import { LinuxDownloadSVG } from './linux';
@@ -22,11 +22,11 @@ import { GemsSVG } from './gems';
 
 export {
   BibataLogo,
+  BibataTypoLogo,
   GitHubLogo,
-  ProBadge,
-  LogoutSVG,
   CheckSVG,
   ProcessingSVG,
+  DownloadSVG,
   LockSVG,
   ErrorSVG,
   InfoSVG,

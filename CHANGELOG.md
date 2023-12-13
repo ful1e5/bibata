@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   feature: Monochrome colored wedge animation Mode in Customize button
 -   ui: Tint background color on `studio` page
+-   ui: Landing page added
 
 ## [v1.0.0-alpha.1] - 07 December 2023
 

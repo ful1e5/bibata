@@ -10,10 +10,10 @@ export default async function middleware(req: NextRequest) {
     if (p.startsWith('/login')) {
       return NextResponse.redirect(new URL('/studio', req.url));
     }
-  }
 
-  if (p === '/') {
-    return NextResponse.redirect(new URL('/studio', req.url));
+    if (p === '/') {
+      return NextResponse.redirect(new URL('/studio', req.url));
+    }
   }
 }
 

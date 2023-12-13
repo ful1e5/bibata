@@ -5,7 +5,7 @@ import React from 'react';
 type Props = {};
 
 // eslint-disable-next-line no-unused-vars
-export const LockSVG: React.FC<Props> = (_props) => {
+export const DownloadSVG: React.FC<Props> = (_props) => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
@@ -14,7 +14,7 @@ export const LockSVG: React.FC<Props> = (_props) => {
       className='w-6 h-6'>
       <path
         fillRule='evenodd'
-        d='M12 1.5a5.25 5.25 0 00-5.25 5.25v3a3 3 0 00-3 3v6.75a3 3 0 003 3h10.5a3 3 0 003-3v-6.75a3 3 0 00-3-3v-3c0-2.9-2.35-5.25-5.25-5.25zm3.75 8.25v-3a3.75 3.75 0 10-7.5 0v3h7.5z'
+        d='M19.5 21a3 3 0 003-3V9a3 3 0 00-3-3h-5.379a.75.75 0 01-.53-.22L11.47 3.66A2.25 2.25 0 009.879 3H4.5a3 3 0 00-3 3v12a3 3 0 003 3h15zm-6.75-10.5a.75.75 0 00-1.5 0v4.19l-1.72-1.72a.75.75 0 00-1.06 1.06l3 3a.75.75 0 001.06 0l3-3a.75.75 0 10-1.06-1.06l-1.72 1.72V10.5z'
         clipRule='evenodd'
       />
     </svg>
