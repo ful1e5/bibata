@@ -34,7 +34,9 @@ export const Profile: React.FC<Props> = (props) => {
               />
             </svg>
           </span>
-          <span className='sm:ml-3 hidden sm:block text-sm'>Connect</span>
+          <span className='sm:ml-3 hidden uppercase sm:block text-sm'>
+            Connect
+          </span>
         </button>
       ) : (
         <>

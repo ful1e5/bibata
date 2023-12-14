@@ -5,6 +5,7 @@
 :root {
   --bg-dark: #141414;
   --bg-light: #ffffff;
+  --accent: #d7f47e;
 
   --text-dark: #ffffff;
   --text-light: #000000;
@@ -28,4 +29,8 @@
 
 .clip-bottom {
   clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+.flex-center {
+  @apply flex items-center justify-center;
 }

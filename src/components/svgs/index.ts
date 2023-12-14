@@ -1,6 +1,9 @@
 import { BibataLogo } from './bibata';
 import { BibataTypoLogo } from './bibata-typo';
+
 import { GitHubLogo } from './github';
+import { AndroidLogo } from './android';
+import { LinuxMintLogo } from './linuxmint';
 
 import { CheckSVG } from './check';
 import { ErrorSVG } from './error';
@@ -24,6 +27,8 @@ export {
   BibataLogo,
   BibataTypoLogo,
   GitHubLogo,
+  AndroidLogo,
+  LinuxMintLogo,
   CheckSVG,
   ProcessingSVG,
   DownloadSVG,

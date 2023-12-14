@@ -2,16 +2,19 @@
 
 import '@app/(home)/styles.css';
 
+import { AnimatedCounter } from '@components/AnimatedCount';
+import { AndroidLogo, LinuxMintLogo } from '@components/svgs';
+
 import Link from 'next/link';
 
 export default function HomePage() {
   return (
     <main>
       <div className='container m-auto px-3 py-6'>
-        <div className='mt-5 sm:mt-16 flex flex-col gap-6 justify-center items-center text-[#d7f47e]'>
+        <div className='mt-5 sm:mt-32 lg:mt-56 flex flex-col gap-6 justify-center items-center text-[--accent]'>
           <>
-            <h1 className='heading-0'>One Design</h1>
-            <h2 className='heading-1'>Endless Persnolization.</h2>
+            <h1 className='heading-0'>One Cursor</h1>
+            <h2 className='heading-1'>Endless Personalization.</h2>
           </>
 
           <p className='sub-heading'>
@@ -19,7 +22,8 @@ export default function HomePage() {
             fully customizable features and an interactive web studio.
           </p>
         </div>
-        <div className='mt-10 flex flex-col sm:flex-row justify-center gap-5 md:gap-20 items-center text-black font-black'>
+
+        <div className='mt-10 flex-center flex-col sm:flex-row gap-5 md:gap-20 text-black font-black'>
           <Link
             className='heading-button selected-button'
             target='_blank'
@@ -52,6 +56,55 @@ export default function HomePage() {
             </svg>
             Studio
           </Link>
+        </div>
+
+        <div className='mt-20 sm:mt-40 lg:mt-52 text-center'>
+          <p className='text-[6px] sm:text-[10px] font-bold text-white/[.9] uppercase'>
+            Default in
+          </p>
+
+          <div className='mt-4 flex-center text-white/[.8] gap-6'>
+            <Link
+              href='https://developer.android.com/about/versions/14/get'
+              target='_blank'
+              className='hover:text-[--accent]'>
+              <AndroidLogo />
+            </Link>
+
+            <Link
+              href='https://linuxmint.com/edition.php?id=299'
+              target='_blank'
+              className='hover:text-[--accent]'>
+              <LinuxMintLogo />
+            </Link>
+          </div>
+        </div>
+
+        <div className='mt-20 sm:mt-28 grid grid-cols-2 lg:grid-cols-4 gap-10 text-center'>
+          <div className='count-card'>
+            <h1 className='count-heading'>#1</h1>
+            <p className='count-subtext'>Most Popular Cursor</p>
+          </div>
+
+          <div className='count-card'>
+            <h1 className='count-heading'>
+              <AnimatedCounter number={'120'} duration={4} />
+              K+
+            </h1>
+            <p className='count-subtext'>Downloads and counting...</p>
+          </div>
+
+          <div className='count-card'>
+            <h1 className='count-heading'>1.4K+</h1>
+            <p className='count-subtext'>Stars on Github</p>
+          </div>
+
+          <div className='count-card'>
+            <h1 className='count-heading'>
+              <AnimatedCounter number={'350'} duration={0.01} />+
+            </h1>
+            <p className='count-subtext'>Handcrafted Cursors</p>
+          </div>
         </div>
       </div>
     </main>

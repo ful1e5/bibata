@@ -20,7 +20,7 @@ export const NavBar: React.FC<Props> = (_props) => {
     <header
       className={`sticky py-px top-0 z-20 ${
         pathname === '/'
-          ? ''
+          ? 'bg-[--bg-dark]'
           : 'bg-[#151515] backdrop-filter backdrop-blur-xl border-b border-white/[.1] firefox:bg-opacity-95 bg-opacity-95'
       } `}>
       <nav className='container mx-auto p-3 md:p-4 flex items-center justify-between'>
@@ -30,7 +30,7 @@ export const NavBar: React.FC<Props> = (_props) => {
               <span
                 className={
                   session?.user?.role === 'PRO' || pathname === '/'
-                    ? 'text-[#d7f47e]'
+                    ? 'text-[--accent]'
                     : 'text-white'
                 }>
                 <BibataTypoLogo />

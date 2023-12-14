@@ -2,7 +2,7 @@
   @apply text-[70px] sm:text-[150px] text-center font-black tracking-tighter leading-none uppercase;
 }
 .heading-1 {
-  @apply text-[18px] sm:text-6xl text-center font-black tracking-tighter uppercase;
+  @apply text-[16px] sm:text-6xl text-center font-black tracking-tighter uppercase;
 }
 
 .sub-heading {
@@ -10,7 +10,7 @@
 }
 
 .heading-button {
-  @apply flex gap-2 px-14 py-6 rounded-full uppercase;
+  @apply flex gap-2 px-10 sm:px-14 py-4 sm:py-6 rounded-full uppercase;
 }
 
 .selected-button {
@@ -19,4 +19,16 @@
 
 .outlined-button {
   @apply text-white/[.6] hover:text-[#d7f47e] ring-1 ring-white/[.6] hover:ring-[#d7f47e] font-bold;
+}
+
+.count-card {
+  @apply flex flex-col justify-center items-center;
+}
+
+.count-heading {
+  @apply p-3 text-white/[.8] text-5xl sm:text-8xl font-semibold;
+}
+
+.count-subtext {
+  @apply p-1 text-sm text-white/[.4] uppercase tracking-tighter font-bold;
 }
