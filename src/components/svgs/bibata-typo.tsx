@@ -2,14 +2,16 @@
 
 import React from 'react';
 
-type Props = {};
+type Props = {
+  size?: number;
+};
 
-// eslint-disable-next-line no-unused-vars
-export const BibataTypoLogo: React.FC<Props> = (_props) => {
+export const BibataTypoLogo: React.FC<Props> = (props) => {
   return (
     <svg
       className='fill-current h-12 sm:h-16'
       viewBox='0 0 30 18'
+      width={props.size}
       fill='none'
       xmlns='http://www.w3.org/2000/svg'>
       <path

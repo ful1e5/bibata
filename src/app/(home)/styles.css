@@ -1,12 +1,17 @@
-.heading-0 {
+.main-heading {
   @apply text-[70px] sm:text-[150px] text-center font-black tracking-tighter leading-none uppercase;
 }
-.heading-1 {
-  @apply text-[16px] sm:text-6xl text-center font-black tracking-tighter uppercase;
+
+.main-text {
+  @apply text-[9px] sm:text-sm uppercase text-center text-white/[.7] font-semibold w-3/4 lg:w-1/2;
 }
 
-.sub-heading {
-  @apply text-[9px] sm:text-sm uppercase text-center text-white/[.7] font-semibold w-3/4 lg:w-1/2;
+.section-heading {
+  @apply text-[24px] sm:text-5xl text-center font-bold;
+}
+
+.section-subheading {
+  @apply text-[10px] sm:text-lg text-center font-light text-white/[.7];
 }
 
 .heading-button {
@@ -26,7 +31,7 @@
 }
 
 .count-heading {
-  @apply p-3 text-white/[.8] text-5xl sm:text-8xl font-semibold;
+  @apply p-3 text-5xl sm:text-8xl font-semibold;
 }
 
 .count-subtext {

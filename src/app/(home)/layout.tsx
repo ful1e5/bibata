@@ -5,6 +5,7 @@ import { Metadata } from 'next';
 
 import { Providers } from '@app/(home)/providers';
 import { NavBar } from '@components/NavBar';
+import { Footer } from '@components/Footer';
 
 export const metadata: Metadata = {
   title: 'Bibata',
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: Props) {
         <body className='dark'>
           <NavBar />
           {children}
+          <Footer />
         </body>
       </Providers>
     </html>

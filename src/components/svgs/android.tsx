@@ -8,7 +8,7 @@ type Props = {};
 export const AndroidLogo: React.FC<Props> = (_props) => {
   return (
     <svg
-      className='fill-current h-8 sm:h-10'
+      className='fill-current h-6 sm:h-10'
       viewBox='0 0 331 193'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'>

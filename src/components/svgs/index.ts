@@ -1,7 +1,7 @@
-import { BibataLogo } from './bibata';
 import { BibataTypoLogo } from './bibata-typo';
 
 import { GitHubLogo } from './github';
+import { XLogo } from './x';
 import { AndroidLogo } from './android';
 import { LinuxMintLogo } from './linuxmint';
 
@@ -24,9 +24,9 @@ import { OriginalSVG } from './original';
 import { GemsSVG } from './gems';
 
 export {
-  BibataLogo,
   BibataTypoLogo,
   GitHubLogo,
+  XLogo,
   AndroidLogo,
   LinuxMintLogo,
   CheckSVG,

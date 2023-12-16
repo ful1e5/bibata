@@ -11,19 +11,19 @@ export default function HomePage() {
   return (
     <main>
       <div className='container m-auto px-3 py-6'>
-        <div className='mt-5 sm:mt-32 lg:mt-56 flex flex-col gap-6 justify-center items-center text-[--accent]'>
-          <>
-            <h1 className='heading-0'>One Cursor</h1>
-            <h2 className='heading-1'>Endless Personalization.</h2>
-          </>
+        <section className='mt-5 sm:mt-32 lg:mt-56 flex flex-col gap-6 justify-center items-center text-[--accent]'>
+          <h1 className='inline-flex flex-col'>
+            <span className='main-heading'>One Cursor</span>
+            <span className='section-heading'>Endless Personalization.</span>
+          </h1>
 
-          <p className='sub-heading'>
+          <p className='main-text'>
             Free and open-source, the internet&apos;s premier #1 cursor offers
             fully customizable features and an interactive web studio.
           </p>
-        </div>
+        </section>
 
-        <div className='mt-10 flex-center flex-col sm:flex-row gap-5 md:gap-20 text-black font-black'>
+        <section className='mt-10 flex-center flex-col sm:flex-row gap-5 md:gap-20 text-black font-black'>
           <Link
             className='heading-button selected-button'
             target='_blank'
@@ -56,14 +56,14 @@ export default function HomePage() {
             </svg>
             Studio
           </Link>
-        </div>
+        </section>
 
-        <div className='mt-20 sm:mt-40 lg:mt-52 text-center'>
-          <p className='text-[6px] sm:text-[10px] font-bold text-white/[.9] uppercase'>
-            Default in
+        <section className='mt-28 text-center'>
+          <p className='text-[6px] sm:text-[10px] text-white/[.5]'>
+            Preinstalled on
           </p>
 
-          <div className='mt-4 flex-center text-white/[.8] gap-6'>
+          <div className='mt-6 flex-center text-white/[.6] gap-3 sm:gap-6'>
             <Link
               href='https://developer.android.com/about/versions/14/get'
               target='_blank'
@@ -78,34 +78,37 @@ export default function HomePage() {
               <LinuxMintLogo />
             </Link>
           </div>
-        </div>
+        </section>
 
-        <div className='mt-20 sm:mt-28 grid grid-cols-2 lg:grid-cols-4 gap-10 text-center'>
-          <div className='count-card'>
-            <h1 className='count-heading'>#1</h1>
-            <p className='count-subtext'>Most Popular Cursor</p>
-          </div>
+        <section className='mt-20 sm:mt-28 text-center'>
+          <h1 className='section-heading'>Project Status</h1>
+          {/* <p className='section-subheading mt-3'>subtext</p> */}
 
-          <div className='count-card'>
-            <h1 className='count-heading'>
-              <AnimatedCounter number={'120'} duration={4} />
-              K+
-            </h1>
-            <p className='count-subtext'>Downloads and counting...</p>
-          </div>
+          <div className='bg-white/[.05] mt-10 grid grid-cols-2 lg:grid-cols-4 gap-10 p-5 rounded-3xl'>
+            <div className='count-card'>
+              <h4 className='count-heading text-pink-200'>#1</h4>
+              <p className='count-subtext '>Most Popular</p>
+            </div>
 
-          <div className='count-card'>
-            <h1 className='count-heading'>1.4K+</h1>
-            <p className='count-subtext'>Stars on Github</p>
-          </div>
+            <div className='count-card'>
+              <h4 className='count-heading text-orange-300'>
+                <AnimatedCounter number={'120'} duration={2} />
+                K+
+              </h4>
+              <p className='count-subtext'>Downloads</p>
+            </div>
 
-          <div className='count-card'>
-            <h1 className='count-heading'>
-              <AnimatedCounter number={'350'} duration={0.01} />+
-            </h1>
-            <p className='count-subtext'>Handcrafted Cursors</p>
+            <div className='count-card'>
+              <h4 className='count-heading text-green-200'>1.4K+</h4>
+              <p className='count-subtext'>Stars on Github</p>
+            </div>
+
+            <div className='count-card'>
+              <h4 className='count-heading text-purple-200'>350+</h4>
+              <p className='count-subtext'>Handcrafted Cursors</p>
+            </div>
           </div>
-        </div>
+        </section>
       </div>
     </main>
   );
