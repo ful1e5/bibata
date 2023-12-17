@@ -87,7 +87,6 @@ export default function StudioPage() {
         <div className='mt-10'>
           <ColorPicker
             colorName={colorName}
-            colors={COLORS}
             onClick={(n, c) => {
               resetImages();
               setColorName(n);

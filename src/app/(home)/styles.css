@@ -1,3 +1,7 @@
+.scale-animation {
+  @apply transition hover:scale-110 ease-in-out duration-150;
+}
+
 .main-heading {
   @apply text-[70px] sm:text-[150px] text-center font-black tracking-tighter leading-none uppercase;
 }
@@ -31,9 +35,9 @@
 }
 
 .count-heading {
-  @apply p-3 text-5xl sm:text-8xl font-semibold;
+  @apply p-3 text-4xl sm:text-6xl font-semibold;
 }
 
 .count-subtext {
-  @apply p-1 text-sm text-white/[.4] uppercase tracking-tighter font-bold;
+  @apply p-1 text-xs text-white/[.4] uppercase tracking-tighter font-bold;
 }

@@ -25,7 +25,7 @@ export default function HomePage() {
 
         <section className='mt-10 flex-center flex-col sm:flex-row gap-5 md:gap-20 text-black font-black'>
           <Link
-            className='heading-button selected-button'
+            className='heading-button selected-button scale-animation'
             target='_blank'
             href='https://github.com/ful1e5/bibata#how-to-upgrade-to-a-pro-account'>
             <svg
@@ -42,7 +42,9 @@ export default function HomePage() {
             Get Pro
           </Link>
 
-          <Link className='heading-button outlined-button' href='/studio'>
+          <Link
+            className='heading-button outlined-button scale-animation'
+            href='/studio'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
               viewBox='0 0 24 24'
@@ -58,29 +60,26 @@ export default function HomePage() {
           </Link>
         </section>
 
-        <section className='mt-28 text-center'>
-          <p className='text-[6px] sm:text-[10px] text-white/[.5]'>
-            Preinstalled on
-          </p>
-
+        <section className='mt-10 text-center'>
+          <p className='text-[10px] text-white/[.5]'>Preinstalled on</p>
           <div className='mt-6 flex-center text-white/[.6] gap-3 sm:gap-6'>
             <Link
+              className='hover:text-[--accent] scale-animation'
               href='https://developer.android.com/about/versions/14/get'
-              target='_blank'
-              className='hover:text-[--accent]'>
+              target='_blank'>
               <AndroidLogo />
             </Link>
 
             <Link
+              className='hover:text-[--accent] scale-animation'
               href='https://linuxmint.com/edition.php?id=299'
-              target='_blank'
-              className='hover:text-[--accent]'>
+              target='_blank'>
               <LinuxMintLogo />
             </Link>
           </div>
         </section>
 
-        <section className='mt-20 sm:mt-28 text-center'>
+        <section className='mt-24 text-center'>
           <h1 className='section-heading'>Project Status</h1>
           {/* <p className='section-subheading mt-3'>subtext</p> */}
 

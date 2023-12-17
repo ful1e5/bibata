@@ -6,7 +6,7 @@ import tinycolor from 'tinycolor2';
 import Wheel from '@uiw/react-color-wheel';
 
 import { CursorPreview } from './preview';
-import { CloseSVG, RefreshSVG } from '@components/svgs';
+import { CloseSVG, RefreshSVG, PaletteSVG } from '@components/svgs';
 
 import { generateRandomColors } from '@utils/randomColors';
 import { WATCH_COLORS } from '@root/configs';
@@ -151,23 +151,29 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
         <div
           onClick={(e) => e.target === e.currentTarget && props.onClose()}
           className='z-20 fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black backdrop-filter backdrop-blur-xl firefox:bg-opacity-80 bg-opacity-80'>
-          <div className='w-full md:w-1/2 xl:w-1/3 max-h-full overflow-y-auto p-4 m-4 rounded-3xl shadow-lg bg-black ring-1 ring-white/[.06]'>
+          <div
+            className='w-full md:w-1/2 xl:w-1/3 max-h-full overflow-y-auto p-4 sm:m-4 sm:rounded-3xl sm:shadow-lg ring-1 ring-white/[.06]'
+            style={{
+              backgroundColor: `color-mix(in srgb, #161616 98%, ${baseColor})`
+            }}>
             <div className='flex justify-between text-xs'>
-              <button
-                className='p-2 bg-white/[.1] text-white rounded-lg sm:rounded-2xl hover:bg-green-400 active:bg-green-200 hover:text-black'
-                onClick={refreshColors}>
-                <RefreshSVG />
-              </button>
+              <div className='inline-flex gap-3'>
+                <button
+                  className='p-2 bg-white/[.1] text-white rounded-lg sm:rounded-2xl hover:bg-green-400 active:bg-green-200 hover:text-black'
+                  onClick={refreshColors}>
+                  <RefreshSVG />
+                </button>
 
-              <button
-                className={`py-2 px-5 rounded-lg sm:rounded-2xl text-xs sm:text-lg font-bold ${
-                  monochromeMode
-                    ? 'bg-white hover:bg-white/[.7] text-black'
-                    : 'bg-white/[.2] hover:bg-white/[.6] hover:text-black'
-                }`}
-                onClick={() => setMonochromeMode((b) => !b)}>
-                {monochromeMode ? 'Mono' : 'Default'}
-              </button>
+                <button
+                  className={`py-2 px-5 rounded-lg sm:rounded-2xl text-xs sm:text-lg font-bold ${
+                    monochromeMode
+                      ? 'bg-white/[.2] hover:bg-white/[.6] hover:text-black'
+                      : 'bg-white hover:bg-white/[.7] text-black'
+                  }`}
+                  onClick={() => setMonochromeMode((b) => !b)}>
+                  <PaletteSVG />
+                </button>
+              </div>
 
               <button
                 className='p-3 bg-white/[.1] text-white rounded-xl font-bold hover:bg-white hover:text-black'

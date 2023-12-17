@@ -16,12 +16,11 @@ import { LinuxDownloadSVG } from './linux';
 import { WindowsDownloadSVG } from './windows';
 
 import { RefreshSVG } from './refresh';
+import { PaletteSVG } from './palette';
 import { CloseSVG } from './close';
 
 import { ModernSVG } from './modern';
 import { OriginalSVG } from './original';
-
-import { GemsSVG } from './gems';
 
 export {
   BibataTypoLogo,
@@ -38,8 +37,8 @@ export {
   WindowsDownloadSVG,
   LinuxDownloadSVG,
   RefreshSVG,
+  PaletteSVG,
   CloseSVG,
   ModernSVG,
-  OriginalSVG,
-  GemsSVG
+  OriginalSVG
 };

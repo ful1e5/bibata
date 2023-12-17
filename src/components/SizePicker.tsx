@@ -12,22 +12,21 @@ interface Props {
 export const SizePicker: React.FC<Props> = (props) => {
   return (
     <div className='flex items-center justify-center'>
-      <div className='w-full sm:w-1/2 grid grid-cols-7 sm:grid-cols-8 gap-1 sm:gap-2 text-xs sm:text-sm'>
-        {props.list.map((t) => (
-          <button
-            key={t}
-            onClick={() => {
-              props.onClick(t);
-            }}
-            disabled={props.values === t}
-            className={`${
-              props.values === t
-                ? 'bg-white/[.08] font-bold text-white/[.8]'
-                : 'bg-transparent hover:bg-sky-500/[.2] text-white/[.7] font-normal'
-            } rounded-xl border-white/[.08] border text-center`}>
-            {t}
-          </button>
-        ))}
+      <div className='w-full md:w-2/3 lg:w-1/2 sm:mx-32 grid grid-cols-7 gap-3 text-[9px] sm:text-sm'>
+        {props.list.map((t) => {
+          const selected = props.values === t;
+          return (
+            <button
+              key={t}
+              disabled={selected}
+              onClick={() => props.onClick(t)}
+              className={`p-1 py-3 sm:p-3 rounded-xl text-center transform ring-1 ring-white/[.2] hover:scale-105 hover:bg-white/[.1] ${
+                selected ? 'bg-white/[.25] font-black ' : 'bg-white/[.03]'
+              }`}>
+              {t}
+            </button>
+          );
+        })}
       </div>
     </div>
   );

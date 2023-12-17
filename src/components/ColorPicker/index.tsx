@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 
 import { ColorPickerModal } from './modal';
 
-import { Color, Colors } from 'bibata/app';
-import { GemsSVG } from '@components/svgs';
+import { Color } from 'bibata/app';
+import { COLORS } from '@root/configs';
 
 type Props = {
   name: string;
@@ -26,73 +26,33 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
 
   return (
     <button
-      className={`p-1.5 flex flex-col gap-1 justify-center items-center rounded-full transform ${
-        selected ? '-translate-y-4 scale-100 font-bold' : 'scale-95'
+      className={`p-3 sm:p-7 flex flex-col gap-1 justify-center items-center rounded-3xl transform ring-1 ring-white/[.2] hover:scale-105 hover:bg-white/[.1] ${
+        selected ? 'bg-white/[.25] font-black' : 'bg-white/[.03]'
       } transition-all ease-in-out duration-100`}
       title={name !== 'Custom' ? `Bibata ${name}` : 'Customize Bibata Colors'}
-      style={
-        selected
-          ? color
-            ? {
-                backgroundColor: color.base,
-                color: color.outline,
-                boxShadow: `0 0 12px 0 ${color.base}77`
-              }
-            : {
-                background:
-                  'linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(255,255,255,0.10) 0%, rgba(0,0,0,0.40) 120%) #555555',
-                color: '#ffffff',
-                boxShadow:
-                  '0 4px 6px rgba(0, 0, 0, 0.1), 0 6px 15px rgba(0, 0, 0, 0.1), 0 9px 24px rgba(255, 0, 0, 0.5), 0 12px 30px rgba(0, 255, 0, 0.5), 0 15px 36px rgba(0, 0, 255, 0.5)'
-              }
-          : {}
-      }
       disabled={selected && disabled}
       onClick={props.onClick}>
       <div
-        className={`w-full h-24 sm:h-32 md:h-52 xl:h-64 flex justify-center items-center rounded-full ring-1 ${
-          selected ? 'ring-transparent' : 'ring-white/[.3]'
-        }`}
+        className='w-14 sm:w-20 h-14 sm:h-20 rounded-full'
         style={
           color
             ? {
-                color: color.outline,
-                backgroundColor: color.base
+                backgroundColor: color?.base,
+                border: `3px solid ${color?.outline}`
               }
-            : selected
-              ? {}
-              : {
-                  color: 'transparent',
-                  backgroundBlendMode: 'screen',
-                  background: wheel
-                }
-        }>
-        <span
-          className='overflow-hidden p-3 md:p-6 rounded-full'
-          style={
-            selected
-              ? color
-                ? {
-                    color: color?.base,
-                    backgroundColor: color?.outline
-                  }
-                : {
-                    color: 'transparent',
-                    backgroundBlendMode: 'screen',
-                    background: wheel
-                  }
-              : {}
-          }>
-          <GemsSVG gems={name} />
-        </span>
-      </div>
-      <div className='mt-1 mb-3 text-center text-xs sm:text-sm'>{name}</div>
+            : {
+                backgroundBlendMode: 'screen',
+                background: wheel,
+                border: `3px solid #ffffff`
+              }
+        }
+      />
+      <p className='mt-3 text-center text-xs sm:text-sm'>{name}</p>
     </button>
   );
 };
 
 type ColorPickerProps = {
-  colors: Colors;
   colorName: string;
 
   // eslint-disable-next-line no-unused-vars
@@ -105,8 +65,8 @@ export const ColorPicker: React.FC<ColorPickerProps> = (props) => {
   return (
     <>
       <div className='flex items-center justify-center'>
-        <div className='w-full md:w-2/3 lg:w-1/2 sm:mx-32 grid grid-cols-4 gap-1 sm:gap-7'>
-          {Object.entries(props.colors).map(([name, color], i) => (
+        <div className='w-full md:w-2/3 lg:w-1/2 sm:mx-32 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-7'>
+          {Object.entries(COLORS).map(([name, color], i) => (
             <ColorPickerButton
               key={i}
               name={name}

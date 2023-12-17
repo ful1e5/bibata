@@ -9,26 +9,16 @@ type Props = {
 export const ErrorSVG: React.FC<Props> = (props) => {
   return (
     <svg
+      xmlns='http://www.w3.org/2000/svg'
+      viewBox='0 0 24 24'
+      fill='currentColor'
       className='fill-inherit'
       width={props.size || 104}
-      height={props.size || 104}
-      viewBox='0 0 104 104'
-      preserveAspectRatio='xMaxYMid meet'
-      xmlns='http://www.w3.org/2000/svg'>
+      height={props.size || 104}>
       <path
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M52 18C33.2223 18 18 33.2223 18 52C18 70.7777 33.2223 86 52 86C70.7777 86 86 70.7777 86 52C86 33.2223 70.7777 18 52 18ZM6 52C6 26.5949 26.5949 6 52 6C77.4051 6 98 26.5949 98 52C98 77.4051 77.4051 98 52 98C26.5949 98 6 77.4051 6 52Z'
-      />
-      <path
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M63.7574 72.2427L29.9829 38.4682L38.4682 29.9829L72.2427 63.7574L63.7574 72.2427Z'
-      />
-      <path
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M71.3555 39.3555L39.3554 71.3556L30.8701 62.8703L62.8702 30.8702L71.3555 39.3555Z'
+        fill-rule='evenodd'
+        d='M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z'
+        clip-rule='evenodd'
       />
     </svg>
   );
