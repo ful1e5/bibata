@@ -6,6 +6,7 @@ import { AndroidLogo } from './android';
 import { LinuxMintLogo } from './linuxmint';
 
 import { CheckSVG } from './check';
+import { CheckMarkSVG } from './checkmark';
 import { ErrorSVG } from './error';
 import { InfoSVG } from './info';
 import { ProcessingSVG } from './processing';
@@ -29,6 +30,7 @@ export {
   AndroidLogo,
   LinuxMintLogo,
   CheckSVG,
+  CheckMarkSVG,
   ProcessingSVG,
   DownloadSVG,
   LockSVG,

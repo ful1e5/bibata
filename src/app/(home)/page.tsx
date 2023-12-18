@@ -3,7 +3,13 @@
 import '@app/(home)/styles.css';
 
 import { AnimatedCounter } from '@components/AnimatedCount';
-import { AndroidLogo, LinuxMintLogo } from '@components/svgs';
+import {
+  AndroidLogo,
+  CheckMarkSVG,
+  LinuxDownloadSVG,
+  LinuxMintLogo,
+  WindowsDownloadSVG
+} from '@components/svgs';
 
 import Link from 'next/link';
 
@@ -85,28 +91,87 @@ export default function HomePage() {
           <h1 className='section-heading'>Statistics</h1>
           {/* <p className='section-subheading my-3'>subtext</p> */}
 
-          <div className='bg-gradient-to-br from-10% from-white/[.17] to-purple-300/[.08] to-100% mt-10 p-5 rounded-3xl grid grid-cols-2 sm:grid-cols-4 gap-5 '>
-            <div className='count-card'>
-              <p className='count-subtext'>Most Popular</p>
-              <h4 className='count-heading text-pink-200'>#1</h4>
-            </div>
+          <div className='flex justify-center items-center'>
+            <div className='w-full md:w-2/3 bg-gradient-to-br from-10% from-white/[.17] to-purple-300/[.08] to-100% mt-10 p-5 rounded-3xl grid grid-cols-2 sm:grid-cols-4 gap-5 '>
+              <div className='count-card'>
+                <p className='count-subtext'>Most Popular</p>
+                <h4 className='count-heading text-pink-200'>#1</h4>
+              </div>
 
-            <div className='count-card'>
-              <p className='count-subtext'>Downloads</p>
-              <h4 className='count-heading text-orange-300'>
-                <AnimatedCounter number={downloadCount} duration={2} />
-                K+
-              </h4>
-            </div>
+              <div className='count-card'>
+                <p className='count-subtext'>Downloads</p>
+                <h4 className='count-heading text-orange-300'>
+                  <AnimatedCounter number={downloadCount} duration={2} />
+                  K+
+                </h4>
+              </div>
 
-            <div className='count-card'>
-              <p className='count-subtext'>Stars on Github</p>
-              <h4 className='count-heading text-green-200'>1.4K+</h4>
-            </div>
+              <div className='count-card'>
+                <p className='count-subtext'>Stars on Github</p>
+                <h4 className='count-heading text-green-200'>1.4K+</h4>
+              </div>
 
-            <div className='count-card'>
-              <p className='count-subtext'>Handcrafted Cursors</p>
-              <h4 className='count-heading text-purple-200'>350+</h4>
+              <div className='count-card'>
+                <p className='count-subtext'>Handcrafted Cursors</p>
+                <h4 className='count-heading text-purple-200'>350+</h4>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className='mt-24 sm:mt-48'>
+          <h1 className='section-heading'>Platforms</h1>
+          {/* <p className='section-subheading my-3'>subtext</p> */}
+
+          <div className='flex justify-center items-center'>
+            <div className='w-full mt-10 p-5 rounded-3xl grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-20'>
+              <div className='platform-card bg-white/[.1]'>
+                <span className='platform-icon bg-[#f9b801]'>
+                  <LinuxDownloadSVG />
+                </span>
+                <h4 className='platform-heading'>XCursors</h4>
+
+                <div className='mt-10 flex flex-col gap-4'>
+                  {[
+                    'HiDPi Supports',
+                    'Wayland Supports',
+                    'Custom Color',
+                    'Animated Cursors',
+                    'Custom Size'
+                  ].map((line, key) => (
+                    <div key={key} className='platform-line'>
+                      <span className='text-[#f9b801]'>
+                        <CheckMarkSVG />
+                      </span>
+                      <p className='text-blue-200 text-xl'>{line}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className='platform-card bg-white/[.1]'>
+                <span className='platform-icon bg-blue-400'>
+                  <WindowsDownloadSVG />
+                </span>
+
+                <h4 className='platform-heading'>Windows</h4>
+
+                <div className='mt-10 flex flex-col gap-4'>
+                  {[
+                    'HiDPi Supports',
+                    'Custom Color',
+                    'Animated Cursors (.ani)',
+                    'Custom Size'
+                  ].map((line, key) => (
+                    <div key={key} className='platform-line'>
+                      <span className='text-blue-400'>
+                        <CheckMarkSVG />
+                      </span>
+                      <p className='text-blue-200 text-xl'>{line}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -116,74 +181,72 @@ export default function HomePage() {
           {/* <p className='section-subheading my-3'>subtext</p> */}
 
           <div className='mt-10 w-full p-5 rounded-3xl grid grid-cols-1 md:grid-cols-2 lg:sm:grid-cols-3 gap-5 '>
-            <div className='integration-card bg-white/[.1]'>
-              <h4 className='text-2xl font-bold'>Bibata Cursor</h4>
-              <p className='text-lg mt-3 text-white/[.6]'>
+            <div className='library-card bg-white/[.1]'>
+              <h4 className='library-card-heading'>Bibata Cursor</h4>
+              <p className='library-card-text'>
                 Open source, compact, and material designed cursor set.
               </p>
 
-              <div className='mt-12 w-36 bg-blue-400/[.1] p-3 inline-flex items-center gap-2 rounded-full'>
-                <span className='w-5 h-5 rounded-full bg-blue-300' />
+              <div className='library-card-lang w-36 bg-blue-400/[.1]'>
+                <span className='circle bg-blue-300' />
                 <p className='text-blue-200'>TypeScript</p>
               </div>
             </div>
 
-            <div className='integration-card bg-white/[.1]'>
-              <h4 className='text-2xl font-bold'>Clickgen</h4>
-              <p className='text-lg mt-3 text-white/[.6]'>
+            <div className='library-card bg-white/[.1]'>
+              <h4 className='library-card-heading'>Clickgen</h4>
+              <p className='library-card-text'>
                 The hassle-free cursor building toolbox.
               </p>
 
-              <div className='mt-12 w-28 bg-orange-400/[.1] p-3 inline-flex items-center gap-2 rounded-full'>
-                <span className='w-5 h-5 rounded-full bg-orange-400' />
+              <div className='library-card-lang w-36 bg-orange-400/[.1]'>
+                <span className='circle bg-orange-300' />
                 <p className='text-orange-200'>Python</p>
               </div>
             </div>
 
-            <div className='integration-card bg-white/[.1]'>
-              <h4 className='text-2xl font-bold'>Cbmp</h4>
-              <p className='text-lg mt-3 text-white/[.6]'>
+            <div className='library-card bg-white/[.1]'>
+              <h5 className='library-card-heading'>Cbmp</h5>
+              <p className='library-card-text'>
                 CLI App for converting cursor svg file to png.
               </p>
 
-              <div className='mt-12 w-36 bg-blue-400/[.1] p-3 inline-flex items-center gap-2 rounded-full'>
-                <span className='w-5 h-5 rounded-full bg-blue-300' />
+              <div className='library-card-lang w-36 bg-blue-400/[.1]'>
+                <span className='circle bg-blue-300' />
                 <p className='text-blue-200'>TypeScript</p>
               </div>
             </div>
 
-            <div className='integration-card bg-white/[.1]'>
-              <h4 className='text-2xl font-bold'>Pillow</h4>
-              <p className='text-lg mt-3 text-white/[.6]'>
-                The Python Imaging Library.
-              </p>
+            <div className='library-card bg-white/[.1]'>
+              <h5 className='library-card-heading'>Pillow</h5>
+              <p className='library-card-text'>The Python Imaging Library.</p>
 
-              <div className='mt-12 w-28 bg-orange-400/[.1] p-3 inline-flex items-center gap-2 rounded-full'>
-                <span className='w-5 h-5 rounded-full bg-orange-400' />
+              <div className='library-card-lang w-36 bg-orange-400/[.1]'>
+                <span className='circle bg-orange-300' />
                 <p className='text-orange-200'>Python</p>
               </div>
             </div>
 
-            <div className='integration-card bg-white/[.1]'>
-              <h4 className='text-2xl font-bold'>Sharp</h4>
-              <p className='text-lg mt-3 text-white/[.6]'>
+            <div className='library-card bg-white/[.1]'>
+              <h5 className='library-card-heading'>Sharp</h5>
+              <p className='library-card-text'>
                 High performance Node.js image processer.
               </p>
 
-              <div className='mt-12 w-36 bg-orange-400/[.1] p-3 inline-flex items-center gap-2 rounded-full'>
-                <span className='w-5 h-5 rounded-full bg-yellow-300' />
+              <div className='library-card-lang w-36 bg-yellow-400/[.1]'>
+                <span className='circle bg-yellow-300' />
                 <p className='text-yellow-200'>JavaScript</p>
               </div>
             </div>
 
-            <div className='integration-card bg-white/[.1]'>
-              <h4 className='text-2xl font-bold'>Win2XCur</h4>
-              <p className='text-lg mt-3 text-white/[.6]'>
+            <div className='library-card bg-white/[.1]'>
+              <h5 className='library-card-heading'>Win2XCur</h5>
+              <p className='library-card-text'>
                 The tool that converts cursors.
               </p>
 
-              <div className='mt-12 w-28 bg-orange-400/[.1] p-3 inline-flex items-center gap-2 rounded-full'>
-                <span className='w-5 h-5 rounded-full bg-orange-400' />
+              <div className='library-card-lang w-36 bg-orange-400/[.1]'>
+                <span className='circle bg-orange-300' />
                 <p className='text-orange-200'>Python</p>
               </div>
             </div>
