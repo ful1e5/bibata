@@ -8,13 +8,15 @@ import { AndroidLogo, LinuxMintLogo } from '@components/svgs';
 import Link from 'next/link';
 
 export default function HomePage() {
+  const downloadCount = '120';
+
   return (
     <main>
-      <div className='container m-auto px-3 py-6'>
+      <div className='container m-auto px-3 pt-6 pb-28'>
         <section className='mt-5 sm:mt-32 lg:mt-56 flex flex-col gap-6 justify-center items-center text-[--accent]'>
           <h1 className='inline-flex flex-col'>
             <span className='main-heading'>One Cursor</span>
-            <span className='section-heading'>Endless Personalization.</span>
+            <span className='sub-heading'>Endless Personalization.</span>
           </h1>
 
           <p className='main-text'>
@@ -23,7 +25,7 @@ export default function HomePage() {
           </p>
         </section>
 
-        <section className='mt-10 flex-center flex-col sm:flex-row gap-5 md:gap-20 text-black font-black'>
+        <section className='mt-10 flex-center flex-row gap-5 md:gap-10 text-black font-black'>
           <Link
             className='heading-button selected-button scale-animation'
             target='_blank'
@@ -60,8 +62,8 @@ export default function HomePage() {
           </Link>
         </section>
 
-        <section className='mt-10 text-center'>
-          <p className='text-[10px] text-white/[.5]'>Preinstalled on</p>
+        <section className='mt-20 text-center'>
+          <p className='text-[12px] text-white/[.5]'>Preinstalled on</p>
           <div className='mt-6 flex-center text-white/[.6] gap-3 sm:gap-6'>
             <Link
               className='hover:text-[--accent] scale-animation'
@@ -79,32 +81,111 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className='mt-24 text-center'>
-          <h1 className='section-heading'>Project Status</h1>
-          {/* <p className='section-subheading mt-3'>subtext</p> */}
+        <section className='mt-24 sm:mt-48'>
+          <h1 className='section-heading'>Statistics</h1>
+          {/* <p className='section-subheading my-3'>subtext</p> */}
 
-          <div className='bg-white/[.05] mt-10 grid grid-cols-2 lg:grid-cols-4 gap-10 p-5 rounded-3xl'>
+          <div className='bg-gradient-to-br from-10% from-white/[.17] to-purple-300/[.08] to-100% mt-10 p-5 rounded-3xl grid grid-cols-2 sm:grid-cols-4 gap-5 '>
             <div className='count-card'>
+              <p className='count-subtext'>Most Popular</p>
               <h4 className='count-heading text-pink-200'>#1</h4>
-              <p className='count-subtext '>Most Popular</p>
             </div>
 
             <div className='count-card'>
+              <p className='count-subtext'>Downloads</p>
               <h4 className='count-heading text-orange-300'>
-                <AnimatedCounter number={'120'} duration={2} />
+                <AnimatedCounter number={downloadCount} duration={2} />
                 K+
               </h4>
-              <p className='count-subtext'>Downloads</p>
             </div>
 
             <div className='count-card'>
-              <h4 className='count-heading text-green-200'>1.4K+</h4>
               <p className='count-subtext'>Stars on Github</p>
+              <h4 className='count-heading text-green-200'>1.4K+</h4>
             </div>
 
             <div className='count-card'>
-              <h4 className='count-heading text-purple-200'>350+</h4>
               <p className='count-subtext'>Handcrafted Cursors</p>
+              <h4 className='count-heading text-purple-200'>350+</h4>
+            </div>
+          </div>
+        </section>
+
+        <section className='mt-24 sm:mt-48'>
+          <h1 className='section-heading'>Open Source & Libraries</h1>
+          {/* <p className='section-subheading my-3'>subtext</p> */}
+
+          <div className='mt-10 w-full p-5 rounded-3xl grid grid-cols-1 md:grid-cols-2 lg:sm:grid-cols-3 gap-5 '>
+            <div className='integration-card bg-white/[.1]'>
+              <h4 className='text-2xl font-bold'>Bibata Cursor</h4>
+              <p className='text-lg mt-3 text-white/[.6]'>
+                Open source, compact, and material designed cursor set.
+              </p>
+
+              <div className='mt-12 w-36 bg-blue-400/[.1] p-3 inline-flex items-center gap-2 rounded-full'>
+                <span className='w-5 h-5 rounded-full bg-blue-300' />
+                <p className='text-blue-200'>TypeScript</p>
+              </div>
+            </div>
+
+            <div className='integration-card bg-white/[.1]'>
+              <h4 className='text-2xl font-bold'>Clickgen</h4>
+              <p className='text-lg mt-3 text-white/[.6]'>
+                The hassle-free cursor building toolbox.
+              </p>
+
+              <div className='mt-12 w-28 bg-orange-400/[.1] p-3 inline-flex items-center gap-2 rounded-full'>
+                <span className='w-5 h-5 rounded-full bg-orange-400' />
+                <p className='text-orange-200'>Python</p>
+              </div>
+            </div>
+
+            <div className='integration-card bg-white/[.1]'>
+              <h4 className='text-2xl font-bold'>Cbmp</h4>
+              <p className='text-lg mt-3 text-white/[.6]'>
+                CLI App for converting cursor svg file to png.
+              </p>
+
+              <div className='mt-12 w-36 bg-blue-400/[.1] p-3 inline-flex items-center gap-2 rounded-full'>
+                <span className='w-5 h-5 rounded-full bg-blue-300' />
+                <p className='text-blue-200'>TypeScript</p>
+              </div>
+            </div>
+
+            <div className='integration-card bg-white/[.1]'>
+              <h4 className='text-2xl font-bold'>Pillow</h4>
+              <p className='text-lg mt-3 text-white/[.6]'>
+                The Python Imaging Library.
+              </p>
+
+              <div className='mt-12 w-28 bg-orange-400/[.1] p-3 inline-flex items-center gap-2 rounded-full'>
+                <span className='w-5 h-5 rounded-full bg-orange-400' />
+                <p className='text-orange-200'>Python</p>
+              </div>
+            </div>
+
+            <div className='integration-card bg-white/[.1]'>
+              <h4 className='text-2xl font-bold'>Sharp</h4>
+              <p className='text-lg mt-3 text-white/[.6]'>
+                High performance Node.js image processer.
+              </p>
+
+              <div className='mt-12 w-36 bg-orange-400/[.1] p-3 inline-flex items-center gap-2 rounded-full'>
+                <span className='w-5 h-5 rounded-full bg-yellow-300' />
+                <p className='text-yellow-200'>JavaScript</p>
+              </div>
+            </div>
+
+            <div className='integration-card bg-white/[.1]'>
+              <h4 className='text-2xl font-bold'>Win2XCur</h4>
+              <p className='text-lg mt-3 text-white/[.6]'>
+                The tool that converts cursors.
+              </p>
+
+              <div className='mt-12 w-28 bg-orange-400/[.1] p-3 inline-flex items-center gap-2 rounded-full'>
+                <span className='w-5 h-5 rounded-full bg-orange-400' />
+                <p className='text-orange-200'>Python</p>
+              </div>
             </div>
           </div>
         </section>
