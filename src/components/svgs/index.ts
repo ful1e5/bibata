@@ -1,40 +1,46 @@
-import { BibataLogo } from './bibata';
+import { BibataTypoLogo } from './bibata-typo';
+
 import { GitHubLogo } from './github';
-import { LogoutSVG } from './logout';
-import { ProBadge } from './pro';
+import { XLogo } from './x';
+import { AndroidLogo } from './android';
+import { LinuxMintLogo } from './linuxmint';
 
 import { CheckSVG } from './check';
+import { CheckMarkSVG } from './checkmark';
 import { ErrorSVG } from './error';
 import { InfoSVG } from './info';
 import { ProcessingSVG } from './processing';
+import { DownloadSVG } from './download';
 import { LockSVG } from './lock';
 
 import { LinuxDownloadSVG } from './linux';
 import { WindowsDownloadSVG } from './windows';
 
 import { RefreshSVG } from './refresh';
+import { PaletteSVG } from './palette';
 import { CloseSVG } from './close';
 
 import { ModernSVG } from './modern';
 import { OriginalSVG } from './original';
 
-import { GemsSVG } from './gems';
-
 export {
-  BibataLogo,
+  BibataTypoLogo,
   GitHubLogo,
-  ProBadge,
-  LogoutSVG,
+  XLogo,
+  AndroidLogo,
+  LinuxMintLogo,
   CheckSVG,
+  CheckMarkSVG,
   ProcessingSVG,
+  DownloadSVG,
   LockSVG,
   ErrorSVG,
   InfoSVG,
   WindowsDownloadSVG,
   LinuxDownloadSVG,
   RefreshSVG,
+  PaletteSVG,
   CloseSVG,
   ModernSVG,
-  OriginalSVG,
-  GemsSVG
+  OriginalSVG
 };

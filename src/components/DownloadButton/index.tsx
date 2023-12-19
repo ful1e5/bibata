@@ -9,9 +9,10 @@ import { DownloadCount } from './counts';
 import { DownloadSponsor } from './sponsor';
 import { DownloadSubButtons } from './sub-buttons';
 import { DownloadError } from './error';
-import { LockSVG, ProcessingSVG } from '@components/svgs';
+import { DownloadSVG, LockSVG, ProcessingSVG } from '@components/svgs';
 
 import { Platform, Type } from '@prisma/client';
+import { AddDownloadData } from '@services/download';
 import { Color, Image, ErrorLogs } from 'bibata/app';
 import { AuthToken } from 'bibata/core-api/types';
 import { DownloadFile } from 'bibata/core-api/responses';
@@ -128,8 +129,8 @@ export const DownloadButton: React.FC<Props> = (props) => {
           type: type as Type,
           baseColor: color.base,
           outlineColor: color.outline,
-          watchBGColor: color.watch || color.base
-        })
+          watchBGColor: color.watch?.bg || color.base
+        } as AddDownloadData['data'])
       });
     } catch (e) {
       updateErrorLogs({
@@ -149,9 +150,15 @@ export const DownloadButton: React.FC<Props> = (props) => {
 
     const api = new CoreApi();
     await api.refreshSession(token);
-    const { count, total } = await getDownloadCounts(token);
+    const { count, total, role, error } = await getDownloadCounts(token);
     if ((total && count >= total) || (count === 0 && total === 0)) {
-      setErrorLogs({ text: 'Download Limit Exceeded.' });
+      setErrorLogs({
+        text: 'Download Limit Exceeded.',
+        count,
+        total,
+        role,
+        error
+      });
       setLock(false);
     } else {
       const n = `${name}${role === 'PRO' ? '-Pro' : ''}`;
@@ -225,14 +232,20 @@ export const DownloadButton: React.FC<Props> = (props) => {
               ? 'Download locked while collecting cursor images.'
               : 'Download'
           }
-          className='disabled:opacity-50 relative flex justify-center items-center gap-2 w-4/5 sm:w-1/3 lg:w-1/5 h-11 sm:h-16 rounded-2xl sm:rounded-3xl py-3 bg-green-600 hover:bg-green-500'
+          className='relative flex justify-center items-center uppercase gap-2 w-4/5 sm:w-1/3 lg:w-1/5 h-16 sm:h-20 rounded-full bg-green-600 hover:bg-green-500'
           disabled={props.disabled && !lock && !props.lock}
           onClick={() => !props.lock && setShowDropdown(!showDropdown)}>
-          <p className='overflow-auto text-sm sm:text-lg font-semibold'>
+          {props.lock ? (
+            <LockSVG />
+          ) : busy ? (
+            <ProcessingSVG />
+          ) : (
+            <DownloadSVG />
+          )}
+
+          <p className='overflow-auto text-md font-bold'>
             {!props.lock && busy ? 'Processing' : 'Download'}
           </p>
-
-          {props.lock ? <LockSVG /> : busy && <ProcessingSVG />}
         </button>
       </div>
 

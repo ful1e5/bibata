@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [v1.0.0-beta.0] - 19 December 2023
+
+### What's New?
+
+-   feature: Monochrome colored wedge animation Mode in Customize button
+-   ui: Tint background color on `studio` page
+-   ui: Landing page added
+-   ui: Footer added
+-   ui: Consistent Elements across pages
+
 ## [v1.0.0-alpha.1] - 07 December 2023
 
 ### What's New?
@@ -29,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Initial public release 🎊
 
-[unreleased]: https://github.com/ful1e5/bibata/compare/v1.0.0-alpha.1...main
+[unreleased]: https://github.com/ful1e5/bibata/compare/v1.0.0-beta.0...main
+[v1.0.0-beta.0]: https://github.com/ful1e5/bibata/compare/v1.0.0-alpha.1...v1.0.0-beta.0
 [v1.0.0-alpha.1]: https://github.com/ful1e5/bibata/compare/v1.0.0-alpha.0...v1.0.0-alpha.1
 [v1.0.0-alpha.0]: https://github.com/ful1e5/bibata/tree/v1.0.0-alpha.0

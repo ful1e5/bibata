@@ -32,19 +32,21 @@ Upon achieving my monthly sponsorship goal, the public download limit is lifted.
 
 -   **Pro:** Unlimited Downloads
 -   **Fresh SignIn:** 20 Free Downloads
--   **Public Downloads:** Determined by (monthly sponsorship in cents x 10)
+-   **Public Downloads:** Determined by (monthly sponsorship in cents x 3)
 
 ## How to Upgrade to a "Pro" Account?
 
-To access the benefits of a "Pro" account, initiate sponsorship for [ful1e5](https://github.com/sponsors/ful1e5) with a **monthly tier**. Connect this sponsored account with the Bibata app to unlock unlimited downloads.
+To enjoy the perks of a "Pro" account, begin sponsoring [ful1e5](https://github.com/sponsors/ful1e5) at a **monthly tier**. Connect this sponsored GitHub account to the app to unlock pro features and enjoy unlimited downloads.
+
+By doing so, you will not only gain access to pro features but also receive all the benefits listed on the sponsorship tier. Additionally, you have the opportunity to be featured with a shoutout in the download section and **contribute to increasing the public downloads factor**.
 
 ## TODO:
 
+-   [ ] Landing page
 -   [ ] Custom size component
 -   [ ] Report issues with error stack when errors are generated while crafting cursor images
 -   [ ] Download as PNGs.
 -   [ ] Define Tailwind rules.
--   [ ] Landing page
 -   [ ] Admin Page
 -   [ ] Docs
 -   [ ] Write tests

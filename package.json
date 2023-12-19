@@ -2,7 +2,7 @@
   "name": "bibata",
   "description": "CLI for converting cursor svg files to png.",
   "author": "Abdulkaiz Khatri <kaizmandhu@gmail.com>",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-beta.0",
   "private": true,
   "bugs": {
     "url": "https://github.com/ful1e5/bibata/issues",
@@ -37,6 +37,7 @@
     "react-dom": "^18.2.0",
     "sharp": "^0.32.6",
     "swr": "^2.2.4",
+    "tinycolor2": "^1.6.0",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
@@ -45,6 +46,7 @@
     "@types/node": "^20.7.1",
     "@types/react": "^18.2.23",
     "@types/react-dom": "^18.2.8",
+    "@types/tinycolor2": "^1.4.6",
     "@types/uuid": "^9.0.6",
     "autoprefixer": "^10.4.16",
     "eslint": "8.40.0",

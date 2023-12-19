@@ -8,11 +8,15 @@ type Props = {};
 export const CloseSVG: React.FC<Props> = (_props) => {
   return (
     <svg
-      className='fill-current w-4'
-      viewBox='0 0 100 100'
-      fill='none'
-      xmlns='http://www.w3.org/2000/svg'>
-      <path d='M50 59.0316L79.9684 89L89 79.9684L59.0316 50L89 20.0316L79.9684 11L50 40.9684L20.0316 11L11 20.0316L40.9684 50L11 79.9684L20.0316 89L50 59.0316Z' />
+      className='w-4 sm:w-6'
+      xmlns='http://www.w3.org/2000/svg'
+      viewBox='0 0 24 24'
+      fill='currentColor'>
+      <path
+        fillRule='evenodd'
+        d='M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z'
+        clipRule='evenodd'
+      />
     </svg>
   );
 };

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { DELAYS, COLORS_MASK as mask } from '@root/configs';
+import { DELAYS, WATCH_COLORS, COLORS_MASK as mask } from '@root/configs';
 
 import { fetchX } from '@utils/fetchX';
 
@@ -43,7 +43,11 @@ export const CursorCard: React.FC<Props> = (props) => {
   const colors = {
     [mask.base]: base,
     [mask.outline]: outline,
-    [mask.watch]: watch || base
+    [mask.watch?.bg!]: watch?.bg || base,
+    [mask.watch?.c1!]: watch?.c1 || WATCH_COLORS.c1,
+    [mask.watch?.c2!]: watch?.c2 || WATCH_COLORS.c2,
+    [mask.watch?.c3!]: watch?.c3 || WATCH_COLORS.c3,
+    [mask.watch?.c4!]: watch?.c4 || WATCH_COLORS.c4
   };
 
   const fetchSvg = async (signal: AbortSignal) => {
@@ -154,7 +158,7 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
       }}>
       <div
         style={{
-          backgroundColor: `color-mix(in srgb, #1e1e1e 95%, ${props.color.base})`
+          backgroundColor: `color-mix(in srgb, #1f1f1f 97%, ${props.color.base})`
         }}
         className='w-full mb-4 overflow-hidden rounded-2xl sm:rounded-3xl border-white/[.1] border'>
         <div title={name} className='relative w-full h-24 sm:h-40'>

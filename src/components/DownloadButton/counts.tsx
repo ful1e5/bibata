@@ -22,7 +22,7 @@ export const DownloadCount: React.FC<Props> = (props) => {
     try {
       return getDownloadCounts(props.token);
     } catch {
-      return { total: 0, count: 0, role: 'ANONYMOUS' };
+      return { total: 0, count: 0, role: 'ANONYMOUS', error: null };
     }
   };
 
@@ -31,11 +31,16 @@ export const DownloadCount: React.FC<Props> = (props) => {
     fetcher
   );
   const [noDownloads, setNoDownloads] = useState(false);
+  const [pro, setPro] = useState(false);
 
   useEffect(() => {
     if (data) {
       if (data.count >= data.total!) {
         setNoDownloads(true);
+      }
+
+      if (data.role === 'PRO' || data.role == 'ADMIN') {
+        setPro(true);
       }
     }
   }, [data]);
@@ -58,17 +63,19 @@ export const DownloadCount: React.FC<Props> = (props) => {
             className={`${
               noDownloads ? 'text-red-100/[.8]' : 'text-green-100/[.8]'
             } font-extrabold text-center text-md p-1`}>
-            {`${data.count}`}/{data.role === 'PRO' ? <> &#8734;</> : data.total}
+            {`${data.count}`}/{pro ? <> &#8734;</> : data.total}
           </p>
-          <Tooltip
-            tooltip={
-              noDownloads
-                ? `Help @ful1e5 to reach his monthly GitHub Sponsorship goal for unlimited downloads.
+          {!pro && (
+            <Tooltip
+              tooltip={
+                noDownloads
+                  ? `Help @ful1e5 to reach his monthly GitHub Sponsorship goal for unlimited downloads.
                    Download Counts = ${DB_SEEDS.DOWNLOAD_MULTIPLIER} x (Monthly Sponsorship in Cents)`
-                : `Download Counts = ${DB_SEEDS.DOWNLOAD_MULTIPLIER} x (Monthly Sponsorship in Cents)`
-            }>
-            <InfoSVG />
-          </Tooltip>
+                  : `Download Counts = ${DB_SEEDS.DOWNLOAD_MULTIPLIER} x (Monthly Sponsorship in Cents)`
+              }>
+              <InfoSVG />
+            </Tooltip>
+          )}
         </div>
       )}
     </>
