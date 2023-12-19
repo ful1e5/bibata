@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### What's New?
+
+### Fixes
+
+-   Fetch SVG by specifying `type` and `v`(version) parameters to request
+
 ## [v1.0.0-beta.0] - 19 December 2023
 
 ### What's New?
