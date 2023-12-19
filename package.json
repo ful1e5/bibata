@@ -2,7 +2,7 @@
   "name": "bibata",
   "description": "CLI for converting cursor svg files to png.",
   "author": "Abdulkaiz Khatri <kaizmandhu@gmail.com>",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-beta.1",
   "private": true,
   "bugs": {
     "url": "https://github.com/ful1e5/bibata/issues",

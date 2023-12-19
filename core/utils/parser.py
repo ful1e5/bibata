@@ -135,6 +135,7 @@ def parse_download_params(request: Request, logger: Logger):
             raise ValueError(f"Invalid version '{v}'. It should be type 'string'")
         else:
             version = v
+        raise ValueError(f"Invalid version '{v}'. It should be type 'string'")
 
     except Exception as e:
         errors.append(str(e))

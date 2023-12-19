@@ -31,7 +31,7 @@
   @apply rounded-3xl p-5 flex flex-col bg-black/[.3];
 }
 .count-heading {
-  @apply text-2xl sm:text-4xl lg:text-6xl font-semibold;
+  @apply text-2xl sm:text-4xl xl:text-6xl font-semibold;
 }
 .count-subtext {
   @apply text-[8px] lg:text-[12px] text-white/[.4] tracking-tighter;

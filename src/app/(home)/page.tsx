@@ -88,7 +88,7 @@ export default function HomePage() {
         </section>
 
         <section className='mt-24 sm:mt-48'>
-          <h1 className='section-heading'>Statistics</h1>
+          {/* <h1 className='section-heading'>Statistics</h1> */}
           {/* <p className='section-subheading my-3'>subtext</p> */}
 
           <div className='flex justify-center items-center'>
