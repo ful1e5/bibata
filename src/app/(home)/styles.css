@@ -5,16 +5,16 @@
   @apply text-[70px] sm:text-[150px] text-center font-black tracking-tighter leading-none uppercase;
 }
 .sub-heading {
-  @apply text-[24px] sm:text-5xl text-center font-bold;
+  @apply text-xl sm:text-5xl text-center font-bold;
 }
 .main-text {
   @apply text-[9px] sm:text-sm text-center text-white/[.7] font-semibold w-3/4 lg:w-1/2;
 }
 .section-heading {
-  @apply text-[24px] sm:text-5xl text-center font-bold;
+  @apply text-xl sm:text-5xl text-center font-bold;
 }
 .section-subheading {
-  @apply text-[10px] sm:text-lg text-center font-light text-white/[.7];
+  @apply text-lg text-center font-light text-white/[.7];
 }
 .heading-button {
   @apply flex gap-2 px-6 sm:px-14 py-4 sm:py-6 rounded-full uppercase;
@@ -40,28 +40,28 @@
 /* platform */
 
 .platform-card {
-  @apply rounded-3xl p-10 flex flex-col;
+  @apply rounded-3xl p-10 flex flex-col items-center;
 }
 .platform-icon {
   @apply p-2 w-min rounded-3xl shadow-sm text-black/[.8];
 }
 .platform-heading {
-  @apply text-3xl font-bold mt-6;
+  @apply text-xl font-bold mt-6;
 }
 .platform-line {
-  @apply inline-flex items-center gap-2;
+  @apply inline-flex items-center gap-2 text-xs;
 }
 
 /* Open Source & Libraries */
 
 .library-card {
-  @apply rounded-3xl p-6 flex flex-col;
+  @apply rounded-3xl p-6 flex flex-col transform hover:scale-105 ease-in-out duration-150 hover:bg-blue-400/[.2];
 }
 .library-card-heading {
-  @apply text-lg md:text-2xl font-bold;
+  @apply md:text-2xl font-bold;
 }
 .library-card-text {
-  @apply text-sm md:text-lg mt-3 text-white/[.6];
+  @apply text-xs md:text-lg mt-3 text-white/[.6];
 }
 .library-card-lang {
   @apply mt-12 p-3 inline-flex items-center gap-2 rounded-full;

@@ -15,8 +15,6 @@ import {
 import Link from 'next/link';
 
 export default function HomePage() {
-  const downloadCount = '120';
-
   return (
     <main>
       <div className='container m-auto px-3 pt-6 pb-28'>
@@ -112,7 +110,7 @@ export default function HomePage() {
               <div className='count-card'>
                 <p className='count-subtext'>Downloads</p>
                 <h4 className='count-heading text-orange-300'>
-                  <AnimatedCounter number={downloadCount} duration={2} />
+                  <AnimatedCounter number='120' duration={2} />
                   K+
                 </h4>
               </div>
@@ -154,7 +152,7 @@ export default function HomePage() {
                       <span className='text-[#f9b801]'>
                         <CheckMarkSVG />
                       </span>
-                      <p className='text-blue-200 text-xl'>{line}</p>
+                      <p className='text-blue-200'>{line}</p>
                     </div>
                   ))}
                 </div>
@@ -178,7 +176,7 @@ export default function HomePage() {
                       <span className='text-blue-400'>
                         <CheckMarkSVG />
                       </span>
-                      <p className='text-blue-200 text-xl'>{line}</p>
+                      <p className='text-blue-200'>{line}</p>
                     </div>
                   ))}
                 </div>
@@ -192,7 +190,10 @@ export default function HomePage() {
           {/* <p className='section-subheading my-3'>subtext</p> */}
 
           <div className='mt-10 w-full p-5 rounded-3xl grid grid-cols-1 md:grid-cols-2 lg:sm:grid-cols-3 gap-5 '>
-            <div className='library-card bg-white/[.1]'>
+            <Link
+              href='https://github.com/ful1e5/Bibata_Cursor'
+              target='_blank'
+              className='library-card bg-white/[.1]'>
               <h4 className='library-card-heading'>Bibata Cursor</h4>
               <p className='library-card-text'>
                 Open source, compact, and material designed cursor set.
@@ -202,9 +203,12 @@ export default function HomePage() {
                 <span className='circle bg-blue-300' />
                 <p className='text-blue-200'>TypeScript</p>
               </div>
-            </div>
+            </Link>
 
-            <div className='library-card bg-white/[.1]'>
+            <Link
+              href='https://github.com/ful1e5/clickgen'
+              target='_blank'
+              className='library-card bg-white/[.1]'>
               <h4 className='library-card-heading'>Clickgen</h4>
               <p className='library-card-text'>
                 The hassle-free cursor building toolbox.
@@ -214,9 +218,12 @@ export default function HomePage() {
                 <span className='circle bg-orange-300' />
                 <p className='text-orange-200'>Python</p>
               </div>
-            </div>
+            </Link>
 
-            <div className='library-card bg-white/[.1]'>
+            <Link
+              href='https://github.com/ful1e5/cbmp'
+              target='_blank'
+              className='library-card bg-white/[.1]'>
               <h5 className='library-card-heading'>Cbmp</h5>
               <p className='library-card-text'>
                 CLI App for converting cursor svg file to png.
@@ -226,9 +233,12 @@ export default function HomePage() {
                 <span className='circle bg-blue-300' />
                 <p className='text-blue-200'>TypeScript</p>
               </div>
-            </div>
+            </Link>
 
-            <div className='library-card bg-white/[.1]'>
+            <Link
+              href='https://github.com/python-pillow/Pillow'
+              target='_blank'
+              className='library-card bg-white/[.1]'>
               <h5 className='library-card-heading'>Pillow</h5>
               <p className='library-card-text'>The Python Imaging Library.</p>
 
@@ -236,9 +246,12 @@ export default function HomePage() {
                 <span className='circle bg-orange-300' />
                 <p className='text-orange-200'>Python</p>
               </div>
-            </div>
+            </Link>
 
-            <div className='library-card bg-white/[.1]'>
+            <Link
+              href='https://github.com/lovell/sharp'
+              target='_blank'
+              className='library-card bg-white/[.1]'>
               <h5 className='library-card-heading'>Sharp</h5>
               <p className='library-card-text'>
                 High performance Node.js image processer.
@@ -248,9 +261,12 @@ export default function HomePage() {
                 <span className='circle bg-yellow-300' />
                 <p className='text-yellow-200'>JavaScript</p>
               </div>
-            </div>
+            </Link>
 
-            <div className='library-card bg-white/[.1]'>
+            <Link
+              href='https://github.com/quantum5/win2xcur'
+              target='_blank'
+              className='library-card bg-white/[.1]'>
               <h5 className='library-card-heading'>Win2XCur</h5>
               <p className='library-card-text'>
                 The tool that converts cursors.
@@ -260,7 +276,7 @@ export default function HomePage() {
                 <span className='circle bg-orange-300' />
                 <p className='text-orange-200'>Python</p>
               </div>
-            </div>
+            </Link>
           </div>
         </section>
       </div>

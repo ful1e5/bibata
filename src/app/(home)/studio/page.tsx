@@ -67,9 +67,11 @@ export default function StudioPage() {
           list={TYPES}
           value={type}
           onClick={(v) => {
-            resetImages();
-            setType(v);
-            refreshToken();
+            if (v !== type) {
+              resetImages();
+              setType(v);
+              refreshToken();
+            }
           }}
         />
 
@@ -78,8 +80,10 @@ export default function StudioPage() {
             list={SIZES}
             values={cursorSize}
             onClick={(s) => {
-              setCursorSize(s);
-              refreshToken();
+              if (s !== cursorSize) {
+                setCursorSize(s);
+                refreshToken();
+              }
             }}
           />
         </div>
@@ -88,10 +92,12 @@ export default function StudioPage() {
           <ColorPicker
             colorName={colorName}
             onClick={(n, c) => {
-              resetImages();
-              setColorName(n);
-              setColor(c);
-              refreshToken();
+              if (c !== color) {
+                resetImages();
+                setColorName(n);
+                setColor(c);
+                refreshToken();
+              }
             }}
           />
         </div>
