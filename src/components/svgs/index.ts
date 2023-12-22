@@ -4,6 +4,7 @@ import { GitHubLogo } from './github';
 import { XLogo } from './x';
 import { AndroidLogo } from './android';
 import { LinuxMintLogo } from './linuxmint';
+import { ManjaroLogo } from './manjaro';
 
 import { CheckSVG } from './check';
 import { CheckMarkSVG } from './checkmark';
@@ -29,6 +30,7 @@ export {
   XLogo,
   AndroidLogo,
   LinuxMintLogo,
+  ManjaroLogo,
   CheckSVG,
   CheckMarkSVG,
   ProcessingSVG,

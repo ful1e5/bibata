@@ -46,7 +46,7 @@ const update = async (type: string | null, version: string | null) => {
 
     const key = `${type}:${version}`;
     await redis.del(key);
-    redis.saveSVGs(key, svgs);
+    await redis.saveSVGs(key, svgs);
 
     return;
   } catch (e) {

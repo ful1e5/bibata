@@ -8,6 +8,7 @@ import {
   CheckMarkSVG,
   LinuxDownloadSVG,
   LinuxMintLogo,
+  ManjaroLogo,
   WindowsDownloadSVG
 } from '@components/svgs';
 
@@ -74,6 +75,7 @@ export default function HomePage() {
             <Link
               className='hover:text-[--accent] scale-animation'
               href='https://developer.android.com/about/versions/14/get'
+              title='Android 14'
               target='_blank'>
               <AndroidLogo />
             </Link>
@@ -81,8 +83,17 @@ export default function HomePage() {
             <Link
               className='hover:text-[--accent] scale-animation'
               href='https://linuxmint.com/edition.php?id=299'
+              title='Linux Mint 21 Vanessa'
               target='_blank'>
               <LinuxMintLogo />
+            </Link>
+
+            <Link
+              className='hover:text-[--accent] scale-animation'
+              href='https://manjaro.org'
+              title='Manjaro Linux'
+              target='_blank'>
+              <ManjaroLogo />
             </Link>
           </div>
         </section>
