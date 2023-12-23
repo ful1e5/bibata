@@ -1,5 +1,7 @@
 import { BibataTypoLogo } from './bibata-typo';
 
+import { BannerSVG } from './banner';
+
 import { GitHubLogo } from './github';
 import { XLogo } from './x';
 import { AndroidLogo } from './android';
@@ -26,6 +28,7 @@ import { OriginalSVG } from './original';
 
 export {
   BibataTypoLogo,
+  BannerSVG,
   GitHubLogo,
   XLogo,
   AndroidLogo,
