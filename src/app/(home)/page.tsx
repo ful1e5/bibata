@@ -8,20 +8,28 @@ import { AnimatedCounter } from '@components/AnimatedCount';
 import {
   AndroidLogo,
   BannerSVG,
-  CheckMarkSVG,
   LinuxDownloadSVG,
   LinuxMintLogo,
   ManjaroLogo,
   WindowsDownloadSVG
 } from '@components/svgs';
 
-import { refreshColors } from '@utils/randomColors';
-
 export default function HomePage() {
-  const colors = refreshColors(true);
+  const colors = {
+    base: '#d7f47e',
+    outline: '#6e8038',
+    watch: {
+      bg: '#024720',
+      c1: '#090a05',
+      c2: '#5c6936',
+      c3: '#94a956',
+      c4: '#cce877'
+    }
+  };
+
   return (
     <main>
-      <div className='container m-auto px-3 pt-6 pb-28 '>
+      <div className='container m-auto px-3 pt-6 pb-24'>
         <div className='h-[350px] sm:h-[600px] bg-gradient-radial from-10% from-orange-300/[.07] via-40% via-yellow-300/[.03] to-60%  flex flex-col justify-center items-center'>
           <section className='flex flex-col gap-6 justify-center items-center text-[--accent]'>
             <h1 className='inline-flex flex-col'>
@@ -87,17 +95,15 @@ export default function HomePage() {
         </section>
       </div>
 
-      <section className=''>
-        <BannerSVG
-          base={colors.base}
-          outline={colors.outline}
-          watch={{ ...colors.watch }}
-        />
-      </section>
+      <BannerSVG
+        base={colors.base}
+        outline={colors.outline}
+        watch={{ ...colors.watch }}
+      />
 
       <section>
         <div className='flex justify-center items-center'>
-          <div className='w-full md:w-2/3 mt-10 p-5 rounded-3xl grid grid-cols-4 gap-5 '>
+          <div className='w-full md:w-2/3 p-5 rounded-3xl grid grid-cols-2 sm:grid-cols-4 gap-5 '>
             <div className='count-card'>
               <p className='count-subtext'>Rank</p>
               <h4 className='count-heading'>#1</h4>
@@ -106,7 +112,7 @@ export default function HomePage() {
             <div className='count-card'>
               <p className='count-subtext'>Downloads</p>
               <h4 className='count-heading'>
-                <AnimatedCounter number='120' duration={2} />
+                <AnimatedCounter number='121' duration={2} />
                 K+
               </h4>
             </div>
@@ -123,59 +129,39 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      <div className='container m-auto px-3 pt-6 pb-28 '>
+
+      <div className='container m-auto px-3'>
         <section className='mt-24 sm:mt-48'>
-          <h1 className='section-heading'>Platforms</h1>
+          <h1 className='section-heading'>Supported Platforms</h1>
           {/* <p className='section-subheading my-3'>subtext</p> */}
 
           <div className='flex justify-center items-center'>
-            <div className='w-full mt-10 p-5 rounded-3xl grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-20'>
+            <div className='w-full mt-10 p-5 rounded-3xl grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-20'>
               <div className='platform-card bg-white/[.1]'>
-                <span className='platform-icon bg-[#f9b801]'>
+                <span className='platform-icon '>
                   <LinuxDownloadSVG />
                 </span>
                 <h4 className='platform-heading'>XCursors</h4>
-
-                <div className='mt-10 flex flex-col gap-4'>
-                  {[
-                    'HiDPi Supports',
-                    'Wayland Supports',
-                    'Custom Color',
-                    'Animated Cursors',
-                    'Custom Size'
-                  ].map((line, key) => (
-                    <div key={key} className='platform-line'>
-                      <span className='text-[#f9b801]'>
-                        <CheckMarkSVG />
-                      </span>
-                      <p className='text-blue-200'>{line}</p>
-                    </div>
-                  ))}
-                </div>
+                <p className='platform-line'>
+                  Bibata Studio create stunning, HiDPI and Wayland-compatible
+                  cursor websites with customizable colors, animated options,
+                  and bespoke sizing for a professional and engaging user
+                  experience.
+                </p>
               </div>
 
               <div className='platform-card bg-white/[.1]'>
-                <span className='platform-icon bg-blue-400'>
+                <span className='platform-icon'>
                   <WindowsDownloadSVG />
                 </span>
 
-                <h4 className='platform-heading'>Windows</h4>
-
-                <div className='mt-10 flex flex-col gap-4'>
-                  {[
-                    'HiDPi Supports',
-                    'Custom Color',
-                    'Animated Cursors (.ani)',
-                    'Custom Size'
-                  ].map((line, key) => (
-                    <div key={key} className='platform-line'>
-                      <span className='text-blue-400'>
-                        <CheckMarkSVG />
-                      </span>
-                      <p className='text-blue-200'>{line}</p>
-                    </div>
-                  ))}
-                </div>
+                <h4 className='platform-heading'>Windows Cursors</h4>
+                <p className='platform-line'>
+                  Bibata Studio craft Windows cursors with seamless HiDPI
+                  support, personalized color schemes, dynamic animated (.ani)
+                  elements, and tailored sizing for a truly customized user
+                  interface.
+                </p>
               </div>
             </div>
           </div>

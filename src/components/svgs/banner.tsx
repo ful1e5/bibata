@@ -14,7 +14,6 @@ type Props = {
   };
 };
 
-// eslint-disable-next-line no-unused-vars
 export const BannerSVG: React.FC<Props> = (props) => {
   return (
     <svg
@@ -367,7 +366,7 @@ export const BannerSVG: React.FC<Props> = (props) => {
             strokeWidth='62.3322'
           />
         </g>
-        <g filter='url(#filter1_d_180_8)'>
+        <g>
           <circle cx='960.329' cy='647.324' r='227.329' fill={props.watch.bg} />
           <circle
             cx='960.329'
@@ -520,7 +519,7 @@ export const BannerSVG: React.FC<Props> = (props) => {
             width='349'
             height='155'
             rx='70'
-            fill='#535353'
+            fill='#fff2'
           />
           <rect
             x='1264.5'
@@ -528,7 +527,7 @@ export const BannerSVG: React.FC<Props> = (props) => {
             width='356'
             height='162'
             rx='73.5'
-            stroke='#676565'
+            stroke='#fff3'
             strokeWidth='7'
           />
         </g>
@@ -585,40 +584,6 @@ export const BannerSVG: React.FC<Props> = (props) => {
           y='97.1168'
           width='552.793'
           height='656.437'
-          filterUnits='userSpaceOnUse'
-          colorInterpolationFilters='sRGB'>
-          <feFlood floodOpacity='0' result='BackgroundImageFix' />
-          <feColorMatrix
-            in='SourceAlpha'
-            type='matrix'
-            values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0'
-            result='hardAlpha'
-          />
-          <feOffset dx='24.444' dy='6.111' />
-          <feGaussianBlur stdDeviation='6.111' />
-          <feComposite in2='hardAlpha' operator='out' />
-          <feColorMatrix
-            type='matrix'
-            values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0'
-          />
-          <feBlend
-            mode='normal'
-            in2='BackgroundImageFix'
-            result='effect1_dropShadow_180_8'
-          />
-          <feBlend
-            mode='normal'
-            in='SourceGraphic'
-            in2='effect1_dropShadow_180_8'
-            result='shape'
-          />
-        </filter>
-        <filter
-          id='filter1_d_180_8'
-          x='670.668'
-          y='351.551'
-          width='615.989'
-          height='603.767'
           filterUnits='userSpaceOnUse'
           colorInterpolationFilters='sRGB'>
           <feFlood floodOpacity='0' result='BackgroundImageFix' />

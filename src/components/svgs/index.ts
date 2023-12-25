@@ -9,7 +9,6 @@ import { LinuxMintLogo } from './linuxmint';
 import { ManjaroLogo } from './manjaro';
 
 import { CheckSVG } from './check';
-import { CheckMarkSVG } from './checkmark';
 import { ErrorSVG } from './error';
 import { InfoSVG } from './info';
 import { ProcessingSVG } from './processing';
@@ -35,7 +34,6 @@ export {
   LinuxMintLogo,
   ManjaroLogo,
   CheckSVG,
-  CheckMarkSVG,
   ProcessingSVG,
   DownloadSVG,
   LockSVG,

@@ -9,7 +9,7 @@ type Props = {};
 // eslint-disable-next-line no-unused-vars
 export const Footer: React.FC<Props> = (_props) => {
   return (
-    <footer className='bg-[--bg-dark] border-t border-white/[.1] p-3'>
+    <footer className='bg-[--bg-dark] border-t border-white/[.1] p-3 mt-20'>
       <div className='container mx-auto'>
         <div className='flex justify-between items-center pb-6 md:gap-12'>
           <Link className='hover:text-orange-300' href='/'>

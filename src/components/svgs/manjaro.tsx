@@ -8,7 +8,7 @@ type Props = {};
 export const ManjaroLogo: React.FC<Props> = (_props) => {
   return (
     <svg
-      className='fill-current h-6 sm:h-12'
+      className='fill-current h-7 sm:h-12'
       viewBox='0 0 256 256'
       xmlns='http://www.w3.org/2000/svg'>
       <g transform='scale(4)'>

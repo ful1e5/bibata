@@ -25,7 +25,7 @@ export const generateRandomColors = (): string[] => {
 
 export const refreshColors = (mono: boolean = false) => {
   const color = generateRandomColors();
-  const watch = monoWedgeColors(color[0], color[2], mono);
+  const watch = monoWedgeColors('#d7f47e', '#6e8038', mono);
 
   return {
     base: color[0],

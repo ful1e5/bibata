@@ -17,10 +17,10 @@
   @apply flex gap-2 px-5 sm:px-12 py-3 sm:py-5 rounded-full uppercase;
 }
 .selected-button {
-  @apply bg-white font-black hover:bg-[#d7f47e];
+  @apply bg-white font-black hover:bg-[--accent];
 }
 .outlined-button {
-  @apply text-white/[.6] hover:text-[#d7f47e] ring-1 ring-white/[.6] hover:ring-[#d7f47e] font-bold;
+  @apply text-white/[.6] hover:text-[--accent] ring-1 ring-white/[.6] hover:ring-[--accent] font-bold;
 }
 
 /* Statistics */
@@ -28,7 +28,7 @@
   @apply rounded-3xl p-5 flex flex-col;
 }
 .count-heading {
-  @apply text-2xl sm:text-4xl xl:text-6xl font-semibold text-center;
+  @apply text-3xl sm:text-4xl xl:text-6xl font-semibold text-center;
 }
 .count-subtext {
   @apply text-[8px] lg:text-[12px] text-white/[.4] tracking-tighter text-center;
@@ -37,16 +37,16 @@
 /* platform */
 
 .platform-card {
-  @apply rounded-3xl p-10 flex flex-col items-center;
+  @apply rounded-3xl p-10 flex flex-col;
 }
 .platform-icon {
-  @apply p-2 w-min rounded-3xl shadow-sm text-black/[.8];
+  @apply p-5 w-min rounded-3xl text-black/[.8] bg-[--accent];
 }
 .platform-heading {
-  @apply text-lg font-bold mt-6;
+  @apply text-xl font-bold mt-5 ml-2;
 }
 .platform-line {
-  @apply inline-flex items-center gap-2 text-xs;
+  @apply mt-3 ml-2 text-xs md:text-lg text-white/[.6] w-4/5 sm:w-full;
 }
 
 /* Open Source & Libraries */
