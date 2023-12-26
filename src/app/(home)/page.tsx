@@ -15,16 +15,19 @@ import {
 } from '@components/svgs';
 
 export default function HomePage() {
-  const colors = {
-    base: '#d7f47e',
-    outline: '#6e8038',
-    watch: {
-      bg: '#024720',
-      c1: '#090a05',
-      c2: '#5c6936',
-      c3: '#94a956',
-      c4: '#cce877'
-    }
+  const marqueElements = () => {
+    const marqueeCounts = Array.from(new Array(3), (_, i) => i + 1);
+    return (
+      <>
+        {marqueeCounts.map((key) => (
+          <span key={key} className='mx-4 text-8xl font-black italic'>
+            <span className='text-yellow-300'>BEEEEEE</span>
+            <span className='text-yellow-300 ml-8'>BAAA</span>
+            <span className='text-yellow-400 ml-8'>TAAAAAA...</span>
+          </span>
+        ))}
+      </>
+    );
   };
 
   return (
@@ -33,7 +36,18 @@ export default function HomePage() {
         <div className='h-[350px] sm:h-[600px] bg-gradient-radial from-10% from-orange-300/[.07] via-40% via-yellow-300/[.03] to-60%  flex flex-col justify-center items-center'>
           <section className='flex flex-col gap-6 justify-center items-center text-[--accent]'>
             <h1 className='inline-flex flex-col'>
-              <span className='main-heading-0'>One Cursor</span>
+              <span className='main-heading-0'>
+                One{' '}
+                <span className='inline-flex flex-col h-[calc(40px*theme(lineHeight.tight))] sm:h-[calc(96px*theme(lineHeight.tight))] overflow-hidden'>
+                  <ul className='block animate-text-slide leading-tight [&_li]:block'>
+                    <li>Cursor</li>
+                    <li>Mouser</li>
+                    <li className='tracking-wider'>Bibata</li>
+                    <li aria-hidden='true'>Cursor</li>
+                  </ul>
+                </span>
+                {/* Cursor */}
+              </span>
               <span className='main-heading-1'>Endless Personalization.</span>
             </h1>
           </section>
@@ -41,7 +55,6 @@ export default function HomePage() {
           <section className='mt-16 sm:mt-24 flex-center flex-row gap-5 md:gap-10 text-black font-black'>
             <Link
               className='heading-button selected-button scale-animation'
-              target='_blank'
               href='/studio'>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -96,14 +109,20 @@ export default function HomePage() {
       </div>
 
       <BannerSVG
-        base={colors.base}
-        outline={colors.outline}
-        watch={{ ...colors.watch }}
+        base='#adb9d5'
+        outline='#738281'
+        watch={{
+          bg: '#444444',
+          c1: '#32a0da',
+          c2: '#7eba41',
+          c3: '#f05024',
+          c4: '#fcb813'
+        }}
       />
 
-      <section>
+      <section className='mt-12'>
         <div className='flex justify-center items-center'>
-          <div className='w-full md:w-2/3 p-5 rounded-3xl grid grid-cols-2 sm:grid-cols-4 gap-5 '>
+          <div className='w-full lg:w-4/5 p-5 rounded-3xl grid grid-cols-2 sm:grid-cols-4 gap-5 '>
             <div className='count-card'>
               <p className='count-subtext'>Rank</p>
               <h4 className='count-heading'>#1</h4>
@@ -119,7 +138,7 @@ export default function HomePage() {
 
             <div className='count-card'>
               <p className='count-subtext'>Stars</p>
-              <h4 className='count-heading'>1.4K+</h4>
+              <h4 className='count-heading'>1.5K+</h4>
             </div>
 
             <div className='count-card'>
@@ -130,8 +149,20 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className='mt-8'>
+        <div className='relative flex overflow-x-hidden'>
+          <div className='py-12 animate-marquee whitespace-nowrap'>
+            {marqueElements()}
+          </div>
+
+          <div className='absolute top-0 py-12 animate-marquee2 whitespace-nowrap'>
+            {marqueElements()}
+          </div>
+        </div>
+      </section>
+
       <div className='container m-auto px-3'>
-        <section className='mt-24 sm:mt-48'>
+        <section className='mt-24'>
           <h1 className='section-heading'>Supported Platforms</h1>
           {/* <p className='section-subheading my-3'>subtext</p> */}
 

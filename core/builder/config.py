@@ -222,8 +222,6 @@ configs: Dict[str, Config] = {
         xname="lr_angle",
     ),
     "move": Config(
-        x=128,
-        y=128,
         winname="Move",
         xname="move",
         links=[

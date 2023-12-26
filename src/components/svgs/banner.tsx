@@ -355,92 +355,99 @@ export const BannerSVG: React.FC<Props> = (props) => {
             fillOpacity='0.5'
           />
         </g>
-        <g filter='url(#filter0_d_180_8)'>
-          <path
-            d='M744 202.425C744 169.494 784.043 153.258 806.978 176.889L1046.48 423.661L841.152 418.161L744 547.941L744 202.425Z'
-            fill={props.base}
-          />
-          <path
-            d='M1045.65 454.816L1122.14 456.865L1068.85 401.955L829.342 155.183C786.913 111.465 712.834 141.503 712.834 202.425L712.834 547.941L712.834 641.581L768.95 566.618L856.438 449.748L1045.65 454.816Z'
-            stroke={props.outline}
-            strokeWidth='62.3322'
-          />
-        </g>
         <g>
-          <circle cx='960.329' cy='647.324' r='227.329' fill={props.watch.bg} />
-          <circle
-            cx='960.329'
-            cy='647.324'
-            r='258.495'
-            stroke={props.outline}
-            strokeWidth='62.3322'
-          />
-        </g>
-        <g transform='translate(960.329 647.324)'>
-          <g transform='scale(3.5)'>
-            <g transform='translate(-50 -50)'>
-              <g transform='rotate(0 50 50)'>
-                <animateTransform
-                  attributeName='transform'
-                  type='rotate'
-                  repeatCount='indefinite'
-                  values='0 50 50;360 50 50'
-                  keyTimes='0;1'
-                  dur='0.7575757575757576s'
-                />
-                <path
-                  fillOpacity='0.8'
-                  fill={props.watch.c3}
-                  d='M50 50L50 0A50 50 0 0 1 100 50Z'
-                />
-              </g>
-              <g transform='rotate(0 50 50)'>
-                <animateTransform
-                  attributeName='transform'
-                  type='rotate'
-                  repeatCount='indefinite'
-                  values='0 50 50;360 50 50'
-                  keyTimes='0;1'
-                  dur='1.0101010101010102s'
-                />
-                <path
-                  fillOpacity='0.8'
-                  fill={props.watch.c4}
-                  d='M50 50L50 0A50 50 0 0 1 100 50Z'
-                  transform='rotate(90 50 50)'
-                />
-              </g>
-              <g transform='rotate(0 50 50)'>
-                <animateTransform
-                  attributeName='transform'
-                  type='rotate'
-                  repeatCount='indefinite'
-                  values='0 50 50;360 50 50'
-                  keyTimes='0;1'
-                  dur='1.5151515151515151s'
-                />
-                <path
-                  fillOpacity='0.8'
-                  fill={props.watch.c2}
-                  d='M50 50L50 0A50 50 0 0 1 100 50Z'
-                  transform='rotate(180 50 50)'
-                />
-              </g>
-              <g transform='rotate(0 50 50)'>
-                <animateTransform
-                  attributeName='transform'
-                  type='rotate'
-                  repeatCount='indefinite'
-                  values='0 50 50;360 50 50'
-                  keyTimes='0;1'
-                  dur='3.0303030303030303s'
-                />
-                <path
-                  fillOpacity='0.8'
-                  fill={props.watch.c1}
-                  d='M50 50L50 0A50 50 0 0 1 100 50Z'
-                  transform='rotate(270 50 50)'
-                />
+          <g filter='url(#filter0_d_180_8)'>
+            <path
+              d='M744 202.425C744 169.494 784.043 153.258 806.978 176.889L1046.48 423.661L841.152 418.161L744 547.941L744 202.425Z'
+              fill={props.base}
+            />
+            <path
+              d='M1045.65 454.816L1122.14 456.865L1068.85 401.955L829.342 155.183C786.913 111.465 712.834 141.503 712.834 202.425L712.834 547.941L712.834 641.581L768.95 566.618L856.438 449.748L1045.65 454.816Z'
+              stroke={props.outline}
+              strokeWidth='62.3322'
+            />
+          </g>
+          <g>
+            <circle
+              cx='960.329'
+              cy='647.324'
+              r='227.329'
+              fill={props.watch.bg}
+            />
+            <circle
+              cx='960.329'
+              cy='647.324'
+              r='258.495'
+              stroke={props.outline}
+              strokeWidth='62.3322'
+            />
+          </g>
+          <g transform='translate(960.329 647.324)'>
+            <g transform='scale(3.5)'>
+              <g transform='translate(-50 -50)'>
+                <g transform='rotate(0 50 50)'>
+                  <animateTransform
+                    attributeName='transform'
+                    type='rotate'
+                    repeatCount='indefinite'
+                    values='0 50 50;360 50 50'
+                    keyTimes='0;1'
+                    dur='0.7575757575757576s'
+                  />
+                  <path
+                    fillOpacity='0.8'
+                    fill={props.watch.c3}
+                    d='M50 50L50 0A50 50 0 0 1 100 50Z'
+                  />
+                </g>
+                <g transform='rotate(0 50 50)'>
+                  <animateTransform
+                    attributeName='transform'
+                    type='rotate'
+                    repeatCount='indefinite'
+                    values='0 50 50;360 50 50'
+                    keyTimes='0;1'
+                    dur='1.0101010101010102s'
+                  />
+                  <path
+                    fillOpacity='0.8'
+                    fill={props.watch.c4}
+                    d='M50 50L50 0A50 50 0 0 1 100 50Z'
+                    transform='rotate(90 50 50)'
+                  />
+                </g>
+                <g transform='rotate(0 50 50)'>
+                  <animateTransform
+                    attributeName='transform'
+                    type='rotate'
+                    repeatCount='indefinite'
+                    values='0 50 50;360 50 50'
+                    keyTimes='0;1'
+                    dur='1.5151515151515151s'
+                  />
+                  <path
+                    fillOpacity='0.8'
+                    fill={props.watch.c2}
+                    d='M50 50L50 0A50 50 0 0 1 100 50Z'
+                    transform='rotate(180 50 50)'
+                  />
+                </g>
+                <g transform='rotate(0 50 50)'>
+                  <animateTransform
+                    attributeName='transform'
+                    type='rotate'
+                    repeatCount='indefinite'
+                    values='0 50 50;360 50 50'
+                    keyTimes='0;1'
+                    dur='3.0303030303030303s'
+                  />
+                  <path
+                    fillOpacity='0.8'
+                    fill={props.watch.c1}
+                    d='M50 50L50 0A50 50 0 0 1 100 50Z'
+                    transform='rotate(270 50 50)'
+                  />
+                </g>
               </g>
             </g>
           </g>

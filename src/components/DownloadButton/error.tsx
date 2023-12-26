@@ -57,7 +57,7 @@ export const DownloadError: React.FC<Props> = (props) => {
                   target='_blank'
                   onClick={props.onClick}
                   href='https://github.com/ful1e5/bibata#why-a-download-limit'>
-                  Read More
+                  Learn More
                 </Link>
               </>
             ) : (

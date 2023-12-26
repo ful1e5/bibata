@@ -28,7 +28,7 @@
   @apply rounded-3xl p-5 flex flex-col;
 }
 .count-heading {
-  @apply text-3xl sm:text-4xl xl:text-6xl font-semibold text-center;
+  @apply text-4xl xl:text-6xl font-semibold text-center;
 }
 .count-subtext {
   @apply text-[8px] lg:text-[12px] text-white/[.4] tracking-tighter text-center;
@@ -46,13 +46,13 @@
   @apply text-xl font-bold mt-5 ml-2;
 }
 .platform-line {
-  @apply mt-3 ml-2 text-xs md:text-lg text-white/[.6] w-4/5 sm:w-full;
+  @apply mt-3 ml-2 text-xs md:text-lg text-white/[.6] w-4/5 sm:w-5/6;
 }
 
 /* Open Source & Libraries */
 
 .library-card {
-  @apply rounded-3xl p-6 flex flex-col transform hover:scale-105 ease-in-out duration-150 hover:bg-blue-400/[.2];
+  @apply rounded-3xl p-6 flex flex-col transform hover:scale-105 ease-in-out duration-150 hover:bg-yellow-200/[.2];
 }
 .library-card-heading {
   @apply md:text-2xl font-bold;

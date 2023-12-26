@@ -12,7 +12,7 @@ export const Footer: React.FC<Props> = (_props) => {
     <footer className='bg-[--bg-dark] border-t border-white/[.1] p-3 mt-20'>
       <div className='container mx-auto'>
         <div className='flex justify-between items-center pb-6 md:gap-12'>
-          <Link className='hover:text-orange-300' href='/'>
+          <Link className='hover:text-yellow-300' href='/'>
             <BibataTypoLogo size={50} />
           </Link>
 

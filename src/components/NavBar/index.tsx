@@ -28,11 +28,11 @@ export const NavBar: React.FC<Props> = (_props) => {
           <div className='overflow-hidden flex items-center justify-center gap-2'>
             <span className='inline-flex items-center gap-1'>
               <span
-                className={
+                className={`hover:text-yellow-300 ${
                   session?.user?.role === 'PRO' || pathname === '/'
                     ? 'text-[--accent]'
                     : 'text-white'
-                }>
+                }`}>
                 <BibataTypoLogo />
               </span>
             </span>
