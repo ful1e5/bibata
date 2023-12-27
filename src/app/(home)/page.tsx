@@ -207,6 +207,20 @@ export default function HomePage() {
           The proficient team spearheading the Bibata project.
         </p>
         <Heroes />
+
+        <div className='mt-4 flex-center flex-col sm:flex-row gap-2 sm:gap-5 md:gap-10 text-black font-black'>
+          <Link
+            className='heading-button selected-button scale-animation'
+            href='https://github.com/sponsors/ful1e5/sponsorships?sponsor=ful1e5&tier_id=173012&preview=false'>
+            Join As Sponsor
+          </Link>
+
+          <Link
+            className='heading-button outlined-button scale-animation'
+            href='https://github.com/ful1e5/bibata'>
+            Start Contriuting
+          </Link>
+        </div>
       </section>
 
       <div className='container m-auto px-3'>

@@ -26,6 +26,7 @@ export const Heroes: React.FC<Props> = (_props) => {
           )}
           <div className='w-52 sm:w-72 bg-black rounded-3xl overflow-hidden text-center drop-shadow-lg border border-white/[.1] '>
             <img
+              alt={props.name}
               className={`saturate-150 brightness-105 ${props.classes || ''} `}
               src={props.imgUrl}
             />

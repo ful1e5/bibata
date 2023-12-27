@@ -1,7 +1,9 @@
 'use client';
 
 import React from 'react';
+
 import Link from 'next/link';
+
 import {
   BibataTypoLogo,
   GitHubLogo,
@@ -9,6 +11,7 @@ import {
   TwitchLogo,
   XLogo
 } from './svgs';
+
 import { LIB_VERSION } from '@root/version';
 
 type Props = {};
@@ -96,7 +99,7 @@ export const Footer: React.FC<Props> = (_props) => {
           </div>
           <div className='mt-7 pt-3 border-t border-white/[.1] flex flex-col'>
             <div className='text-white/[.5] w-full sm:w-3/5'>
-              <h7 className='font-black'>Privacy Policy</h7>
+              <h6 className='font-black'>Privacy Policy</h6>
               <p>
                 Bibata is committed to ensuring the privacy of user information.
                 We only collect necessary data when an account is linked, and
