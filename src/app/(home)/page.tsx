@@ -5,6 +5,7 @@ import '@app/(home)/styles.css';
 import Link from 'next/link';
 
 import { AnimatedCounter } from '@components/AnimatedCount';
+import { Heroes } from '@components/Heroes';
 import {
   AndroidLogo,
   BannerSVG,
@@ -14,26 +15,28 @@ import {
   WindowsDownloadSVG
 } from '@components/svgs';
 
-export default function HomePage() {
-  const marqueElements = () => {
-    const marqueeCounts = Array.from(new Array(3), (_, i) => i + 1);
-    return (
-      <>
-        {marqueeCounts.map((key) => (
-          <span key={key} className='mx-4 text-8xl font-black italic'>
-            <span className='text-yellow-300'>BEEEEEE</span>
-            <span className='text-yellow-300 ml-8'>BAAA</span>
-            <span className='text-yellow-400 ml-8'>TAAAAAA...</span>
-          </span>
-        ))}
-      </>
-    );
-  };
+const MarqueElements = () => {
+  const counts = Array.from(new Array(3), (_, i) => i + 1);
+  return (
+    <>
+      {counts.map((key) => (
+        <span
+          key={key}
+          className='mx-4 text-5xl sm:text-8xl font-black opacity-50 italic'>
+          <span className='text-blue-200'>BEEEEEE</span>
+          <span className='text-teal-100 ml-8'>BAAA</span>
+          <span className='text-blue-200 ml-8'>TAAAAAA...</span>
+        </span>
+      ))}
+    </>
+  );
+};
 
+export default function HomePage() {
   return (
     <main>
       <div className='container m-auto px-3 pt-6 pb-24'>
-        <div className='h-[350px] sm:h-[600px] bg-gradient-radial from-10% from-orange-300/[.07] via-40% via-yellow-300/[.03] to-60%  flex flex-col justify-center items-center'>
+        <div className='h-[350px] sm:h-[600px] bg-gradient-radial from-10% from-orange-300/[.07] via-40% via-fushcia-300/[.07] to-60% flex flex-col justify-center items-center'>
           <section className='flex flex-col gap-6 justify-center items-center text-[--accent]'>
             <h1 className='inline-flex flex-col'>
               <span className='main-heading-0'>
@@ -152,11 +155,11 @@ export default function HomePage() {
       <section className='mt-8'>
         <div className='relative flex overflow-x-hidden'>
           <div className='py-12 animate-marquee whitespace-nowrap'>
-            {marqueElements()}
+            <MarqueElements />
           </div>
 
           <div className='absolute top-0 py-12 animate-marquee2 whitespace-nowrap'>
-            {marqueElements()}
+            <MarqueElements />
           </div>
         </div>
       </section>
@@ -164,12 +167,11 @@ export default function HomePage() {
       <div className='container m-auto px-3'>
         <section className='mt-24'>
           <h1 className='section-heading'>Supported Platforms</h1>
-          {/* <p className='section-subheading my-3'>subtext</p> */}
 
           <div className='flex justify-center items-center'>
-            <div className='w-full mt-10 p-5 rounded-3xl grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-20'>
+            <div className='w-full mt-10 p-5 grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-20'>
               <div className='platform-card bg-white/[.1]'>
-                <span className='platform-icon '>
+                <span className='platform-icon'>
                   <LinuxDownloadSVG />
                 </span>
                 <h4 className='platform-heading'>XCursors</h4>
@@ -197,7 +199,17 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+      </div>
 
+      <section className='mt-24'>
+        <h1 className='section-heading'>Heroes</h1>
+        <p className='section-subheading my-3'>
+          The proficient team spearheading the Bibata project.
+        </p>
+        <Heroes />
+      </section>
+
+      <div className='container m-auto px-3'>
         <section className='mt-24 sm:mt-48'>
           <h1 className='section-heading'>Open Source & Libraries</h1>
           {/* <p className='section-subheading my-3'>subtext</p> */}

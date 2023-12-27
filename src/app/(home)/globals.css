@@ -5,7 +5,28 @@
 :root {
   --bg-dark: #141414;
   --bg-light: #ffffff;
-  --accent: #d7f47e;
+  --accent: #d2defc;
+  --accent-active: #8aa8f2;
+
+  --gradient-light: linear-gradient(
+    to_right,
+    theme(colors.fuchsia.100),
+    theme(colors.green.100),
+    theme(colors.orange.100),
+    theme(colors.red.100),
+    theme(colors.blue.100),
+    theme(colors.fuchsia.100)
+  );
+
+  --gradient-strong: linear-gradient(
+    to_right,
+    theme(colors.fuchsia.300),
+    theme(colors.green.300),
+    theme(colors.orange.300),
+    theme(colors.red.300),
+    theme(colors.blue.300),
+    theme(colors.fuchsia.300)
+  );
 
   --text-dark: #ffffff;
   --text-light: #000000;

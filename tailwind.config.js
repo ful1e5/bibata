@@ -22,7 +22,8 @@ module.exports = {
       animation: {
         marquee: 'marquee 60s linear infinite',
         marquee2: 'marquee2 60s linear infinite',
-        'text-slide': 'text-slide 8s cubic-bezier(0.83, 0, 0.17, 1) infinite'
+        'text-slide': 'text-slide 8s cubic-bezier(0.83, 0, 0.17, 1) infinite',
+        gradient: 'gradient 10s linear infinite'
       },
       keyframes: {
         marquee: {
@@ -46,6 +47,9 @@ module.exports = {
           '100%': {
             transform: 'translateY(-75%)'
           }
+        },
+        gradient: {
+          to: { 'background-position': '200% center' }
         }
       }
     }

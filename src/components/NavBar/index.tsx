@@ -28,7 +28,7 @@ export const NavBar: React.FC<Props> = (_props) => {
           <div className='overflow-hidden flex items-center justify-center gap-2'>
             <span className='inline-flex items-center gap-1'>
               <span
-                className={`hover:text-yellow-300 ${
+                className={`hover:text-white/[.8] ${
                   session?.user?.role === 'PRO' || pathname === '/'
                     ? 'text-[--accent]'
                     : 'text-white'

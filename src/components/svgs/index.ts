@@ -4,6 +4,8 @@ import { BannerSVG } from './banner';
 
 import { GitHubLogo } from './github';
 import { XLogo } from './x';
+import { TwitchLogo } from './twitch';
+import { RedditLogo } from './reddit';
 import { AndroidLogo } from './android';
 import { LinuxMintLogo } from './linuxmint';
 import { ManjaroLogo } from './manjaro';
@@ -30,6 +32,8 @@ export {
   BannerSVG,
   GitHubLogo,
   XLogo,
+  TwitchLogo,
+  RedditLogo,
   AndroidLogo,
   LinuxMintLogo,
   ManjaroLogo,
