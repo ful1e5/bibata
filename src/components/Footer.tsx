@@ -74,7 +74,7 @@ export const Footer: React.FC<Props> = (_props) => {
         </div>
 
         <div className='pb-4 lg:pb-12'>
-          <div className='flex items-center justify-start gap text-white/[.8]'>
+          <div className='flex items-center justify-start gap-1 font-mono tracking-tight text-white/[.8]'>
             <Link
               target='_blank'
               href='https://github.com/ful1e5/bibata/blob/main/LICENSE'
@@ -97,6 +97,7 @@ export const Footer: React.FC<Props> = (_props) => {
               {`v${LIB_VERSION}`}
             </Link>
           </div>
+
           <div className='mt-7 pt-3 border-t border-white/[.1] flex flex-col'>
             <div className='text-white/[.5] w-full sm:w-3/5'>
               <h6 className='font-black'>Privacy Policy</h6>
