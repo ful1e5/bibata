@@ -1,16 +1,13 @@
 .scale-animation {
   @apply transition hover:scale-110 ease-in-out duration-150;
 }
-
 .main-heading-0 {
-  @apply text-[40px] sm:text-[96px] text-center font-black tracking-tighter leading-none uppercase text-blue-200;
-  /* bg-[linear-gradient(to_right,theme(colors.yellow.400),theme(colors.orange.300),theme(colors.pink.300),theme(colors.blue.300),theme(colors.yellow.400))] */
-  /* bg-[length:200%_auto] animate-gradient; */
+  @apply text-[40px] sm:text-[96px] text-center font-black tracking-tighter leading-none uppercase text-yellow-100;
 }
 .main-heading-1 {
   @apply text-xl sm:text-5xl text-center font-bold
   bg-clip-text text-transparent
-  bg-[linear-gradient(to_right,theme(colors.yellow.200),theme(colors.orange.100),theme(colors.blue.400),theme(colors.orange.200),theme(colors.yellow.200))]
+  bg-[linear-gradient(to_right,theme(colors.yellow.200),theme(colors.orange.100),theme(colors.orange.100),theme(colors.orange.200),theme(colors.yellow.200))]
   bg-[length:200%_auto] animate-gradient;
 }
 .section-heading {
@@ -25,8 +22,8 @@
 
 .selected-button {
   @apply bg-white font-black
-  bg-[linear-gradient(to_right,theme(colors.yellow.200),theme(colors.teal.100),theme(colors.blue.100),theme(colors.yellow.200))] 
-  hover:bg-[linear-gradient(to_right,theme(colors.green.300),theme(colors.teal.300),theme(colors.blue.300),theme(colors.green.300))] 
+  bg-[linear-gradient(to_right,theme(colors.yellow.200),theme(colors.orange.100),theme(colors.orange.200),theme(colors.yellow.200))]
+  hover:bg-[linear-gradient(to_right,theme(colors.green.300),theme(colors.teal.300),theme(colors.blue.300),theme(colors.green.300))]
   bg-[length:200%_auto] animate-gradient;
 }
 .outlined-button {
@@ -35,13 +32,13 @@
 
 /* Statistics */
 .count-card {
-  @apply rounded-3xl p-5 flex flex-col;
-}
-.count-heading {
-  @apply text-4xl xl:text-6xl font-semibold text-center;
+  @apply rounded-3xl p-5 flex flex-col text-center;
 }
 .count-subtext {
-  @apply text-[8px] lg:text-[12px] text-white/[.4] tracking-tighter text-center;
+  @apply text-[8px] sm:text-[10px] lg:text-[12px] text-white/[.4] tracking-tighter mt-3;
+}
+.count-heading {
+  @apply bg-[--accent] flex flex-col justify-center items-center gap-5 rounded-3xl text-black text-3xl font-black p-5 border-2 border-black/[.4];
 }
 
 /* platform */
@@ -59,8 +56,15 @@
   @apply mt-3 ml-2 text-xs md:text-lg text-white/[.6] w-4/5 sm:w-5/6;
 }
 
-/* Open Source & Libraries */
+/* Heroes Line*/
 
+.heroes-line {
+  @apply text-center text-lg font-semibold bg-clip-text text-transparent
+  bg-[linear-gradient(to_right,theme(colors.red.200),theme(colors.orange.100),theme(colors.fuchsia.400),theme(colors.blue.200),theme(colors.red.200))]
+  bg-[length:200%_auto] animate-gradient;
+}
+
+/* Open Source & Libraries */
 .library-card {
   @apply rounded-3xl p-6 flex flex-col transform hover:scale-105 ease-in-out duration-150 hover:bg-[#8aa8f2]/[.2];
 }

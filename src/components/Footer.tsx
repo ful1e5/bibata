@@ -65,7 +65,7 @@ export const Footer: React.FC<Props> = (_props) => {
                 rel='noopener noreferrer'>
                 <TwitchLogo size={15} />
               </Link>
-              <span className='relative flex h-2 w-2 sm:h-3 sm:w-3 -translate-y-1 sm:-translate-y-2'>
+              <span className='relative flex h-2 w-2 sm:h-3 sm:w-3 -translate-y-1 -translate-x-1 sm:-translate-x-2'>
                 <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75'></span>
                 <span className='relative inline-flex rounded-full h-2 w-2 sm:h-3 sm:w-3 bg-purple-500'></span>
               </span>
@@ -74,17 +74,11 @@ export const Footer: React.FC<Props> = (_props) => {
         </div>
 
         <div className='pb-4 lg:pb-12'>
-          <div className='flex items-center justify-start gap-1 font-mono tracking-tight text-white/[.8]'>
+          <div className='flex items-center justify-start gap-1 font-mono tracking-tighter text-xs text-white/[.8]'>
             <Link
               target='_blank'
               href='https://github.com/ful1e5/bibata/blob/main/LICENSE'
               className='inline-flex gap-1 hover:text-white hover:underline'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                className='w-4 fill-current'
-                viewBox='0 0 24 24'>
-                <path d='M7 11l-2.5-2-2.5 2v-11h5v11zm10 1h-8v1h8v-1zm-8-12v2h11v11.543c0 4.107-6 2.457-6 2.457s1.518 6-2.637 6h-7.363v-10.039l-2 1.601v10.438h10.189c3.163 0 9.811-7.223 9.811-9.614v-14.386h-13zm8 6h-8v1h8v-1zm0 3h-8v1h8v-1z' />
-              </svg>
               MIT License
             </Link>
 

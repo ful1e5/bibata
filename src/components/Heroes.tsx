@@ -69,6 +69,12 @@ export const Heroes: React.FC<Props> = (_props) => {
             />
 
             <Card
+              imgUrl='https://avatars.githubusercontent.com/u/43558271?v=4'
+              link='https://github.com/Silicasandwhich'
+              name='Daniel Brown'
+              role='Contributor'
+            />
+            <Card
               imgUrl='https://avatars.githubusercontent.com/u/5437803?v=4'
               link='https://github.com/yochananmarqos'
               name='Mark Wagie'
