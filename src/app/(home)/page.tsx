@@ -5,6 +5,7 @@ import '@app/(home)/styles.css';
 import Link from 'next/link';
 
 import { AnimatedCounter } from '@components/AnimatedCount';
+import { BibataMarquee } from '@components/BibataMarquee';
 import { Heroes } from '@components/Heroes';
 import {
   AndroidLogo,
@@ -14,23 +15,6 @@ import {
   ManjaroLogo,
   WindowsDownloadSVG
 } from '@components/svgs';
-
-const MarqueElements = () => {
-  const counts = Array.from(new Array(3), (_, i) => i + 1);
-  return (
-    <>
-      {counts.map((key) => (
-        <span
-          key={key}
-          className='mx-4 text-5xl sm:text-8xl font-black opacity-50 italic'>
-          <span className='text-blue-200'>BEEEEEE</span>
-          <span className='text-teal-100 ml-8'>BAAA</span>
-          <span className='text-blue-200 ml-8'>TAAAAAA...</span>
-        </span>
-      ))}
-    </>
-  );
-};
 
 export default function HomePage() {
   return (
@@ -153,15 +137,7 @@ export default function HomePage() {
       </section>
 
       <section className='mt-8'>
-        <div className='relative flex overflow-x-hidden'>
-          <div className='py-12 animate-marquee whitespace-nowrap'>
-            <MarqueElements />
-          </div>
-
-          <div className='absolute top-0 py-12 animate-marquee2 whitespace-nowrap'>
-            <MarqueElements />
-          </div>
-        </div>
+        <BibataMarquee />
       </section>
 
       <div className='container m-auto px-3'>
@@ -211,7 +187,7 @@ export default function HomePage() {
         <div className='mt-4 flex-center flex-col sm:flex-row gap-2 sm:gap-5 md:gap-10 text-black font-black'>
           <Link
             className='heading-button selected-button scale-animation'
-            href='https://github.com/sponsors/ful1e5/sponsorships?sponsor=ful1e5&tier_id=173012&preview=false'>
+            href='https://github.com/sponsors/ful1e5'>
             Join As Sponsor
           </Link>
 

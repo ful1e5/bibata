@@ -17,7 +17,7 @@ type Props = {
 export const BannerSVG: React.FC<Props> = (props) => {
   return (
     <svg
-      className='h-fit'
+      className='w-full'
       viewBox='0 0 1920 1080'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'>

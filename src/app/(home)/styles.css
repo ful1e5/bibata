@@ -6,7 +6,7 @@
   @apply text-[40px] sm:text-[96px] text-center font-black tracking-tighter leading-none uppercase
   bg-clip-text text-transparent
   bg-[linear-gradient(to_right,theme(colors.yellow.400),theme(colors.orange.300),theme(colors.pink.300),theme(colors.blue.300),theme(colors.yellow.400))]
-  bg-[length:200%_auto] animate-gradient;
+  /* bg-[length:200%_auto] animate-gradient; */;
 }
 .main-heading-1 {
   @apply text-xl sm:text-5xl text-center font-bold
