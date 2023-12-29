@@ -10,7 +10,13 @@ declare module 'bibata/app' {
   type Color = {
     base: string;
     outline: string;
-    watch?: string;
+    watch?: {
+      bg?: string;
+      c1?: string;
+      c2?: string;
+      c3?: string;
+      c4?: string;
+    };
   };
 
   type Colors = {
@@ -52,6 +58,7 @@ declare module 'bibata/misc' {
     name: string;
     avatarUrl: string;
     dollar: number;
+    tier: string;
   };
 
   type LuckySponsor = {
@@ -63,6 +70,8 @@ declare module 'bibata/misc' {
   type DownloadCounts = {
     total: number | null;
     count: number;
+    role: Role;
+    error: any;
   };
 
   type JWTToken = {

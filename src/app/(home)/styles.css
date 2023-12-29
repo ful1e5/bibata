@@ -21,7 +21,7 @@
 }
 
 .selected-button {
-  @apply bg-white font-black
+  @apply bg-white font-black text-black
   bg-[linear-gradient(to_right,theme(colors.yellow.200),theme(colors.orange.100),theme(colors.orange.200),theme(colors.yellow.200))]
   hover:bg-[linear-gradient(to_right,theme(colors.green.300),theme(colors.teal.300),theme(colors.blue.300),theme(colors.green.300))]
   bg-[length:200%_auto] animate-gradient;
@@ -32,17 +32,31 @@
 
 /* Statistics */
 .count-card {
-  @apply rounded-3xl p-5 flex flex-col text-center;
+  @apply rounded-3xl bg-white/[.1] flex flex-col text-center text-white border-2 border-black/[.4];
 }
-.count-subtext {
-  @apply text-[8px] sm:text-[10px] lg:text-[12px] text-white/[.4] tracking-tighter mt-3;
+.count-icon {
+  @apply w-16 md:w-16 p-1;
+}
+.award-icon {
+  @apply fill-white;
+}
+.download-icon {
+  @apply fill-blue-300;
+}
+.star-icon {
+  @apply fill-yellow-200;
+}
+.pen-icon {
+  @apply fill-green-300;
 }
 .count-heading {
-  @apply bg-[--accent] flex flex-col justify-center items-center gap-5 rounded-3xl text-black text-3xl font-black p-5 border-2 border-black/[.4];
+  @apply flex flex-col justify-center items-center gap-2 rounded-3xl text-3xl font-black px-5 pt-5;
+}
+.count-subtext {
+  @apply text-[8px] sm:text-[10px] lg:text-[12px] text-white/[.4] tracking-tighter mt-1 mb-3;
 }
 
 /* platform */
-
 .platform-card {
   @apply rounded-3xl p-10 flex flex-col;
 }
@@ -57,7 +71,6 @@
 }
 
 /* Heroes Line*/
-
 .heroes-line {
   @apply text-center text-lg font-semibold bg-clip-text text-transparent
   bg-[linear-gradient(to_right,theme(colors.red.200),theme(colors.orange.100),theme(colors.fuchsia.400),theme(colors.blue.200),theme(colors.red.200))]

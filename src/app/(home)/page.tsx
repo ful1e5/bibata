@@ -41,7 +41,7 @@ export default function HomePage() {
             </h1>
           </section>
 
-          <section className='mt-16 sm:mt-24 flex-center flex-row gap-5 md:gap-10 text-black font-black'>
+          <section className='mt-16 sm:mt-24 flex-center flex-row gap-5 md:gap-10 font-black'>
             <Link
               className='heading-button selected-button scale-animation'
               href='/studio'>
@@ -111,12 +111,12 @@ export default function HomePage() {
 
       <section className='mt-12'>
         <div className='flex justify-center items-center'>
-          <div className='w-full lg:w-4/5 p-5 rounded-3xl grid grid-cols-2 sm:grid-cols-4 gap-5 '>
+          <div className='w-full lg:w-4/5 p-5 rounded-3xl grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5 '>
             <div className='count-card'>
               <div className='count-heading'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
-                  className='w-20 md:w-28 p-2 animate-float4'
+                  className='count-icon award-icon animate-float4'
                   viewBox='0 0 24 24'>
                   <path d='M18 10c0 3.309-2.691 6-6 6s-6-2.691-6-6 2.691-6 6-6 6 2.691 6 6zm4 1.737l-1.895 1.168.687 2.095-2.187.46-.079 2.2-2.213-.304-.84 2.04-1.977-1.031-1.496 1.635-1.497-1.634-1.977 1.031-.84-2.04-2.213.304-.079-2.2-2.186-.461.687-2.095-1.895-1.168 1.374-1.737-1.374-1.737 1.895-1.168-.687-2.095 2.187-.46.079-2.2 2.213.304.84-2.04 1.977 1.031 1.496-1.635 1.497 1.634 1.977-1.031.84 2.04 2.213-.304.079 2.2 2.186.461-.687 2.095 1.895 1.168-1.374 1.737 1.374 1.737zm-3-1.737c0-3.866-3.134-7-7-7s-7 3.134-7 7 3.134 7 7 7 7-3.134 7-7zm-1.859 10.276l2.401 3.724 1.146-2h2.312l-2.655-4.103c-.917.969-1.999 1.775-3.204 2.379zm-13.486-2.379l-2.655 4.103h2.312l1.146 2 2.401-3.724c-1.205-.604-2.287-1.41-3.204-2.379z' />
                 </svg>
@@ -129,7 +129,7 @@ export default function HomePage() {
               <div className='count-heading'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
-                  className='w-20 md:w-28 p-2 animate-float3'
+                  className='count-icon download-icon animate-float3'
                   viewBox='0 0 24 24'>
                   <path d='M24 12c0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12 12-5.373 12-12zm-18 1h4v-7h4v7h4l-6 6-6-6z' />
                 </svg>
@@ -144,7 +144,7 @@ export default function HomePage() {
             <div className='count-card'>
               <div className='count-heading'>
                 <svg
-                  className='w-20 md:w-28 animate-float2'
+                  className='count-icon star-icon animate-float2'
                   clipRule='evenodd'
                   fillRule='evenodd'
                   strokeLinejoin='round'
@@ -165,7 +165,7 @@ export default function HomePage() {
               <div className='count-heading'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
-                  className='w-20 md:w-28 p-2 animate-float1'
+                  className='count-icon pen-icon animate-float1'
                   viewBox='0 0 24 24'>
                   <path d='M18.009 13.388c-1.771 2.408-4.399 4.783-7.359 4.396-.801 1.119-1.695 2.682-2.688 4.496l-2.296.72c1.943-3.79 4.537-7.981 7.32-11.166-1.205.785-3.185 2.473-4.908 4.253-1.554-3.246.085-6.253 2.458-8.548-.067 1.081.413 2.068.772 2.575-.062-.904.044-2.52.704-3.92 1.323-1.116 2.492-1.92 3.829-2.622-.217.791-.033 1.739.222 2.331.116-.82.603-2.368 1.167-3.01 1.667-1.075 4.135-1.936 6.77-1.892-.291 1.623-1.143 4.258-2.294 5.893-.929.597-2.157.946-3.137 1.115.811.228 1.719.293 2.509.235-.575 1.207-1.157 2.311-2.039 3.666-1.216.679-2.77.978-3.832 1.035.743.389 2.097.617 2.802.443zm-14.009 8.612h-4v1h4v-1z' />
                 </svg>
@@ -232,7 +232,7 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className='mt-6 flex-center flex-col sm:flex-row gap-2 sm:gap-5 md:gap-10 text-black font-black'>
+        <div className='mt-6 flex-center flex-col sm:flex-row gap-2 sm:gap-5 md:gap-10 font-black'>
           <Link
             className='heading-button selected-button scale-animation'
             href='https://github.com/sponsors/ful1e5'>
@@ -258,7 +258,7 @@ export default function HomePage() {
               className='library-card bg-blue-400/[.3]'>
               <h4 className='library-card-heading'>Bibata</h4>
               <p className='library-card-text'>
-                The place where Bibata's cursor gets personalized.
+                The place where Bibata<>&apos;</>s cursor gets personalized.
               </p>
 
               <div className='library-card-lang w-28 bg-blue-400/[.1]'>
