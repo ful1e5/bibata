@@ -18,6 +18,7 @@ type Props = {};
 
 // eslint-disable-next-line no-unused-vars
 export const Footer: React.FC<Props> = (_props) => {
+  const gitCommintSHA = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA;
   return (
     <footer className='bg-[--bg-dark] border-t border-white/[.1] p-3 mt-20'>
       <div className='container mx-auto'>
@@ -90,6 +91,18 @@ export const Footer: React.FC<Props> = (_props) => {
               className='inline-flex gap-1 hover:text-white hover:underline'>
               {`v${LIB_VERSION}`}
             </Link>
+
+            {gitCommintSHA && (
+              <>
+                <p>•</p>
+                <Link
+                  target='_blank'
+                  href={`https://github.com/ful1e5/bibata/commit/${gitCommintSHA}`}
+                  className='inline-flex gap-1 hover:text-white hover:underline'>
+                  {`${gitCommintSHA.substring(0, 6)}`}
+                </Link>
+              </>
+            )}
           </div>
 
           <div className='mt-7 pt-3 border-t border-white/[.1] flex flex-col'>
