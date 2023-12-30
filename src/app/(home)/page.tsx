@@ -27,10 +27,12 @@ export default function HomePage() {
                 One{' '}
                 <span className='inline-flex flex-col h-[calc(40px*theme(lineHeight.tight))] sm:h-[calc(96px*theme(lineHeight.tight))] overflow-hidden'>
                   <ul className='block animate-text-slide leading-tight [&_li]:block'>
-                    <li className='animate-wide'>Bibata</li>
+                    <li className='tracking-wide'>Bibata</li>
                     <li>Cursor</li>
                     <li>Mouser</li>
-                    <li aria-hidden='true'>Bibata</li>
+                    <li className='tracking-wide' aria-hidden='true'>
+                      Bibata
+                    </li>
                   </ul>
                 </span>
                 {/* Cursor */}

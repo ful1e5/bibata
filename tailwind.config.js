@@ -23,7 +23,6 @@ module.exports = {
         marquee: 'marquee 60s linear infinite',
         marquee2: 'marquee2 60s linear infinite',
         'text-slide': 'text-slide 8s cubic-bezier(0.83, 0, 0.17, 1) infinite',
-        wide: 'wide 4s ease-in-out infinite',
         gradient: 'gradient 10s linear infinite',
         float1: 'float 6s linear infinite',
         float2: 'float 7s linear infinite',
@@ -58,11 +57,6 @@ module.exports = {
           '100%': {
             transform: 'translateY(-75%)'
           }
-        },
-        wide: {
-          '0%': { letterSpacing: 'normal' },
-          '70%': { letterSpacing: '0.5rem' },
-          '100%': { letterSpacing: '0.6rem' }
         },
         gradient: {
           to: { 'background-position': '200% center' }
