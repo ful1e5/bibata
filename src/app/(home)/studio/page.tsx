@@ -7,6 +7,7 @@ import tinycolor from 'tinycolor2';
 import { TYPES, COLORS, SIZES } from '@root/configs';
 import { LIB_VERSION } from '@root/version';
 
+import { Message } from '@components/Message';
 import { TypePicker } from '@components/TypePicker';
 import { SizePicker } from '@components/SizePicker';
 import { ColorPicker } from '@components/ColorPicker';
@@ -63,23 +64,34 @@ export default function StudioPage() {
         background: `radial-gradient(circle at center, ${tint1} 0%, ${tint2} 50%, ${tint1} 75%, ${bg} 100%)`
       }}>
       <div className='container m-auto px-3 py-6'>
-        <TypePicker
-          list={TYPES}
-          value={type}
-          onClick={(v) => {
-            resetImages();
-            setType(v);
-            refreshToken();
-          }}
+        <Message
+          tag='Alert'
+          message='Bibata servers need an upgrade! Click to help with the upgrade.'
+          href='https://www.github.com/sponsors/ful1e5'
         />
+        <div className='mt-5'>
+          <TypePicker
+            list={TYPES}
+            value={type}
+            onClick={(v) => {
+              if (v !== type) {
+                resetImages();
+                setType(v);
+                refreshToken();
+              }
+            }}
+          />
+        </div>
 
         <div className='my-10'>
           <SizePicker
             list={SIZES}
             values={cursorSize}
             onClick={(s) => {
-              setCursorSize(s);
-              refreshToken();
+              if (s !== cursorSize) {
+                setCursorSize(s);
+                refreshToken();
+              }
             }}
           />
         </div>
@@ -88,10 +100,12 @@ export default function StudioPage() {
           <ColorPicker
             colorName={colorName}
             onClick={(n, c) => {
-              resetImages();
-              setColorName(n);
-              setColor(c);
-              refreshToken();
+              if (c !== color) {
+                resetImages();
+                setColorName(n);
+                setColor(c);
+                refreshToken();
+              }
             }}
           />
         </div>

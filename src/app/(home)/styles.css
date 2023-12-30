@@ -1,71 +1,95 @@
 .scale-animation {
   @apply transition hover:scale-110 ease-in-out duration-150;
 }
-.main-heading {
-  @apply text-[70px] sm:text-[150px] text-center font-black tracking-tighter leading-none uppercase;
+.main-heading-0 {
+  @apply text-[40px] sm:text-[96px] text-center font-black tracking-tighter leading-none uppercase text-yellow-100;
 }
-.sub-heading {
-  @apply text-[24px] sm:text-5xl text-center font-bold;
-}
-.main-text {
-  @apply text-[9px] sm:text-sm text-center text-white/[.7] font-semibold w-3/4 lg:w-1/2;
+.main-heading-1 {
+  @apply text-xl sm:text-5xl text-center font-bold
+  bg-clip-text text-transparent
+  bg-[linear-gradient(to_right,theme(colors.yellow.200),theme(colors.orange.100),theme(colors.orange.100),theme(colors.orange.200),theme(colors.yellow.200))]
+  bg-[length:200%_auto] animate-gradient;
 }
 .section-heading {
-  @apply text-[24px] sm:text-5xl text-center font-bold;
+  @apply text-3xl sm:text-5xl text-center font-bold;
 }
 .section-subheading {
-  @apply text-[10px] sm:text-lg text-center font-light text-white/[.7];
+  @apply text-lg text-center font-light text-white/[.7];
 }
 .heading-button {
-  @apply flex gap-2 px-6 sm:px-14 py-4 sm:py-6 rounded-full uppercase;
+  @apply flex gap-2 px-5 sm:px-12 py-3 sm:py-5 rounded-full uppercase;
 }
+
 .selected-button {
-  @apply bg-white font-black hover:bg-[#d7f47e];
+  @apply bg-white font-black text-black
+  bg-[linear-gradient(to_right,theme(colors.yellow.200),theme(colors.orange.100),theme(colors.orange.200),theme(colors.yellow.200))]
+  hover:bg-[linear-gradient(to_right,theme(colors.green.300),theme(colors.teal.300),theme(colors.blue.300),theme(colors.green.300))]
+  bg-[length:200%_auto] animate-gradient;
 }
 .outlined-button {
-  @apply text-white/[.6] hover:text-[#d7f47e] ring-1 ring-white/[.6] hover:ring-[#d7f47e] font-bold;
+  @apply text-white/[.6] hover:text-green-200 ring-1 ring-white/[.6] hover:ring-green-200 font-bold;
 }
 
 /* Statistics */
 .count-card {
-  @apply rounded-3xl p-5 flex flex-col bg-black/[.3];
+  @apply rounded-3xl bg-white/[.1] flex flex-col text-center text-white border-2 border-black/[.4];
+}
+.count-icon {
+  @apply w-16 md:w-16 p-1;
+}
+.award-icon {
+  @apply fill-white;
+}
+.download-icon {
+  @apply fill-blue-300;
+}
+.star-icon {
+  @apply fill-yellow-200;
+}
+.pen-icon {
+  @apply fill-green-300;
 }
 .count-heading {
-  @apply text-2xl sm:text-4xl xl:text-6xl font-semibold;
+  @apply flex flex-col justify-center items-center gap-2 rounded-3xl text-3xl font-black px-5 pt-5;
 }
 .count-subtext {
-  @apply text-[8px] lg:text-[12px] text-white/[.4] tracking-tighter;
+  @apply text-[8px] sm:text-[10px] lg:text-[12px] text-white/[.4] tracking-tighter mt-1 mb-3;
 }
 
 /* platform */
-
 .platform-card {
-  @apply rounded-3xl p-10 flex flex-col;
+  @apply rounded-3xl p-10 flex flex-col text-center;
 }
 .platform-icon {
-  @apply p-2 w-min rounded-3xl shadow-sm text-black/[.8];
+  @apply w-full h-72 sm:h-56 flex items-center justify-center rounded-3xl text-black/[.8] bg-[--accent];
 }
 .platform-heading {
-  @apply text-3xl font-bold mt-6;
+  @apply text-xl sm:text-3xl font-bold mt-5 ml-2;
 }
 .platform-line {
-  @apply inline-flex items-center gap-2;
+  @apply mt-3 ml-2 text-xs md:text-lg text-white/[.6];
+}
+
+/* Heroes Line*/
+.heroes-line {
+  @apply text-center text-lg font-semibold bg-clip-text text-transparent
+  bg-[linear-gradient(to_right,theme(colors.red.200),theme(colors.orange.100),theme(colors.fuchsia.400),theme(colors.blue.200),theme(colors.red.200))]
+  bg-[length:200%_auto] animate-gradient;
 }
 
 /* Open Source & Libraries */
-
 .library-card {
-  @apply rounded-3xl p-6 flex flex-col;
+  @apply rounded-3xl p-6 flex flex-col transform hover:scale-105 ease-in-out duration-150 hover:bg-[#8aa8f2]/[.2];
 }
 .library-card-heading {
-  @apply text-lg md:text-2xl font-bold;
+  @apply md:text-2xl font-bold;
 }
 .library-card-text {
-  @apply text-sm md:text-lg mt-3 text-white/[.6];
+  @apply text-xs md:text-lg mt-3 text-white/[.6];
 }
 .library-card-lang {
   @apply mt-12 p-3 inline-flex items-center gap-2 rounded-full;
 }
 .circle {
-  @apply w-5 h-5 rounded-full;
+  @apply w-3 h-3 rounded-full;
 }

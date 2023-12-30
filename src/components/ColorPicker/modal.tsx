@@ -2,14 +2,12 @@
 
 import React, { useEffect, useState } from 'react';
 
-import tinycolor from 'tinycolor2';
 import Wheel from '@uiw/react-color-wheel';
 
 import { CursorPreview } from './preview';
 import { CloseSVG, RefreshSVG, PaletteSVG } from '@components/svgs';
 
-import { generateRandomColors } from '@utils/randomColors';
-import { WATCH_COLORS } from '@root/configs';
+import { monoWedgeColors, refreshColors } from '@utils/randomColors';
 
 import { Color } from 'bibata/app';
 
@@ -75,14 +73,14 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
 
   const [monochromeMode, setMonochromeMode] = useState(false);
 
-  const defaultColor = generateRandomColors();
-  const [baseColor, setBaseColor] = useState(defaultColor[0]);
-  const [outlineColor, setOutlineColor] = useState(defaultColor[1]);
-  const [watchBGColor, setWatchBGColor] = useState(defaultColor[2]);
-  const [watchColor1, setWatchColor1] = useState(WATCH_COLORS.c1);
-  const [watchColor2, setWatchColor2] = useState(WATCH_COLORS.c2);
-  const [watchColor3, setWatchColor3] = useState(WATCH_COLORS.c3);
-  const [watchColor4, setWatchColor4] = useState(WATCH_COLORS.c4);
+  const defaultColor = refreshColors();
+  const [baseColor, setBaseColor] = useState(defaultColor.base);
+  const [outlineColor, setOutlineColor] = useState(defaultColor.outline);
+  const [watchBGColor, setWatchBGColor] = useState(defaultColor.watch.bg);
+  const [watchColor1, setWatchColor1] = useState(defaultColor.watch.c1);
+  const [watchColor2, setWatchColor2] = useState(defaultColor.watch.c2);
+  const [watchColor3, setWatchColor3] = useState(defaultColor.watch.c3);
+  const [watchColor4, setWatchColor4] = useState(defaultColor.watch.c4);
 
   const watchColor = {
     bg: watchBGColor,
@@ -92,29 +90,15 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
     c4: watchColor4
   };
 
-  const refreshColors = () => {
-    const color = generateRandomColors();
-    setBaseColor(color[0]);
-    setOutlineColor(color[1]);
-    setWatchBGColor(color[2]);
-
-    monoWedgeColors(color[0], color[2]);
-  };
-
-  const monoWedgeColors = (b: string = baseColor, w: string = watchBGColor) => {
-    if (monochromeMode) {
-      const pallete = tinycolor.mix(b, w, 10).monochromatic(4);
-      const colors = pallete.map((p) => p.toHexString());
-      setWatchColor1(colors[1]);
-      setWatchColor2(colors[2]);
-      setWatchColor3(colors[3]);
-      setWatchColor4(colors[0]);
-    } else {
-      setWatchColor1(WATCH_COLORS.c1);
-      setWatchColor2(WATCH_COLORS.c2);
-      setWatchColor3(WATCH_COLORS.c3);
-      setWatchColor4(WATCH_COLORS.c4);
-    }
+  const refresh = () => {
+    const color = refreshColors(monochromeMode);
+    setBaseColor(color.base);
+    setOutlineColor(color.outline);
+    setWatchBGColor(color.watch.bg);
+    setWatchColor1(color.watch.c1);
+    setWatchColor2(color.watch.c2);
+    setWatchColor3(color.watch.c3);
+    setWatchColor4(color.watch.c4);
   };
 
   const handleColorPick = () => {
@@ -142,7 +126,11 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
   }, []);
 
   useEffect(() => {
-    monoWedgeColors();
+    const color = monoWedgeColors(baseColor, outlineColor, monochromeMode);
+    setWatchColor1(color.c1);
+    setWatchColor2(color.c2);
+    setWatchColor3(color.c3);
+    setWatchColor4(color.c4);
   }, [monochromeMode, baseColor]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -160,7 +148,7 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
               <div className='inline-flex gap-3'>
                 <button
                   className='p-2 bg-white/[.1] text-white rounded-lg sm:rounded-2xl hover:bg-green-400 active:bg-green-200 hover:text-black'
-                  onClick={refreshColors}>
+                  onClick={refresh}>
                   <RefreshSVG />
                 </button>
 

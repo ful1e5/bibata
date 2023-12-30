@@ -1,12 +1,16 @@
 import { BibataTypoLogo } from './bibata-typo';
 
+import { BannerSVG } from './banner';
+
 import { GitHubLogo } from './github';
 import { XLogo } from './x';
+import { TwitchLogo } from './twitch';
+import { RedditLogo } from './reddit';
 import { AndroidLogo } from './android';
 import { LinuxMintLogo } from './linuxmint';
+import { ManjaroLogo } from './manjaro';
 
 import { CheckSVG } from './check';
-import { CheckMarkSVG } from './checkmark';
 import { ErrorSVG } from './error';
 import { InfoSVG } from './info';
 import { ProcessingSVG } from './processing';
@@ -25,12 +29,15 @@ import { OriginalSVG } from './original';
 
 export {
   BibataTypoLogo,
+  BannerSVG,
   GitHubLogo,
   XLogo,
+  TwitchLogo,
+  RedditLogo,
   AndroidLogo,
   LinuxMintLogo,
+  ManjaroLogo,
   CheckSVG,
-  CheckMarkSVG,
   ProcessingSVG,
   DownloadSVG,
   LockSVG,

@@ -7,13 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [v1.0.0] - 30 December 2023
+
 ### What's New?
 
-### Fixes
-
--   Fetch SVG by specifying `type` and `v`(version) parameters to request
+-   Refreshed Landing Page
+-   Footer added
+-   Privacy Policy added
 
 ## [v1.0.0-beta.0] - 19 December 2023
+
+### :warning: Important Changes
+
+-   Public Downloads Determined by (**monthly sponsorship in cents x 3**)
 
 ### What's New?
 
@@ -22,6 +28,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   ui: Landing page added
 -   ui: Footer added
 -   ui: Consistent Elements across pages
+
+### Fixes
+
+-   Fetch SVG by specifying `type` and `v`(version) parameters to request
 
 ## [v1.0.0-alpha.1] - 07 December 2023
 

@@ -6,9 +6,7 @@ import useSWR from 'swr';
 
 import Tooltip from '@components/Tooltip';
 
-import { getLuckySponsor } from '@utils/sponsor/lucky-sponsor';
-
-import { SPONSOR_API_ENDPOINT } from '@root/configs';
+import { getLuckySponsor, url } from '@utils/sponsor/lucky-sponsor';
 
 import { LuckySponsor } from 'bibata/misc';
 
@@ -17,9 +15,8 @@ type Props = {
 };
 
 export const DownloadSponsor: React.FC<Props> = (props) => {
-  const { data, isLoading } = useSWR<LuckySponsor>(
-    `${SPONSOR_API_ENDPOINT}?single=true`,
-    () => getLuckySponsor()
+  const { data, isLoading } = useSWR<LuckySponsor>(url, () =>
+    getLuckySponsor()
   );
 
   if (isLoading) {
