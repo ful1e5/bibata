@@ -97,7 +97,7 @@ export const Footer: React.FC<Props> = (_props) => {
               target='_blank'
               href='https://github.com/ful1e5/bibata/blob/main/LICENSE'
               className='hover:text-white hover:underline'>
-              MIT License
+              <p>MIT License</p>
             </Link>
 
             <p>•</p>
@@ -106,7 +106,7 @@ export const Footer: React.FC<Props> = (_props) => {
               target='_blank'
               href='https://github.com/ful1e5/bibata/releases'
               className='hover:text-white hover:underline'>
-              {`v${LIB_VERSION}`}
+              <p>{`v${LIB_VERSION}`}</p>
             </Link>
           </div>
 
