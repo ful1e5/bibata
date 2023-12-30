@@ -93,21 +93,25 @@ export const Footer: React.FC<Props> = (_props) => {
 
         <div className='pb-4 lg:pb-12'>
           <div className='flex items-center justify-start gap-1 font-mono tracking-tighter text-sm text-white/[.8]'>
-            <Link
-              target='_blank'
-              href='https://github.com/ful1e5/bibata/blob/main/LICENSE'
-              className='hover:text-white hover:underline'>
-              <p>MIT License</p>
-            </Link>
+            <p>
+              <Link
+                target='_blank'
+                href='https://github.com/ful1e5/bibata/blob/main/LICENSE'
+                className='inline-flex hover:text-white hover:underline'>
+                MIT License
+              </Link>
+            </p>
 
             <p>•</p>
 
-            <Link
-              target='_blank'
-              href='https://github.com/ful1e5/bibata/releases'
-              className='hover:text-white hover:underline'>
-              <p>{`v${LIB_VERSION}`}</p>
-            </Link>
+            <p>
+              <Link
+                target='_blank'
+                href='https://github.com/ful1e5/bibata/releases'
+                className='inline-flex hover:text-white hover:underline'>
+                {`v${LIB_VERSION}`}
+              </Link>
+            </p>
           </div>
 
           <div className='mt-3 flex items-center justify-start gap-2 font-mono tracking-tighter text-sm text-white/[.89]'>

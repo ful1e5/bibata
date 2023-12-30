@@ -4,6 +4,7 @@ import '@app/(home)/styles.css';
 
 import Link from 'next/link';
 
+import { Message } from '@components/Message';
 import { AnimatedCounter } from '@components/AnimatedCount';
 import { BibataMarquee } from '@components/BibataMarquee';
 import { Heroes } from '@components/Heroes';
@@ -21,6 +22,11 @@ export default function HomePage() {
     <main>
       <div className='container m-auto px-3 pt-6 pb-24'>
         <div className='h-[350px] sm:h-[600px] bg-gradient-radial from-10% from-orange-300/[.07] via-40% via-fushcia-300/[.07] to-60% flex flex-col justify-center items-center'>
+          <Message
+            tag='Alert'
+            message='Bibata servers need an upgrade! Click to help with the upgrade.'
+            href='https://www.github.com/sponsors/ful1e5'
+          />
           <section className='flex flex-col gap-6 justify-center items-center'>
             <h1 className='inline-flex flex-col'>
               <span className='main-heading-0'>
