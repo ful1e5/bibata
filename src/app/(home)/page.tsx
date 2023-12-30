@@ -27,12 +27,10 @@ export default function HomePage() {
                 One{' '}
                 <span className='inline-flex flex-col h-[calc(40px*theme(lineHeight.tight))] sm:h-[calc(96px*theme(lineHeight.tight))] overflow-hidden'>
                   <ul className='block animate-text-slide leading-tight [&_li]:block'>
-                    <li className='tracking-wider'>Bibata</li>
+                    <li className='animate-wide'>Bibata</li>
                     <li>Cursor</li>
                     <li>Mouser</li>
-                    <li className='tracking-wider' aria-hidden='true'>
-                      Bibata
-                    </li>
+                    <li aria-hidden='true'>Bibata</li>
                   </ul>
                 </span>
                 {/* Cursor */}
@@ -182,7 +180,7 @@ export default function HomePage() {
       </section>
 
       <div className='container m-auto px-3'>
-        <section className='mt-24'>
+        <section className='mt-14'>
           <h1 className='section-heading'>Supported Platforms</h1>
 
           <div className='flex justify-center items-center'>
@@ -221,7 +219,7 @@ export default function HomePage() {
       <section className='mt-24'>
         <h1 className='section-heading'>Heroes</h1>
         <p className='section-subheading my-3'>
-          The proficient team spearheading the Bibata project.
+          The proficient team spearheading the Bibata.
         </p>
         <Heroes />
         <div className='flex justify-center my-3 mt-10'>
@@ -242,7 +240,7 @@ export default function HomePage() {
           <Link
             className='heading-button outlined-button scale-animation'
             href='https://github.com/ful1e5/bibata'>
-            Start Contriuting
+            Start contributing
           </Link>
         </div>
       </section>

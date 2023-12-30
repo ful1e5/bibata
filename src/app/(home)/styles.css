@@ -58,16 +58,16 @@
 
 /* platform */
 .platform-card {
-  @apply rounded-3xl p-10 flex flex-col;
+  @apply rounded-3xl p-10 flex flex-col text-center;
 }
 .platform-icon {
-  @apply p-5 w-min rounded-3xl text-black/[.8] bg-[--accent];
+  @apply w-full h-72 sm:h-56 flex items-center justify-center rounded-3xl text-black/[.8] bg-[--accent];
 }
 .platform-heading {
-  @apply text-xl font-bold mt-5 ml-2;
+  @apply text-xl sm:text-3xl font-bold mt-5 ml-2;
 }
 .platform-line {
-  @apply mt-3 ml-2 text-xs md:text-lg text-white/[.6] w-4/5 sm:w-5/6;
+  @apply mt-3 ml-2 text-xs md:text-lg text-white/[.6];
 }
 
 /* Heroes Line*/
