@@ -26,6 +26,7 @@ const getGitBranch = (url: string | undefined) => {
 
 // eslint-disable-next-line no-unused-vars
 export const Footer: React.FC<Props> = (_props) => {
+  const copyrightYear = new Date().getFullYear();
   const path = usePathname();
 
   const gitCommintSHA = process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA;
@@ -163,7 +164,7 @@ export const Footer: React.FC<Props> = (_props) => {
             </div>
             <div className='mt-5'>
               <p className='text-white/[.6] font-bold'>
-                Copyright © 2023 AbdulKaiz Khatri
+                Copyright © {copyrightYear} AbdulKaiz Khatri
               </p>
             </div>
           </div>
