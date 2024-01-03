@@ -100,8 +100,8 @@ export default function StudioPage() {
         <div className='my-10'>
           <SizePicker
             list={SIZES}
-            values={cursorSize}
-            onClick={(s) => {
+            default={cursorSize}
+            onChange={(s) => {
               if (s !== cursorSize) {
                 setCursorSize(s);
                 refreshToken();
@@ -110,7 +110,7 @@ export default function StudioPage() {
           />
         </div>
 
-        <div className='mt-7 mb-12'>
+        <div className='mt-20 mb-12'>
           <DownloadButton
             auth={token}
             version={version}
