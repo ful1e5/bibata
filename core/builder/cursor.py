@@ -31,34 +31,48 @@ def store_cursors(sid: str, data: UploadFormData, logger: Logger):
             cur = b""
             cursor_name = ""
 
-            blob = open_blob(pngs, (config.x, config.y), [size], delay)
-
-            if platform == "win" and config.winname:
-                ext, cur = to_win(blob.frames)
-                cursor_name = config.winname
-
-                tmp_dir = gsubtmp(sid) / "cursors"
-                tmp_dir.mkdir(parents=True, exist_ok=True)
-                f = tmp_dir / f"{cursor_name}{ext}"
-                f.write_bytes(cur)
-
-            if platform == "x11" and config.xname:
-                cur = to_x11(blob.frames)
-                cursor_name = config.xname
-
+            if platform == "png":
                 tmp_dir = gsubtmp(sid) / "cursors"
                 tmp_dir.mkdir(parents=True, exist_ok=True)
 
-                xname = f"{cursor_name}{ext}"
-                f = tmp_dir / xname
-                f.write_bytes(cur)
+                if len(pngs) == 1:
+                    f = tmp_dir / f"{name}.png"
+                    f.write_bytes(pngs[0])
+                else:
+                    max_digits = len(str(len(pngs)))
+                    for i, png in enumerate(pngs):
+                        index = f"{i + 1:0{max_digits}}"
+                        f = tmp_dir / f"{name}-{index}.png"
+                        f.write_bytes(png)
+            else:
+                blob = open_blob(pngs, (config.x, config.y), [size], delay)
 
-                if config.links:
-                    oldpwd = os.getcwd()
-                    os.chdir(tmp_dir)
-                    for link in config.links:
-                        os.symlink(xname, link)
-                    os.chdir(oldpwd)
+                if platform == "win" and config.winname:
+                    ext, cur = to_win(blob.frames)
+                    cursor_name = config.winname
+
+                    tmp_dir = gsubtmp(sid) / "cursors"
+                    tmp_dir.mkdir(parents=True, exist_ok=True)
+                    f = tmp_dir / f"{cursor_name}{ext}"
+                    f.write_bytes(cur)
+
+                if platform == "x11" and config.xname:
+                    cur = to_x11(blob.frames)
+                    cursor_name = config.xname
+
+                    tmp_dir = gsubtmp(sid) / "cursors"
+                    tmp_dir.mkdir(parents=True, exist_ok=True)
+
+                    xname = f"{cursor_name}{ext}"
+                    f = tmp_dir / xname
+                    f.write_bytes(cur)
+
+                    if config.links:
+                        oldpwd = os.getcwd()
+                        os.chdir(tmp_dir)
+                        for link in config.links:
+                            os.symlink(xname, link)
+                        os.chdir(oldpwd)
 
     except Exception as e:
         errors.append(str(e))

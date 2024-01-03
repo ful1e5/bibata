@@ -104,10 +104,10 @@ export default function HomePage() {
       </div>
 
       <BannerSVG
-        base='#adb9d5'
-        outline='#738281'
+        base='#1e5c38'
+        outline='#99f97f'
         watch={{
-          bg: '#444444',
+          bg: '#75b48f',
           c1: '#32a0da',
           c2: '#7eba41',
           c3: '#f05024',

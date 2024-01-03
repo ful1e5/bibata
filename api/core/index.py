@@ -4,7 +4,7 @@ from typing import List
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request, send_file, session
 
-from core.builder.compress import FileResponse, win_compress, x11_compress
+from core.builder.compress import FileResponse, png_compress, win_compress, x11_compress
 from core.builder.cursor import store_cursors
 from core.utils.parser import parse_download_params, parse_upload_formdata
 from core.utils.token import decode_auth_header
@@ -80,6 +80,8 @@ def download():
     res: FileResponse
     if param.platform == "win":
         res = win_compress(id, param, logger)
+    elif param.platform == "png":
+        res = png_compress(id, param, logger)
     else:
         res = x11_compress(id, param, logger)
 

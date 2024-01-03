@@ -30,6 +30,7 @@
     "@vercel/kv": "^1.0.0",
     "concurrently": "^8.0.1",
     "figma-api": "^1.11.0",
+    "geist": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
     "next": "^14.0.0",
     "next-auth": "^4.24.3",

@@ -51,9 +51,9 @@ def parse_upload_formdata(request: Request, logger: Logger):
             p = data.get("platform", None)
             if not p:
                 raise ValueError("'platform' Not Found in JSON 'data' ")
-            if p != "win" and p != "x11":
+            if p != "win" and p != "x11" and p != "png":
                 raise ValueError(
-                    "Invalid 'platform' type. It must be type 'win' or 'x11'"
+                    "Invalid 'platform' type. It must be type 'png','x11' or 'win'"
                 )
             else:
                 platform = p
@@ -98,12 +98,12 @@ def parse_upload_formdata(request: Request, logger: Logger):
 class DownloadParams:
     name: str
     version: str
-    platform: Literal["win", "x11"]
+    platform: Literal["win", "x11", "png"]
     errors: List[str]
 
 
 def parse_download_params(request: Request, logger: Logger):
-    platform: Literal["win", "x11"] = "x11"
+    platform: Literal["win", "x11", "png"] = "x11"
     name: str = ""
     version: str = ""
     errors: List[str] = []
@@ -113,9 +113,9 @@ def parse_download_params(request: Request, logger: Logger):
         if not p:
             raise ValueError("'platform' Param Not Found.")
 
-        if p != "win" and p != "x11":
+        if p != "win" and p != "x11" and p != "png":
             raise ValueError(
-                f"Invalid Platform '{platform}'. It should be 'x11' or 'win'"
+                f"Invalid Platform '{platform}'. It should be 'png','x11' or 'win'"
             )
         else:
             platform = p

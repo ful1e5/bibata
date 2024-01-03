@@ -83,19 +83,6 @@ export default function StudioPage() {
           />
         </div>
 
-        <div className='my-10'>
-          <SizePicker
-            list={SIZES}
-            values={cursorSize}
-            onClick={(s) => {
-              if (s !== cursorSize) {
-                setCursorSize(s);
-                refreshToken();
-              }
-            }}
-          />
-        </div>
-
         <div className='mt-10'>
           <ColorPicker
             colorName={colorName}
@@ -110,7 +97,20 @@ export default function StudioPage() {
           />
         </div>
 
-        <div className='mt-7 mb-12'>
+        <div className='my-10'>
+          <SizePicker
+            list={SIZES}
+            default={cursorSize}
+            onChange={(s) => {
+              if (s !== cursorSize) {
+                setCursorSize(s);
+                refreshToken();
+              }
+            }}
+          />
+        </div>
+
+        <div className='mt-20 mb-12'>
           <DownloadButton
             auth={token}
             version={version}

@@ -22,7 +22,7 @@ And with that, my journey in the world of open source began.
 https://github.com/sponsors/ful1e5
 
 [::] LICENSE
-GPL-3.0 license
+MIT License
 
 [::] Bug Reports & Contact
 https://github.com/ful1e5/bibata/issues
@@ -67,8 +67,8 @@ WIN_README = README + WIN
 X_README = README + X
 
 
-def attach_readme(p: Path, platform: Literal["x11", "win"], logger: Logger):
-    files = {"win": WIN_README, "x11": X_README}
+def attach_readme(p: Path, platform: Literal["x11", "win", "png"], logger: Logger):
+    files = {"win": WIN_README, "x11": X_README, "png": README}
 
     txt = files[platform] or None
     if txt:

@@ -52,6 +52,31 @@ def win_compress(id: str, param: DownloadParams, logger: Logger) -> FileResponse
     return FileResponse(file=fp, errors=errors)
 
 
+def png_compress(id: str, param: DownloadParams, logger: Logger) -> FileResponse:
+    errors: List[str] = []
+
+    dir = gsubtmp(id)
+    name = f"{param.name}-{dir.stem.split('-')[1]}-v{param.version}"
+    fp = gtmp(id) / f"{name}.zip"
+
+    if not fp.exists():
+        if len(list(dir.glob("*"))) <= 0:
+            errors.append("Empty build directory")
+
+        try:
+            attach_files(id, dir, param, logger)
+
+            with ZipFile(fp, "w") as zip_file:
+                for f in dir.rglob("*"):
+                    zip_file.write(f, str(f.relative_to(dir.parent)))
+
+            rmtree(dir)
+        except Exception as e:
+            errors.append(str(e))
+
+    return FileResponse(file=fp, errors=errors)
+
+
 def x11_compress(id: str, param: DownloadParams, logger: Logger) -> FileResponse:
     errors: List[str] = []
 
