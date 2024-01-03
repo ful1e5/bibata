@@ -14,7 +14,7 @@ export const SizePicker: React.FC<Props> = (props) => {
   const [size, setSize] = useState(props.default);
   const [errorText, setErrorText] = useState('');
 
-  const handleSubmit = () => {
+  const handleChange = () => {
     if (size > 256) {
       setErrorText('Cursor size should be less than 256 pixels');
     } else if (size < 16) {
@@ -49,7 +49,7 @@ export const SizePicker: React.FC<Props> = (props) => {
                 }}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
-                    handleSubmit();
+                    handleChange();
                   } else if (e.key === 'Escape') {
                     setSize(props.default);
                     setEditMode(false);
@@ -78,7 +78,7 @@ export const SizePicker: React.FC<Props> = (props) => {
             <button
               type='submit'
               className='p-3 bg-green-500 hover:bg-green-400 rounded-full'
-              onClick={() => handleSubmit()}>
+              onClick={() => handleChange()}>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 className='w-4 fill-current'
@@ -116,8 +116,7 @@ export const SizePicker: React.FC<Props> = (props) => {
                 key={t}
                 onClick={() => {
                   setSize(t);
-                  props.onChange(t);
-                  setEditMode(false);
+                  handleChange();
                 }}
                 className={`p-1 py-2 sm:p-3 rounded-full text-center transition ring-1 ring-white/[.2] hover:scale-110 hover:bg-white/[.1] hover:text-white ${
                   selected
