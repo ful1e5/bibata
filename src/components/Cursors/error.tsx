@@ -6,8 +6,6 @@ import Link from 'next/link';
 
 import { bugReportTemplate } from '@utils/bug-report';
 
-import { ErrorSVG } from '@components/svgs';
-
 import { BUG_REPORT_ENDPOINT } from '@root/configs';
 
 import { Color } from 'bibata/app';
@@ -40,17 +38,19 @@ ${JSON.stringify(props.color, null, 2)}
   const [reported, setReported] = useState(false);
 
   return (
-    <div className='container h-72 flex flex-col gap-2 fill-red-300 items-center justify-center'>
-      <ErrorSVG size={60} />
-      <div className='max-w-sm font-bold text-red-300 text-center'>
+    <div className='container h-[300px] md:h-[500px] flex flex-col gap-2  items-center text-center justify-center'>
+      <h1 className='text-[28px] md:text-[68px] xl:text-[96px] font-black text-red-400'>
+        Error Occured!
+      </h1>
+      <div className='-translate-y-3 md:-translate-y-7 max-w-sm text-red-50 font-semibold tracking-tight text-lg md:text-2xl'>
         {props.message}
       </div>
 
       {show && !reported ? (
         <>
-          <div className='mt-2 mb-2 flex justify-center gap-2'>
+          <div className='mt-10 flex justify-center gap-2 md:gap-6'>
             <Link
-              className='bg-red-500 hover:bg-red-400 px-4 py-2 rounded-xl '
+              className='bg-red-500 hover:bg-red-300 px-6 py-3 border border-white/[.2] rounded-full'
               target='_blank'
               onClick={() => {
                 setShow(false);
@@ -60,14 +60,14 @@ ${JSON.stringify(props.color, null, 2)}
               Report Issue
             </Link>
             <button
-              className='ring-1 ring-white/[.2] hover:bg-white/[.1] px-4 py-2 rounded-xl'
+              className='ring-1 ring-white/[.2] hover:bg-white/[.1] px-6 py-3 rounded-full'
               onClick={() => setShow(false)}>
               Cancel
             </button>
           </div>
         </>
       ) : (
-        reported && <p>Thanks for Reporting</p>
+        reported && <p className='mt-1'>Thanks for Reporting</p>
       )}
     </div>
   );

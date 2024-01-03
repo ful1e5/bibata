@@ -1,6 +1,6 @@
 'use client';
 
-import '@app/(home)/globals.css';
+import '@app/globals.css';
 import { signIn } from 'next-auth/react';
 
 export default function LoginPage() {

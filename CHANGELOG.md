@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### What's New?
+
+-   Interactive Cursor size component
+-   Using `geist` fonts
+-   Custom `404` (not-found) page
+
 ## [v1.0.0] - 30 December 2023
 
 ### What's New?

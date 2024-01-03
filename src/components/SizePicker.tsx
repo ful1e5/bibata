@@ -116,7 +116,9 @@ export const SizePicker: React.FC<Props> = (props) => {
                 key={t}
                 onClick={() => {
                   setSize(t);
-                  handleChange();
+                  props.onChange(t);
+                  setErrorText('');
+                  setEditMode(false);
                 }}
                 className={`p-1 py-2 sm:p-3 rounded-full text-center transition ring-1 ring-white/[.2] hover:scale-110 hover:bg-white/[.1] hover:text-white ${
                   selected

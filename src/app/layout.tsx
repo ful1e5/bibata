@@ -1,4 +1,7 @@
-import '@app/(home)/globals.css';
+import '@app/globals.css';
+
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
 
 import React from 'react';
 import { Metadata } from 'next';
@@ -24,7 +27,7 @@ type Props = {
 
 export default function RootLayout({ children }: Props) {
   return (
-    <html lang='en'>
+    <html lang='en' className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <Providers>
         <body className='dark'>
           <NavBar />

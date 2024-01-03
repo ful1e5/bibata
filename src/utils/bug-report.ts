@@ -3,13 +3,14 @@ export const bugReportTemplate = (title: string, logs: any): string => {
 
   return encodeURIComponent(`### Error
 ${title}
-
 ${
-  sha &&
-  `### Refrence
-https://github.com/ful1e5/bibata/commit/${sha}`
+  sha
+    ? `
+### Refrence
+https://github.com/ful1e5/bibata/commit/${sha}
+`
+    : ''
 }
-
 ### Logs
 
 \`\`\`text
