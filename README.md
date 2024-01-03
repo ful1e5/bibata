@@ -44,9 +44,9 @@ By doing so, you will not only gain access to pro features but also receive all 
 
 -   [x] Landing page
 -   [x] Custom size component
+-   [x] Download as PNGs.
+-   [x] Define Tailwind rules.
 -   [ ] Report issues with error stack when errors are generated while crafting cursor images
--   [ ] Download as PNGs.
--   [ ] Define Tailwind rules.
 -   [ ] Admin Page
 -   [ ] Docs
 -   [ ] Write tests

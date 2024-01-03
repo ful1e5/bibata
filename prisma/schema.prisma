@@ -21,6 +21,7 @@ enum Role {
 enum Platform {
   win
   x11
+  png
 }
 
 enum Type {

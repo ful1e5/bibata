@@ -42,7 +42,7 @@ ${JSON.stringify(props.color, null, 2)}
       <h1 className='text-[28px] md:text-[68px] xl:text-[96px] font-black text-red-400'>
         Error Occured!
       </h1>
-      <div className='-translate-y-3 md:-translate-y-7 max-w-sm text-red-50 font-semibold tracking-tight text-lg md:text-2xl'>
+      <div className='-translate-y-3 md:-translate-y-7 max-w-sm md:max-w-xl text-red-50 font-semibold tracking-tight text-lg md:text-2xl'>
         {props.message}
       </div>
 

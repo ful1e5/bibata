@@ -19,6 +19,7 @@ import { LockSVG } from './lock';
 
 import { LinuxDownloadSVG } from './linux';
 import { WindowsDownloadSVG } from './windows';
+import { PNGsDownloadSVG } from './pngs';
 
 import { RefreshSVG } from './refresh';
 import { PaletteSVG } from './palette';
@@ -45,6 +46,7 @@ export {
   InfoSVG,
   WindowsDownloadSVG,
   LinuxDownloadSVG,
+  PNGsDownloadSVG,
   RefreshSVG,
   PaletteSVG,
   CloseSVG,
