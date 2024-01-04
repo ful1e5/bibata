@@ -44,7 +44,8 @@ export const DownloadButton: React.FC<Props> = (props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [lock, setLock] = useState<boolean>(false);
 
-  const [loadingText, setLoadingText] = useState<string>('Fetching Cursors...');
+  const defaultLoadingText = 'Collecting Bitmaps...';
+  const [loadingText, setLoadingText] = useState<string>(defaultLoadingText);
   const [errorLogs, setErrorLogs] = useState<ErrorLogs>({ text: '' });
 
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
@@ -195,6 +196,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
     }
 
     setLoading(false);
+    setLoadingText(defaultLoadingText);
     setLock(false);
   };
 

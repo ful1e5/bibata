@@ -151,6 +151,7 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
   return (
     <button
       disabled={!isAnimated}
+      className={isAnimated && !loading ? 'transition active:scale-95' : ''}
       onClick={() => {
         if (!loading && frames.length > 0) {
           setDelayX(delayX < Object.keys(DELAYS).length ? delayX + 1 : 1);
@@ -185,14 +186,23 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
           </div>
 
           {isAnimated && (
-            <div className='absolute right-2 top-2'>
-              <div
-                className='p-1 sm:px-2 sm:py-1 font-black rounded-xl text-[6px] sm:text-sm'
-                style={{
-                  backgroundColor: `color-mix(in srgb, #000000 70%, ${props.color.base})`
-                }}>
-                {`${delayX}x`}
-              </div>
+            <div className='absolute right-2 top-2 grid grid-flow-row gap-2 p-0 md:p-2'>
+              {Object.entries(DELAYS).map(([i]) => {
+                const selected = delayX === parseInt(i);
+                return (
+                  <div
+                    className={`p-1 sm:px-2 sm:py-1 rounded-xl text-[5px] sm:text-sm ${
+                      selected ? 'font-black' : 'font-light'
+                    }`}
+                    style={{
+                      backgroundColor: `color-mix(in srgb, #151515 ${
+                        selected ? '60%' : '90%'
+                      }, ${props.color.outline})`
+                    }}>
+                    {`${i}x`}
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
