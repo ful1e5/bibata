@@ -147,13 +147,13 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
             <div className='flex justify-between text-xs'>
               <div className='inline-flex gap-3'>
                 <button
-                  className='p-2 bg-white/[.1] text-white rounded-lg sm:rounded-2xl hover:bg-green-400 active:bg-green-200 hover:text-black'
+                  className='p-2 bg-white/[.1] text-white rounded-lg sm:rounded-2xl hover:bg-green-400 transition active:bg-green-200 active:scale-90 hover:text-black'
                   onClick={refresh}>
                   <RefreshSVG />
                 </button>
 
                 <button
-                  className={`py-2 px-5 rounded-lg sm:rounded-2xl text-xs sm:text-lg font-bold ${
+                  className={`py-2 px-5 rounded-lg sm:rounded-2xl text-xs sm:text-lg font-bold transition active:scale-90 ${
                     monochromeMode
                       ? 'bg-white/[.2] hover:bg-white/[.6] hover:text-black'
                       : 'bg-white hover:bg-white/[.7] text-black'
@@ -164,7 +164,7 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
               </div>
 
               <button
-                className='p-3 bg-white/[.1] text-white rounded-xl font-bold hover:bg-white hover:text-black'
+                className='p-3 bg-white/[.1] text-white rounded-xl font-bold hover:bg-white hover:text-black transition active:scale-90'
                 onClick={props.onClose}>
                 <CloseSVG />
               </button>
@@ -286,7 +286,7 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = (props) => {
 
             <div className='mt-11 flex justify-center'>
               <button
-                className='w-36 py-3 bg-green-600 text-white font-bold rounded-2xl text-sm sm:text-md hover:bg-green-500'
+                className='w-36 py-3 bg-green-600 text-white font-bold rounded-2xl text-sm sm:text-md hover:bg-green-500 transition active:scale-90'
                 onClick={handleColorPick}>
                 Apply
               </button>

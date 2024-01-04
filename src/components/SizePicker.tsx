@@ -38,7 +38,7 @@ export const SizePicker: React.FC<Props> = (props) => {
                 maxLength={3}
                 min={16}
                 max={256}
-                className={`remove-arrow text-lg md:text-xl w-40 py-2 text-center border border-white/[.1] hover:border-white focus:outline-none rounded-full ${
+                className={`remove-arrow text-lg md:text-xl w-40 py-4 text-center border border-white/[.1] hover:border-white focus:outline-none rounded-full ${
                   errorText ? 'bg-red-300/[.2]' : 'bg-white/[.05] '
                 }`}
                 value={size}
@@ -59,7 +59,7 @@ export const SizePicker: React.FC<Props> = (props) => {
             ) : (
               <span
                 onClick={() => setEditMode(!editMode)}
-                className='text-lg md:text-xl font-bold transition py-2 pl-16 pr-12 text-left bg-white/[.01] border border-white/[.2] hover:border-white text-white rounded-full'>
+                className='text-lg md:text-xl font-bold transition py-4 pl-16 pr-12 text-left bg-white/[.01] border border-white/[.2] hover:border-white text-white rounded-full active:scale-90'>
                 {props.default}px
               </span>
             )}
@@ -77,7 +77,7 @@ export const SizePicker: React.FC<Props> = (props) => {
           {size !== props.default ? (
             <button
               type='submit'
-              className='p-3 bg-green-500 hover:bg-green-400 rounded-full'
+              className='p-3 bg-green-500 hover:bg-green-400 rounded-full transition active:scale-90'
               onClick={() => handleChange()}>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -88,7 +88,7 @@ export const SizePicker: React.FC<Props> = (props) => {
             </button>
           ) : (
             <button
-              className={`p-3 bg-red-100 hover:bg-white/[.8] rounded-full text-red-800 ${
+              className={`p-3 bg-red-100 hover:bg-white/[.8] rounded-full text-red-800 transition active:scale-90 ${
                 editMode ? '' : 'hidden'
               }`}
               onClick={() => setEditMode(!editMode)}>
@@ -120,10 +120,10 @@ export const SizePicker: React.FC<Props> = (props) => {
                   setErrorText('');
                   setEditMode(false);
                 }}
-                className={`p-1 py-2 sm:p-3 rounded-full text-center transition ring-1 ring-white/[.2] hover:scale-110 hover:bg-white/[.1] hover:text-white ${
+                className={`p-1 py-3 sm:py-5 lg:py-6 rounded-full text-center transition ring-1 ring-white/[.2] hover:scale-105 hover:bg-white/[.1] hover:text-white ${
                   selected
-                    ? 'bg-green-50 text-green-950 font-black '
-                    : 'bg-white/[.03]'
+                    ? 'bg-green-50 text-green-950 font-black'
+                    : 'bg-white/[.03] transition active:scale-90'
                 }`}>
                 {t}
               </button>
