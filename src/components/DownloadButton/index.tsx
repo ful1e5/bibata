@@ -238,7 +238,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
               ? 'Download locked while collecting cursor images.'
               : 'Download'
           }
-          className='relative flex justify-center items-center uppercase gap-2 w-4/5 sm:w-1/3 lg:w-1/5 h-16 sm:h-20 rounded-full bg-green-600 transition active:scale-90 hover:bg-green-500'
+          className='relative flex justify-center items-center uppercase gap-2 w-4/5 sm:w-1/3 lg:w-1/5 h-16 sm:h-20 rounded-full bg-green-600 transition hover:scale-105 active:scale-90 hover:bg-green-500'
           disabled={props.disabled && !lock}
           onClick={() => setShowDropdown(!showDropdown)}>
           {props.lock ? (

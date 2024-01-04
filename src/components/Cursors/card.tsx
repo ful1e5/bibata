@@ -151,7 +151,11 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
   return (
     <button
       disabled={!isAnimated}
-      className={isAnimated && !loading ? 'transition active:scale-95' : ''}
+      className={
+        isAnimated && !loading
+          ? 'transition hover:scale-105 active:scale-95'
+          : ''
+      }
       onClick={() => {
         if (!loading && frames.length > 0) {
           setDelayX(delayX < Object.keys(DELAYS).length ? delayX + 1 : 1);
@@ -186,20 +190,18 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
           </div>
 
           {isAnimated && (
-            <div className='absolute right-2 top-2 grid grid-flow-row gap-2 p-0 md:p-2'>
+            <div className='absolute right-2 top-2 grid grid-flow-row gap-1 px-1 py-3 bg-white/[.09] border border-white/[.05] rounded-full'>
               {Object.entries(DELAYS).map(([i]) => {
                 const selected = delayX === parseInt(i);
                 return (
                   <div
-                    className={`p-1 sm:px-2 sm:py-1 rounded-xl text-[5px] sm:text-sm ${
-                      selected ? 'font-black' : 'font-light'
-                    }`}
-                    style={{
-                      backgroundColor: `color-mix(in srgb, #151515 ${
-                        selected ? '60%' : '90%'
-                      }, ${props.color.outline})`
-                    }}>
-                    {`${i}x`}
+                    key={i}
+                    className='sm:p-1 rounded-xl text-[5px] sm:text-sm flex justify-center items-center font-bold tracking-wide'>
+                    {selected ? (
+                      <>{`${i}x`}</>
+                    ) : (
+                      <div className='w-1 h-1 md:w-2 md:h-2 rounded-full bg-white/[.4]' />
+                    )}
                   </div>
                 );
               })}
