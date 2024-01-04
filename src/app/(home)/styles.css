@@ -17,7 +17,7 @@
   @apply text-lg text-center font-light text-white/[.7];
 }
 .heading-button {
-  @apply flex gap-2 px-5 sm:px-12 py-3 sm:py-5 rounded-full uppercase;
+  @apply flex gap-2 px-5 sm:px-12 py-3 sm:py-5 rounded-full uppercase transition active:scale-95;
 }
 
 .selected-button {
@@ -79,7 +79,7 @@
 
 /* Open Source & Libraries */
 .library-card {
-  @apply rounded-3xl p-6 flex flex-col transform hover:scale-105 ease-in-out duration-150 hover:bg-[#8aa8f2]/[.2];
+  @apply rounded-3xl p-6 flex flex-col transform hover:scale-105 ease-in-out duration-150 hover:bg-[#8aa8f2]/[.2] transition active:scale-95;
 }
 .library-card-heading {
   @apply md:text-2xl font-bold;

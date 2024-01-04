@@ -151,6 +151,11 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
   return (
     <button
       disabled={!isAnimated}
+      className={
+        isAnimated && !loading
+          ? 'transition hover:scale-105 active:scale-95'
+          : ''
+      }
       onClick={() => {
         if (!loading && frames.length > 0) {
           setDelayX(delayX < Object.keys(DELAYS).length ? delayX + 1 : 1);
@@ -185,14 +190,21 @@ Report Issue here: https://github.com/ful1e5/bibata/issues`
           </div>
 
           {isAnimated && (
-            <div className='absolute right-2 top-2'>
-              <div
-                className='p-1 sm:px-2 sm:py-1 font-black rounded-xl text-[6px] sm:text-sm'
-                style={{
-                  backgroundColor: `color-mix(in srgb, #000000 70%, ${props.color.base})`
-                }}>
-                {`${delayX}x`}
-              </div>
+            <div className='absolute right-2 top-2 grid grid-flow-row gap-1 px-1 py-3 bg-white/[.09] border border-white/[.05] rounded-full'>
+              {Object.entries(DELAYS).map(([i]) => {
+                const selected = delayX === parseInt(i);
+                return (
+                  <div
+                    key={i}
+                    className='sm:p-1 rounded-xl text-[5px] sm:text-sm flex justify-center items-center font-bold tracking-wide'>
+                    {selected ? (
+                      <>{`${i}x`}</>
+                    ) : (
+                      <div className='w-1 h-1 md:w-2 md:h-2 rounded-full bg-white/[.4]' />
+                    )}
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>

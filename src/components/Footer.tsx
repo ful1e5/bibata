@@ -141,7 +141,6 @@ export const Footer: React.FC<Props> = (_props) => {
               <p>
                 (
                 <Link
-                  target='_blank'
                   href={`${refreshUrl}${path}`}
                   className='hover:text-white hover:underline'>
                   {`Switch to ${refreshBranch}`}

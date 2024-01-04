@@ -44,7 +44,8 @@ export const DownloadButton: React.FC<Props> = (props) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [lock, setLock] = useState<boolean>(false);
 
-  const [loadingText, setLoadingText] = useState<string>('Preparing...');
+  const defaultLoadingText = 'Collecting Bitmaps...';
+  const [loadingText, setLoadingText] = useState<string>(defaultLoadingText);
   const [errorLogs, setErrorLogs] = useState<ErrorLogs>({ text: '' });
 
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
@@ -170,9 +171,13 @@ export const DownloadButton: React.FC<Props> = (props) => {
         printError(upload.error);
         await api.refreshSession(token);
       } else {
-        setLoadingText(
-          `Packaging ${platform === 'win' ? 'Win Cursors' : 'XCursors'} ...`
-        );
+        if (platform === 'win') {
+          setLoadingText('Packaging Windows Cursors ...');
+        } else if (platform === 'png') {
+          setLoadingText('Compressing PNG files ...');
+        } else {
+          setLoadingText('Packaging XCursors ...');
+        }
 
         const file = await api.download(platform, n, props.version);
 
@@ -191,6 +196,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
     }
 
     setLoading(false);
+    setLoadingText(defaultLoadingText);
     setLock(false);
   };
 
@@ -232,9 +238,9 @@ export const DownloadButton: React.FC<Props> = (props) => {
               ? 'Download locked while collecting cursor images.'
               : 'Download'
           }
-          className='relative flex justify-center items-center uppercase gap-2 w-4/5 sm:w-1/3 lg:w-1/5 h-16 sm:h-20 rounded-full bg-green-600 hover:bg-green-500'
-          disabled={props.disabled && !lock && !props.lock}
-          onClick={() => !props.lock && setShowDropdown(!showDropdown)}>
+          className='relative flex justify-center items-center uppercase gap-2 w-4/5 sm:w-1/3 lg:w-1/5 h-16 sm:h-20 rounded-full bg-green-600 transition hover:scale-105 active:scale-90 hover:bg-green-500'
+          disabled={props.disabled && !lock}
+          onClick={() => setShowDropdown(!showDropdown)}>
           {props.lock ? (
             <LockSVG />
           ) : busy ? (
@@ -254,15 +260,13 @@ export const DownloadButton: React.FC<Props> = (props) => {
           <div className='absolute clip-bottom h-2 w-4 bg-white/[.4]' />
           <div className='absolute w-full sm:w-1/2 lg:w-1/4 2xl:w-1/5 h-auto mt-2 z-10 px-6 sm:px-0'>
             <div className='bg-black backdrop-filter backdrop-blur-2xl firefox:bg-opacity-40 bg-opacity-40 border border-white/[.2] text-white rounded-3xl shadow-lg relative'>
-              {loading ? (
-                <>
-                  <div className='flex p-6 justify-center items-center'>
-                    <div className='-ml-1 mr-3 h-4 w-4'>
-                      <ProcessingSVG />
-                    </div>
-                    <p className='text-[10px] sm:text-sm'>{loadingText}</p>
+              {props.lock || loading ? (
+                <div className='flex p-6 justify-center items-center'>
+                  <div className='-ml-1 mr-3 h-4 w-4'>
+                    <ProcessingSVG />
                   </div>
-                </>
+                  <p className='text-[10px] sm:text-sm'>{loadingText}</p>
+                </div>
               ) : (
                 <>
                   <DownloadError

@@ -24,7 +24,7 @@ def win_compress(id: str, param: DownloadParams, logger: Logger) -> FileResponse
     errors: List[str] = []
 
     dir = gsubtmp(id)
-    name = f"{param.name}-{dir.stem.split('-')[1]}-v{param.version}"
+    name = f"{param.name}-{dir.stem.split('-')[1]}-v{param.version}-{param.platform}"
     fp = gtmp(id) / f"{name}.zip"
 
     if not fp.exists():
@@ -56,7 +56,7 @@ def png_compress(id: str, param: DownloadParams, logger: Logger) -> FileResponse
     errors: List[str] = []
 
     dir = gsubtmp(id)
-    name = f"{param.name}-{dir.stem.split('-')[1]}-v{param.version}"
+    name = f"{param.name}-{dir.stem.split('-')[1]}-v{param.version}-{param.platform}"
     fp = gtmp(id) / f"{name}.zip"
 
     if not fp.exists():
@@ -81,7 +81,7 @@ def x11_compress(id: str, param: DownloadParams, logger: Logger) -> FileResponse
     errors: List[str] = []
 
     dir = gsubtmp(id)
-    name = f"{param.name}-{dir.stem.split('-')[1]}-v{param.version}"
+    name = f"{param.name}-{dir.stem.split('-')[1]}-v{param.version}-{param.platform}"
     fp = gtmp(id) / f"{name}.tar.gz"
 
     if not fp.exists():

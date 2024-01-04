@@ -28,7 +28,7 @@ export const ColorPickerButton: React.FC<Props> = (props) => {
     <button
       className={`p-3 sm:p-7 flex flex-col gap-1 justify-center items-center rounded-3xl transform ring-1 ring-white/[.2] hover:scale-105 hover:bg-white/[.1] ${
         selected ? 'bg-white/[.25] font-black' : 'bg-white/[.03]'
-      } transition-all ease-in-out duration-100`}
+      } transition-all ease-in-out active:scale-90`}
       title={name !== 'Custom' ? `Bibata ${name}` : 'Customize Bibata Colors'}
       disabled={selected && disabled}
       onClick={props.onClick}>
