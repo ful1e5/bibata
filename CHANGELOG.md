@@ -15,6 +15,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Custom `404` (not-found) page
 -   Using `geist` fonts
 -   Button Click Animation added
+-   Using clickgen v2.2.0 for building Cursors
+
+### Fixes
+
+-   Slow animation in Windows Cursors
 
 ## [v1.0.0] - 30 December 2023
 

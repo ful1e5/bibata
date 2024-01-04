@@ -13,7 +13,7 @@ type Props = {
 export const Message: React.FC<Props> = (props) => {
   return (
     <div className='text-center py-4 lg:px-4'>
-      <div className='transition hover:scale-105'>
+      <div className='transition hover:scale-105 active:scale-95'>
         <Link className='' href={props.href} target='_blank'>
           <div
             className='p-2 bg-indigo-800 items-center text-indigo-100 leading-none rounded-full flex sm:inline-flex'
