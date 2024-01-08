@@ -39,7 +39,7 @@ export const SizePicker: React.FC<Props> = (props) => {
                 min={16}
                 max={256}
                 className={`remove-arrow text-lg md:text-xl w-40 py-4 text-center border border-white/[.1] hover:border-white focus:outline-none rounded-full ${
-                  errorText ? 'bg-red-300/[.2]' : 'bg-white/[.05] '
+                  errorText ? 'bg-red-300/[.2]' : 'bg-white/[.05]'
                 }`}
                 value={size}
                 placeholder='28'
@@ -59,7 +59,7 @@ export const SizePicker: React.FC<Props> = (props) => {
             ) : (
               <span
                 onClick={() => setEditMode(!editMode)}
-                className='text-lg md:text-xl font-bold transition py-4 pl-16 pr-12 text-left bg-white/[.01] border border-white/[.2] hover:border-white text-white rounded-full active:scale-90'>
+                className='text-lg md:text-xl font-bold py-4 pl-16 pr-12 text-left bg-white/[.01] border border-white/[.2] hover:border-white text-white rounded-full transition active:scale-90 cursor-pointer'>
                 {props.default}px
               </span>
             )}

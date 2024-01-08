@@ -14,6 +14,7 @@ import {
   LinuxDownloadSVG,
   LinuxMintLogo,
   ManjaroLogo,
+  PNGsDownloadSVG,
   WindowsDownloadSVG
 } from '@components/svgs';
 
@@ -192,7 +193,7 @@ export default function HomePage() {
           <h1 className='section-heading'>Supported Platforms</h1>
 
           <div className='flex justify-center items-center'>
-            <div className='w-full mt-10 p-5 grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-20'>
+            <div className='w-full mt-10 p-5 grid grid-cols-1 lg:grid-cols-3 gap-5 md:gap-20'>
               <div className='platform-card bg-white/[.1]'>
                 <span className='platform-icon'>
                   <LinuxDownloadSVG />
@@ -219,6 +220,20 @@ export default function HomePage() {
                   interface.
                 </p>
               </div>
+
+              <div className='platform-card bg-white/[.1]'>
+                <span className='platform-icon'>
+                  <PNGsDownloadSVG />
+                </span>
+
+                <h4 className='platform-heading'>Cursor Bitmaps</h4>
+                <p className='platform-line'>
+                  Bibata Studio specializes in designing top-notch PNG cursor
+                  bitmaps, showcasing personalized color schemes, animated
+                  sequences, and tailor-made dimensions for effortless
+                  integration into games and websites.
+                </p>
+              </div>
             </div>
           </div>
         </section>
@@ -232,9 +247,11 @@ export default function HomePage() {
         <Heroes />
         <div className='flex justify-center my-3 mt-10'>
           <p className='section-subheading w-5/6 sm:w-2/3'>
-            Bibata is a fully open-source platform with actively maintained
-            libraries. Join our community of dedicated contributors and become a
-            hero in advancing our mission.
+            Bibata stands as a fully open-source platform, boasting actively
+            maintained libraries. Elevate your involvement by joining our
+            community at the tier exceeding $5 per month, where dedicated
+            contributors have the opportunity to play a heroic role in advancing
+            our mission.
           </p>
         </div>
 
@@ -242,7 +259,7 @@ export default function HomePage() {
           <Link
             className='heading-button selected-button scale-animation'
             href='https://github.com/sponsors/ful1e5'>
-            Join As Sponsor
+            Become a Hero
           </Link>
 
           <Link

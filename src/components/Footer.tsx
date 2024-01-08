@@ -35,7 +35,7 @@ export const Footer: React.FC<Props> = (_props) => {
 
   const refreshUrl =
     branch === 'main' ? 'https://dev.bibata.live' : 'https://bibata.live';
-  const refreshBranch = branch === 'main' ? 'dev' : 'upstream';
+  const refreshBranch = branch === 'main' ? 'dev' : 'main';
 
   return (
     <footer className='bg-[--bg-dark] border-t border-white/[.1] p-3 mt-20'>

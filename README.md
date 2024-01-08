@@ -52,6 +52,17 @@ By doing so, you will not only gain access to pro features but also receive all 
 -   [ ] Write tests
 -   [ ] Migrate project to AWS (Optional)
 
+<!-- Download Counts (08/01/2024)       -->
+<!-- Bibata Modern Amber          3,703 -->
+<!-- Bibata Original Amber        5,307 -->
+<!-- Bibata Modern Ice          180,246 -->
+<!-- Bibata Original Ice          6,630 -->
+<!-- Bibata Modern Classic       21,340 -->
+<!-- Bibata Original Classic      8,778 -->
+<!-- GitHub                     101,547 -->
+<!-- ---------------------------------- -->
+<!-- Total                      327,551 -->
+
 ## Copying
 
 This project is released under the terms of the MIT license.

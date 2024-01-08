@@ -39,7 +39,6 @@ def store_cursors(sid: str, data: UploadFormData, logger: Logger):
 
                 if len(pngs) == 1:
                     f = tmp_dir / f"{name}.png"
-                    logger.info(pngs[0])
                     img = Image.open(BytesIO(pngs[0]))
                     img.resize((size, size)).save(f)
                 else:
