@@ -27,6 +27,7 @@ import { CloseSVG } from './close';
 
 import { ModernSVG } from './modern';
 import { OriginalSVG } from './original';
+import { FlipCursorSVG } from './flip';
 
 export {
   BibataTypoLogo,
@@ -51,5 +52,6 @@ export {
   PaletteSVG,
   CloseSVG,
   ModernSVG,
-  OriginalSVG
+  OriginalSVG,
+  FlipCursorSVG
 };

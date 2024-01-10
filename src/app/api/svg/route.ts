@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
       }
     } else {
       return NextResponse.json(
-        { error: `No images found for '${type}'` },
+        { error: `No cursor bitmaps found for '${type}'` },
         { status: 404 }
       );
     }

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### What's New?
 
+-   Right Hand Cursor Mode added
 -   Download as PNGs Option added
 -   Interactive Cursor size component
 -   More polished UI

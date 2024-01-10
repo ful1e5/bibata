@@ -1,6 +1,7 @@
 import { Color, Colors, Delays } from 'bibata/app';
 
 export const VERSIONS = [
+  '1.0.1',
   '1.0.0',
   '1.0.0-beta.0',
   '1.0.0-alpha.1',
@@ -14,7 +15,7 @@ export const BUG_REPORT_ENDPOINT = (title: string, body: string) => {
   return `https://github.com/ful1e5/bibata/issues/new?labels=bug,auto+generated&title=${title}&body=${body}`;
 };
 
-export const TYPES = ['Modern', 'Original'];
+export const TYPES = ['Modern', 'ModernRight', 'Original', 'OriginalRight'];
 
 export const SIZES = [16, 20, 22, 24, 28, 32, 40, 48, 56, 64, 72, 80, 88, 96];
 

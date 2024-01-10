@@ -13,6 +13,7 @@ class UploadFormData:
     platform: str
     size: int
     delay: int
+    mode: Literal["left", "right"]
     errors: List[str]
 
 
@@ -20,6 +21,7 @@ def parse_upload_formdata(request: Request, logger: Logger):
     errors: List[str] = []
 
     name: str = ""
+    mode: Literal["left", "right"] = "left"
     size: int = 0
     delay: int = 0
     platform: str = ""
@@ -32,6 +34,7 @@ def parse_upload_formdata(request: Request, logger: Logger):
             raise ValueError("JSON data Not Found at 'data' key in FormData request.")
         else:
             data = json.loads(form_data)
+
             s = data.get("size", None)
             if not s:
                 raise ValueError("'size' Not Found in JSON 'data' ")
@@ -57,6 +60,14 @@ def parse_upload_formdata(request: Request, logger: Logger):
                 )
             else:
                 platform = p
+
+            m = data.get("mode", None)
+            if m != "left" and m != "right":
+                raise ValueError(
+                    "Invalid 'mode' type. It must be type 'left' or 'right'"
+                )
+            else:
+                mode = m
 
             n = data.get("name", None)
             if not n:
@@ -90,6 +101,7 @@ def parse_upload_formdata(request: Request, logger: Logger):
         size=size,
         delay=delay,
         platform=platform,
+        mode=mode,
         errors=errors,
     )
 

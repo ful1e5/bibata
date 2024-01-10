@@ -20,6 +20,7 @@ import { Image } from 'bibata/app';
 
 export default function StudioPage() {
   const [type, setType] = useState(TYPES[0]);
+  const [cursorMode, setCursorMode] = useState<'left' | 'right'>('left');
   const [cursorSize, setCursorSize] = useState(SIZES[3]);
 
   const [colorName, setColorName] = useState('Amber');
@@ -71,12 +72,13 @@ export default function StudioPage() {
         />
         <div className='mt-5'>
           <TypePicker
-            list={TYPES}
+            list={TYPES.filter((a) => !a.match('Right'))}
             value={type}
-            onClick={(v) => {
-              if (v !== type) {
+            onChange={(t, rhm) => {
+              if (t !== type) {
                 resetImages();
-                setType(v);
+                setType(t);
+                setCursorMode(rhm ? 'right' : 'left');
                 refreshToken();
               }
             }}
@@ -114,6 +116,7 @@ export default function StudioPage() {
           <DownloadButton
             auth={token}
             version={version}
+            mode={cursorMode}
             disabled={images.length === 0}
             lock={imagesCount === 0 || imagesCount !== images.length}
             config={{

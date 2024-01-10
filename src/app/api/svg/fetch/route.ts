@@ -17,8 +17,7 @@ export async function GET(request: NextRequest) {
   }
 
   const version = request.nextUrl.searchParams.get('v');
-  const type = request.nextUrl.searchParams.get('type');
-  const response = await update(type, version);
+  const response = await update(version);
 
   return NextResponse.json(
     { fetchAt: Date.now(), ...response },
@@ -26,27 +25,27 @@ export async function GET(request: NextRequest) {
   );
 }
 
-const update = async (type: string | null, version: string | null) => {
-  if (!type) {
-    return { error: `Invalid type: ${type}` };
-  }
-  if (!TYPES.includes(type)) {
-    return { error: `${type} is not available` };
-  }
-
+const update = async (version: string | null) => {
   const fetcher = new FetchSVG();
 
   try {
     const redis = new ImageRedis();
+    const file = await fetcher.getFile();
 
-    const svgs = await fetcher.fetchSVGs({ type, version });
-    if (!svgs) {
-      return { error: 'Something went wrong. SVGs. not found' };
+    for (const type of TYPES) {
+      const svgs = await fetcher.fetchSVGs({ file, type, version });
+      if (!svgs) {
+        return {
+          error: 'Something went wrong. SVGs. not found',
+          type,
+          version
+        };
+      }
+
+      const key = `${type}:${version}`;
+      await redis.del(key);
+      await redis.saveSVGs(key, svgs);
     }
-
-    const key = `${type}:${version}`;
-    await redis.del(key);
-    await redis.saveSVGs(key, svgs);
 
     return;
   } catch (e) {

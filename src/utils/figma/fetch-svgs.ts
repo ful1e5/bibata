@@ -4,6 +4,7 @@ import * as Figma from 'figma-api';
 import { VERSIONS } from '@root/configs';
 
 import { SVG } from 'bibata/app';
+import { GetFileResult } from 'figma-api/lib/api-types';
 
 export type FetchImageOptions = {
   color?: {
@@ -13,6 +14,7 @@ export type FetchImageOptions = {
 };
 
 export type FetchSVGsOptions = {
+  file: GetFileResult;
   type: string;
   version: string | null;
 };
@@ -39,11 +41,14 @@ export class FetchSVG {
     }
   }
 
-  public async fetchSVGs({ type, version }: FetchSVGsOptions) {
+  public async getFile() {
+    return await this.api.getFile(this.key);
+  }
+
+  public async fetchSVGs({ file, type, version }: FetchSVGsOptions) {
     if (!version || !VERSIONS.includes(version)) {
       throw new Error(`Invalid version: ${version}`);
     }
-    const file = await this.api.getFile(this.key);
 
     const page = file.document.children.filter(
       (e) => e.name === version
@@ -57,7 +62,7 @@ export class FetchSVG {
 
     const entries: Figma.Node<keyof Figma.NodeTypes>[] = [];
 
-    const groups = [type, 'Shared', 'Wait', `${type} Watch`];
+    const groups = [type, `${type} Watch`, 'Shared', 'Wait'];
 
     page.children.forEach((e) => {
       if (e.type === 'GROUP' && groups.includes(e.name)) {
