@@ -15,9 +15,9 @@ export const Message: React.FC<Props> = (props) => {
     <div className='text-center py-4 lg:px-4'>
       <Link href={props.href}>
         <div
-          className='transition hover:scale-105 active:scale-95 p-2 bg-indigo-800 items-center text-indigo-100 leading-none rounded-full flex sm:inline-flex'
+          className='transition hover:scale-105 active:scale-95 p-2 bg-red-800 items-center text-red-100 leading-none rounded-full flex sm:inline-flex'
           role='alert'>
-          <span className='flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3'>
+          <span className='flex rounded-full bg-red-500 uppercase px-2 py-1 text-xs font-bold mr-3'>
             {props.tag}
           </span>
           <span className='font-semibold text-xs mr-2 text-left flex-auto'>

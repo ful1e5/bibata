@@ -5,7 +5,7 @@ import '@app/(home)/styles.css';
 import Link from 'next/link';
 
 import { Message } from '@components/Message';
-import { AnimatedCounter } from '@components/AnimatedCount';
+import { AnimatedCounter as Counter } from '@components/AnimatedCount';
 import { BibataMarquee } from '@components/BibataMarquee';
 import { Heroes } from '@components/Heroes';
 import {
@@ -141,7 +141,7 @@ export default function HomePage() {
                   <path d='M24 12c0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12 12-5.373 12-12zm-18 1h4v-7h4v7h4l-6 6-6-6z' />
                 </svg>
                 <h4>
-                  <AnimatedCounter number='121' duration={2} />
+                  <Counter number='327' duration={5} />
                   K+
                 </h4>
               </div>

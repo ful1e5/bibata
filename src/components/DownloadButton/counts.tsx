@@ -17,6 +17,10 @@ type Props = {
   show: boolean;
 };
 
+const numberWithCommas = (x: number) => {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
+
 export const DownloadCount: React.FC<Props> = (props) => {
   const fetcher = () => {
     try {
@@ -62,8 +66,9 @@ export const DownloadCount: React.FC<Props> = (props) => {
           <p
             className={`${
               noDownloads ? 'text-red-100/[.8]' : 'text-green-100/[.8]'
-            } font-extrabold text-center text-md p-1`}>
-            {`${data.count}`}/{pro ? <> &#8734;</> : data.total}
+            } font-extrabold text-center text-sm p-1`}>
+            {`${numberWithCommas(data.count)}`}/
+            {pro ? <> &#8734;</> : numberWithCommas(data.total!)}
           </p>
           {!pro && (
             <Tooltip
