@@ -7,7 +7,7 @@ from clickgen.parser import open_blob
 from clickgen.writer import to_win, to_x11
 from PIL import Image
 
-from core.builder.config import configs, gsubtmp
+from core.builder.config import configs, gsubtmp, rconfigs
 from core.utils.parser import UploadFormData
 
 
@@ -18,6 +18,7 @@ def store_cursors(sid: str, data: UploadFormData, logger: Logger):
     platform = data.platform
     pngs = data.frames
     size = data.size
+    right_mode = data.mode == "right"
     delay = data.delay
 
     try:
@@ -26,6 +27,8 @@ def store_cursors(sid: str, data: UploadFormData, logger: Logger):
             return None, errors
 
         config = configs.get(name, None)
+        if right_mode:
+            config = rconfigs.get(name, config)
         if not config:
             raise ValueError(f"Unable to find Configuration for '{name}'")
         else:
@@ -39,7 +42,6 @@ def store_cursors(sid: str, data: UploadFormData, logger: Logger):
 
                 if len(pngs) == 1:
                     f = tmp_dir / f"{name}.png"
-                    logger.info(pngs[0])
                     img = Image.open(BytesIO(pngs[0]))
                     img.resize((size, size)).save(f)
                 else:

@@ -7,8 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [v1.0.1] - 12 January 2024
+
 ### What's New?
 
+-   Right Hand Cursor Mode added
 -   Download as PNGs Option added
 -   Interactive Cursor size component
 -   More polished UI
@@ -69,7 +72,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Initial public release 🎊
 
-[unreleased]: https://github.com/ful1e5/bibata/compare/v1.0.0...main
+[unreleased]: https://github.com/ful1e5/bibata/compare/v1.0.1...main
+[v1.0.1]: https://github.com/ful1e5/bibata/compare/v1.0.1...v1.0.0
 [v1.0.0]: https://github.com/ful1e5/bibata/compare/v1.0.0...v1.0.0-beta.0
 [v1.0.0-beta.0]: https://github.com/ful1e5/bibata/compare/v1.0.0-alpha.1...v1.0.0-beta.0
 [v1.0.0-alpha.1]: https://github.com/ful1e5/bibata/compare/v1.0.0-alpha.0...v1.0.0-alpha.1

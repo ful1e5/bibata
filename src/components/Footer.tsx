@@ -35,7 +35,7 @@ export const Footer: React.FC<Props> = (_props) => {
 
   const refreshUrl =
     branch === 'main' ? 'https://dev.bibata.live' : 'https://bibata.live';
-  const refreshBranch = branch === 'main' ? 'dev' : 'upstream';
+  const refreshBranch = branch === 'main' ? 'dev' : 'main';
 
   return (
     <footer className='bg-[--bg-dark] border-t border-white/[.1] p-3 mt-20'>
@@ -84,8 +84,8 @@ export const Footer: React.FC<Props> = (_props) => {
                 rel='noopener noreferrer'>
                 <TwitchLogo size={15} />
               </Link>
-              <span className='relative flex h-2 w-2 sm:h-3 sm:w-3 -translate-y-1 -translate-x-1 sm:-translate-x-2'>
-                <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75'></span>
+              <span className='relative flex h-1.5 w-1.5 sm:h-3 sm:w-3 -translate-y-1 -translate-x-0.5 sm:-translate-x-2'>
+                <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-500 opacity-75'></span>
                 <span className='relative inline-flex rounded-full h-2 w-2 sm:h-3 sm:w-3 bg-purple-500'></span>
               </span>
             </li>
@@ -163,7 +163,7 @@ export const Footer: React.FC<Props> = (_props) => {
             </div>
             <div className='mt-5'>
               <p className='text-white/[.6] font-bold'>
-                Copyright © 2023-{currentYear} AbdulKaiz Khatri
+                Copyright © {currentYear} AbdulKaiz Khatri
               </p>
             </div>
           </div>

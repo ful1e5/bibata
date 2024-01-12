@@ -33,6 +33,83 @@ class Config:
         self.links = links
 
 
+rconfigs: Dict[str, Config] = {
+    "left_ptr": Config(
+        x=207,
+        y=24,
+        winname="Pointer",
+        xname="left_ptr",
+        links=["arrow", "default", "top_left_arrow"],
+    ),
+    "left_ptr_watch": Config(
+        x=197,
+        y=24,
+        winname="Work",
+        xname="left_ptr_watch",
+        links=[
+            "00000000000000020006000e7e9ffc3f",
+            "08e8e1c95fe2fc01f976f1e063a24ccd",
+            "3ecb610c1bf2410f44200f48c40d3599",
+            "progress",
+        ],
+    ),
+    "right_ptr": Config(
+        x=55,
+        y=17,
+        winname="Alternate",
+        xname="right_ptr",
+        links=["draft_large", "draft_small"],
+    ),
+    "circle": Config(
+        x=207,
+        y=24,
+        winname="Unavailable",
+        xname="circle",
+        links=["forbidden"],
+    ),
+    "context-menu": Config(
+        x=207,
+        y=24,
+        xname="context-menu",
+    ),
+    "copy": Config(
+        x=207,
+        y=24,
+        xname="copy",
+        links=[
+            "1081e37283d90000800003c07f3ef6bf",
+            "6407b0e94181790501fd1e167b474872",
+            "b66166c04f8c3109214a4fbd64a50fc8",
+        ],
+    ),
+    "link": Config(
+        x=207,
+        y=24,
+        xname="link",
+        links=[
+            "3085a0e285430894940527032f8b26df",
+            "640fb0e74195791501fd1ed57b41487f",
+            "a2a266d0498c3104214a47bd64ab0fc8",
+        ],
+    ),
+    "pointer-move": Config(
+        x=207,
+        y=24,
+        xname="pointer-move",
+    ),
+    "person": Config(
+        x=207,
+        y=24,
+        winname="Person",
+    ),
+    "pin": Config(
+        x=207,
+        y=24,
+        winname="Pin",
+    ),
+}
+
+
 configs: Dict[str, Config] = {
     "bd_double_arrow": Config(
         winname="Dgn1",

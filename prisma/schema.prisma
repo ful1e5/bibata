@@ -26,7 +26,9 @@ enum Platform {
 
 enum Type {
   Modern
+  ModernRight
   Original
+  OriginalRight
 }
 
 model User {

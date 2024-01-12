@@ -22,6 +22,7 @@ type Props = {
   lock?: boolean;
   auth: AuthToken;
   version: string;
+  mode: 'left' | 'right';
   config: {
     type: string;
     color: Color;
@@ -86,6 +87,7 @@ export const DownloadButton: React.FC<Props> = (props) => {
           name: i.name,
           frames: i.frames,
           delay: i.delay,
+          mode: props.mode,
           ...options
         })
       );
