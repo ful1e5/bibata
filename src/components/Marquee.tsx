@@ -21,11 +21,11 @@ export const Marquee: React.FC<Props> = (props) => {
 
   return (
     <div className='relative flex overflow-x-hidden'>
-      <div className='py-12 animate-marquee whitespace-nowrap'>
+      <div className='animate-marquee whitespace-nowrap'>
         <List />
       </div>
 
-      <div className='absolute top-0 py-12 animate-marquee2 whitespace-nowrap'>
+      <div className='absolute top-0 animate-marquee2 whitespace-nowrap'>
         <List />
       </div>
     </div>

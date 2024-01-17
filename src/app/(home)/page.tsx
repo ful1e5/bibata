@@ -4,7 +4,6 @@ import '@app/(home)/styles.css';
 
 import Link from 'next/link';
 
-import { Message } from '@components/Message';
 import { AnimatedCounter as Counter } from '@components/AnimatedCount';
 import { Marquee } from '@components/Marquee';
 import { HeroesElements } from '@components/HeroesElements';
@@ -23,11 +22,6 @@ export default function HomePage() {
     <main>
       <div className='container m-auto px-3 pt-6 pb-24'>
         <div className='h-[350px] sm:h-[600px] bg-gradient-radial from-10% from-orange-300/[.07] via-40% via-fushcia-300/[.07] to-60% flex flex-col justify-center items-center'>
-          <Message
-            tag='Alert'
-            message='Bibata servers need an upgrade! Click to help with the upgrade.'
-            href='https://www.github.com/sponsors/ful1e5'
-          />
           <section className='flex flex-col gap-6 justify-center items-center'>
             <h1 className='inline-flex flex-col'>
               <span className='main-heading-0'>
@@ -184,7 +178,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className='mt-8'>
+      <section className='mt-8 py-12'>
         <Marquee count={3}>
           <span className='mx-4 text-5xl sm:text-8xl font-black opacity-50 italic'>
             <span className='text-blue-200'>BEEEEEE</span>
@@ -251,9 +245,12 @@ export default function HomePage() {
           The proficient team spearheading the Bibata.
         </p>
 
-        <Marquee count={5}>
-          <HeroesElements />
-        </Marquee>
+        <div className='py-12'>
+          <Marquee count={5}>
+            <HeroesElements />
+          </Marquee>
+        </div>
+
         <div className='flex justify-center my-3 mt-10'>
           <p className='section-subheading w-5/6 sm:w-2/3'>
             Bibata stands as a fully open-source platform, boasting actively
