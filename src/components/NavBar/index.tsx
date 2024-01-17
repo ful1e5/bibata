@@ -25,15 +25,18 @@ export const NavBar: React.FC<Props> = (_props) => {
           : 'bg-[#151515] backdrop-filter backdrop-blur-xl border-b border-white/[.1] firefox:bg-opacity-95 bg-opacity-95'
       } `}>
       <nav>
-        <div className='bg-red-400 text-black text-xs md:text-base font-semibold py-1 md:py-3'>
-          <Marquee count={2}>
-            <span className='pr-40 lg:pr-80 tracking-wide'>
-              Bibata servers need an upgrade! Click here to support my open
-              source projects on GitHub Sponsors, helping reach goals, covering
-              bills, and fueling my commitment to open source full-time.
-            </span>
-          </Marquee>
-        </div>
+        <Link href='https://github.com/sponsors/ful1e5'>
+          <div className='bg-red-400 text-black text-xs md:text-base font-semibold py-1 md:py-3'>
+            <Marquee count={2}>
+              <span className='pr-40 lg:pr-80 tracking-wide'>
+                Bibata servers need an upgrade! Click here to support my open
+                source projects on GitHub Sponsors, helping reach goals,
+                covering bills, and fueling my commitment to open source
+                full-time.
+              </span>
+            </Marquee>
+          </div>
+        </Link>
         <div className='container mx-auto p-3 md:p-4 flex items-center justify-between'>
           <Link href='/'>
             <div className='overflow-hidden flex items-center justify-center gap-2'>
