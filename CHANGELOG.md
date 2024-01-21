@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Reusable `Marquee` Component
 
+### Fixes
+
+-   Fixes breakage on `PRO` account link downloads
+
 ## [v1.0.1] - 12 January 2024
 
 ### What's New?
