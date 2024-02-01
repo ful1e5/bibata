@@ -355,17 +355,17 @@ export default function HomePage() {
             </Link>
 
             <Link
-              href='https://github.com/lovell/sharp'
+              href='https://github.com/Exponential-Workload/freebata'
               target='_blank'
               className='library-card bg-white/[.1]'>
-              <h5 className='library-card-heading'>Sharp</h5>
+              <h5 className='library-card-heading'>Freebata</h5>
               <p className='library-card-text'>
-                High performance Node.js image processer.
+                Microscopic Free&amp;Open-Source Bibata Generation Tool
               </p>
 
-              <div className='library-card-lang w-28 bg-yellow-400/[.1]'>
-                <span className='circle bg-yellow-300' />
-                <p className='text-xs text-yellow-200'>JavaScript</p>
+              <div className='library-card-lang w-28 bg-blue-400/[.1]'>
+                <span className='circle bg-blue-300' />
+                <p className='text-xs text-blue-200'>TypeScript</p>
               </div>
             </Link>
           </div>

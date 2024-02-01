@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### What's New?
 
 -   Shoutout @AKP2401 As one-time 5$ sponsor
+-   Render Cursor bitmaps(SVG->PNG) on client side without `sharp` (related to #22)
 
 ### Changes
 
