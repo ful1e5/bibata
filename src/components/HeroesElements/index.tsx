@@ -38,6 +38,12 @@ export const HeroesElements: React.FC<Props> = (_props) => {
         name='Aadharsh K Praveen'
         role='One-time Sponsor'
       />
+      <Card
+        imgUrl='https://avatars.githubusercontent.com/u/9942725?v=4'
+        link='https://github.com/krishhandro'
+        name='krishh'
+        role='One-time Sponsor'
+      />
 
       <Sponsors />
 
