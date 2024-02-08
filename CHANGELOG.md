@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Sponsors
+
+-   Shoutout @AKP2401 As one-time 5$ sponsor
+-   Shoutout @krishhandro As one-time 3$ sponsor
+
+### What's New?
+
+-   Render Cursor bitmaps(SVG->PNG) on client side without `sharp` (related to #22)
+
 ### Changes
 
 -   Reusable `Marquee` Component
@@ -14,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixes
 
 -   Fixes breakage on `PRO` account link downloads
+-   Fixed width and font size of `ToolTip` component in mobile devices
 
 ## [v1.0.1] - 12 January 2024
 

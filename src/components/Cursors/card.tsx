@@ -6,7 +6,7 @@ import { DELAYS, WATCH_COLORS, COLORS_MASK as mask } from '@root/configs';
 
 import { fetchX } from '@utils/fetchX';
 
-import { Color, Image, SVG } from 'bibata/app';
+import { Color, Image as CursorImage, SVG } from 'bibata/app';
 import { ProcessingSVG } from '@components/svgs';
 
 export const BrokenImage: React.FC = () => {
@@ -26,12 +26,14 @@ type Props = {
   color: Color;
 
   // eslint-disable-next-line no-unused-vars
-  onLoad?: (image: Image, loading: boolean) => void;
+  onLoad?: (image: CursorImage, loading: boolean) => void;
 };
 
 export const CursorCard: React.FC<Props> = (props) => {
   const { base, outline, watch } = props.color;
-  const { id, name, isAnimated, urls } = props.svg;
+  const { name, isAnimated, urls } = props.svg;
+
+  let antiAlias = false;
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -50,12 +52,39 @@ export const CursorCard: React.FC<Props> = (props) => {
     [mask.watch?.c4!]: watch?.c4 || WATCH_COLORS.c4
   };
 
+  const svgToPng = (
+    svgData: string,
+    widthOverwrite?: number,
+    heightOverwrite = widthOverwrite
+  ) => {
+    if (typeof Image === 'undefined') return '';
+    return new Promise<string>((rs) => {
+      const imgObj = new Image();
+
+      imgObj.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = widthOverwrite ?? imgObj.naturalWidth;
+        canvas.height = heightOverwrite ?? imgObj.naturalHeight;
+        const context = canvas.getContext('2d')!;
+        context.imageSmoothingEnabled = antiAlias;
+        context.imageSmoothingQuality = antiAlias ? 'high' : 'low';
+        context.drawImage(imgObj, 0, 0, canvas.width, canvas.height);
+        const pngDataUrl = canvas.toDataURL('image/png');
+        rs(pngDataUrl);
+        imgObj.remove();
+      };
+      if (widthOverwrite) imgObj.width = widthOverwrite;
+      if (heightOverwrite) imgObj.height = heightOverwrite;
+      imgObj.src = `data:image/svg+xml;base64,${btoa(svgData)}`;
+    });
+  };
+
   const fetchSvg = async (signal: AbortSignal) => {
     setFrames([]);
     setLoading(true);
 
     try {
-      const fms: string[] = [];
+      const svgs: string[] = [];
       const step = Math.round(urls.length / DELAYS[delayX].frames);
 
       for (let i = 0; i < urls.length; isAnimated ? (i += step) : i++) {
@@ -68,36 +97,26 @@ export const CursorCard: React.FC<Props> = (props) => {
         if (!res || signal.aborted) return;
 
         const b64 = await res.text();
-        fms.push(b64);
+        svgs.push(b64);
       }
 
-      let res = await fetchX(`/api/svg/${id}`, {
-        init: {
-          method: 'POST',
-          body: JSON.stringify({ colors, frames: fms }),
-          next: { revalidate: 360 }
-        },
-        revalidate: 1200,
-        group: 'bibata.svg-build-cache'
-      });
+      const pngs: string[] = [];
 
-      if (!res || signal.aborted) return;
+      for (let i = 0; i < svgs.length; i++) {
+        let svgData = svgs[i];
+        if (colors && typeof colors === 'object') {
+          Object.entries(colors).forEach(([match, replace]) => {
+            svgData = svgData!.replace(new RegExp(match, 'ig'), replace);
+          });
+        }
 
-      const json = await res.json();
-
-      if (res.status !== 200) {
-        setError(true);
-        throw new Error(json['error']);
-      } else if (json.data.length === 0) {
-        setError(true);
-        throw new Error(
-          `Empty cursor frames while signal is ${signal.aborted}`
-        );
-      } else {
-        setFrames([...json.data]);
-        setLoading(false);
+        pngs.push(await svgToPng(svgData));
       }
+
+      setFrames([...pngs]);
+      setLoading(false);
     } catch (e) {
+      setError(true);
       if (process.env.NODE_ENV === 'development') {
         console.error(e);
       } else {
