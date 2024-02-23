@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Fixes breakage on `PRO` account link downloads
 -   Fixed width and font size of `ToolTip` component in mobile devices
+-   Fixed Download counts bug
 
 ## [v1.0.1] - 12 January 2024
 

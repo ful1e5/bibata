@@ -14,13 +14,11 @@ export type AddDownloadData = {
 };
 
 export const getIndex = async (id?: AddDownloadData['id']) => {
-  const maxIndex = await prisma.download.findFirst({
-    where: { userId: id },
-    select: { index: true },
-    orderBy: { index: 'desc' }
+  const maxIndex = await prisma.download.findMany({
+    where: { userId: id }
   });
 
-  return maxIndex?.index || 0;
+  return maxIndex?.length || 0;
 };
 
 export const addDownload = async ({ id, data }: AddDownloadData) => {
