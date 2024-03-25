@@ -22,12 +22,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Node.js and Yarn
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           registry-url: https://registry.yarnpkg.com
 
       - name: Cache Yarn dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             node_modules
@@ -41,9 +41,9 @@ jobs:
       - name: Yarn Lint
         run: yarn lint
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: 3.8
           cache: 'pip'
