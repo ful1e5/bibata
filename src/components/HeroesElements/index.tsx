@@ -23,7 +23,6 @@ export const HeroesElements: React.FC<Props> = (_props) => {
         link='https://github.com/github'
         name='GitHub'
         role='One-time Sponsor'
-        classes='p-5'
       />
       <Card
         imgUrl='https://avatars.githubusercontent.com/u/107184?v=4'
