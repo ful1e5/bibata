@@ -20,7 +20,7 @@ export const HeroesCard: React.FC<Props> = (props) => {
         {props.special && (
           <div className='absolute blur-sm sm:blur-md scale-105 opacity-50 w-52 sm:w-72 h-5/6 translate-y-1 rounded-3xl bg-[linear-gradient(to_right,theme(colors.blue.600),theme(colors.orange.600),theme(colors.pink.600),theme(colors.blue.600))] bg-[length:200%_auto] animate-gradient' />
         )}
-        <div className='w-52 sm:w-72 bg-black rounded-3xl overflow-hidden text-center drop-shadow-lg border border-white/[.1] '>
+        <div className='w-52 sm:w-72 bg-zinc-800 rounded-3xl overflow-hidden text-center drop-shadow-lg border border-white/[.1] '>
           <img
             alt={props.name}
             className={`saturate-150 brightness-105 ${props.classes || ''} `}

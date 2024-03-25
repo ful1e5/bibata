@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changes
 
 -   Reusable `Marquee` Component
+-   Adjust heroes' card color for improved logo visibility
 
 ### Fixes
 
