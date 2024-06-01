@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### What's New?
 
 -   Render Cursor bitmaps(SVG->PNG) on client side without `sharp` (related to #22)
+-   Upgraded cursor builder `clickgen v2.2.0 -> v2.2.3` to support cursors canvasing
 
 ### Changes
 
