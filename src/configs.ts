@@ -1,6 +1,7 @@
 import { Color, Colors, Delays } from 'bibata/app';
 
 export const VERSIONS = [
+  '1.0.2',
   '1.0.1',
   '1.0.0',
   '1.0.0-beta.0',
