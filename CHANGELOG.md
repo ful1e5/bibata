@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [v1.0.2] - 01 June 2024
+
 ### Sponsors
 
 -   Shoutout @AKP2401 As one-time 5$ sponsor
@@ -15,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### What's New?
 
 -   Render Cursor bitmaps(SVG->PNG) on client side without `sharp` (related to #22)
+-   Upgraded cursor builder `clickgen v2.2.0 -> v2.2.3` to support cursors canvasing
 
 ### Changes
 
@@ -92,7 +95,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Initial public release 🎊
 
-[unreleased]: https://github.com/ful1e5/bibata/compare/v1.0.1...main
+[unreleased]: https://github.com/ful1e5/bibata/compare/v1.0.2...main
+[v1.0.2]: https://github.com/ful1e5/bibata/compare/v1.0.2...v1.0.1
 [v1.0.1]: https://github.com/ful1e5/bibata/compare/v1.0.1...v1.0.0
 [v1.0.0]: https://github.com/ful1e5/bibata/compare/v1.0.0...v1.0.0-beta.0
 [v1.0.0-beta.0]: https://github.com/ful1e5/bibata/compare/v1.0.0-alpha.1...v1.0.0-beta.0
