@@ -36,7 +36,7 @@ const update = async (version: string | null) => {
       const svgs = await fetcher.fetchSVGs({ file, type, version });
       if (!svgs) {
         return {
-          error: 'Something went wrong. SVGs. not found',
+          error: 'Something went wrong. SVGs not found',
           type,
           version
         };
