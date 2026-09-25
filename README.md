@@ -21,7 +21,7 @@ The sweetest word I ever spoke was "BI-Buh," which, coincidentally, is also the 
  https://dev.to/ful1e5/lets-give-recognition-to-those-supporting-our-work-on-github-sponsors-b00 -->
 
 ![shoutout-sponsors](https://sponsor-spotlight.vercel.app/sponsor?login=ful1e5)
-
+Open for work on [Upwork](https://www.upwork.com/freelancers/~015f3c5097705a3287)
 ## Why a Download Limit?
 
 Bibata, originally an open-source project, has evolved into a web application to improve accessibility. Developing cursors involves using serverless functions, incurring costs like compute expenses, hosting fees, maintenance for the Redis database, and other service charges. To offset these costs, I depend on sponsorships through the GitHub Sponsor program. By sponsoring me on a monthly basis, you'll enjoy benefits like unlimited downloads, early access to new features, and more.
